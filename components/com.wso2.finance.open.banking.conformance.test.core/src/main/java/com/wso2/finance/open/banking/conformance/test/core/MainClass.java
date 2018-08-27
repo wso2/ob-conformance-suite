@@ -1,3 +1,5 @@
+package com.wso2.finance.open.banking.conformance.test.core;
+
 import cucumber.api.cli.Main;
 
 import java.io.IOException;
@@ -10,7 +12,10 @@ public class MainClass {
         // do something here...
         System.out.println("Start Test Suite..!test.feature");
 
-        String[] argv = new String[]{"-g", "steps", "./src/test/resources/features/test.feature"};
+        String[] argv = new String[]{"-g", "com.wso2.finance.open.banking.conformance.test.core.steps",
+                "components/com.wso2.finance.open.banking.conformance.test.core/src/main/resources/features/test.feature"
+        }
+        ;
         //String[] argv = new String[]{"-h"};
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         try {
