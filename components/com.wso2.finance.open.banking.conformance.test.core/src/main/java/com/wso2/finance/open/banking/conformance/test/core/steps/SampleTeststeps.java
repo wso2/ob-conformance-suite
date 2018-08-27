@@ -1,5 +1,5 @@
 
-package steps;
+package com.wso2.finance.open.banking.conformance.test.core.steps;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
