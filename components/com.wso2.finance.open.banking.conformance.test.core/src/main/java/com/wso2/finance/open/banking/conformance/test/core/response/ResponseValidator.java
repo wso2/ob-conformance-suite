@@ -17,33 +17,18 @@
  * under the License.
  */
 
-package com.wso2.finance.open.banking.conformance.test.core;
+package com.wso2.finance.open.banking.conformance.test.core.response;
 
-public class Context {
+import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 
-    private static Context context = new Context();
+import io.restassured.response.Response;
 
-    private  String baseURL;
-    private  String bankID;
-    private  String basePath;
+public class ResponseValidator {
 
-    private Context(){
-        baseURL = "https://api-openbanking.wso2.com/OpenBankAPI";
-        bankID = "bank-4020-01";
-        basePath = "v1.0.0/banks/bank-4020-01/atms";
+    public ResponseValidator(){}
 
+    public void validateResponse(Response response)
+    {
+        Log.info("validating response");
     }
-
-    public static Context getInstance(){
-        return context;
-    }
-
-    public  String getBaseURL() { return baseURL;}
-
-    public String getBasePath(){return basePath;}
-
-    public String getBankID(){
-        return bankID;
-    }
-
 }

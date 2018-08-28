@@ -1,12 +1,31 @@
+
+/*
+ * Copyright (c) 2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * WSO2 Inc. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 package com.wso2.finance.open.banking.conformance.test.core.steps.v1_0_0;
 
 import com.wso2.finance.open.banking.conformance.test.core.Context;
-import cucumber.api.java.en.And;
+import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import com.wso2.finance.open.banking.conformance.test.core.RequestGenerator;
-import com.wso2.finance.open.banking.conformance.test.core.ResponseValidator;
+import com.wso2.finance.open.banking.conformance.test.core.response.ResponseValidator;
+import com.wso2.finance.open.banking.conformance.test.core.request.RequestGenerator;
 
 import io.restassured.http.Method;
 import io.restassured.response.Response;
@@ -14,33 +33,30 @@ import io.restassured.specification.RequestSpecification;
 
 public class OpenDataSteps {
 
-    private String bankID;
-    private String ENDPOINT_GET_ATMS_BY_BANK_ID;
     private RequestGenerator requestGenerator = new RequestGenerator();
     private ResponseValidator responseValidator = new ResponseValidator();
+    private  RequestSpecification httpRequest;
+    private  Response response;
 
-    @Given("a user provided a bankID")
+    private String ENDPOINT_GET_ATMS_BY_BANK_ID;
+
+    @Given("a request is initiated to ATM endpoint")
     public void setBankID()
     {
-       bankID = Context.getInstance().getBankID();
-       //https://api-openbanking.wso2.com/OpenBankAPI/v1.0.0/banks/bank-4020-01/atms
-       ENDPOINT_GET_ATMS_BY_BANK_ID =  "/v1.0.0/banks/" + bankID + "/atms";
-        System.out.println("End Point :" + ENDPOINT_GET_ATMS_BY_BANK_ID);
+      ENDPOINT_GET_ATMS_BY_BANK_ID =  "/v1.0.0/banks/" + Context.getInstance().getBankID() + "/atms";
+      httpRequest = requestGenerator.createRequest("ATM_END_POINT");
     }
 
     @When("a user retrieves the atm details")
     public void getAtmDetails(){
-        RequestSpecification httprequest = requestGenerator.createRequest();
-        //Response response = request.when().get(ENDPOINT_GET_ATMS_BY_BANK_ID); //httpRequest.request(Method.GET, "/Hyderabad");
-        Response response = httprequest.request(Method.GET,ENDPOINT_GET_ATMS_BY_BANK_ID);
-       // System.out.println(request.get());
-        System.out.println("response: " + response.prettyPrint());
+        response = httpRequest.request(Method.GET,ENDPOINT_GET_ATMS_BY_BANK_ID);
+        Log.info("response: " + response.getBody().asString());
     }
 
-    @Then("response data should be compliant to the standard")
+    @Then("response json data should be compliant to the standard")
     public void validateResponse()
     {
-        responseValidator.validateResponse();
+        responseValidator.validateResponse(response);
     }
 
 

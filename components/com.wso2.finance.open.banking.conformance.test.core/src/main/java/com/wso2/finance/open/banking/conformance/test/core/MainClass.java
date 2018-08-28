@@ -1,16 +1,13 @@
 package com.wso2.finance.open.banking.conformance.test.core;
 
 import cucumber.api.cli.Main;
+import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 
-import java.io.IOException;
-
-//import java.io.IOException;
 
 public class MainClass {
 
     public static void main(String[] args ) {
-        // do something here...
-        System.out.println("Start Test Suite..!");
+        Log.info("Starting Tests..!");
 
         /*String[] argv = new String[]{"-g", "com.wso2.finance.open.banking.conformance.test.core.steps",
                 "components/com.wso2.finance.open.banking.conformance.test.core/src/main/resources/features/test.feature"
@@ -34,6 +31,7 @@ public class MainClass {
         } catch (IOException e) {
             e.printStackTrace();
         }*/
+
 
     }
 
