@@ -21,7 +21,8 @@
     "react-shadow": "^16.3.0",
     "rimraf": "^2.6.2",
     "style-loader": "^0.23.0",
-    "webpack": "^3.12.0"
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
@@ -39,6 +40,6 @@
     "mocha": "^5.2.0",
     "node-sass": "^4.9.3",
     "sass-loader": "^7.1.0",
-    "webpack-dev-server": "^2.11.3"
+    "webpack-dev-server": "^3.1.6"
   }
 }

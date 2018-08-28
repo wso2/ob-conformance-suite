@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack')
 module.exports = {
     context: path.resolve(__dirname, './src'),
+    mode: "none",
     entry: {
         index: './App.jsx',
     },
@@ -10,7 +11,7 @@ module.exports = {
         filename: 'bundle.js',
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.html$/,
                 use: [{
