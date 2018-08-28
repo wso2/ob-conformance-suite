@@ -2,9 +2,24 @@ package com.wso2.finance.open.banking.conformance.test.core.context;
 
 import java.util.ArrayList;
 
+/*
+ * ClassName : Context
+ *
+ * Contains a list of FeatureAttributeSet objects.
+ * Returns a FeatureAttributeSet when the feature name is given.
+ *
+ */
+
 public class Context {
 
+    private static final Context contextInstance = new Context();
     private ArrayList<FeatureAttributeSet> attributes = new ArrayList<FeatureAttributeSet>();
+
+    private Context(){}
+
+    public static Context getContext(){
+        return contextInstance;
+    }
 
     public void addFeatureAttribSet(FeatureAttributeSet attribSet){
 

@@ -1,23 +1,29 @@
 package com.wso2.finance.open.banking.conformance.test.core.context;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+/*
+ * ClassName : FeatureAttributeSet
+ *
+ * Maintains the attributes of the feature in the given
+ * JSON object.
+ *
+ * A scenario object (JSONObject) can be requested by giving the respective scenario ID.
+ *
+ */
 public class FeatureAttributeSet {
 
     private String featureName;
     private String featureURL;
-    private JSONObject attribContainer = new JSONObject();
-    private Map<String, String> reqGeneterationAttribMap = new HashMap<String, String>();
-    private Map<String, String> respValidationAttribMap = new HashMap<String, String>();
+    private JSONObject attribContainer;
+    private JSONArray scenarioArray;
 
-    public FeatureAttributeSet(JSONObject jo){
-        this.attribContainer = jo;
-        this.featureName = jo.get("name").toString();
-        this.featureURL = jo.get("url").toString();
-
+    public FeatureAttributeSet(JSONObject object){
+        this.attribContainer = object;
+        this.featureName = attribContainer.get("name").toString();
+        this.featureURL = attribContainer.get("url").toString();
+        this.scenarioArray = (JSONArray)attribContainer.get("scenarios");
     }
 
     public String getName(){
@@ -28,20 +34,17 @@ public class FeatureAttributeSet {
         return this.featureURL;
     }
 
-    public String getAttribute(String type, String key){
-        Map curMap = ((Map)attribContainer.get(type)); //type can be either 'request' or 'response'.
+    public JSONObject getScenarioObject(String scenarioID){
+        int size = scenarioArray.size();
+        JSONObject currentObject;
 
-        Iterator<Map.Entry> itr = curMap.entrySet().iterator();
-        while (itr.hasNext()) {
-            Map.Entry pair = itr.next();
-            if(pair.getKey().equals(key)){
-                return pair.getValue().toString();
+        for (int i = 0; i < size; i++) {
+            currentObject = (JSONObject) scenarioArray.get(i);
+
+            if(currentObject.get("id").toString().equals(scenarioID)){
+                return currentObject;
             }
-
         }
         return null;
     }
-
-
-
 }
