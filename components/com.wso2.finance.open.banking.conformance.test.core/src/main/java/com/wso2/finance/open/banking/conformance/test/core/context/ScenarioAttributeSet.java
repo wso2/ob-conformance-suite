@@ -1,9 +1,12 @@
 package com.wso2.finance.open.banking.conformance.test.core.context;
 
 import org.json.simple.JSONObject;
+
+import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 /*
  * ClassName : ScenarioAttributeSet
@@ -45,7 +48,7 @@ public class ScenarioAttributeSet {
      * type can be either 'request' or 'response'.
      * container can be either 'header' or 'body'.
      */
-    public String getAttribute(String type, String container, String key){
+    public String getAttribute(String type, String container, String key) throws InvalidParameterException, NoSuchElementException {
         Map curMap;
 
         if(type.equals("request") && container.equals("header")){
@@ -61,7 +64,7 @@ public class ScenarioAttributeSet {
             curMap = respBodyAttribMap;
         }
         else{
-            return null;
+            throw new InvalidParameterException("Call with correct 'type' and 'container' parameters");
         }
 
         Iterator<Map.Entry> itr = curMap.entrySet().iterator();
@@ -72,6 +75,6 @@ public class ScenarioAttributeSet {
             }
         }
 
-        return null;
+        throw new NoSuchElementException("Key not found");
     }
 }

@@ -3,6 +3,8 @@ package com.wso2.finance.open.banking.conformance.test.core.context;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.util.NoSuchElementException;
+
 /*
  * ClassName : FeatureAttributeSet
  *
@@ -34,7 +36,7 @@ public class FeatureAttributeSet {
         return this.featureURL;
     }
 
-    public JSONObject getScenarioObject(String scenarioID){
+    public JSONObject getScenarioObject(String scenarioID) throws NoSuchElementException {
         int size = scenarioArray.size();
         JSONObject currentObject;
 
@@ -45,6 +47,6 @@ public class FeatureAttributeSet {
                 return currentObject;
             }
         }
-        return null;
+        throw new NoSuchElementException("Scenario ID not found");
     }
 }
