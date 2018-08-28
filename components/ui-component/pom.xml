@@ -25,7 +25,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.wso2.finance</groupId>
-    <artifactId>com.wso2.finance.open.banking.conformance.ui</artifactId>
+    <artifactId>ui-component</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>WSO2 Open Banking Conformance Suite - UI Component</name>
