@@ -117,6 +117,7 @@
 
     <modules>
         <module>components/com.wso2.finance.open.banking.conformance.test.core</module>
+        <module>components/com.wso2.finance.open.banking.conformance.ui</module>
     </modules>
 
     <properties>
