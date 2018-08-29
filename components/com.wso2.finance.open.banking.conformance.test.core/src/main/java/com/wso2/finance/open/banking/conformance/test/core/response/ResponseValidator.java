@@ -23,9 +23,17 @@ import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 
 import io.restassured.response.Response;
 
+import com.atlassian.oai.validator.restassured.SwaggerValidationFilter;
+
 public class ResponseValidator {
 
-    public ResponseValidator(){}
+    //private String SWAGGER_JSON_PATH;  //"resources/schema/open_data.json";
+   // private SwaggerValidationFilter validationFilter;
+
+    public ResponseValidator(){
+      //  SWAGGER_JSON_PATH = "resources/schema/open_data.json";
+      //  validationFilter = new SwaggerValidationFilter(SWAGGER_JSON_PATH);
+    }
 
     public void validateResponse(Response response)
     {

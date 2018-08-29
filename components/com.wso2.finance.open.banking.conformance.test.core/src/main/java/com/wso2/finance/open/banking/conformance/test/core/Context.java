@@ -26,11 +26,13 @@ public class Context {
     private  String baseURL;
     private  String bankID;
     private  String basePath;
+    private  String swaggerJsonFile;
 
     private Context(){
         baseURL = "https://api-openbanking.wso2.com/OpenBankAPI";
         bankID = "bank-4020-01";
         basePath = "v1.0.0/banks/bank-4020-01/atms";
+        swaggerJsonFile = "./schema/open_data.json";
 
     }
 
@@ -45,5 +47,7 @@ public class Context {
     public String getBankID(){
         return bankID;
     }
+
+    public String getSwaggerJsonFile() { return swaggerJsonFile; }
 
 }

@@ -24,11 +24,14 @@ import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.builder.RequestSpecBuilder;
+import com.atlassian.oai.validator.restassured.SwaggerValidationFilter;
 
 
 public class RequestGenerator {
 
     private RequestSpecBuilder build;
+   // private String SWAGGER_JSON_FILE ;
+   // private SwaggerValidationFilter validationFilter;// = new SwaggerValidationFilter(SWAGGER_JSON_URL);
 
     public RequestGenerator(){
 
@@ -37,10 +40,13 @@ public class RequestGenerator {
 
     public RequestSpecification createRequest(String endPoint)
     {
-
         Log.info("Generating Request for" + endPoint);
+
+        String SWAGGER_JSON_FILE = Context.getInstance().getSwaggerJsonFile();
+        SwaggerValidationFilter validationFilter = new SwaggerValidationFilter(SWAGGER_JSON_FILE);
+
         RestAssured.baseURI = Context.getInstance().getBaseURL();
-        return RestAssured.given().accept("application/json");
+        return RestAssured.given().accept("application/json").filter(validationFilter);
     }
 
     public RequestSpecification createRequestFromBuilder(String endPoint){
