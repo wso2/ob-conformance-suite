@@ -16,20 +16,16 @@
  * under the License.
  */
 
-import React from 'react';
+import axios from 'axios';
 
-const AppHeader = () => (
-    <header className="header header-default">
-        <div className="container-fluid">
-            <div className="pull-left brand">
-                <a href="#">
-                    <img src="images/logo-inverse.svg" alt="wso2" title="wso2"
-                         className="logo"/>
-                    <span>Open Banking Conformance Suite</span>
-                </a>
-            </div>
-        </div>
-    </header>
-);
 
-export default AppHeader;
+export default class RequestBuilder {
+
+    constructor(){
+        this.base_url = "http://localhost:9090/";
+    }
+
+    getSpecifications(){
+        return axios.get(this.base_url+"specifications/all");
+    }
+}

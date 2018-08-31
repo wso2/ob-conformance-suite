@@ -16,20 +16,22 @@
  * under the License.
  */
 
-import React from 'react';
+package com.wso2.finance.open.banking.conformance.api.dto;
 
-const AppHeader = () => (
-    <header className="header header-default">
-        <div className="container-fluid">
-            <div className="pull-left brand">
-                <a href="#">
-                    <img src="images/logo-inverse.svg" alt="wso2" title="wso2"
-                         className="logo"/>
-                    <span>Open Banking Conformance Suite</span>
-                </a>
-            </div>
-        </div>
-    </header>
-);
+/**
+ * DTO for Specification
+ */
+public class BasicSpecificationDTO {
+    public String name;
+    public String title;
+    public String description;
+    public String specificationUri;
 
-export default AppHeader;
+    public BasicSpecificationDTO(String name, String title, String description, String specificationUri) {
+
+        this.name = name;
+        this.title = title;
+        this.description = description;
+        this.specificationUri = specificationUri;
+    }
+}

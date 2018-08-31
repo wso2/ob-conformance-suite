@@ -17,19 +17,8 @@
  */
 
 import React from 'react';
+import ReactDOM from 'react-dom';
+import {BrowserRouter} from 'react-router-dom';
+import App from './App'
 
-const AppHeader = () => (
-    <header className="header header-default">
-        <div className="container-fluid">
-            <div className="pull-left brand">
-                <a href="#">
-                    <img src="images/logo-inverse.svg" alt="wso2" title="wso2"
-                         className="logo"/>
-                    <span>Open Banking Conformance Suite</span>
-                </a>
-            </div>
-        </div>
-    </header>
-);
-
-export default AppHeader;
+ReactDOM.render(<BrowserRouter><App/></BrowserRouter>, document.getElementById('content'));

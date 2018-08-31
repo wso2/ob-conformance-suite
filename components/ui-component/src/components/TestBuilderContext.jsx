@@ -18,18 +18,4 @@
 
 import React from 'react';
 
-const AppHeader = () => (
-    <header className="header header-default">
-        <div className="container-fluid">
-            <div className="pull-left brand">
-                <a href="#">
-                    <img src="images/logo-inverse.svg" alt="wso2" title="wso2"
-                         className="logo"/>
-                    <span>Open Banking Conformance Suite</span>
-                </a>
-            </div>
-        </div>
-    </header>
-);
-
-export default AppHeader;
+export const TestBuilderContext = React.createContext({});
