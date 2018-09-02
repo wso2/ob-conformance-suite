@@ -18,14 +18,17 @@
 
 import axios from 'axios';
 
-
 export default class RequestBuilder {
 
-    constructor(){
+    constructor() {
         this.base_url = "http://localhost:9090/";
     }
 
-    getSpecifications(){
-        return axios.get(this.base_url+"specifications/all");
+    getSpecifications() {
+        return axios.get(this.base_url + "specifications/all");
+    }
+
+    getSingleSpecification(name) {
+        return axios.get(this.base_url + "specifications/single/" + name);
     }
 }

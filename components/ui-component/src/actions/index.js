@@ -16,6 +16,23 @@
  * under the License.
  */
 
-import React from 'react';
+export const addSpecification = (name,spec) => ({
+    type: 'ADD_SPEC',
+    name: name,
+    specification: spec
+});
 
-export const TestBuilderContext = React.createContext({});
+export const updateSpecification = (name, spec) => ({
+    type: 'UPDATE_SPEC',
+    name: name,
+    specification: spec
+});
+
+export const toggleSpecification = name => ({
+    type: 'TOGGLE_SPEC',
+    name: name
+});
+
+export const clearSpecifications = () => ({
+    type: 'CLEAR_SPECS',
+});

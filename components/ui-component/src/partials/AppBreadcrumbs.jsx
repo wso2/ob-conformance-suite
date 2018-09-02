@@ -17,20 +17,18 @@
  */
 
 import React from 'react';
-import {Link} from 'react-router-dom'
 
-const AppHeader = () => (
-    <header className="header header-default">
-        <div className="container-fluid">
-            <div className="pull-left brand">
-                <Link to="/">
-                    <img src="/images/logo-inverse.svg" alt="wso2" title="wso2"
-                         className="logo"/>
-                    <span>Open Banking Conformance Suite</span>
-                </Link>
-            </div>
-        </div>
-    </header>
+const AppBreadcrumb = (name, link) => {
+    <li className="active"><a href="#">Current Page</a></li>
+};
+
+const AppBreadcrumbs = () => (
+    <div className="breadcrumb-wrapper">
+        <ol className="breadcrumb">
+            <li><a href="#"><i className="fas fa-home"></i> <span className="hidden-xs">Home</span></a></li>
+            <li className="active"><a href="#">Current Page</a></li>
+        </ol>
+    </div>
 );
 
-export default AppHeader;
+export default AppBreadcrumbs;

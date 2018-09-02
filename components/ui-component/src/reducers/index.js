@@ -16,21 +16,9 @@
  * under the License.
  */
 
-import React from 'react';
-import {Link} from 'react-router-dom'
+import {combineReducers} from 'redux'
+import specifications from './specifications'
 
-const AppHeader = () => (
-    <header className="header header-default">
-        <div className="container-fluid">
-            <div className="pull-left brand">
-                <Link to="/">
-                    <img src="/images/logo-inverse.svg" alt="wso2" title="wso2"
-                         className="logo"/>
-                    <span>Open Banking Conformance Suite</span>
-                </Link>
-            </div>
-        </div>
-    </header>
-);
-
-export default AppHeader;
+export default combineReducers({
+    specifications
+});
