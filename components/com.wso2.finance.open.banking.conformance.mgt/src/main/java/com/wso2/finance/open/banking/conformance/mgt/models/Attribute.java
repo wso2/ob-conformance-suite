@@ -37,6 +37,8 @@ public class Attribute {
     @XmlElement
     String defaultValue;
     @XmlElement
+    String value;
+    @XmlElement
     String helpText;
     @XmlElement
     String validationRegex;
@@ -56,12 +58,13 @@ public class Attribute {
      * @param defaultValue
      * @param helpText
      */
-    public Attribute(String name, String label, ATTRIBUTE_TYPE attributeType, String defaultValue, String helpText) {
+    public Attribute(String name, String label, ATTRIBUTE_TYPE attributeType, String defaultValue, String value, String helpText) {
 
         this.name = name;
         this.label = label;
         this.attributeType = attributeType;
         this.defaultValue = defaultValue;
+        this.value = value;
         this.helpText = helpText;
     }
 
@@ -95,6 +98,14 @@ public class Attribute {
     public String getDefaultValue() {
 
         return defaultValue;
+    }
+
+    /**
+     * @return
+     */
+    public String gettValue() {
+
+        return value;
     }
 
     /**
