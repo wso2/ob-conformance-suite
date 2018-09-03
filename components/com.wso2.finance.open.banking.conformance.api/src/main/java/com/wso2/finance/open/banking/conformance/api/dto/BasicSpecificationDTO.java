@@ -22,15 +22,26 @@ package com.wso2.finance.open.banking.conformance.api.dto;
  * DTO for Specification
  */
 public class BasicSpecificationDTO {
+
     public String name;
     public String title;
+    public String version;
     public String description;
     public String specificationUri;
 
-    public BasicSpecificationDTO(String name, String title, String description, String specificationUri) {
+    /**
+     * @param name
+     * @param title
+     * @param version
+     * @param description
+     * @param specificationUri
+     */
+    public BasicSpecificationDTO(String name, String title, String version, String description,
+                                 String specificationUri) {
 
         this.name = name;
         this.title = title;
+        this.version = version;
         this.description = description;
         this.specificationUri = specificationUri;
     }
