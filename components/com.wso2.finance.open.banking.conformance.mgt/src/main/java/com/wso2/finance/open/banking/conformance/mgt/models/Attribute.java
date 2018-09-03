@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Model class representing attributes required for a Specification or Feature
+ * Model class representing attributes required for a Specification or Feature.
  */
 @XmlRootElement(name = "Attribute")
 public class Attribute {
@@ -38,6 +38,8 @@ public class Attribute {
     String defaultValue;
     @XmlElement
     String helpText;
+    @XmlElement
+    String validationRegex;
 
     public enum ATTRIBUTE_TYPE {
         URL, TEXT, NUMBER
@@ -47,6 +49,13 @@ public class Attribute {
 
     }
 
+    /**
+     * @param name
+     * @param label
+     * @param attributeType
+     * @param defaultValue
+     * @param helpText
+     */
     public Attribute(String name, String label, ATTRIBUTE_TYPE attributeType, String defaultValue, String helpText) {
 
         this.name = name;
@@ -56,26 +65,41 @@ public class Attribute {
         this.helpText = helpText;
     }
 
+    /**
+     * @return
+     */
     public String getName() {
 
         return name;
     }
 
+    /**
+     * @return
+     */
     public String getLabel() {
 
         return label;
     }
 
+    /**
+     * @return
+     */
     public ATTRIBUTE_TYPE getAttributeType() {
 
         return attributeType;
     }
 
+    /**
+     * @return
+     */
     public String getDefaultValue() {
 
         return defaultValue;
     }
 
+    /**
+     * @return
+     */
     public String getHelpText() {
 
         return helpText;

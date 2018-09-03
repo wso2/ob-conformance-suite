@@ -25,22 +25,27 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Model class representing a single Specification
+ * Model class representing a single Specification.
  */
 @XmlRootElement(namespace = "com.wso2.finance.open.banking.conformance.mgt.models", name = "Specification")
 public class Specification {
 
     @XmlAttribute
     private String name;
+    @XmlAttribute
+    private String version;
     @XmlElement
     private String title;
     @XmlElement
     private String description;
     @XmlElement
     private String specificationUri;
-    @XmlElementWrapper(name = "attributes")
-    @XmlElement(name = "Attribute")
-    private List<Attribute> attributes;
+    @XmlElementWrapper(name = "attributeGroups")
+    @XmlElement(name = "AttributeGroup")
+    private List<AttributeGroup> attributeGroups;
+    @XmlElementWrapper(name = "vectors")
+    @XmlElement(name = "Vector")
+    private List<Vector> testingVectors;
     @XmlElementWrapper(name = "features")
     @XmlElement(name = "Feature")
     private List<Feature> features;
@@ -49,43 +54,90 @@ public class Specification {
 
     }
 
-    public Specification(String name, String title, String description, String specificationUri, List<Attribute> attributes, List<Feature> features) {
+    /**
+     * @param name
+     * @param version
+     * @param title
+     * @param description
+     * @param specificationUri
+     * @param attributeGroups
+     * @param testingVectors
+     * @param features
+     */
+    public Specification(String name, String version, String title, String description, String specificationUri,
+                         List<AttributeGroup> attributeGroups, List<Vector> testingVectors, List<Feature> features) {
 
         this.name = name;
+        this.version = version;
         this.title = title;
         this.description = description;
         this.specificationUri = specificationUri;
-        this.attributes = attributes;
+        this.attributeGroups = attributeGroups;
+        this.testingVectors = testingVectors;
         this.features = features;
     }
 
+    /**
+     * @return
+     */
     public String getName() {
 
         return name;
     }
 
+    /**
+     * @return
+     */
     public String getTitle() {
 
         return title;
     }
 
+    /**
+     * @return
+     */
     public String getDescription() {
 
         return description;
     }
 
+    /**
+     * @return
+     */
     public String getSpecificationUri() {
 
         return specificationUri;
     }
 
-    public List<Attribute> getAttributes() {
+    /**
+     * @return
+     */
+    public List<AttributeGroup> getAttributeGroups() {
 
-        return attributes;
+        return attributeGroups;
     }
 
+    /**
+     * @return
+     */
+    public List<Vector> getTestingVectors() {
+
+        return testingVectors;
+    }
+
+    /**
+     * @return
+     */
     public List<Feature> getFeatures() {
 
         return features;
+    }
+
+    /**
+     * @return
+     */
+    public String getVersion() {
+
+        return version;
     }
 }

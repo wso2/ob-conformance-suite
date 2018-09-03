@@ -18,45 +18,50 @@
 
 package com.wso2.finance.open.banking.conformance.mgt.models;
 
-import java.io.File;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Model class representing a test feature.
+ * Groups Attributes Logically.
  */
-@XmlRootElement(name = "Feature")
-public class Feature {
+@XmlRootElement(name = "AttributeGroup")
+public class AttributeGroup {
 
-    @XmlElement
-    private String title;
-    @XmlElement
-    private String description;
     @XmlAttribute
-    private File uri;
-    @XmlElementWrapper(name = "attributeGroups")
-    @XmlElement(name = "AttributeGroups")
-    private List<AttributeGroup> attributeGroups;
+    private String groupName;
+    @XmlAttribute
+    private String title;
+    @XmlAttribute
+    private String description;
+    @XmlElement(name = "Attribute")
+    private List<Attribute> attributes;
 
-    public Feature() {
+    public AttributeGroup() {
 
     }
 
     /**
+     * @param groupName
      * @param title
      * @param description
-     * @param uri
-     * @param attributeGroups
+     * @param attributes
      */
-    public Feature(String title, String description, File uri, List<AttributeGroup> attributeGroups) {
+    public AttributeGroup(String groupName, String title, String description, List<Attribute> attributes) {
 
+        this.groupName = groupName;
         this.title = title;
         this.description = description;
-        this.uri = uri;
-        this.attributeGroups = attributeGroups;
+        this.attributes = attributes;
+    }
+
+    /**
+     * @return
+     */
+    public String getGroupName() {
+
+        return groupName;
     }
 
     /**
@@ -78,16 +83,8 @@ public class Feature {
     /**
      * @return
      */
-    public File getUri() {
+    public List<Attribute> getAttributes() {
 
-        return uri;
-    }
-
-    /**
-     * @return
-     */
-    public List<AttributeGroup> getAttributeGroups() {
-
-        return attributeGroups;
+        return attributes;
     }
 }

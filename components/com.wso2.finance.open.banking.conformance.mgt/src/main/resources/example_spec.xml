@@ -17,18 +17,31 @@
   ~ under the License.
   -->
 
-<ns2:Specification xmlns:ns2="com.wso2.finance.open.banking.conformance.mgt.models" name="specExample">
-    <title>OpenBankAPI v1.0</title>
+<ns2:Specification xmlns:ns2="com.wso2.finance.open.banking.conformance.mgt.models" name="specExample" version="v1.0">
+    <title>OpenBankAPI</title>
     <description>This API exposes open data of a bank such as the branch locations, ATM locations, and supporting products.
     </description>
     <specificationUri>https://github.com/OpenBankingUK/</specificationUri>
-    <attributes>
-        <Attribute name="base_url">
-            <label>Base URL</label>
-            <attributeType>URL</attributeType>
-            <helpText>base url of the API</helpText>
-        </Attribute>
-    </attributes>
+    <attributeGroups>
+        <AttributeGroup groupName="default" title="Server Configuration">
+            <Attribute name="base_url">
+                <label>Base URL</label>
+                <attributeType>URL</attributeType>
+                <helpText>base url of the API</helpText>
+                <validationRegex>$</validationRegex>
+            </Attribute>
+        </AttributeGroup>
+    </attributeGroups>
+    <vectors>
+        <Vector tag="@security">
+            <title>Security</title>
+            <description>check OIDC flow</description>
+        </Vector>
+        <Vector tag="@data">
+            <title>Data Formats</title>
+            <description>check OpenAPI compliance</description>
+        </Vector>
+    </vectors>
     <features>
         <Feature
                 uri="components/com.wso2.finance.open.banking.conformance.test.core/src/main/resources/features/v1_0_0/opendata/atms.feature">
