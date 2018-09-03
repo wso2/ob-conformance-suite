@@ -19,35 +19,76 @@
 
 package com.wso2.finance.open.banking.conformance.test.core;
 
+import com.wso2.finance.open.banking.conformance.mgt.models.*;
+
 public class Context {
 
-    private static Context context = new Context();
+    private static final Context contextInstance = new Context();
+    private TestPlan testPlan;
 
-    private  String baseURL;
-    private  String bankID;
-    private  String basePath;
-    private  String swaggerJsonFile;
 
-    private Context(){
-        baseURL = "https://api-openbanking.wso2.com/OpenBankAPI";
-        bankID = "bank-4020-01";
-        basePath = "v1.0.0/banks/bank-4020-01/atms";
-        swaggerJsonFile = "schema/v1_0_0/open_data.json";
+    private String baseURL;
+    private String bankID;
+    private String basePath;
+    private String swaggerJsonFile;
 
-    }
+    private Context(){}
 
     public static Context getInstance(){
-        return context;
+        return contextInstance;
     }
+
+
+    public void init(TestPlan testPlan){
+        this.testPlan = testPlan;
+    }
+
 
     public  String getBaseURL() { return baseURL;}
 
     public String getBasePath(){return basePath;}
 
-    public String getBankID(){
-        return bankID;
-    }
+    public String getBankID(){ return bankID; }
 
     public String getSwaggerJsonFile() { return swaggerJsonFile; }
+
+
+    /**
+     *
+     * @param specName
+     * @param specVersion
+     * @param featureTitle
+     * @param attribGroupName
+     * @param attribName
+     * @return
+     */
+    public Attribute getFeatureAttribute(String specName, String specVersion, String featureTitle,
+                                         String attribGroupName, String attribName){
+
+        Attribute attrib;
+        attrib = testPlan.getSpecification(specName, specVersion).getFeature(featureTitle).
+                getAttributeGroup(attribGroupName).getAttribute(attribName);
+
+        return attrib;
+    }
+
+    /**
+     *
+     * @param specName
+     * @param specVersion
+     * @param attribGroupName
+     * @param attribName
+     * @return
+     */
+    public Attribute getSpecAttribute(String specName, String specVersion,
+                                      String attribGroupName, String attribName){
+
+        Attribute attrib;
+        attrib = testPlan.getSpecification(specName, specVersion).getAttributeGroup(attribGroupName).
+                getAttribute(attribName);
+
+        return attrib;
+    }
+
 
 }

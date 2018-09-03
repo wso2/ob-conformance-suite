@@ -19,6 +19,7 @@
 package com.wso2.finance.open.banking.conformance.mgt.models;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -139,5 +140,53 @@ public class Specification {
     public String getVersion() {
 
         return version;
+    }
+
+    /**
+     *
+     * @param tag
+     * @return
+     * @throws NoSuchElementException
+     */
+    public Vector getVector(String tag) throws NoSuchElementException {
+        int len=testingVectors.size();
+        for(int i=0; i<len; i++) {
+            if (testingVectors.get(i).getTag().equals(tag)){
+                return testingVectors.get(i);
+            }
+        }
+        throw new NoSuchElementException("Invalid tag.");
+    }
+
+    /**
+     *
+     * @param title
+     * @return
+     * @throws NoSuchElementException
+     */
+    public Feature getFeature(String title) throws NoSuchElementException {
+        int len=features.size();
+        for(int i=0; i<len; i++) {
+            if (features.get(i).getTitle().equals(title)){
+                return features.get(i);
+            }
+        }
+        throw new NoSuchElementException("Invalid feature title.");
+    }
+
+    /**
+     *
+     * @param groupName
+     * @return
+     * @throws NoSuchElementException
+     */
+    public AttributeGroup getAttributeGroup(String groupName) throws NoSuchElementException {
+        int len=attributeGroups.size();
+        for(int i=0; i<len; i++) {
+            if (attributeGroups.get(i).getGroupName().equals(groupName)){
+                return attributeGroups.get(i);
+            }
+        }
+        throw new NoSuchElementException("Invalid group name.");
     }
 }
