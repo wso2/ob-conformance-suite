@@ -18,45 +18,45 @@
 
 package com.wso2.finance.open.banking.conformance.mgt.models;
 
-import java.io.File;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Model class representing a test feature.
+ * Model class representing testing vectors and it's mapping to feature tags.
  */
-@XmlRootElement(name = "Feature")
-public class Feature {
+@XmlRootElement(name = "Vector")
+public class Vector {
 
+    @XmlAttribute
+    private String tag;
     @XmlElement
     private String title;
     @XmlElement
     private String description;
-    @XmlAttribute
-    private File uri;
-    @XmlElementWrapper(name = "attributeGroups")
-    @XmlElement(name = "AttributeGroups")
-    private List<AttributeGroup> attributeGroups;
 
-    public Feature() {
+    public Vector() {
 
     }
 
     /**
+     * @param tag
      * @param title
      * @param description
-     * @param uri
-     * @param attributeGroups
      */
-    public Feature(String title, String description, File uri, List<AttributeGroup> attributeGroups) {
+    public Vector(String tag, String title, String description) {
 
+        this.tag = tag;
         this.title = title;
         this.description = description;
-        this.uri = uri;
-        this.attributeGroups = attributeGroups;
+    }
+
+    /**
+     * @return
+     */
+    public String getTag() {
+
+        return tag;
     }
 
     /**
@@ -73,21 +73,5 @@ public class Feature {
     public String getDescription() {
 
         return description;
-    }
-
-    /**
-     * @return
-     */
-    public File getUri() {
-
-        return uri;
-    }
-
-    /**
-     * @return
-     */
-    public List<AttributeGroup> getAttributeGroups() {
-
-        return attributeGroups;
     }
 }
