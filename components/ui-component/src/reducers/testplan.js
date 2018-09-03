@@ -16,32 +16,25 @@
  * under the License.
  */
 
-export const addSpecification = (name,spec) => ({
-    type: 'ADD_SPEC',
-    name: name,
-    specification: spec
-});
+const initialState = {
+    specs: []
+};
 
-export const updateSpecification = (name, spec) => ({
-    type: 'UPDATE_SPEC',
-    name: name,
-    specification: spec
-});
 
-export const toggleSpecification = name => ({
-    type: 'TOGGLE_SPEC',
-    name: name
-});
+const testplan = (state = initialState, action) => {
+    switch (action.type) {
+        case 'ADD_SPEC_TO_TESTPLAN':
+            return {
+                specs: [...state.specs, action.specification]
+            };
+        case 'CLEAR_TESTPLAN':
+            return {
+                specs: []
+            };
+        default:
+            return state
+    }
+};
 
-export const clearSpecifications = () => ({
-    type: 'CLEAR_SPECS',
-});
+export default testplan;
 
-export const addSpecificationToTestPlan = (spec) => ({
-    type: 'ADD_SPEC_TO_TESTPLAN',
-    specification: spec
-});
-
-export const clearTestPlan = () => ({
-    type: 'CLEAR_TESTPLAN',
-});

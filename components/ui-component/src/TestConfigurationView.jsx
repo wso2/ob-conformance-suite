@@ -21,7 +21,7 @@ import AppHeader from "./partials/AppHeader";
 import RequestBuilder from './utils/RequestBuilder';
 import {withRouter} from 'react-router-dom'
 import {ListGroup, ListGroupItem, Glyphicon, Button, Grid, Row, Col} from 'react-bootstrap';
-import {updateSpecification} from "./actions";
+import {addSpecificationToTestPlan, clearTestPlan} from "./actions";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import {connect} from 'react-redux'
 import axios from 'axios';
@@ -30,24 +30,49 @@ const client = new RequestBuilder();
 
 class TestConfigurationView extends React.Component {
 
+    constructor(props){
+        super(props);
+        this.state = {
+            loading : true
+        }
+    }
     componentDidMount() {
         if (this.props.specifications.selected.length !== 0) {
+            this.props.dispatch(clearTestPlan());
             axios.all(this.props.specifications.selected.map(key => client.getSingleSpecification(key))).then(
                 axios.spread(response => {
                     var spec = response.data;
-                    this.props.dispatch(updateSpecification(spec.name, spec));
+                    this.props.dispatch(addSpecificationToTestPlan(spec));
                 })
-            );
+            ).finally(() => {
+                this.setState({
+                    loading: false
+                });
+            });
         } else {
             this.props.history.push("/tests/new");
         }
     }
 
     renderSpecs(){
-        return this.props.specifications.selected.map(specName => {
-            var spec = this.props.specifications.specs[specName];
+        return this.props.testplan.specs.map(spec => {
             return <h1>{spec.name}</h1>
         });
+    }
+
+    renderMain(){
+        return (
+            <div>
+                <br/>
+                <Grid>
+                    <Row>
+                        <Col md={4}>{this.renderSpecs()}</Col>
+                        <Col md={8}>
+                        </Col>
+                    </Row>
+                </Grid>
+            </div>
+        );
     }
 
     render() {
@@ -56,14 +81,7 @@ class TestConfigurationView extends React.Component {
                 <AppHeader/>
                 <AppBreadcrumbs/>
                 <div className={"container"}>
-                    <br/>
-                    <Grid>
-                        <Row>
-                            <Col md={4}>{this.renderSpecs()}</Col>
-                            <Col md={8}>
-                            </Col>
-                        </Row>
-                    </Grid>
+                    {this.state.loading ? <h1>Loading</h1> : this.renderMain()}
                 </div>
             </div>
         );
@@ -71,5 +89,6 @@ class TestConfigurationView extends React.Component {
 }
 
 export default withRouter(connect((state) => ({
-    specifications: state.specifications
+    specifications: state.specifications,
+    testplan: state.testplan
 }))(TestConfigurationView));

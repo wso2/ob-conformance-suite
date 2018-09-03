@@ -18,7 +18,9 @@
 
 import {combineReducers} from 'redux'
 import specifications from './specifications'
+import testplan from './testplan'
 
 export default combineReducers({
-    specifications
+    specifications,
+    testplan
 });
