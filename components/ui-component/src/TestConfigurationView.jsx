@@ -21,19 +21,43 @@ import AppHeader from "./partials/AppHeader";
 import RequestBuilder from './utils/RequestBuilder';
 import {withRouter} from 'react-router-dom'
 import {ListGroup, ListGroupItem, Glyphicon, Button, Grid, Row, Col} from 'react-bootstrap';
-import {addSpecificationToTestPlan, clearTestPlan} from "./actions";
+import {addSpecificationToTestPlan, clearTestPlan, toggleVector} from "./actions";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import {connect} from 'react-redux'
 import axios from 'axios';
 
 const client = new RequestBuilder();
 
+const Vector = connect((state)=>({testplan : state.testplan}))((props) => (
+    <ListGroupItem onClick={()=>{props.dispatch(toggleVector(props.specName, props.vector.tag))}}>
+        <div className="pull-right">
+            <i className={"fas fa-lg fa-" + (props.testplan.specs[props.specName].selectedVectors.includes(props.vector.tag) ? "check" : "plus")}/>
+        </div>
+        <p><b>{props.vector.title}</b></p>
+    </ListGroupItem>
+));
+
+
+const Specification = (props) => (
+    <ListGroup>
+        <ListGroupItem key={"root-spec"} onClick={()=>{props.selectElement(props.spec.name)}}>
+            <div className="pull-right">
+                <i className="fas fa-cog"></i>
+            </div>
+            <h4>{props.spec.title} {props.spec.version}</h4>
+            <p>{props.spec.description}</p>
+        </ListGroupItem>
+        {props.spec.testingVectors.map((vector) => (<Vector vector={vector} specName ={props.spec.name} key={vector.tag}/>))}
+    </ListGroup>
+);
+
 class TestConfigurationView extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
-            loading : true
+            loading : true,
+            selectedSpec : null
         }
     }
     componentDidMount() {
@@ -55,9 +79,17 @@ class TestConfigurationView extends React.Component {
     }
 
     renderSpecs(){
-        return this.props.testplan.specs.map(spec => {
-            return <h1>{spec.name}</h1>
+        return Object.values(this.props.testplan.specs).map(spec => {
+            return (
+                <Specification key={spec.name} spec={spec} selectElelemnt={this.selectSpec}/>
+            );
         });
+    }
+
+    selectSpec(key){
+        this.setState({
+            selectedSpec: key
+        })
     }
 
     renderMain(){
@@ -66,8 +98,11 @@ class TestConfigurationView extends React.Component {
                 <br/>
                 <Grid>
                     <Row>
-                        <Col md={4}>{this.renderSpecs()}</Col>
+                        <Col md={4}>
+                            {this.renderSpecs()}
+                        </Col>
                         <Col md={8}>
+                            {this.state.selectedSpec? <h1>Selected</h1>: null}
                         </Col>
                     </Row>
                 </Grid>

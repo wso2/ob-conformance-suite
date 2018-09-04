@@ -22,12 +22,6 @@ export const addSpecification = (name,spec) => ({
     specification: spec
 });
 
-export const updateSpecification = (name, spec) => ({
-    type: 'UPDATE_SPEC',
-    name: name,
-    specification: spec
-});
-
 export const toggleSpecification = name => ({
     type: 'TOGGLE_SPEC',
     name: name
@@ -44,4 +38,10 @@ export const addSpecificationToTestPlan = (spec) => ({
 
 export const clearTestPlan = () => ({
     type: 'CLEAR_TESTPLAN',
+});
+
+export const toggleVector = (name,vector) => ({
+    type: 'TOGGLE_VECTOR',
+    name: name,
+    vector: vector
 });

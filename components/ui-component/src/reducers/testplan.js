@@ -17,19 +17,41 @@
  */
 
 const initialState = {
-    specs: []
+    specs: {}
 };
+
+function mutateSpec(spec) {
+    return {
+        ...spec,
+        selectedVectors: []
+    }
+}
 
 
 const testplan = (state = initialState, action) => {
     switch (action.type) {
         case 'ADD_SPEC_TO_TESTPLAN':
             return {
-                specs: [...state.specs, action.specification]
+                specs: {
+                    ...state.specs,
+                    [action.specification.name]: mutateSpec(action.specification)
+                }
+            };
+        case 'TOGGLE_VECTOR':
+            var cur_vectors = state.specs[action.name].selectedVectors;
+            return {
+                specs: {
+                    ...state.specs,
+                    [action.name]: {
+                        ...state.specs[action.name],
+                        selectedVectors: (cur_vectors.includes(action.vector) ?
+                            cur_vectors.filter((tag) => tag !== action.vector) : [...cur_vectors, action.vector])
+                    }
+                }
             };
         case 'CLEAR_TESTPLAN':
             return {
-                specs: []
+                specs: {}
             };
         default:
             return state
