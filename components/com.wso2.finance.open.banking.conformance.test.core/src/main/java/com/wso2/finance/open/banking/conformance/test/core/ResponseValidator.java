@@ -20,6 +20,8 @@ public class ResponseValidator {
 
     private final SwaggerValidationFilter validationFilter = new SwaggerValidationFilter(SWAGGER_JSON_URL);
 
+    String path = "banks/bank-4020-01/branches";
+
     @Test
     public void testGetBranches() {
         given().
@@ -27,8 +29,10 @@ public class ResponseValidator {
                 baseUri("https://api-openbanking.wso2.com/OpenBankAPI/v1.0.0").
 //                basePath("/OpenBankAPI/v1.0.0").
                 header("content-type", "application/json").
+                pathParam("path", path).
+                urlEncodingEnabled(false).
         when().
-                get("/banks/bank-4020-01/branches").
+                get("{path}").
         then().
                 assertThat().
                 statusCode(200);
