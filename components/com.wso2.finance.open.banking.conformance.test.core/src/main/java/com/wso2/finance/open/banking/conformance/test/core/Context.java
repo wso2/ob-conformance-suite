@@ -31,7 +31,6 @@ public class Context {
     private String currentSpec = "";
     private String currentSpceVersion = "";
     private String currentFeature = "";
-   // private String swaggerJsonFile = "";
 
     private Map<String,String> swaggerJsonFileMap = new HashMap<String,String>(); //specname+version -> swaggerJsonFile
 
@@ -46,19 +45,7 @@ public class Context {
         this.testPlan = testPlan;
         swaggerJsonFileMap.put("specExamplev1.0","schema/v1_0_0/open_data.json");
 
-      //  baseURL = "https://api-openbanking.wso2.com/OpenBankAPI";
-      //  bankID = "bank-4020-01";
-      //  basePath = "v1.0.0/banks/bank-4020-01/atms";
-      //  swaggerJsonFile = "schema/v1_0_0/open_data.json";
-
     }
-
-
-   // public  String getBaseURL() { return baseURL;}
-
-   // public String getBasePath(){return basePath;}
-
-   // public String getBankID(){ return bankID; }
 
     public String getSwaggerJsonFile() {
         return swaggerJsonFileMap.get(currentSpec+currentSpceVersion);

@@ -44,8 +44,7 @@ public class OpenDataSteps {
     public void setBankID()
     {
       ENDPOINT_GET_ATMS_BY_BANK_ID =  "/v1.0.0/banks/" + Context.getInstance().getCurrentFeatureAttribute("uri", "bank_id").gettValue() + "/atms";
-      //ENDPOINT_GET_ATMS_BY_BANK_ID = "/v1.0.0/banks/"+ "bank-4020-01" + "/atms";
-        httpRequest = requestGenerator.createRequest("ATM_END_POINT");
+      httpRequest = requestGenerator.createRequest("ATM_END_POINT");
     }
 
     @When("a user retrieves the atm details")
