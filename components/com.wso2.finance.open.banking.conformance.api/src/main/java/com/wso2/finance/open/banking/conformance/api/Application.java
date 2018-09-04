@@ -57,6 +57,7 @@ public class Application {
         loadResources();
         new MicroservicesRunner()
                 .deploy(new ConformanceSuiteAPI())
+                .deploy(new runConformanceSuiteAPI())
                 .start();
     }
 }

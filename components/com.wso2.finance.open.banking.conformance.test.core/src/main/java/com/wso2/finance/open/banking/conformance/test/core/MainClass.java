@@ -32,11 +32,17 @@ public class MainClass {
             specList.add(specification);
 
            /* OutputStream output = new FileOutputStream("components/" +
-                    "com.wso2.finance.open.banking.conformance.mgt/src/main/resources/out.xml");
+                    "com.wso2.finance.open.banking.conformance.mgt/src/main/resources/example_plan.xml");
 
             XmlHelper.marshallSpecification(specification,output);*/
 
             TestPlan plan = new TestPlan(specList);
+
+            /*OutputStream output = new FileOutputStream("components/" +
+                    "com.wso2.finance.open.banking.conformance.mgt/src/main/resources/example_plan.xml");
+
+            XmlHelper.marshallTestPlan(plan,output);*/
+
             Context.getInstance().init(plan);
 
             TestPlanRunner planRunner = new TestPlanRunner(plan);
@@ -51,4 +57,21 @@ public class MainClass {
 
     }
 
+    public static void runTestSpec(Specification specification){
+        List<Specification> specList = new ArrayList<>();
+        specList.add(specification);
+
+        TestPlan plan = new TestPlan(specList);
+        Context.getInstance().init(plan);
+
+        TestPlanRunner planRunner = new TestPlanRunner(plan);
+        planRunner.runTestPlan();
+    }
+
+    public static void runTestPlan(TestPlan testPlan){
+        Context.getInstance().init(testPlan);
+
+        TestPlanRunner planRunner = new TestPlanRunner(testPlan);
+        planRunner.runTestPlan();
+    }
 }
