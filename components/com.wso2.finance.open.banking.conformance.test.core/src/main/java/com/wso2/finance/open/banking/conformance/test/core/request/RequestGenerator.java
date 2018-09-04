@@ -40,7 +40,7 @@ public class RequestGenerator {
 
     public RequestSpecification createRequest(String endPoint)
     {
-        Log.info("Generating Request for" + endPoint);
+        Log.info("Generating Request for " + endPoint);
 
         String SWAGGER_JSON_FILE = Context.getInstance().getSwaggerJsonFile();
         SwaggerValidationFilter validationFilter = new SwaggerValidationFilter(SWAGGER_JSON_FILE);
