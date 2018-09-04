@@ -19,6 +19,7 @@
 package com.wso2.finance.open.banking.conformance.mgt.helpers;
 
 import com.wso2.finance.open.banking.conformance.mgt.models.Specification;
+import com.wso2.finance.open.banking.conformance.mgt.models.TestPlan;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -42,12 +43,26 @@ public class XmlHelper {
         marshaller.marshal(specification, outStream);
     }
 
+    public static  void marshallTestPlan(TestPlan testPlan, OutputStream outStream) throws JAXBException {
+        JAXBContext context = JAXBContext.newInstance(TestPlan.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        marshaller.marshal(testPlan, outStream);
+    }
+
     public static Specification unmarshallSepcificationXML(File xmlDocument) throws JAXBException,
             FileNotFoundException {
 
         JAXBContext context = JAXBContext.newInstance(Specification.class);
         Unmarshaller unmarshaller = context.createUnmarshaller();
         return (Specification) unmarshaller.unmarshal(new FileReader(xmlDocument));
+    }
 
+    public static TestPlan unmarshallTestPlanXML(File xmlDocument) throws JAXBException,
+            FileNotFoundException {
+
+        JAXBContext context = JAXBContext.newInstance(TestPlan.class);
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        return (TestPlan) unmarshaller.unmarshal(new FileReader(xmlDocument));
     }
 }
