@@ -1,0 +1,186 @@
+{
+  "swagger":"2.0",
+  "paths":{
+    "/banks/{bank_id}/branches":{
+      "get":{
+        "tags":[
+          "Get the details of all the branches of a bank"
+        ],
+        "responses":{
+          "200":{
+            "description":"The list of branches of the bank retrieved successfully."
+          }
+        },
+        "parameters":[
+          {
+            "name":"bank_id",
+            "in":"path",
+            "allowMultiple":false,
+            "required":true,
+            "type":"string",
+            "description":"The bank identifier.To try out the demo API,use bank_id as 'bank-4020-01'."
+          }
+        ],
+        "summary":"Get the list of branches of OBank",
+        "description":"This API will expose branches information of OBank.",
+        "operationId":"GetBranchesOfBank",
+        "produces":[
+          "application/json"
+        ],
+        "x-auth-type":"None",
+        "x-throttling-tier":"Unlimited"
+      }
+    },
+    "/banks/{bank_id}/atms":{
+      "get":{
+        "tags":[
+          "Get the details of all atms owned by a bank"
+        ],
+        "responses":{
+          "200":{
+            "description":"The list of ATMs of the bank retrieved successfully."
+          }
+        },
+        "parameters":[
+          {
+            "name":"bank_id",
+            "in":"path",
+            "allowMultiple":false,
+            "required":true,
+            "type":"string",
+            "description":"The bank identifier.To try out the demo API,use bank_id as 'bank-4020-01'."
+          }
+        ],
+        "summary":"Get the ATMS of OBank",
+        "description":"This API will expose ATMs information of OBank.",
+        "operationId":"GetATMsOfBank",
+        "x-auth-type":"None",
+        "x-throttling-tier":"Unlimited"
+      }
+    },
+    "/banks/{bank_id}/atms/country/{country_id}":{
+      "get":{
+        "tags":[
+          "Get the details of atms owned by a bank in a given country"
+        ],
+        "responses":{
+          "200":{
+            "description":"The list of ATMs of the bank by country retrieved successfully."
+          }
+        },
+        "parameters":[
+          {
+            "name":"bank_id",
+            "in":"path",
+            "allowMultiple":false,
+            "required":true,
+            "type":"string",
+            "description":"The bank identifier.To try out the demo API,use bank_id as 'bank-4020-01'."
+          },
+          {
+            "name":"country_id",
+            "in":"path",
+            "allowMultiple":false,
+            "required":true,
+            "type":"string",
+            "description":"The country identifier which is 2 charactor long.To tryout the demo API,use the country_id as 'ES' which will list Spain located ATMs information."
+          }
+        ],
+        "summary":"Get the ATMS of OBank in a country",
+        "description":"This API will expose the ATMs information of OBank by a particular country..",
+        "produces":[
+          "application/json"
+        ],
+        "x-auth-type":"None",
+        "x-throttling-tier":"Unlimited"
+      }
+    },
+    "/banks/{bank_id}/products":{
+      "get":{
+        "tags":[
+          "Get the details of the products supported by a bank"
+        ],
+        "responses":{
+          "200":{
+            "description":"The list of products supported by the bank retrieved successfully."
+          }
+        },
+        "parameters":[
+          {
+            "name":"bank_id",
+            "in":"path",
+            "allowMultiple":false,
+            "required":true,
+            "type":"string",
+            "description":"The bank identifier.To try out the demo API,use bank_id as 'bank-4020-01'."
+          }
+        ],
+        "summary":"Get the products of OBank",
+        "produces":[
+          "application/json"
+        ],
+        "description":"Get the products which are supported by OBank.For eg: Fixed deposits,current accounts,loan schemes,etc.",
+        "x-auth-type":"None",
+        "x-throttling-tier":"Unlimited"
+      }
+    },
+    "/banks/{bank_id}/products/{product_id}":{
+      "get":{
+        "tags":[
+          "Get the details of a particular product supported by a bank"
+        ],
+        "responses":{
+          "200":{
+            "description":"The details of specific product provided by the bank retrieved successfullly."
+          }
+        },
+        "parameters":[
+          {
+            "name":"bank_id",
+            "in":"path",
+            "allowMultiple":false,
+            "required":true,
+            "type":"string",
+            "description":"The bank identifier.To try out the demo API,use bank_id as 'bank-4020-01'."
+          },
+          {
+            "name":"product_id",
+            "in":"path",
+            "allowMultiple":false,
+            "required":true,
+            "type":"string",
+            "description":"The product identifier.For example- In this sample API,'SME loans' product will be identified as 'sme-loans' and 'Personal Current Account' type will identified as 'pcAccounts'"
+          }
+        ],
+        "summary":"Get details of a product provides by OBank",
+        "description":"Get details of a specific product provides by OBank",
+        "produces":[
+          "application/json"
+        ],
+        "x-auth-type":"None",
+        "x-throttling-tier":"Unlimited"
+      }
+    }
+  },
+  "info":{
+    "title":"OpenBankAPI",
+    "version":"v1.0.0",
+    "description":"This API exposes open data of a bank such as the branch locations, ATM locations, and supporting products."
+  },
+  "securityDefinitions":{
+    "default":{
+      "type":"oauth2",
+      "authorizationUrl":"https://api-openbanking.wso2.com/authorize",
+      "flow":"implicit",
+      "scopes":{
+
+      }
+    }
+  },
+  "basePath":"/OpenBankAPI/v1.0.0",
+  "host":"api-openbanking.wso2.com",
+  "schemes":[
+    "https",
+    "http"
+  ]
+}
