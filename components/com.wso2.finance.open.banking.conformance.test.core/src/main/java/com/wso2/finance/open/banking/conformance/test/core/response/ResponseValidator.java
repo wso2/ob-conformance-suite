@@ -24,19 +24,86 @@ import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 import io.restassured.response.Response;
 
 import com.atlassian.oai.validator.restassured.SwaggerValidationFilter;
+import org.junit.Test;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
+
+import static io.restassured.RestAssured.given;
 
 public class ResponseValidator {
 
-    //private String SWAGGER_JSON_PATH;  //"resources/schema/open_data.json";
-   // private SwaggerValidationFilter validationFilter;
+    private static final String SWAGGER_JSON_URL = "./schema/v1_0_0/open_data.json";
+
+    private final SwaggerValidationFilter validationFilter = new SwaggerValidationFilter(SWAGGER_JSON_URL);
+
+    String path = "banks/bank-4020-01/branches";
+
+    @Test
+    public void testGetBranches() {
+        given().
+                filter(validationFilter).
+                baseUri("https://api-openbanking.wso2.com/OpenBankAPI/v1.0.0").
+//                basePath("/OpenBankAPI/v1.0.0").
+        header("content-type", "application/json").
+                pathParam("path", path).
+                urlEncodingEnabled(false).
+                when().
+                get("{path}").
+                then().
+                assertThat().
+                statusCode(200);
+    }
+
+    @Test
+    public void testGetAtms() {
+        given().
+                filter(validationFilter).
+                baseUri("https://api-openbanking.wso2.com/OpenBankAPI/v1.0.0/").
+                header("content-type", "application/json").
+                when().
+                get("banks/bank-4020-01/atms").
+                then().
+                assertThat().
+                statusCode(200);
+    }
+
+//    @Test
+//    public void testGetWithInvalidId() {
+//        given().
+//                filter(validationFilter).
+//        when().
+//                get("/pet/fido").
+//        then().
+//                assertThat().
+//                statusCode(200);
+//    }
 
     public ResponseValidator(){
       //  SWAGGER_JSON_PATH = "resources/schema/open_data.json";
       //  validationFilter = new SwaggerValidationFilter(SWAGGER_JSON_PATH);
     }
 
-    public void validateResponse(Response response)
+    public void validateResponse()
     {
+
         Log.info("validating response");
+
+        Result result = JUnitCore.runClasses(com.wso2.finance.open.banking.conformance.test.core.response.ResponseValidator.class);
+
+        System.out.println("Total Number of tests: ");
+        System.out.println(result.getRunCount());
+
+        System.out.println("Total Number of failed tests: ");
+        System.out.println(result.getFailureCount());
+
+        for (Failure failure : result.getFailures()) {
+            System.out.println("Test : ");
+            System.out.println(failure.toString());
+        }
+
+        System.out.println("Final");
+        System.out.println(result.wasSuccessful());
+
     }
 }
