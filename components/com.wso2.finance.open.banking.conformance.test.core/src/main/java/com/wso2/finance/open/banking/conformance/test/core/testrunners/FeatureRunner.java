@@ -19,6 +19,7 @@
 package com.wso2.finance.open.banking.conformance.test.core.testrunners;
 
 import com.wso2.finance.open.banking.conformance.mgt.models.Feature;
+import com.wso2.finance.open.banking.conformance.test.core.Context;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 import cucumber.api.cli.Main;
 
@@ -31,7 +32,8 @@ public class FeatureRunner {
 
     public void runFeature(){
         Log.info("Start Running Feature: " + feature.getTitle());
-        //set context with feature related stuff
+        //set feature context
+        Context.getInstance().setFeatureContext(feature.getTitle());
 
         String[] argv = new String[]
                             { "-g",
@@ -47,7 +49,8 @@ public class FeatureRunner {
             throwable.printStackTrace();
         }
 
-        //clear context
+        //clear featur context
+        Context.getInstance().clearFeatureContext();
         Log.info("End Running Feature: " + feature.getTitle());
     }
 }

@@ -20,17 +20,19 @@
 package com.wso2.finance.open.banking.conformance.test.core;
 
 import com.wso2.finance.open.banking.conformance.mgt.models.*;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Context {
 
     private static final Context contextInstance = new Context();
     private TestPlan testPlan;
 
+    private String currentSpec = "";
+    private String currentSpceVersion = "";
+    private String currentFeature = "";
 
-    private String baseURL;
-    private String bankID;
-    private String basePath;
-    private String swaggerJsonFile;
+    private Map<String,String> swaggerJsonFileMap = new HashMap<String,String>(); //specname+version -> swaggerJsonFile
 
     private Context(){}
 
@@ -41,17 +43,35 @@ public class Context {
 
     public void init(TestPlan testPlan){
         this.testPlan = testPlan;
+        swaggerJsonFileMap.put("specExamplev1.0","schema/v1_0_0/open_data.json");
+
     }
 
+    public String getSwaggerJsonFile() {
+        return swaggerJsonFileMap.get(currentSpec+currentSpceVersion);
+    }
 
-    public  String getBaseURL() { return baseURL;}
+    public void setSpecContext(String spec, String specVersion)
+    {
+        currentSpec = spec;
+        currentSpceVersion = specVersion;
+    }
 
-    public String getBasePath(){return basePath;}
+    public void clearSpecContext()
+    {
+        currentSpec = "";
+        currentSpceVersion = "";
+    }
 
-    public String getBankID(){ return bankID; }
+    public void setFeatureContext(String featureTitle)
+    {
+        currentFeature = featureTitle;
+    }
 
-    public String getSwaggerJsonFile() { return swaggerJsonFile; }
-
+    public void clearFeatureContext()
+    {
+        currentFeature = "";
+    }
 
     /**
      *
@@ -90,5 +110,14 @@ public class Context {
         return attrib;
     }
 
+    public Attribute getCurrentSpecAttribute(String attribGroupName, String attribName)
+    {
+        return getSpecAttribute(currentSpec,currentSpceVersion,attribGroupName,attribName);
+    }
+
+    public Attribute getCurrentFeatureAttribute(String attribGroupName, String attribName)
+    {
+        return getFeatureAttribute(currentSpec,currentSpceVersion,currentFeature,attribGroupName,attribName);
+    }
 
 }

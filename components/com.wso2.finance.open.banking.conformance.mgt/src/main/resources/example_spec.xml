@@ -29,6 +29,7 @@
                 <attributeType>URL</attributeType>
                 <helpText>base url of the API</helpText>
                 <validationRegex>$</validationRegex>
+                <value>https://api-openbanking.wso2.com/OpenBankAPI</value>
             </Attribute>
         </AttributeGroup>
     </attributeGroups>
@@ -47,6 +48,17 @@
                 uri="components/com.wso2.finance.open.banking.conformance.test.core/src/main/resources/features/v1_0_0/opendata/atms.feature">
             <title>ATMs endpoint</title>
             <description>Check ATM information of OBank</description>
+            <attributeGroups>
+                <AttributeGroup groupName="uri" title="URI Parameters">
+                    <Attribute name="bank_id">
+                        <label>Bank ID</label>
+                        <attributeType>String</attributeType>
+                        <helpText>Bank ID of the ATM</helpText>
+                        <validationRegex>$</validationRegex>
+                        <value>bank-4020-01</value>
+                    </Attribute>
+                </AttributeGroup>
+            </attributeGroups>
         </Feature>
     </features>
 </ns2:Specification>
