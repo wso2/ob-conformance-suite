@@ -22,6 +22,12 @@ export const addSpecification = (name,spec) => ({
     specification: spec
 });
 
+export const updateSpecification = (name,spec) => ({
+    type: 'UPDATE_SPEC',
+    name: name,
+    specification: spec
+});
+
 export const toggleSpecification = name => ({
     type: 'TOGGLE_SPEC',
     name: name
@@ -31,8 +37,8 @@ export const clearSpecifications = () => ({
     type: 'CLEAR_SPECS',
 });
 
-export const addSpecificationToTestPlan = (spec) => ({
-    type: 'ADD_SPEC_TO_TESTPLAN',
+export const addSpecificationToTestValues = (spec) => ({
+    type: 'ADD_SPEC_TO_TESTVALUES',
     specification: spec
 });
 
@@ -44,4 +50,27 @@ export const toggleVector = (name,vector) => ({
     type: 'TOGGLE_VECTOR',
     name: name,
     vector: vector
+});
+
+export const toggleFeature = (name,feature) => ({
+    type: 'TOGGLE_FEATURE',
+    name: name,
+    feature: feature
+});
+
+export const setSpecValue = (specName,groupName,attributeName,value) => ({
+    type: 'SET_VALUE_SPEC',
+    specName: specName,
+    groupName: groupName,
+    attributeName: attributeName,
+    value: value
+});
+
+export const setFeatureValue = (specName,featureName,groupName,attributeName,value) => ({
+    type: 'SET_VALUE_FEATURE',
+    specName: specName,
+    featureName: featureName,
+    groupName: groupName,
+    attributeName: attributeName,
+    value: value
 });

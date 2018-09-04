@@ -20,57 +20,42 @@ import React from 'react';
 import AppHeader from "./partials/AppHeader";
 import RequestBuilder from './utils/RequestBuilder';
 import {withRouter} from 'react-router-dom'
-import {ListGroup, ListGroupItem, Glyphicon, Button, Grid, Row, Col} from 'react-bootstrap';
-import {addSpecificationToTestPlan, clearTestPlan, toggleVector} from "./actions";
+import { Grid, Row, Col, Button} from 'react-bootstrap';
+import {updateSpecification,addSpecificationToTestValues,clearTestPlan} from "./actions";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import {connect} from 'react-redux'
+import TestPlanReduxHelper from './utils/TestPlanReduxHelper'
 import axios from 'axios';
+import {Specification, SpecificationEditor} from "./components/TestPlanComponents";
 
 const client = new RequestBuilder();
 
-const Vector = connect((state)=>({testplan : state.testplan}))((props) => (
-    <ListGroupItem onClick={()=>{props.dispatch(toggleVector(props.specName, props.vector.tag))}}>
-        <div className="pull-right">
-            <i className={"fas fa-lg fa-" + (props.testplan.specs[props.specName].selectedVectors.includes(props.vector.tag) ? "check" : "plus")}/>
-        </div>
-        <p><b>{props.vector.title}</b></p>
-    </ListGroupItem>
-));
-
-
-const Specification = (props) => (
-    <ListGroup>
-        <ListGroupItem key={"root-spec"} onClick={()=>{props.selectElement(props.spec.name)}}>
-            <div className="pull-right">
-                <i className="fas fa-cog"></i>
-            </div>
-            <h4>{props.spec.title} {props.spec.version}</h4>
-            <p>{props.spec.description}</p>
-        </ListGroupItem>
-        {props.spec.testingVectors.map((vector) => (<Vector vector={vector} specName ={props.spec.name} key={vector.tag}/>))}
-    </ListGroup>
-);
-
 class TestConfigurationView extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            loading : true,
-            selectedSpec : null
-        }
+            loading: true,
+            selectedSpec: null
+        };
+        this.selectSpec = this.selectSpec.bind(this);
+        this.isCompleted = this.isCompleted.bind(this);
+        this.buildTestPlan = this.buildTestPlan.bind(this);
     }
+
     componentDidMount() {
         if (this.props.specifications.selected.length !== 0) {
             this.props.dispatch(clearTestPlan());
             axios.all(this.props.specifications.selected.map(key => client.getSingleSpecification(key))).then(
-                axios.spread(response => {
-                    var spec = response.data;
-                    this.props.dispatch(addSpecificationToTestPlan(spec));
-                })
-            ).finally(() => {
+                axios.spread((...specs) => {
+                    specs.forEach((spec) => {
+                        this.props.dispatch(updateSpecification(spec.data.name,spec.data));
+                        this.props.dispatch(addSpecificationToTestValues(spec.data));
+                    });
+                })).finally(() => {
                 this.setState({
-                    loading: false
+                    loading: false,
+                    selectedSpec: this.props.specifications.selected[0]
                 });
             });
         } else {
@@ -78,21 +63,34 @@ class TestConfigurationView extends React.Component {
         }
     }
 
-    renderSpecs(){
-        return Object.values(this.props.testplan.specs).map(spec => {
+    renderEditor() {
+        return <SpecificationEditor
+            spec={TestPlanReduxHelper.getSpecFromState(this.props.specifications, this.state.selectedSpec)}/>;
+    }
+
+    renderSpecs() {
+        return TestPlanReduxHelper.getSelectedSpecsFromState(this.props.specifications,this.props.specifications.selected).map(spec => {
             return (
-                <Specification key={spec.name} spec={spec} selectElelemnt={this.selectSpec}/>
+                <Specification key={spec.name} spec={spec} selectElement={this.selectSpec}/>
             );
         });
     }
 
-    selectSpec(key){
+    selectSpec(key) {
         this.setState({
             selectedSpec: key
         })
     }
 
-    renderMain(){
+    isCompleted() {
+        //return TestPlanReduxHelper.isTestPlanFilled(this.props.testvalues);
+    }
+
+    buildTestPlan(){
+        console.log(TestPlanReduxHelper.buildTestPlanFromTestValues(this.props.testvalues));
+    }
+
+    renderMain() {
         return (
             <div>
                 <br/>
@@ -102,9 +100,16 @@ class TestConfigurationView extends React.Component {
                             {this.renderSpecs()}
                         </Col>
                         <Col md={8}>
-                            {this.state.selectedSpec? <h1>Selected</h1>: null}
+                            {this.state.selectedSpec ? this.renderEditor() : null}
                         </Col>
                     </Row>
+                    <div className={"text-center"}>
+                        <Button bsStyle={"primary"}
+                                bsSize={"lg"}
+                                disabled={this.isCompleted()}
+                                onClick={this.buildTestPlan}
+                        >Continue</Button>
+                    </div>
                 </Grid>
             </div>
         );
@@ -125,5 +130,5 @@ class TestConfigurationView extends React.Component {
 
 export default withRouter(connect((state) => ({
     specifications: state.specifications,
-    testplan: state.testplan
+    testvalues: state.testvalues
 }))(TestConfigurationView));

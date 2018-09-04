@@ -26,10 +26,10 @@
         <AttributeGroup groupName="default" title="Server Configuration">
             <Attribute name="base_url">
                 <label>Base URL</label>
-                <attributeType>URL</attributeType>
+                <attributeType>String</attributeType>
                 <helpText>base url of the API</helpText>
-                <validationRegex>$</validationRegex>
-                <value>https://api-openbanking.wso2.com/OpenBankAPI</value>
+                <validationRegex>(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&amp;//=]*)</validationRegex>
+                <defaultValue>https://api-openbanking.wso2.com/OpenBankAPI</defaultValue>
             </Attribute>
         </AttributeGroup>
     </attributeGroups>
@@ -54,8 +54,7 @@
                         <label>Bank ID</label>
                         <attributeType>String</attributeType>
                         <helpText>Bank ID of the ATM</helpText>
-                        <validationRegex>$</validationRegex>
-                        <value>bank-4020-01</value>
+                        <defaultValue>bank-4020-01</defaultValue>
                     </Attribute>
                 </AttributeGroup>
             </attributeGroups>
