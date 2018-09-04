@@ -39,8 +39,9 @@ public class Feature {
     @XmlAttribute
     private File uri;
     @XmlElementWrapper(name = "attributeGroups")
-    @XmlElement(name = "AttributeGroups")
+    @XmlElement(name = "AttributeGroup")
     private List<AttributeGroup> attributeGroups;
+
 
     public Feature() {
 

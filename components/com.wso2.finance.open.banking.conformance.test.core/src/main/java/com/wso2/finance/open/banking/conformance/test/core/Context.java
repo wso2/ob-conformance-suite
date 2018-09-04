@@ -20,17 +20,20 @@
 package com.wso2.finance.open.banking.conformance.test.core;
 
 import com.wso2.finance.open.banking.conformance.mgt.models.*;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Context {
 
     private static final Context contextInstance = new Context();
     private TestPlan testPlan;
 
+    private String currentSpec = "";
+    private String currentSpceVersion = "";
+    private String currentFeature = "";
+   // private String swaggerJsonFile = "";
 
-    private String baseURL;
-    private String bankID;
-    private String basePath;
-    private String swaggerJsonFile;
+    private Map<String,String> swaggerJsonFileMap = new HashMap<String,String>(); //specname+version -> swaggerJsonFile
 
     private Context(){}
 
@@ -41,17 +44,47 @@ public class Context {
 
     public void init(TestPlan testPlan){
         this.testPlan = testPlan;
+        swaggerJsonFileMap.put("specExamplev1.0","schema/v1_0_0/open_data.json");
+
+      //  baseURL = "https://api-openbanking.wso2.com/OpenBankAPI";
+      //  bankID = "bank-4020-01";
+      //  basePath = "v1.0.0/banks/bank-4020-01/atms";
+      //  swaggerJsonFile = "schema/v1_0_0/open_data.json";
+
     }
 
 
-    public  String getBaseURL() { return baseURL;}
+   // public  String getBaseURL() { return baseURL;}
 
-    public String getBasePath(){return basePath;}
+   // public String getBasePath(){return basePath;}
 
-    public String getBankID(){ return bankID; }
+   // public String getBankID(){ return bankID; }
 
-    public String getSwaggerJsonFile() { return swaggerJsonFile; }
+    public String getSwaggerJsonFile() {
+        return swaggerJsonFileMap.get(currentSpec+currentSpceVersion);
+    }
 
+    public void setSpecContext(String spec, String specVersion)
+    {
+        currentSpec = spec;
+        currentSpceVersion = specVersion;
+    }
+
+    public void clearSpecContext()
+    {
+        currentSpec = "";
+        currentSpceVersion = "";
+    }
+
+    public void setFeatureContext(String featureTitle)
+    {
+        currentFeature = featureTitle;
+    }
+
+    public void clearFeatureContext()
+    {
+        currentFeature = "";
+    }
 
     /**
      *
@@ -90,5 +123,14 @@ public class Context {
         return attrib;
     }
 
+    public Attribute getCurrentSpecAttribute(String attribGroupName, String attribName)
+    {
+        return getSpecAttribute(currentSpec,currentSpceVersion,attribGroupName,attribName);
+    }
+
+    public Attribute getCurrentFeatureAttribute(String attribGroupName, String attribName)
+    {
+        return getFeatureAttribute(currentSpec,currentSpceVersion,currentFeature,attribGroupName,attribName);
+    }
 
 }

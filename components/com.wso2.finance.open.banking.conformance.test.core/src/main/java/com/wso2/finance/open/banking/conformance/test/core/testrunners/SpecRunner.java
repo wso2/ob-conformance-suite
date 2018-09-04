@@ -20,6 +20,7 @@ package com.wso2.finance.open.banking.conformance.test.core.testrunners;
 
 import com.wso2.finance.open.banking.conformance.mgt.models.Feature;
 import com.wso2.finance.open.banking.conformance.mgt.models.Specification;
+import com.wso2.finance.open.banking.conformance.test.core.Context;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 
 public class SpecRunner {
@@ -31,13 +32,14 @@ public class SpecRunner {
 
     public void runSpecification(){
         Log.info("Start Running TestSpec " + specification.getName() + " version:" + specification.getVersion());
-        //set spscification realted attributes to context
-        //get tags
+        //set spec context
+        Context.getInstance().setSpecContext(specification.getName(), specification.getVersion());
         for(Feature feature : specification.getFeatures()){
             FeatureRunner featureRunner = new FeatureRunner(feature);
             featureRunner.runFeature();
         }
-        //clear context
+        //clear spec context
+        Context.getInstance().clearSpecContext();
         Log.info("End Running TestSpec " + specification.getName() + " version:" + specification.getVersion());
 
     }
