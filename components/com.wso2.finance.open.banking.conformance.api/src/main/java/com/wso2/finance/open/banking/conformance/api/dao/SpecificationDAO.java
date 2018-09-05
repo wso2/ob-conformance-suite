@@ -42,7 +42,8 @@ public class SpecificationDAO {
 
         return this.specifications.values().stream().map(specification ->
                 new BasicSpecificationDTO(specification.getName(),
-                        specification.getTitle(), specification.getDescription(), specification.getSpecificationUri())
+                        specification.getTitle(), specification.getVersion(),
+                        specification.getDescription(), specification.getSpecificationUri())
         ).collect(Collectors.toList());
     }
 

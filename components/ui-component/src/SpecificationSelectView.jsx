@@ -67,7 +67,7 @@ class SpecificationSelectView extends React.Component {
                 <div className="pull-right">
                     <i className={"fas fa-2x fa-" + (this.isSpecSelected(specification.name) ? "check" : "plus")}></i>
                 </div>
-                <h4>{specification.title}</h4>
+                <h4>{specification.title} {specification.version}</h4>
                 <p>{specification.description}</p>
             </ListGroupItem>);
     }

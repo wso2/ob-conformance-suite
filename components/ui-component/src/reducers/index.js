@@ -18,7 +18,9 @@
 
 import {combineReducers} from 'redux'
 import specifications from './specifications'
+import testvalues from './testvalues'
 
 export default combineReducers({
-    specifications
+    specifications,
+    testvalues
 });
