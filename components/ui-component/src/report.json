@@ -1,0 +1,170 @@
+[
+  {
+    "line": 1,
+    "elements": [
+      {
+        "line": 11,
+        "name": "Today is or is not Friday",
+        "description": "",
+        "id": "is-it-friday-yet?;today-is-or-is-not-friday;;2",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 206159850,
+              "status": "passed"
+            },
+            "line": 5,
+            "name": "today is Friday",
+            "match": {
+              "location": "Stepdefs.today_is_Friday()"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 191514,
+              "status": "passed"
+            },
+            "line": 6,
+            "name": "I ask whether it\u0027s Friday yet",
+            "match": {
+              "location": "Stepdefs.i_ask_whether_is_s_Friday_yet()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 5864272,
+              "status": "passed"
+            },
+            "line": 7,
+            "name": "I should be told \"TGIF\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "TGIF",
+                  "offset": 18
+                }
+              ],
+              "location": "Stepdefs.i_should_be_told(String)"
+            },
+            "keyword": "Then "
+          }
+        ]
+      },
+      {
+        "line": 12,
+        "name": "Today is or is not Friday",
+        "description": "",
+        "id": "is-it-friday-yet?;today-is-or-is-not-friday;;3",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 142826,
+              "status": "passed"
+            },
+            "line": 5,
+            "name": "today is Sunday",
+            "match": {
+              "location": "Stepdefs.today_is_Sunday()"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 63207,
+              "status": "passed"
+            },
+            "line": 6,
+            "name": "I ask whether it\u0027s Friday yet",
+            "match": {
+              "location": "Stepdefs.i_ask_whether_is_s_Friday_yet()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "error_message": "org.junit.ComparisonFailure: expected:\u003cNope[x]\u003e but was:\u003cNope[]\u003e\n\tat org.junit.Assert.assertEquals(Assert.java:115)\n\tat org.junit.Assert.assertEquals(Assert.java:144)\n\tat hellocucumber.Stepdefs.i_should_be_told(Stepdefs.java:45)\n\tat ✽.I should be told \"Nopex\"(hellocucumber/is_it_friday_yet.feature:7)\n",
+              "duration": 897425,
+              "status": "failed"
+            },
+            "line": 7,
+            "name": "I should be told \"Nopex\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "Nopex",
+                  "offset": 18
+                }
+              ],
+              "location": "Stepdefs.i_should_be_told(String)"
+            },
+            "keyword": "Then "
+          }
+        ]
+      },
+      {
+        "line": 13,
+        "name": "Today is or is not Friday",
+        "description": "",
+        "id": "is-it-friday-yet?;today-is-or-is-not-friday;;4",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 117195,
+              "status": "passed"
+            },
+            "line": 5,
+            "name": "today is anything else!",
+            "match": {
+              "location": "Stepdefs.today_is_Else()"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 64672,
+              "status": "passed"
+            },
+            "line": 6,
+            "name": "I ask whether it\u0027s Friday yet",
+            "match": {
+              "location": "Stepdefs.i_ask_whether_is_s_Friday_yet()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 154151,
+              "status": "passed"
+            },
+            "line": 7,
+            "name": "I should be told \"Nope\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "Nope",
+                  "offset": 18
+                }
+              ],
+              "location": "Stepdefs.i_should_be_told(String)"
+            },
+            "keyword": "Then "
+          }
+        ]
+      }
+    ],
+    "name": "Is it Friday yet?",
+    "description": "    Everybody wants to know when it\u0027s Friday",
+    "id": "is-it-friday-yet?",
+    "keyword": "Feature",
+    "uri": "hellocucumber/is_it_friday_yet.feature",
+    "tags": []
+  }
+]

@@ -21,6 +21,7 @@ import {Switch, Route} from 'react-router-dom';
 import SpecificationSelectView from "./SpecificationSelectView";
 import TestConfigurationView from "./TestConfigurationView";
 import TestHistoryView from "./TestHistoryView";
+import TestReportView from "./TestReportView";
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
 import rootReducer from './reducers';
