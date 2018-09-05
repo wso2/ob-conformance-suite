@@ -18,9 +18,15 @@
 
 package com.wso2.finance.open.banking.conformance.test.core.testrunners;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.wso2.finance.open.banking.conformance.mgt.models.TestPlan;
 import com.wso2.finance.open.banking.conformance.mgt.models.Specification;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TestPlanRunner {
 
@@ -31,16 +37,21 @@ public class TestPlanRunner {
        this.testPlan = plan;
    }
 
-   public void runTestPlan(){
+   public Map<String,List<JsonObject>> runTestPlan(){
+
+      Map<String,List<JsonObject>> results = new HashMap();
+      Gson gson = new Gson();
+
       for(Specification spec : testPlan.getSpecifications())
       {
          Log.info("Start Running TestPlan");
          //set current spec and version to the context if necessary
          SpecRunner specRunner = new SpecRunner(spec);
-         specRunner.runSpecification();
+         results.put(spec.getName(),specRunner.runSpecification());
          //clear context
          Log.info("End Running TestPlan");
       }
+      return results;
    }
 
 }
