@@ -44,13 +44,12 @@ public class ResponseValidator {
         given().
                 filter(validationFilter).
                 baseUri("https://api-openbanking.wso2.com/OpenBankAPI/v1.0.0").
-//                basePath("/OpenBankAPI/v1.0.0").
-        header("content-type", "application/json").
+                header("content-type", "application/json").
                 pathParam("path", path).
                 urlEncodingEnabled(false).
-                when().
+        when().
                 get("{path}").
-                then().
+        then().
                 assertThat().
                 statusCode(200);
     }
@@ -61,9 +60,9 @@ public class ResponseValidator {
                 filter(validationFilter).
                 baseUri("https://api-openbanking.wso2.com/OpenBankAPI/v1.0.0/").
                 header("content-type", "application/json").
-                when().
+        when().
                 get("banks/bank-4020-01/atms").
-                then().
+        then().
                 assertThat().
                 statusCode(200);
     }
