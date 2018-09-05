@@ -37,7 +37,11 @@ export default class TestPlanReduxHelper {
 
     static buildTestPlanSpecFromTestValues(spec) {
         var selectedFeatures = {};
-        spec.selectedFeatures.forEach((key) => selectedFeatures[key] = spec.selectedValues.features[key]);
+
+        spec.selectedFeatures.forEach((key) => selectedFeatures[key] = {
+            attributeGroups : spec.selectedValues.features[key]
+        });
+
         return {
             features: selectedFeatures,
             testingVectors: spec.selectedVectors,

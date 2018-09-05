@@ -18,10 +18,17 @@
 
 package com.wso2.finance.open.banking.conformance.test.core.testrunners;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.wso2.finance.open.banking.conformance.mgt.models.Feature;
 import com.wso2.finance.open.banking.conformance.test.core.Context;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 import cucumber.api.cli.Main;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 
 public class FeatureRunner {
     private Feature feature;
@@ -30,13 +37,14 @@ public class FeatureRunner {
         this.feature = feature;
     }
 
-    public void runFeature(){
+    public JsonObject runFeature(){
         Log.info("Start Running Feature: " + feature.getTitle());
         //set feature context
         Context.getInstance().setFeatureContext(feature.getTitle());
+        File resultFile = new File("target/cucumber-report/cucumber.json");
 
         String[] argv = new String[]
-                            { "-g",
+                            { "-p","pretty","-p","json:"+resultFile.getPath(), "-g",
                               "com.wso2.finance.open.banking.conformance.test.core.steps.v1_0_0",
                               feature.getUri().getParent()
                              };
@@ -49,8 +57,19 @@ public class FeatureRunner {
             throwable.printStackTrace();
         }
 
-        //clear featur context
+        //clear feature context
         Context.getInstance().clearFeatureContext();
         Log.info("End Running Feature: " + feature.getTitle());
+        try{
+            return this.readJson(resultFile);
+        }catch (FileNotFoundException e) {
+            return null;
+        }
+    }
+
+    private JsonObject readJson(File url) throws FileNotFoundException {
+        JsonParser parser = new JsonParser();
+        JsonElement jsonElement = parser.parse(new FileReader(url));
+        return jsonElement.getAsJsonArray().get(0).getAsJsonObject();
     }
 }

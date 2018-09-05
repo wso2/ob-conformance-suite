@@ -21,17 +21,15 @@ package com.wso2.finance.open.banking.conformance.api;
 
 //import com.google.gson.Gson;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Consumes;
-import com.google.gson.JsonObject;
+import javax.ws.rs.Produces;
+
+import com.google.gson.Gson;
 import com.wso2.finance.open.banking.conformance.mgt.models.Specification;
 import com.wso2.finance.open.banking.conformance.mgt.models.TestPlan;
-import com.wso2.finance.open.banking.conformance.test.core.MainClass;
+import com.wso2.finance.open.banking.conformance.test.core.CoreTestRunner;
 
 
 /**
@@ -44,21 +42,13 @@ import com.wso2.finance.open.banking.conformance.test.core.MainClass;
 @Path("/run")
 public class runConformanceSuiteAPI {
 
-  //  private Gson gson = new Gson();
-
-    @POST
-    @Path("/spec")
-    @Consumes("application/json")
-    public String runSpec(Specification spec){
-        MainClass.runTestSpec(spec);
-        return "success";
-    }
+    private Gson gson = new Gson();
 
     @POST
     @Path("/testplan")
     @Consumes("application/json")
+    @Produces("application/json")
     public String runTestPlan(TestPlan plan){
-        MainClass.runTestPlan(plan);
-        return "success";
+        return gson.toJson(CoreTestRunner.runTestPlan(plan));
     }
 }

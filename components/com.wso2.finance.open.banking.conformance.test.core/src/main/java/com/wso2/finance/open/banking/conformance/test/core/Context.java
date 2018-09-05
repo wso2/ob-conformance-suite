@@ -22,6 +22,7 @@ package com.wso2.finance.open.banking.conformance.test.core;
 import com.wso2.finance.open.banking.conformance.mgt.models.*;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class Context {
 
@@ -31,6 +32,7 @@ public class Context {
     private String currentSpec = "";
     private String currentSpceVersion = "";
     private String currentFeature = "";
+    private String test_id = UUID.randomUUID().toString();
 
     private Map<String,String> swaggerJsonFileMap = new HashMap<String,String>(); //specname+version -> swaggerJsonFile
 
@@ -120,4 +122,8 @@ public class Context {
         return getFeatureAttribute(currentSpec,currentSpceVersion,currentFeature,attribGroupName,attribName);
     }
 
+    public String getTest_id() {
+
+        return test_id;
+    }
 }

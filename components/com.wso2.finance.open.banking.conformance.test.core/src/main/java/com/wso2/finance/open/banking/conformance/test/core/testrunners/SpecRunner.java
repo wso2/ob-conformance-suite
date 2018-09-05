@@ -18,10 +18,14 @@
 
 package com.wso2.finance.open.banking.conformance.test.core.testrunners;
 
+import com.google.gson.JsonObject;
 import com.wso2.finance.open.banking.conformance.mgt.models.Feature;
 import com.wso2.finance.open.banking.conformance.mgt.models.Specification;
 import com.wso2.finance.open.banking.conformance.test.core.Context;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SpecRunner {
     private Specification specification;
@@ -30,17 +34,19 @@ public class SpecRunner {
         this.specification = specification;
     }
 
-    public void runSpecification(){
+    public List<JsonObject> runSpecification(){
         Log.info("Start Running TestSpec " + specification.getName() + " version:" + specification.getVersion());
+        List<JsonObject> results = new ArrayList();
         //set spec context
         Context.getInstance().setSpecContext(specification.getName(), specification.getVersion());
         for(Feature feature : specification.getFeatures()){
             FeatureRunner featureRunner = new FeatureRunner(feature);
-            featureRunner.runFeature();
+            results.add(featureRunner.runFeature());
         }
         //clear spec context
         Context.getInstance().clearSpecContext();
         Log.info("End Running TestSpec " + specification.getName() + " version:" + specification.getVersion());
+        return results;
 
     }
 }
