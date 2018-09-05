@@ -56,7 +56,7 @@ public class OpenDataSteps {
     @Then("response json data should be compliant to the standard")
     public void validateResponse()
     {
-        responseValidator.validateResponse(response);
+        responseValidator.validateResponse();
     }
 
 
