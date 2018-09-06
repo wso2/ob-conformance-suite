@@ -47,7 +47,37 @@
         <Feature
                 uri="components/com.wso2.finance.open.banking.conformance.test.core/src/main/resources/features/v1_0_0/opendata/atms.feature">
             <title>ATMs endpoint</title>
-            <description>Check ATM information of OBank</description>
+            <description>Get the details of all atms owned by a bank</description>
+            <attributeGroups>
+                <AttributeGroup groupName="uri" title="URI Parameters">
+                    <Attribute name="bank_id">
+                        <label>Bank ID</label>
+                        <attributeType>String</attributeType>
+                        <helpText>Bank ID of the ATM</helpText>
+                        <defaultValue>bank-4020-01</defaultValue>
+                    </Attribute>
+                </AttributeGroup>
+            </attributeGroups>
+        </Feature>
+        <Feature
+                uri="components/com.wso2.finance.open.banking.conformance.test.core/src/main/resources/features/v1_0_0/opendata/branches.feature">
+            <title>Branches endpoint</title>
+            <description>Get the details of all the branches of a bank</description>
+            <attributeGroups>
+                <AttributeGroup groupName="uri" title="URI Parameters">
+                    <Attribute name="bank_id">
+                        <label>Bank ID</label>
+                        <attributeType>String</attributeType>
+                        <helpText>Bank ID of the ATM</helpText>
+                        <defaultValue>bank-4020-01</defaultValue>
+                    </Attribute>
+                </AttributeGroup>
+            </attributeGroups>
+        </Feature>
+        <Feature
+                uri="components/com.wso2.finance.open.banking.conformance.test.core/src/main/resources/features/v1_0_0/opendata/products.feature">
+            <title>Products endpoint</title>
+            <description>Get the details of the products supported by a bank</description>
             <attributeGroups>
                 <AttributeGroup groupName="uri" title="URI Parameters">
                     <Attribute name="bank_id">
