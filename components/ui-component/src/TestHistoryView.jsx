@@ -30,7 +30,7 @@ const client = new RequestBuilder();
 
 const TestPlanRow = ({testPlan}) => (
     <tr>
-        <td>Jacob</td>
+        <td>{testPlan.testId}</td>
         <td>{testPlan.status}</td>
         <td>{JSON.stringify(testPlan)}</td>
     </tr>
@@ -68,15 +68,13 @@ class TestHistoryView extends React.Component{
                                         + New Test
                                     </Button>
                                 </Link>
-                                <Button className="pull-right" bsStyle="default" onClick={() => {alert('do stuff')}}>
-                                    + New Test
-                                </Button>
                             </Col>
                         </Row>
                     </div>
                     <Table striped bordered condensed hover>
                         <thead>
                             <tr>
+                            <th className={"tableHead"}>Test ID</th>
                             <th className={"tableHead"}>Specification</th>
                             <th className={"tableHead"}>Status</th>
                             <th className={"tableHead"}>Results</th>
