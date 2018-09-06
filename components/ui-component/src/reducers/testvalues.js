@@ -129,10 +129,8 @@ const testvalues = (state = initialState, action) => {
                 }
             };
 
-        case 'CLEAR_TESTVALUES':
-            return {
-                specs: {}
-            };
+        case 'CLEAR_SELECTED_SPECS':
+            return initialState;
         default:
             return state
     }

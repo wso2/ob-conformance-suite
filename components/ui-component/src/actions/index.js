@@ -33,6 +33,10 @@ export const toggleSpecification = name => ({
     name: name
 });
 
+export const clearSelectedSpecifications = () => ({
+    type: 'CLEAR_SELECTED_SPECS'
+});
+
 export const clearSpecifications = () => ({
     type: 'CLEAR_SPECS',
 });
@@ -69,6 +73,11 @@ export const setFeatureValue = (specName,featureName,groupName,attributeName,val
     groupName: groupName,
     attributeName: attributeName,
     value: value
+});
+
+
+export const clearTestValues = () => ({
+    type: 'CLEAR_TESTVALUES',
 });
 
 export const addTestPlan = (id,testplan,status) => ({
