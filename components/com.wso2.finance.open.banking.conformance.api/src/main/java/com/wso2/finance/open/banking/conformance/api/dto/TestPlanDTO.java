@@ -18,11 +18,18 @@
 
 package com.wso2.finance.open.banking.conformance.api.dto;
 
-public class TestPlanAddConfirmation {
-    String testId;
+import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
+import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerInstance;
 
-    public TestPlanAddConfirmation(String testId) {
+public class TestPlanDTO {
+    String testId;
+    TestPlan testPlan;
+    TestPlanRunnerInstance.RUNNER_STATE status;
+
+    public TestPlanDTO(String testId, TestPlan testPlan, TestPlanRunnerInstance.RUNNER_STATE status) {
 
         this.testId = testId;
+        this.testPlan = testPlan;
+        this.status = status;
     }
 }

@@ -88,7 +88,7 @@ class TestConfigurationView extends React.Component {
     buildTestPlan(){
         let testPlan = TestPlanReduxHelper.buildTestPlanFromTestValues(this.props.testvalues);
         client.postTestPlan(testPlan).then((response) => {
-            this.props.dispatch(addTestPlan(response.data.testId,testPlan));
+            this.props.dispatch(addTestPlan(response.data.testId,testPlan,response.status));
         });
     }
 
