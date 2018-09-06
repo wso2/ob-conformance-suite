@@ -68,6 +68,9 @@ class TestHistoryView extends React.Component{
                                         + New Test
                                     </Button>
                                 </Link>
+                                <Button className="pull-right" bsStyle="default" onClick={() => {alert('do stuff')}}>
+                                    + New Test
+                                </Button>
                             </Col>
                         </Row>
                     </div>
@@ -79,8 +82,9 @@ class TestHistoryView extends React.Component{
                             <th className={"tableHead"}>Results</th>
                             </tr>
                         </thead>
-                        <tbody className={"text-center"}> 
+                        <tbody className={"text-center"}>
                             {Object.values(this.props.testplans).map((plan) => <TestPlanRow testPlan={plan}/> )}
+
                         </tbody>
                     </Table>
                 </div>
