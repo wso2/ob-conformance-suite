@@ -30,6 +30,7 @@ const client = new RequestBuilder();
 const TestPlanRow = connect((state) => ({specifications: state.specifications.specs}))(({testPlan,specifications}) => (
     <tr>
         <td>{Object.keys(testPlan.testPlan.specifications).map((key) => <p>{specifications[key].title} {specifications[key].version}</p>)}</td>
+        <td>{testPlan.testId}</td>
         <td>{testPlan.status}</td>
         <td><Link to={"/tests/report/"+testPlan.testId}>check report</Link></td>
     </tr>
@@ -64,6 +65,8 @@ class TestHistoryView extends React.Component{
                         <thead>
                             <tr>
                             <th className={"tableHead"}>Specifications</th>
+                            <th className={"tableHead"}>Test ID</th>
+                            <th className={"tableHead"}>Specification</th>
                             <th className={"tableHead"}>Status</th>
                             <th className={"tableHead"}>Results</th>
                             </tr>
