@@ -18,15 +18,22 @@
 
 package com.wso2.finance.open.banking.conformance.api;
 
+
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.wso2.finance.open.banking.conformance.api.dto.TestPlanAddConfirmation;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
-import com.wso2.finance.open.banking.conformance.test.core.CoreTestRunner;
+import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanFeatureResult;
+import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerManager;
 
+import java.util.List;
+import java.util.Map;
 
 /**
  * This is the Microservice resource class.
@@ -35,16 +42,32 @@ import com.wso2.finance.open.banking.conformance.test.core.CoreTestRunner;
  *
  * @since 1.0.0-SNAPSHOT
  */
-@Path("/run")
-public class runConformanceSuiteAPI {
+@Path("/testplan")
+public class TestPlanAPI {
 
-    private Gson gson = new Gson();
+    TestPlanRunnerManager runnerManager = ApplicationDataHolder.getInstance().getRunnerManager();
 
     @POST
-    @Path("/testplan")
+    @Path("/add")
     @Consumes("application/json")
     @Produces("application/json")
-    public String runTestPlan(TestPlan plan){
-        return gson.toJson(CoreTestRunner.runTestPlan(plan));
+    public TestPlanAddConfirmation runTestPlan(TestPlan plan){
+        return new TestPlanAddConfirmation(this.runnerManager.addPlan(plan));
     }
+
+    @GET
+    @Path("/result/current/{testId}")
+    @Produces("application/json")
+    public TestPlanFeatureResult getCurrentResult(@PathParam("testId") String testId){
+        return this.runnerManager.getResult(testId);
+    }
+
+    @GET
+    @Path("/result/complete/{testId}")
+    @Produces("application/json")
+    public Map<String, List<JsonObject>> getCompleteResult(@PathParam("testId") String testId){
+        return this.runnerManager.getResultSet(testId);
+    }
+
+
 }

@@ -19,6 +19,7 @@
 package com.wso2.finance.open.banking.conformance.api;
 
 import com.wso2.finance.open.banking.conformance.mgt.models.Specification;
+import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class ApplicationDataHolder {
 
     private static ApplicationDataHolder instance = new ApplicationDataHolder();
     private Map<String,Specification> specifications = null;
+    private TestPlanRunnerManager runnerManager = new TestPlanRunnerManager();
 
     private ApplicationDataHolder(){
 
@@ -49,5 +51,10 @@ public class ApplicationDataHolder {
     public void setSpecifications(Map<String,Specification> specifications) {
 
         this.specifications = specifications;
+    }
+
+    public TestPlanRunnerManager getRunnerManager() {
+
+        return runnerManager;
     }
 }
