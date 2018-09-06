@@ -71,10 +71,11 @@ export const setFeatureValue = (specName,featureName,groupName,attributeName,val
     value: value
 });
 
-export const addTestPlan = (id,testplan) => ({
+export const addTestPlan = (id,testplan,status) => ({
     type: 'ADD_TESTPLAN',
     id: id,
-    testplan: testplan
+    testplan: testplan,
+    status: status
 });
 
 export const clearTestPlan = () => ({

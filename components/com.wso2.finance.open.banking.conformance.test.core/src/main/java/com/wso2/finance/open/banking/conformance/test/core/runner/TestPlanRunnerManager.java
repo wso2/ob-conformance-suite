@@ -28,7 +28,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 public class TestPlanRunnerManager {
 
@@ -67,4 +66,9 @@ public class TestPlanRunnerManager {
         this.runnerInstanceMap.get(uuid).start();
     }
 
+    public Map<String, TestPlan> getAllTests() {
+        Map<String, TestPlan> results = new HashMap<>();
+        this.runnerInstanceMap.forEach((uuid, runnerInstance) -> results.put(uuid,runnerInstance.getTestPlan()));
+        return results;
+    }
 }

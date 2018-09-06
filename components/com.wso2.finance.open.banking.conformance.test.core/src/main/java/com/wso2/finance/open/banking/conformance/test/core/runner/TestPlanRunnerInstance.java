@@ -86,4 +86,9 @@ public class TestPlanRunnerInstance extends Thread{
 
         return formattedResult;
     }
+
+    public TestPlan getTestPlan() {
+
+        return testPlan;
+    }
 }

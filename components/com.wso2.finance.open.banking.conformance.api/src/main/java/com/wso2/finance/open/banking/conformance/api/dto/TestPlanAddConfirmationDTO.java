@@ -16,30 +16,17 @@
  * under the License.
  */
 
-const initialState = {
-    testplans: {},
-    results: {}
-};
+package com.wso2.finance.open.banking.conformance.api.dto;
 
+import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerInstance;
 
-const testplans = (state = initialState, action) => {
-    switch (action.type) {
-        case 'ADD_TESTPLAN':
-            return {
-                testplans: {...state.testplans, [action.id] : {
-                        testId : action.id,
-                        testPlan : action.testplan,
-                        status: action.status
-                    }
-                },
-                results: state.results
-            };
-        case 'CLEAR_TESTPLANS':
-            return initialState;
-        default:
-            return state
+public class TestPlanAddConfirmationDTO {
+    String testId;
+    TestPlanRunnerInstance.RUNNER_STATE status;
+
+    public TestPlanAddConfirmationDTO(String testId, TestPlanRunnerInstance.RUNNER_STATE status) {
+
+        this.testId = testId;
+        this.status = status;
     }
-};
-
-export default testplans;
-
+}

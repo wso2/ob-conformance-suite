@@ -29,11 +29,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import com.google.gson.JsonObject;
-import com.wso2.finance.open.banking.conformance.api.dto.TestPlanAddConfirmation;
+import com.wso2.finance.open.banking.conformance.api.dto.TestPlanAddConfirmationDTO;
+import com.wso2.finance.open.banking.conformance.api.dto.TestPlanDTO;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanFeatureResult;
+import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerInstance;
 import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerManager;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,9 +56,9 @@ public class TestPlanAPI {
     @Path("/add")
     @Consumes("application/json")
     @Produces("application/json")
-    public TestPlanAddConfirmation runTestPlan(TestPlan plan) {
+    public TestPlanAddConfirmationDTO runTestPlan(TestPlan plan) {
 
-        return new TestPlanAddConfirmation(this.runnerManager.addPlan(plan));
+        return new TestPlanAddConfirmationDTO(this.runnerManager.addPlan(plan),TestPlanRunnerInstance.RUNNER_STATE.RUNNING);
     }
 
     @OPTIONS
@@ -78,6 +81,18 @@ public class TestPlanAPI {
     public Map<String, List<JsonObject>> getCompleteResult(@PathParam("testId") String testId) {
 
         return this.runnerManager.getResultSet(testId);
+    }
+
+
+    @GET
+    @Path("/list/all")
+    @Produces("application/json")
+    public Map<String, TestPlanDTO> getAllTestPlans(){
+        Map<String, TestPlanDTO> results = new HashMap<>();
+        this.runnerManager.getAllTests().forEach(
+                (uuid, testPlan) -> results.put(uuid,new TestPlanDTO(uuid,testPlan,this.runnerManager.getStatus(uuid)))
+        );
+        return results;
     }
 
 }
