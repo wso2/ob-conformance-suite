@@ -20,11 +20,38 @@ import React from 'react';
 import AppHeader from "./partials/AppHeader";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import {connect} from 'react-redux'
-import {addSpecification, toggleSpecification, clearSpecifications} from "./actions";
-import {withRouter} from 'react-router-dom'
+import {addSpecification, toggleSpecification, addTestPlan} from "./actions";
+import {withRouter, Link} from 'react-router-dom'
 import {Table, Row, Col, Button, Glyphicon} from 'react-bootstrap';
+import RequestBuilder from './utils/RequestBuilder';
+const client = new RequestBuilder();
+
+
+
+const TestPlanRow = ({testPlan}) => (
+    <tr>
+        <td>Jacob</td>
+        <td>{testPlan.status}</td>
+        <td>{JSON.stringify(testPlan)}</td>
+    </tr>
+);
 
 class TestHistoryView extends React.Component{
+
+    constructor(props){
+        super(props);
+        console.log(props);
+    }
+
+    componentDidMount(){
+        client.getTestPlans().then((response) => {
+            var data = response.data;
+            Object.keys(data).map((key) => {
+                this.props.dispatch(addTestPlan(key,data[key].testPlan,data[key].status));
+            })
+        });
+    }
+
     render(){
         return(
             <div>
@@ -36,9 +63,11 @@ class TestHistoryView extends React.Component{
                         <Row className="show-grid">
                             <Col xs={8}>Test History</Col>
                             <Col xs={4}>
-                                <Button className="pull-right" bsStyle="default" onClick={() => {alert('do stuff')}}>
-                                    + New Test
-                                </Button>
+                                <Link to={"/tests/new"}>
+                                    <Button className="pull-right" bsStyle="default">
+                                        + New Test
+                                    </Button>
+                                </Link>
                             </Col>
                         </Row>
                     </div>
@@ -51,16 +80,7 @@ class TestHistoryView extends React.Component{
                             </tr>
                         </thead>
                         <tbody className={"text-center"}> 
-                            <tr>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            </tr>
-                            <tr>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                            </tr>
+                            {Object.values(this.props.testplans).map((plan) => <TestPlanRow testPlan={plan}/> )}
                         </tbody>
                     </Table>
                 </div>
@@ -71,4 +91,5 @@ class TestHistoryView extends React.Component{
 
 
 export default withRouter(connect((state) => ({
+    testplans : state.testplans.testplans
 }))(TestHistoryView));
