@@ -31,4 +31,12 @@ export default class RequestBuilder {
     getSingleSpecification(name) {
         return axios.get(this.base_url + "specifications/single/" + name);
     }
+
+    postTestPlan(testplan){
+        return axios.post(this.base_url + "testplan/add/",testplan);
+    }
+
+    pollResultsForTestPlan(id){
+        return axios.get(this.base_url + "testplan/result/poll/" + id);
+    }
 }

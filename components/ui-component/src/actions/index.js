@@ -42,10 +42,6 @@ export const addSpecificationToTestValues = (spec) => ({
     specification: spec
 });
 
-export const clearTestPlan = () => ({
-    type: 'CLEAR_TESTPLAN',
-});
-
 export const toggleVector = (name,vector) => ({
     type: 'TOGGLE_VECTOR',
     name: name,
@@ -73,4 +69,14 @@ export const setFeatureValue = (specName,featureName,groupName,attributeName,val
     groupName: groupName,
     attributeName: attributeName,
     value: value
+});
+
+export const addTestPlan = (id,testplan) => ({
+    type: 'ADD_TESTPLAN',
+    id: id,
+    testplan: testplan
+});
+
+export const clearTestPlan = () => ({
+    type: 'CLEAR_TESTPLAN',
 });

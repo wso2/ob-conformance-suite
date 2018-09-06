@@ -44,7 +44,7 @@ public class FeatureRunner {
         File resultFile = new File("target/cucumber-report/cucumber.json");
 
         String[] argv = new String[]
-                            { "-p","pretty","-p","json:"+resultFile.getPath(), "-g",
+                            {"-p","json:"+resultFile.getPath(), "-g",
                               "com.wso2.finance.open.banking.conformance.test.core.steps.v1_0_0",
                               feature.getUri()
                              };
