@@ -45,7 +45,7 @@ public class OpenDataSteps {
     @Given("a request is initiated to ATM endpoint")
     public void createRequestToAtmEndpoint()
     {
-      ENDPOINT_GET_ATMS_BY_BANK_ID =  "/v1.0.0/banks/" + Context.getInstance().getCurrentFeatureAttribute("uri", "bank_id").gettValue() + "/atms";
+      ENDPOINT_GET_ATMS_BY_BANK_ID =  "/v1.0.0/banks/" + Context.getInstance().getCurrentFeatureAttribute("uri", "bank_id") + "/atms";
       httpRequest = requestGenerator.createRequest("ATM_END_POINT");
     }
 
@@ -64,7 +64,7 @@ public class OpenDataSteps {
     @Given("a request is initiated to BRANCH endpoint")
     public void createRequestToBranchEndpoint()
     {
-        ENDPOINT_GET_BRANCHES_BY_BANK_ID =  "/v1.0.0/banks/" + Context.getInstance().getCurrentFeatureAttribute("uri", "bank_id").gettValue() + "/branches";
+        ENDPOINT_GET_BRANCHES_BY_BANK_ID =  "/v1.0.0/banks/" + Context.getInstance().getCurrentFeatureAttribute("uri", "bank_id") + "/branches";
         httpRequest = requestGenerator.createRequest("BRANCH_END_POINT");
     }
 
@@ -77,7 +77,7 @@ public class OpenDataSteps {
     @Given("a request is initiated to PRODUCT endpoint")
     public void createRequestToProductEndpoint()
     {
-        ENDPOINT_GET_PRODUCTS_BY_BANK_ID =  "/v1.0.0/banks/" + Context.getInstance().getCurrentFeatureAttribute("uri", "bank_id").gettValue() + "/products";
+        ENDPOINT_GET_PRODUCTS_BY_BANK_ID =  "/v1.0.0/banks/" + Context.getInstance().getCurrentFeatureAttribute("uri", "bank_id") + "/products";
         httpRequest = requestGenerator.createRequest("PRODUCT_END_POINT");
     }
 

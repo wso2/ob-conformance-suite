@@ -45,7 +45,7 @@ public class RequestGenerator {
         String SWAGGER_JSON_FILE = Context.getInstance().getSwaggerJsonFile();
         SwaggerValidationFilter validationFilter = new SwaggerValidationFilter(SWAGGER_JSON_FILE);
 
-        RestAssured.baseURI = Context.getInstance().getCurrentSpecAttribute("default","base_url").gettValue();
+        RestAssured.baseURI = Context.getInstance().getCurrentSpecAttribute("default","base_url");
         return RestAssured.given().accept("application/json").filter(validationFilter);
     }
 

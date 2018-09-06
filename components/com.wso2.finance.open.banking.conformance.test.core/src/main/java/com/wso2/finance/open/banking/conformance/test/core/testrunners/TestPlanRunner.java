@@ -20,8 +20,8 @@ package com.wso2.finance.open.banking.conformance.test.core.testrunners;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.wso2.finance.open.banking.conformance.mgt.models.TestPlan;
-import com.wso2.finance.open.banking.conformance.mgt.models.Specification;
+import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
+import com.wso2.finance.open.banking.conformance.mgt.testconfig.Specification;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 
 import java.util.HashMap;
