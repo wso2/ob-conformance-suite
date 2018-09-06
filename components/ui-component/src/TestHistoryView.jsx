@@ -20,7 +20,6 @@ import React from 'react';
 import AppHeader from "./partials/AppHeader";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import {connect} from 'react-redux'
-import {clearTestPlan, addTestPlan, addSpecification} from "./actions";
 import {withRouter, Link} from 'react-router-dom'
 import {Table, Row, Col, Button, Glyphicon} from 'react-bootstrap';
 import RequestBuilder from './utils/RequestBuilder';
@@ -40,23 +39,6 @@ class TestHistoryView extends React.Component{
 
     constructor(props){
         super(props);
-        console.log(props);
-    }
-
-    componentDidMount(){
-        client.getSpecifications().then((response) => {
-            response.data.forEach((spec) => {
-                this.props.dispatch(addSpecification(spec.name, spec));
-            });
-        }).finally(()=>{
-            client.getTestPlans().then((response) => {
-                var data = response.data;
-                this.props.dispatch(clearTestPlan());
-                Object.keys(data).forEach((key) =>
-                    this.props.dispatch(addTestPlan(key,data[key].testPlan,data[key].status))
-                )
-            });
-        });
     }
 
     render(){
@@ -88,7 +70,6 @@ class TestHistoryView extends React.Component{
                         </thead>
                         <tbody className={"text-center"}>
                             {Object.values(this.props.testplans).map((plan) => <TestPlanRow testPlan={plan}/> )}
-
                         </tbody>
                     </Table>
                 </div>
@@ -99,6 +80,5 @@ class TestHistoryView extends React.Component{
 
 
 export default withRouter(connect((state) => ({
-    testplans : state.testplans.testplans,
-    specifications: state.specifications.specs
+    testplans : state.testplans.testplans
 }))(TestHistoryView));
