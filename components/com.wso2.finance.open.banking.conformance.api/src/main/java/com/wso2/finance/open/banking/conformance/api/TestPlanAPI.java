@@ -19,8 +19,6 @@
 package com.wso2.finance.open.banking.conformance.api;
 
 
-//import com.google.gson.Gson;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -28,12 +26,9 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.wso2.finance.open.banking.conformance.api.dto.TestPlanAddConfirmation;
-import com.wso2.finance.open.banking.conformance.mgt.models.Specification;
-import com.wso2.finance.open.banking.conformance.mgt.models.TestPlan;
-import com.wso2.finance.open.banking.conformance.test.core.CoreTestRunner;
+import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanFeatureResult;
 import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerManager;
 
