@@ -20,7 +20,7 @@ import React from 'react';
 import AppHeader from "./partials/AppHeader";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import {connect} from 'react-redux'
-import {addSpecification, toggleSpecification, addTestPlan} from "./actions";
+import {clearTestPlan, addTestPlan, addSpecification} from "./actions";
 import {withRouter, Link} from 'react-router-dom'
 import {Table, Row, Col, Button, Glyphicon} from 'react-bootstrap';
 import RequestBuilder from './utils/RequestBuilder';
@@ -28,13 +28,13 @@ const client = new RequestBuilder();
 
 
 
-const TestPlanRow = ({testPlan}) => (
+const TestPlanRow = connect((state) => ({specifications: state.specifications.specs}))(({testPlan,specifications}) => (
     <tr>
-        <td>Jacob</td>
+        <td>{Object.keys(testPlan.testPlan.specifications).map((key) => <p>{specifications[key].title} {specifications[key].version}</p>)}</td>
         <td>{testPlan.status}</td>
-        <td>{JSON.stringify(testPlan)}</td>
+        <td>-</td>
     </tr>
-);
+));
 
 class TestHistoryView extends React.Component{
 
@@ -44,11 +44,18 @@ class TestHistoryView extends React.Component{
     }
 
     componentDidMount(){
-        client.getTestPlans().then((response) => {
-            var data = response.data;
-            Object.keys(data).map((key) => {
-                this.props.dispatch(addTestPlan(key,data[key].testPlan,data[key].status));
-            })
+        client.getSpecifications().then((response) => {
+            response.data.forEach((spec) => {
+                this.props.dispatch(addSpecification(spec.name, spec));
+            });
+        }).finally(()=>{
+            client.getTestPlans().then((response) => {
+                var data = response.data;
+                this.props.dispatch(clearTestPlan());
+                Object.keys(data).forEach((key) =>
+                    this.props.dispatch(addTestPlan(key,data[key].testPlan,data[key].status))
+                )
+            });
         });
     }
 
@@ -68,16 +75,13 @@ class TestHistoryView extends React.Component{
                                         + New Test
                                     </Button>
                                 </Link>
-                                <Button className="pull-right" bsStyle="default" onClick={() => {alert('do stuff')}}>
-                                    + New Test
-                                </Button>
                             </Col>
                         </Row>
                     </div>
                     <Table striped bordered condensed hover>
                         <thead>
                             <tr>
-                            <th className={"tableHead"}>Specification</th>
+                            <th className={"tableHead"}>Specifications</th>
                             <th className={"tableHead"}>Status</th>
                             <th className={"tableHead"}>Results</th>
                             </tr>
@@ -95,5 +99,6 @@ class TestHistoryView extends React.Component{
 
 
 export default withRouter(connect((state) => ({
-    testplans : state.testplans.testplans
+    testplans : state.testplans.testplans,
+    specifications: state.specifications.specs
 }))(TestHistoryView));

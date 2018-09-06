@@ -34,6 +34,13 @@ const specifications = (state = initialState, action) => {
                 specs: {...state.specs},
                 selected: (state.selected.includes(action.name) ? state.selected.filter((key) => key !== action.name) : [...state.selected, action.name])
             };
+
+        case 'CLEAR_SELECTED_SPECS':
+            return {
+                specs: {...state.specs},
+                selected: []
+            };
+
         case 'UPDATE_SPEC':
             state.specs[action.name] = action.specification;
             return {
