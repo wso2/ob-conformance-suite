@@ -42,6 +42,8 @@ function generateFeaturesValueMap(features){
 
 function initSpec(spec) {
     return {
+        name: spec.name,
+        version: spec.version,
         selectedVectors: spec.testingVectors.map((vector => vector.tag)),
         selectedFeatures: spec.features.map((feature => feature.uri.path)),
         selectedValues: {
