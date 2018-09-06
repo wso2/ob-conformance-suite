@@ -19,32 +19,15 @@
 import React from 'react';
 import AppHeader from "./partials/AppHeader";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
-import RequestBuilder from './utils/RequestBuilder';
 import {ListGroup, ListGroupItem, Glyphicon, Button} from 'react-bootstrap';
 import {connect} from 'react-redux'
 import {addSpecification, toggleSpecification, clearSpecifications} from "./actions";
 import {Link} from 'react-router-dom'
 
-const client = new RequestBuilder();
-
 class SpecificationSelectView extends React.Component {
+
     constructor(props) {
         super(props);
-        this.state = {
-            loading: true
-        }
-    }
-
-    componentDidMount() {
-        this.props.dispatch(clearSpecifications());
-        client.getSpecifications().then((response) => {
-            response.data.forEach((spec) => {
-                this.props.dispatch(addSpecification(spec.name, spec));
-            });
-            this.setState({
-                loading: false
-            });
-        })
     }
 
     render() {
@@ -53,9 +36,7 @@ class SpecificationSelectView extends React.Component {
                 <AppHeader/>
                 <AppBreadcrumbs/>
                 <div className={"container"}>
-                    {this.state.loading ? <h1>Loading</h1> : <div>
-                        {this.renderMain()}
-                    </div>}
+                    {this.renderMain()}
                 </div>
             </div>
         )

@@ -24,16 +24,19 @@ import TestHistoryView from "./TestHistoryView";
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
 import rootReducer from './reducers';
+import CommonDataLoader from './components/CommonDataLoader';
 
 const store = createStore(rootReducer);
 
 const App = () => (
     <Provider store={store}>
-        <Switch>
-            <Route exact path='/' component={TestHistoryView}/>
-            <Route exact path='/tests/new' component={SpecificationSelectView}/>
-            <Route exact path='/tests/new/configure' component={TestConfigurationView}/>
-        </Switch>
+        <CommonDataLoader>
+            <Switch>
+                <Route exact path='/' component={TestHistoryView}/>
+                <Route exact path='/tests/new' component={SpecificationSelectView}/>
+                <Route exact path='/tests/new/configure' component={TestConfigurationView}/>
+            </Switch>
+        </CommonDataLoader>
     </Provider>
 );
 
