@@ -21,6 +21,7 @@ import {Switch, Route} from 'react-router-dom';
 import AppHeader from "./partials/AppHeader";
 import SpecificationSelectView from "./SpecificationSelectView";
 import TestConfigurationView from "./TestConfigurationView";
+import TestHistoryView from "./TestHistoryView";
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
 import rootReducer from './reducers';
@@ -33,6 +34,7 @@ const App = () => (
             <Route exact path='/' component={AppHeader}/>
             <Route exact path='/tests/new' component={SpecificationSelectView}/>
             <Route exact path='/tests/new/configure' component={TestConfigurationView}/>
+            <Route exact path='/tests/main' component={TestHistoryView}/>
         </Switch>
     </Provider>
 );
