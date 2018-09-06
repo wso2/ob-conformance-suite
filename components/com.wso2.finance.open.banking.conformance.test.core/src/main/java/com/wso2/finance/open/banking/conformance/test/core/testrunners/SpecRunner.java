@@ -19,8 +19,8 @@
 package com.wso2.finance.open.banking.conformance.test.core.testrunners;
 
 import com.google.gson.JsonObject;
-import com.wso2.finance.open.banking.conformance.mgt.models.Feature;
-import com.wso2.finance.open.banking.conformance.mgt.models.Specification;
+import com.wso2.finance.open.banking.conformance.mgt.testconfig.Feature;
+import com.wso2.finance.open.banking.conformance.mgt.testconfig.Specification;
 import com.wso2.finance.open.banking.conformance.test.core.Context;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 

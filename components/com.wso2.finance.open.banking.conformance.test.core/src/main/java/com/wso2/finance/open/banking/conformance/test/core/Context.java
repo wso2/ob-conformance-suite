@@ -19,7 +19,7 @@
 
 package com.wso2.finance.open.banking.conformance.test.core;
 
-import com.wso2.finance.open.banking.conformance.mgt.models.*;
+import com.wso2.finance.open.banking.conformance.mgt.testconfig.*;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.UUID;
@@ -31,7 +31,8 @@ public class Context {
 
     private String currentSpec = "";
     private String currentSpceVersion = "";
-    private String currentFeature = "";
+    private String currentFeatureTitle = "";
+    private String currentFeatureUri = "";
     private String test_id = UUID.randomUUID().toString();
 
     private Map<String,String> swaggerJsonFileMap = new HashMap<String,String>(); //specname+version -> swaggerJsonFile
@@ -65,33 +66,31 @@ public class Context {
         currentSpceVersion = "";
     }
 
-    public void setFeatureContext(String featureTitle)
-    {
-        currentFeature = featureTitle;
+    public void setFeatureContext(String featureTitle, String featureUri) {
+        currentFeatureTitle = featureTitle;
+        currentFeatureUri = featureUri;
     }
 
     public void clearFeatureContext()
     {
-        currentFeature = "";
+        currentFeatureTitle = "";
+        currentFeatureUri = "";
     }
 
     /**
      *
      * @param specName
      * @param specVersion
-     * @param featureTitle
+     * @param featureUri
      * @param attribGroupName
      * @param attribName
      * @return
      */
-    public Attribute getFeatureAttribute(String specName, String specVersion, String featureTitle,
+    public String getFeatureAttribute(String specName, String specVersion, String featureUri,
                                          String attribGroupName, String attribName){
 
-        Attribute attrib;
-        attrib = testPlan.getSpecification(specName, specVersion).getFeature(featureTitle).
-                getAttributeGroup(attribGroupName).getAttribute(attribName);
+        return testPlan.getSpecification(specName).getFeature(featureUri).getAttribute(attribGroupName,attribName);
 
-        return attrib;
     }
 
     /**
@@ -102,24 +101,23 @@ public class Context {
      * @param attribName
      * @return
      */
-    public Attribute getSpecAttribute(String specName, String specVersion,
+    public String getSpecAttribute(String specName, String specVersion,
                                       String attribGroupName, String attribName){
 
-        Attribute attrib;
-        attrib = testPlan.getSpecification(specName, specVersion).getAttributeGroup(attribGroupName).
-                getAttribute(attribName);
+        String attrib;
+        attrib = testPlan.getSpecification(specName).getAttribute(attribGroupName,attribName);
 
         return attrib;
     }
 
-    public Attribute getCurrentSpecAttribute(String attribGroupName, String attribName)
+    public String getCurrentSpecAttribute(String attribGroupName, String attribName)
     {
         return getSpecAttribute(currentSpec,currentSpceVersion,attribGroupName,attribName);
     }
 
-    public Attribute getCurrentFeatureAttribute(String attribGroupName, String attribName)
+    public String getCurrentFeatureAttribute(String attribGroupName, String attribName)
     {
-        return getFeatureAttribute(currentSpec,currentSpceVersion,currentFeature,attribGroupName,attribName);
+        return getFeatureAttribute(currentSpec,currentSpceVersion,currentFeatureUri,attribGroupName,attribName);
     }
 
     public String getTest_id() {

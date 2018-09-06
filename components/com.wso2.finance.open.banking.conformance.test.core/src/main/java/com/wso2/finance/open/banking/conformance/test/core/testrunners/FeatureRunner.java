@@ -21,7 +21,7 @@ package com.wso2.finance.open.banking.conformance.test.core.testrunners;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.wso2.finance.open.banking.conformance.mgt.models.Feature;
+import com.wso2.finance.open.banking.conformance.mgt.testconfig.Feature;
 import com.wso2.finance.open.banking.conformance.test.core.Context;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 import cucumber.api.cli.Main;
@@ -40,13 +40,13 @@ public class FeatureRunner {
     public JsonObject runFeature(){
         Log.info("Start Running Feature: " + feature.getTitle());
         //set feature context
-        Context.getInstance().setFeatureContext(feature.getTitle());
+        Context.getInstance().setFeatureContext(feature.getTitle(), feature.getUri());
         File resultFile = new File("target/cucumber-report/cucumber.json");
 
         String[] argv = new String[]
                             { "-p","pretty","-p","json:"+resultFile.getPath(), "-g",
                               "com.wso2.finance.open.banking.conformance.test.core.steps.v1_0_0",
-                              feature.getUri().getParent()
+                              feature.getUri()
                              };
 
 
