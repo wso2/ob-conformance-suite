@@ -21,12 +21,14 @@ package com.wso2.finance.open.banking.conformance.test.core.runner;
 import com.google.gson.JsonObject;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public class TestPlanRunnerManager {
 
@@ -41,13 +43,11 @@ public class TestPlanRunnerManager {
         return uuid;
     }
 
-    public TestPlanFeatureResult getResult(String uuid){
+    public List<TestPlanFeatureResult> getResults(String uuid){
         if (this.runnerInstanceMap.containsKey(uuid)){
-            try {
-                return this.resultQueueMap.get(uuid).take();
-            } catch (InterruptedException e) {
-                return null;
-            }
+            List<TestPlanFeatureResult> results = new ArrayList();
+            this.resultQueueMap.get(uuid).drainTo(results);
+            return results;
         }else{
             return null;
         }
@@ -64,7 +64,7 @@ public class TestPlanRunnerManager {
     public void start(String uuid){
         //Only one test can run now
         //TODO: block more than one running
-        this.runnerInstanceMap.get(uuid).run();
+        this.runnerInstanceMap.get(uuid).start();
     }
 
 }

@@ -16,13 +16,29 @@
  * under the License.
  */
 
-import {combineReducers} from 'redux'
-import specifications from './specifications'
-import testvalues from './testvalues'
-import testplans from './testplans'
+const initialState = {
+    testplans: {},
+    results: {}
+};
 
-export default combineReducers({
-    specifications,
-    testvalues,
-    testplans
-});
+
+const testplans = (state = initialState, action) => {
+    switch (action.type) {
+        case 'ADD_TESTPLAN':
+            return {
+                testplans: {...state.testplans, [action.id] : {
+                        ...action.testplan,
+                        testId : action.id
+                    }
+                },
+                results: state.results
+            };
+        case 'CLEAR_TESTPLANS':
+            return initialState;
+        default:
+            return state
+    }
+};
+
+export default testplans;
+

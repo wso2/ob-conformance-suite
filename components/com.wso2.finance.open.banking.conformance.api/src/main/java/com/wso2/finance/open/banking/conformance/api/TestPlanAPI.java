@@ -20,11 +20,13 @@ package com.wso2.finance.open.banking.conformance.api;
 
 
 import javax.ws.rs.GET;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 import com.google.gson.JsonObject;
 import com.wso2.finance.open.banking.conformance.api.dto.TestPlanAddConfirmation;
@@ -51,23 +53,31 @@ public class TestPlanAPI {
     @Path("/add")
     @Consumes("application/json")
     @Produces("application/json")
-    public TestPlanAddConfirmation runTestPlan(TestPlan plan){
+    public TestPlanAddConfirmation runTestPlan(TestPlan plan) {
+
         return new TestPlanAddConfirmation(this.runnerManager.addPlan(plan));
     }
 
+    @OPTIONS
+    @Path("/add")
+    public Response getOptionsRunTestPlan(){
+        return Response.status(Response.Status.OK).header("Access-Control-Allow-Methods","POST,OPTIONS").build();
+    }
+
     @GET
-    @Path("/result/current/{testId}")
+    @Path("/result/poll/{testId}")
     @Produces("application/json")
-    public TestPlanFeatureResult getCurrentResult(@PathParam("testId") String testId){
-        return this.runnerManager.getResult(testId);
+    public List<TestPlanFeatureResult> getCurrentResult(@PathParam("testId") String testId) {
+
+        return this.runnerManager.getResults(testId);
     }
 
     @GET
     @Path("/result/complete/{testId}")
     @Produces("application/json")
-    public Map<String, List<JsonObject>> getCompleteResult(@PathParam("testId") String testId){
+    public Map<String, List<JsonObject>> getCompleteResult(@PathParam("testId") String testId) {
+
         return this.runnerManager.getResultSet(testId);
     }
-
 
 }
