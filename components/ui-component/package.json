@@ -12,6 +12,9 @@
     "deploy": "cp ./dist/bundle.js $DS_HOME/deployment/reactapps/portal/public/js/"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.4",
+    "@fortawesome/free-solid-svg-icons": "^5.3.1",
+    "@fortawesome/react-fontawesome": "^0.1.2",
     "axios": "^0.18.0",
     "css-loader": "^0.28.4",
     "fixed-data-table": "^0.6.5",
@@ -22,6 +25,7 @@
     "react-redux": "^5.0.7",
     "react-router-dom": "*",
     "react-shadow": "^16.3.0",
+    "recharts": "^1.1.0",
     "redux": "^4.0.0",
     "rimraf": "^2.6.2",
     "style-loader": "^0.23.0",
@@ -35,6 +39,7 @@
     "@babel/register": "^7.0.0",
     "@types/fixed-data-table": "^0.6.34",
     "babel-loader": "^8.0.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "chai": "^4.1.2",
     "eslint": "^5.4.0",
     "eslint-config-airbnb": "^17.1.0",

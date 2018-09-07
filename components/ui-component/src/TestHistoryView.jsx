@@ -31,7 +31,7 @@ const TestPlanRow = connect((state) => ({specifications: state.specifications.sp
     <tr>
         <td>{Object.keys(testPlan.testPlan.specifications).map((key) => <p>{specifications[key].title} {specifications[key].version}</p>)}</td>
         <td>{testPlan.status}</td>
-        <td>-</td>
+        <td><Link to={"/tests/report/"+testPlan.testId}>check report</Link></td>
     </tr>
 ));
 
