@@ -19,12 +19,15 @@
 package com.wso2.finance.open.banking.conformance.mgt.testconfig;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 public class TestPlan {
 
     private Map<String,Specification> specifications;
+
+    private Date lastRun;
 
     public TestPlan(){}
 
@@ -40,5 +43,15 @@ public class TestPlan {
 
     public List<Specification> getSpecifications(){
         return new ArrayList(specifications.values());
+    }
+
+    public Date getLastRun() {
+
+        return lastRun;
+    }
+
+    public void setLastRun(Date lastRun) {
+
+        this.lastRun = lastRun;
     }
 }
