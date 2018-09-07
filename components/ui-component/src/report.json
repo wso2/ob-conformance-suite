@@ -1,170 +1,213 @@
+{
+  "specExample":
 [
-  {
-    "line": 1,
-    "elements": [
-      {
-        "line": 11,
-        "name": "Today is or is not Friday",
-        "description": "",
-        "id": "is-it-friday-yet?;today-is-or-is-not-friday;;2",
-        "type": "scenario",
-        "keyword": "Scenario Outline",
-        "steps": [
-          {
-            "result": {
-              "duration": 206159850,
-              "status": "passed"
+    {
+      "line": 1,
+      "elements": [
+        {
+          "line": 2,
+          "name": "Get the details of all atms owned by a bank",
+          "description": "",
+          "id": "get-atm-details;get-the-details-of-all-atms-owned-by-a-bank",
+          "type": "scenario",
+          "keyword": "Scenario",
+          "steps": [
+            {
+              "result": {
+                "duration": 11604611,
+                "status": "passed"
+              },
+              "line": 3,
+              "name": "a request is initiated to ATM endpoint",
+              "match": {
+                "location": "OpenDataSteps.createRequestToAtmEndpoint()"
+              },
+              "keyword": "Given "
             },
-            "line": 5,
-            "name": "today is Friday",
-            "match": {
-              "location": "Stepdefs.today_is_Friday()"
+            {
+              "result": {
+                "duration": 2712681924,
+                "status": "passed"
+              },
+              "line": 4,
+              "name": "a user retrieves the atm details",
+              "match": {
+                "location": "OpenDataSteps.getAtmDetails()"
+              },
+              "keyword": "When "
             },
-            "keyword": "Given "
-          },
-          {
-            "result": {
-              "duration": 191514,
-              "status": "passed"
+            {
+              "result": {
+                "error_message": "demo failed test",
+                "duration": 2711565395,
+                "status": "failed"
+              },
+              "line": 5,
+              "name": "response json data should be compliant to the standard",
+              "match": {
+                "location": "OpenDataSteps.validateResponse()"
+              },
+              "keyword": "Then "
+            }
+          ]
+        },
+        {
+          "line": 2,
+          "name": "Get the details of all atms owned by a bank",
+          "description": "",
+          "id": "get-atm-details;get-the-details-of-all-atms-owned-by-a-bank",
+          "type": "scenario",
+          "keyword": "Scenario",
+          "steps": [
+            {
+              "result": {
+                "duration": 11604611,
+                "status": "passed"
+              },
+              "line": 3,
+              "name": "a request is initiated to ATM endpoint",
+              "match": {
+                "location": "OpenDataSteps.createRequestToAtmEndpoint()"
+              },
+              "keyword": "Given "
             },
-            "line": 6,
-            "name": "I ask whether it\u0027s Friday yet",
-            "match": {
-              "location": "Stepdefs.i_ask_whether_is_s_Friday_yet()"
+            {
+              "result": {
+                "duration": 2712681924,
+                "status": "passed"
+              },
+              "line": 4,
+              "name": "a user retrieves the atm details",
+              "match": {
+                "location": "OpenDataSteps.getAtmDetails()"
+              },
+              "keyword": "When "
             },
-            "keyword": "When "
-          },
-          {
-            "result": {
-              "duration": 5864272,
-              "status": "passed"
+            {
+              "result": {
+                "duration": 2711565395,
+                "status": "passed"
+              },
+              "line": 5,
+              "name": "response json data should be compliant to the standard",
+              "match": {
+                "location": "OpenDataSteps.validateResponse()"
+              },
+              "keyword": "Then "
+            }
+          ]
+        }
+      ],
+      "name": "Get ATM Details",
+      "description": "",
+      "id": "get-atm-details",
+      "keyword": "Feature",
+      "uri": "components/com.wso2.finance.open.banking.conformance.test.core/src/main/resources/features/v1_0_0/opendata/atms.feature",
+      "tags": []
+    },
+    {
+      "line": 1,
+      "elements": [
+        {
+          "line": 2,
+          "name": "Get the details of all atms owned by a bank",
+          "description": "",
+          "id": "get-atm-details;get-the-details-of-all-atms-owned-by-a-bank",
+          "type": "scenario",
+          "keyword": "Scenario",
+          "steps": [
+            {
+              "result": {
+                "duration": 11604611,
+                "status": "passed"
+              },
+              "line": 3,
+              "name": "a request is initiated to ATM endpoint",
+              "match": {
+                "location": "OpenDataSteps.createRequestToAtmEndpoint()"
+              },
+              "keyword": "Given "
             },
-            "line": 7,
-            "name": "I should be told \"TGIF\"",
-            "match": {
-              "arguments": [
-                {
-                  "val": "TGIF",
-                  "offset": 18
-                }
-              ],
-              "location": "Stepdefs.i_should_be_told(String)"
+            {
+              "result": {
+                "duration": 2712681924,
+                "status": "passed"
+              },
+              "line": 4,
+              "name": "a user retrieves the atm details",
+              "match": {
+                "location": "OpenDataSteps.getAtmDetails()"
+              },
+              "keyword": "When "
             },
-            "keyword": "Then "
-          }
-        ]
-      },
-      {
-        "line": 12,
-        "name": "Today is or is not Friday",
-        "description": "",
-        "id": "is-it-friday-yet?;today-is-or-is-not-friday;;3",
-        "type": "scenario",
-        "keyword": "Scenario Outline",
-        "steps": [
-          {
-            "result": {
-              "duration": 142826,
-              "status": "passed"
+            {
+              "result": {
+                "duration": 2711565395,
+                "status": "passed"
+              },
+              "line": 5,
+              "name": "response json data should be compliant to the standard",
+              "match": {
+                "location": "OpenDataSteps.validateResponse()"
+              },
+              "keyword": "Then "
+            }
+          ]
+        },
+        {
+          "line": 2,
+          "name": "Get the details of all atms owned by a bank",
+          "description": "",
+          "id": "get-atm-details;get-the-details-of-all-atms-owned-by-a-bank",
+          "type": "scenario",
+          "keyword": "Scenario",
+          "steps": [
+            {
+              "result": {
+                "duration": 11604611,
+                "status": "passed"
+              },
+              "line": 3,
+              "name": "a request is initiated to ATM endpoint",
+              "match": {
+                "location": "OpenDataSteps.createRequestToAtmEndpoint()"
+              },
+              "keyword": "Given "
             },
-            "line": 5,
-            "name": "today is Sunday",
-            "match": {
-              "location": "Stepdefs.today_is_Sunday()"
+            {
+              "result": {
+                "duration": 2712681924,
+                "status": "passed"
+              },
+              "line": 4,
+              "name": "a user retrieves the atm details",
+              "match": {
+                "location": "OpenDataSteps.getAtmDetails()"
+              },
+              "keyword": "When "
             },
-            "keyword": "Given "
-          },
-          {
-            "result": {
-              "duration": 63207,
-              "status": "passed"
-            },
-            "line": 6,
-            "name": "I ask whether it\u0027s Friday yet",
-            "match": {
-              "location": "Stepdefs.i_ask_whether_is_s_Friday_yet()"
-            },
-            "keyword": "When "
-          },
-          {
-            "result": {
-              "error_message": "org.junit.ComparisonFailure: expected:\u003cNope[x]\u003e but was:\u003cNope[]\u003e\n\tat org.junit.Assert.assertEquals(Assert.java:115)\n\tat org.junit.Assert.assertEquals(Assert.java:144)\n\tat hellocucumber.Stepdefs.i_should_be_told(Stepdefs.java:45)\n\tat ✽.I should be told \"Nopex\"(hellocucumber/is_it_friday_yet.feature:7)\n",
-              "duration": 897425,
-              "status": "failed"
-            },
-            "line": 7,
-            "name": "I should be told \"Nopex\"",
-            "match": {
-              "arguments": [
-                {
-                  "val": "Nopex",
-                  "offset": 18
-                }
-              ],
-              "location": "Stepdefs.i_should_be_told(String)"
-            },
-            "keyword": "Then "
-          }
-        ]
-      },
-      {
-        "line": 13,
-        "name": "Today is or is not Friday",
-        "description": "",
-        "id": "is-it-friday-yet?;today-is-or-is-not-friday;;4",
-        "type": "scenario",
-        "keyword": "Scenario Outline",
-        "steps": [
-          {
-            "result": {
-              "duration": 117195,
-              "status": "passed"
-            },
-            "line": 5,
-            "name": "today is anything else!",
-            "match": {
-              "location": "Stepdefs.today_is_Else()"
-            },
-            "keyword": "Given "
-          },
-          {
-            "result": {
-              "duration": 64672,
-              "status": "passed"
-            },
-            "line": 6,
-            "name": "I ask whether it\u0027s Friday yet",
-            "match": {
-              "location": "Stepdefs.i_ask_whether_is_s_Friday_yet()"
-            },
-            "keyword": "When "
-          },
-          {
-            "result": {
-              "duration": 154151,
-              "status": "passed"
-            },
-            "line": 7,
-            "name": "I should be told \"Nope\"",
-            "match": {
-              "arguments": [
-                {
-                  "val": "Nope",
-                  "offset": 18
-                }
-              ],
-              "location": "Stepdefs.i_should_be_told(String)"
-            },
-            "keyword": "Then "
-          }
-        ]
-      }
-    ],
-    "name": "Is it Friday yet?",
-    "description": "    Everybody wants to know when it\u0027s Friday",
-    "id": "is-it-friday-yet?",
-    "keyword": "Feature",
-    "uri": "hellocucumber/is_it_friday_yet.feature",
-    "tags": []
-  }
+            {
+              "result": {
+                "duration": 2711565395,
+                "status": "passed"
+              },
+              "line": 5,
+              "name": "response json data should be compliant to the standard",
+              "match": {
+                "location": "OpenDataSteps.validateResponse()"
+              },
+              "keyword": "Then "
+            }
+          ]
+        }
+      ],
+      "name": "Get ATM Details",
+      "description": "",
+      "id": "get-atm-details",
+      "keyword": "Feature",
+      "uri": "components/com.wso2.finance.open.banking.conformance.test.core/src/main/resources/features/v1_0_0/opendata/atms.feature",
+      "tags": []
+    }
 ]
+
+}

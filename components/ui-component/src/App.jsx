@@ -36,6 +36,7 @@ const App = () => (
                 <Route exact path='/' component={TestHistoryView}/>
                 <Route exact path='/tests/new' component={SpecificationSelectView}/>
                 <Route exact path='/tests/new/configure' component={TestConfigurationView}/>
+                <Route exact path='/tests/report/:uuid' component={TestReportView}/>
             </Switch>
         </CommonDataLoader>
     </Provider>

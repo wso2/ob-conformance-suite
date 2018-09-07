@@ -40,6 +40,10 @@ export default class RequestBuilder {
         return axios.get(this.base_url + "testplan/result/poll/" + id);
     }
 
+    getResultsForTestPlan(id){
+        return axios.get(this.base_url + "testplan/result/complete/" + id);
+    }
+
     getTestPlans(){
         return axios.get(this.base_url + "testplan/list/all");
     }
