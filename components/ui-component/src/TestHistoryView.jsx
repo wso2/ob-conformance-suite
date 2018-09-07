@@ -33,6 +33,7 @@ const TestPlanRow = connect((state) => ({specifications: state.specifications.sp
         <td>{testPlan.testId}</td>
         <td>{testPlan.status}</td>
         <td><Link to={"/tests/report/"+testPlan.testId}>check report</Link></td>
+        <td><Link to={"/tests/report/"+testPlan.testId}>check report</Link></td>
     </tr>
 ));
 
