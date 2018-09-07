@@ -26,6 +26,7 @@ import com.wso2.finance.open.banking.conformance.test.core.Context;
 import com.wso2.finance.open.banking.conformance.test.core.testrunners.FeatureRunner;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,6 +76,7 @@ public class TestPlanRunnerInstance extends Thread{
             this.processSpec(specification);
         }
         this.status = RUNNER_STATE.DONE;
+        this.testPlan.setLastRun(new Date());
     }
 
     public RUNNER_STATE getStatus() {

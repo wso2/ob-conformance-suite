@@ -17,9 +17,7 @@
  */
 
 import React from 'react';
-import data from './report.json';
 import AppHeader from "./partials/AppHeader";
-import {withRouter} from 'react-router-dom';
 import {ListGroup, ListGroupItem, Glyphicon, Button, Grid, Row, Col, Panel, Well} from 'react-bootstrap';
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import '../public/css/report-style.css'
@@ -27,13 +25,9 @@ import {connect} from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { PieChart, Pie } from 'recharts';
-import axios from 'axios';
 import RequestBuilder from './utils/RequestBuilder';
-import TestPlanReduxHelper from './utils/TestPlanReduxHelper';
 
 const client = new RequestBuilder();
-
-
 
 const ReportSpec = connect((state) => ({specifications: state.specifications,}))(({spec,specName,specifications}) => (
   <div>
@@ -60,7 +54,6 @@ const stepStatus = (steps) => {
   var error="";
   
 
-  console.log(steps);
   steps.forEach(step => {
     status = status && (step.result.status === "passed");
     error = step.result.error_message;
