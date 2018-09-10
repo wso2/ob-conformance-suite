@@ -19,7 +19,7 @@
 import React from 'react';
 import TestPlanReduxHelper from "../utils/TestPlanReduxHelper";
 import {connect} from "react-redux";
-import {ListGroup, ListGroupItem, Panel} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Panel, Row, Col} from 'react-bootstrap';
 import {toggleVector, toggleFeature} from "../actions";
 import AttributeGroup from "./AttributeGroup";
 
@@ -34,7 +34,10 @@ export const Feature = connect((state) => ({testvalues: state.testvalues}))(({fe
         </Panel.Heading>
         <Panel.Collapse>
             <Panel.Body>
-                <b>{feature.description}</b>
+                <Row>
+                    <Col xs={8}><b>{feature.description}</b></Col>
+                    <Col xs={4} className="specdetails">AccountAPI v1.0 Section 2.5</Col>
+                </Row>
                 {feature.attributeGroups ? <hr/> : []}
                 {feature.attributeGroups ?
                     feature.attributeGroups.map(group => <AttributeGroup scope={"feature"} specName={specName} featureName={feature.uri.path} group={group} key={group.groupName}/>) : []}

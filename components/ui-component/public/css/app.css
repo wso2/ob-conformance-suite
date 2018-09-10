@@ -2,21 +2,29 @@
     margin : auto;
     width: 90%
 }
+
 .headStyle{
     font-size: 25px;
     font-weight: bolder;
     margin: 20px 0px
 }
+
 .subHeadStyle{
     font-size: 15px;
     color: gray;
     font-weight: bolder;
     margin: 10px 0px
 }
+
 .tableHead{
     font-weight : bolder !important;
     text-align: center
 }
+
 .tableBody{
     text-align : center
 }
+
+.specdetails{
+    font-size: 12px !important
+} 
