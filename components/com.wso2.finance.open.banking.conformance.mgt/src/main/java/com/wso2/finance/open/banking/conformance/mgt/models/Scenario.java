@@ -25,6 +25,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Scenario {
 
     @XmlAttribute
+    private String scenarioName;
+    @XmlAttribute
     private String specName;
     @XmlAttribute
     private String specSection;
@@ -38,10 +40,19 @@ public class Scenario {
      * @param specName
      * @param specSection
      */
-    public Scenario(String specName, String specSection) {
+    public Scenario(String specName, String specSection, String scenarioName) {
 
         this.specName = specName;
         this.specSection = specSection;
+        this.scenarioName = scenarioName;
+    }
+
+    /**
+     * @return
+     */
+    public String getScenarioName() {
+
+        return scenarioName;
     }
 
     /**
@@ -59,5 +70,6 @@ public class Scenario {
 
         return specSection;
     }
+
 
 }
