@@ -41,7 +41,9 @@ public class Feature {
     @XmlElementWrapper(name = "attributeGroups")
     @XmlElement(name = "AttributeGroup")
     private List<AttributeGroup> attributeGroups;
-
+    @XmlElementWrapper(name = "Scenarios")
+    @XmlElement(name = "Scenario")
+    private List<Scenario> scenarios;
 
     public Feature() {
 
@@ -53,12 +55,13 @@ public class Feature {
      * @param uri
      * @param attributeGroups
      */
-    public Feature(String title, String description, File uri, List<AttributeGroup> attributeGroups) {
+    public Feature(String title, String description, File uri, List<AttributeGroup> attributeGroups, List<Scenario> scenarios) {
 
         this.title = title;
         this.description = description;
         this.uri = uri;
         this.attributeGroups = attributeGroups;
+        this.scenarios = scenarios;
     }
 
     /**
@@ -91,6 +94,14 @@ public class Feature {
     public List<AttributeGroup> getAttributeGroups() {
 
         return attributeGroups;
+    }
+
+    /**
+     * @return
+     */
+    public List<Scenario> getScenarios() {
+
+        return scenarios;
     }
 
     /**
