@@ -48,6 +48,10 @@ public class TestPlanRunnerInstance extends Thread{
         this.testPlan = testPlan;
         this.resultQueue = resultQueue;
         this.status = RUNNER_STATE.NOT_STARTED;
+        //Initialize Specs in Data Structure
+        for(Specification spec : this.testPlan.getSpecifications()){
+            this.formattedResult.put(spec.getName(), new ArrayList<>());
+        }
     }
 
     private void queueResult(JsonObject result, Specification specification){
