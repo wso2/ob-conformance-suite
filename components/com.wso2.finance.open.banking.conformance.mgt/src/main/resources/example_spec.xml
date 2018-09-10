@@ -59,9 +59,9 @@
                 </AttributeGroup>
             </attributeGroups>
             <Scenarios>
-                <Sceario specDef="ExampleSpec" specSection="1.1" />
-                <Sceario specDef="ExampleSpec" specSection="1.2" />
-                <Sceario specDef="ExampleSpec" specSection="1.3" />
+                <Sceario scenarioName= "Get the details of all atms owned by a bank" specName="ExampleSpec" specSection="1.1" />
+                <Sceario scenarioName= "Get the details of all atms owned by a bank1" specName="ExampleSpec" specSection="1.2" />
+                <Sceario scenarioName= "Get the details of all atms owned by a bank2" specName="ExampleSpec" specSection="1.3" />
             </Scenarios>
         </Feature>
         <Feature
@@ -79,9 +79,9 @@
                 </AttributeGroup>
             </attributeGroups>
             <Scenarios>
-                <Sceario specDef="ExampleSpec" specSection="2.1" />
-                <Sceario specDef="ExampleSpec" specSection="2.2" />
-                <Sceario specDef="ExampleSpec" specSection="2.3" />
+                <Sceario scenarioName= "Get the details of all branches of a bank" specName="ExampleSpec" specSection="2.1" />
+                <Sceario scenarioName= "Get the details of all branches of a bank2" specName="ExampleSpec" specSection="2.2" />
+                <Sceario scenarioName= "Get the details of all branches of a bank3" specName="ExampleSpec" specSection="2.3" />
             </Scenarios>
         </Feature>
         <Feature
@@ -99,9 +99,9 @@
                 </AttributeGroup>
             </attributeGroups>
             <Scenarios>
-                <Sceario specDef="ExampleSpec" specSection="3.1" />
-                <Sceario specDef="ExampleSpec" specSection="3.2" />
-                <Sceario specDef="ExampleSpec" specSection="3.3" />
+                <Sceario scenarioName= "Get the details of all products which are supported by bank" specName="ExampleSpec" specSection="3.1" />
+                <Sceario scenarioName= "Get the details of all products which are supported by bank" specName="ExampleSpec" specSection="3.2" />
+                <Sceario scenarioName= "Get the details of all products which are supported by bank" specName="ExampleSpec" specSection="3.3" />
             </Scenarios>
         </Feature>
     </features>
