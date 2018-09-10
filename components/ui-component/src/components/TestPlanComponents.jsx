@@ -28,7 +28,7 @@ export const Feature = connect((state) => ({testvalues: state.testvalues}))(({fe
     <Panel expanded={TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path)}>
         <Panel.Heading onClick={() => {dispatch(toggleFeature(specName, feature.uri.path))}}>
             <div className="pull-right">
-                <i className={"fas fa-lg fa-" + (TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path) ? "check" : "plus")}/>
+                <i className={"fas fa-lg fa-" + (TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path) ? "check-square" : "square")}/>
             </div>
             <Panel.Title>Execute Test {feature.title}</Panel.Title>
         </Panel.Heading>
@@ -48,7 +48,7 @@ export const Vector = connect((state) => ({testvalues: state.testvalues}))(({tes
         dispatch(toggleVector(specName, vector.tag))
     }}>
         <div className="pull-right">
-            <i className={"fas fa-lg fa-" + (TestPlanReduxHelper.getSelectedVectorsFromState(testvalues, specName).includes(vector.tag) ? "check" : "plus")}/>
+            <i className={"fas fa-lg fa-" + (TestPlanReduxHelper.getSelectedVectorsFromState(testvalues, specName).includes(vector.tag) ? "check-square" : "square")}/>
         </div>
         <p><b>Test {vector.title}</b></p>
     </ListGroupItem>
