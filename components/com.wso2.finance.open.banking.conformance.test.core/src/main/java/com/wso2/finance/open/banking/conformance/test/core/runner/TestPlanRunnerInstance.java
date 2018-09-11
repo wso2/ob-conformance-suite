@@ -19,6 +19,7 @@
 package com.wso2.finance.open.banking.conformance.test.core.runner;
 
 import com.google.gson.JsonObject;
+import com.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.Feature;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.Specification;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
@@ -64,6 +65,7 @@ public class TestPlanRunnerInstance extends Thread{
     private void processSpec(Specification specification){
         List<JsonObject> featureResults = new ArrayList();
         Context.getInstance().setSpecContext(specification.getName(), specification.getVersion());
+        Context.getInstance().setRunnerInstance(this);
         for(Feature feature : specification.getFeatures()){
             FeatureRunner featureRunner = new FeatureRunner(feature);
             JsonObject featureResult = featureRunner.runFeature();
@@ -96,5 +98,11 @@ public class TestPlanRunnerInstance extends Thread{
     public TestPlan getTestPlan() {
 
         return testPlan;
+    }
+
+    public void addBrowserInteractionAttrinutes(AttributeGroup attributeGroup){
+        TestPlanFeatureResult featureResult = new TestPlanFeatureResult();
+        featureResult.attributeGroup = attributeGroup;
+        this.resultQueue.add(featureResult);
     }
 }

@@ -1,0 +1,2379 @@
+{
+  "swagger": "2.0",
+  "basePath": "/AccountsInfoAPI/v2.0.0",
+  "paths": {
+    "/account-initiations": {
+      "post": {
+        "summary": "Initiate an account request",
+        "security": [
+          {
+            "default": [
+              "accounts"
+            ]
+          }
+        ],
+        "x-auth-type": "Application",
+        "x-scope": "accounts",
+        "produces": [
+          "application/json"
+        ],
+        "description": "This API resource is used to Initiate an account request. This API needs to be invoked first in order to call the next set of API resources as this API will respond with an account request ID, which you need to co-relate other API resources.<br>To invoke this API resource, use the Oauth2 access token that you generated using the CLIENT CREDENTIALS grant type.<br>\n\n Referred Standards - FAPI [http://openid.net/wg/fapi/]<br>",
+        "operationId": "CreateAccountRequest",
+        "responses": {
+          "201": {
+            "schema": {
+              "additionalProperties": false,
+              "title": "Account Request POST response",
+              "type": "object",
+              "properties": {
+                "Meta": {
+                  "title": "Meta",
+                  "type": "object",
+                  "properties": {
+                    "Copyright": {
+                      "minLength": 1,
+                      "description": "Copyright",
+                      "type": "string",
+                      "maxLength": 128
+                    },
+                    "LastUpdated": {
+                      "description": "Specifies the last updated time of the resource.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "TotalResults": {
+                  "description": "Specifies the number of response entries of the resource,if the response is a data collection.",
+                  "type": "string"
+                },
+                "Data": {
+                  "additionalProperties": false,
+                  "title": "Data",
+                  "type": "object",
+                  "properties": {
+                    "Status": {
+                      "description": "Specifies the status of the account request resource.",
+                      "type": "string",
+                      "enum": [
+                        "Authorised",
+                        "Rejected"
+                      ]
+                    },
+                    "CreationDateTime": {
+                      "format": "date-time",
+                      "description": "Date and time at which the resource was created.",
+                      "type": "string"
+                    },
+                    "Permissions": {
+                      "description": "Specifies the account request types. This is a list of the data clusters being consented by the PSU, and requested for authorisation with the ASPSP.",
+                      "additionalProperties": false,
+                      "type": "array",
+                      "items": {
+                        "description": "Specifies the  account request types. This is a list of the data clusters being consented by the PSU, and requested for authorisation with the ASPSP.",
+                        "type": "string",
+                        "enum": [
+                          "ReadAccountsBasic",
+                          "ReadAccountsDetail",
+                          "ReadBalances",
+                          "ReadBeneficiariesBasic",
+                          "ReadBeneficiariesDetail",
+                          "ReadDirectDebits",
+                          "ReadProducts",
+                          "ReadStandingOrdersBasic",
+                          "ReadStandingOrdersDetail",
+                          "ReadTransactionsBasic",
+                          "ReadTransactionsDetail"
+                        ]
+                      },
+                      "minProperties": 1
+                    },
+                    "AccountRequestId": {
+                      "minLength": 1,
+                      "description": "Unique identification as assigned to identify the account request resource.",
+                      "type": "string",
+                      "maxLength": 128
+                    }
+                  },
+                  "required": [
+                    "AccountRequestId",
+                    "CreationDateTime",
+                    "Permissions"
+                  ]
+                }
+              },
+              "required": [
+                "Data",
+                "Meta"
+              ]
+            },
+            "description": "Account Request resource successfully created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "description": "Allows setup of an account access request",
+              "title": "Account Request POST request",
+              "type": "object",
+              "properties": {
+                "Data": {
+                  "description": "Allows setup of an account access request",
+                  "additionalProperties": false,
+                  "title": "Data",
+                  "type": "object",
+                  "properties": {
+                    "Permissions": {
+                      "description": "Specifies the account request types which are consented by the PSU, and requested for authorisation with the ASPSP.",
+                      "additionalProperties": false,
+                      "type": "array",
+                      "items": {
+                        "description": "Specifies the Open Banking account request types. This is a list of permissions being consented by the PSU, and requested for authorisation with the ASPSP.",
+                        "type": "string",
+                        "enum": [
+                          "ReadAccountsBasic",
+                          "ReadAccountsDetail",
+                          "ReadBalances",
+                          "ReadBeneficiariesBasic",
+                          "ReadBeneficiariesDetail",
+                          "ReadDirectDebits",
+                          "ReadProducts",
+                          "ReadStandingOrdersBasic",
+                          "ReadStandingOrdersDetail",
+                          "ReadTransactionsBasic",
+                          "ReadTransactionsDetail"
+                        ]
+                      },
+                      "minProperties": 1
+                    }
+                  },
+                  "required": [
+                    "Permissions"
+                  ]
+                }
+              },
+              "required": [
+                "Data"
+              ]
+            },
+            "in": "body",
+            "name": "body",
+            "description": "This code initiates an account request. If you want to use the sample code, click on the sample code for the code to appear in your left-side text box.",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-jws-signature",
+            "description": "This is the header that containing a detached JWS signature of the payload body,which is signed using the third-party provider’s (TPP's) private key.<br>Signature format is BASE64{JOSE_Header}.{Payload}.{Singtaure_key}.<br><br><b>The following is a sample jws-signature header that you can pass for this API. eyJhbGciOiJSUzI1NiJ9.ewogICJEYXRhIjogewogICAgIkluaXRpYXRpb24iOiB7CiAgICAgICJJbnN0cnV.SNwqXIAoR</b>",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-interaction-id",
+            "description": "This is a correlation UUID that maps requests and responses in the AISP flow.Example- 85bac548-d2de-4546-b106-880a5018460c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-ip-address",
+            "description": "Header containing the payment service user’s (PSU's) IP address if the PSU is currently logged in with the TPP.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-financial-id",
+            "description": "Header containing the unique ID of the Account Servicing Payment Services Provider (ASPSP) to which the request is issued. The unique ID will be issued by WSO2 Open Banking (OB). For this demo, you can use a 4-digit integer. Example: 2134",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-last-logged-time",
+            "description": "The header containing the time when the PSU last logged in with the TPP.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "x-throttling-tier": "Unlimited",
+        "tags": [
+          "Initiate an Account Request"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/accounts/{AccountId}/beneficiaries": {
+      "get": {
+        "summary": "Get Account Beneficiary Details.",
+        "security": [
+          {
+            "default": [
+              "accounts"
+            ]
+          }
+        ],
+        "x-auth-type": "Application & Application User",
+        "x-scope": "accounts",
+        "produces": [
+          "application/json"
+        ],
+        "description": "This API resource is used to get information related to beneficiaries to an account. Use an OAuth2 access token that is generated using the AUTHORIZATION CODE grant type to invoke the resource.",
+        "operationId": "GetAccountBeneficiaries",
+        "responses": {
+          "200": {
+            "schema": {
+              "additionalProperties": false,
+              "title": "Beneficiaries GET response",
+              "type": "object",
+              "properties": {
+                "Meta": {
+                  "title": "Meta",
+                  "type": "object",
+                  "properties": {
+                    "Copyright": {
+                      "minLength": 1,
+                      "description": "Copyright",
+                      "type": "string",
+                      "maxLength": 128
+                    },
+                    "TotalResults": {
+                      "description": "Specifies the number of entries in the response collection.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "Links": {
+                  "description": "Links relevant to the payload pagination",
+                  "additionalProperties": false,
+                  "title": "Links",
+                  "type": "object",
+                  "properties": {
+                    "self": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  }
+                },
+                "Data": {
+                  "title": "Beneficiary",
+                  "type": "array",
+                  "items": {
+                    "description": "Beneficiary",
+                    "additionalProperties": false,
+                    "type": "object",
+                    "title": "Beneficiary",
+                    "properties": {
+                      "Servicer": {
+                        "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account. ",
+                        "additionalProperties": false,
+                        "properties": {
+                          "SchemeName": {
+                            "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                            "type": "string",
+                            "enum": [
+                              "BICFI",
+                              "UKSortCode"
+                            ]
+                          },
+                          "Identification": {
+                            "minLength": 1,
+                            "description": "Unique and unambiguous identification of the servicing institution.",
+                            "type": "string",
+                            "maxLength": 35
+                          }
+                        },
+                        "required": [
+                          "SchemeName",
+                          "Identification"
+                        ]
+                      },
+                      "AccountId": {
+                        "minLength": 1,
+                        "description": "A unique identifier used to identify the account resource. ",
+                        "type": "string",
+                        "maxLength": 40
+                      },
+                      "Reference": {
+                        "minLength": 1,
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction. ",
+                        "type": "string",
+                        "maxLength": 35
+                      },
+                      "CreditorAccount": {
+                        "description": "Provides the details to identify the beneficiary account.",
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                          "SecondaryIdentification": {
+                            "minLength": 1,
+                            "description": "This is secondary identification of the account, as assigned by the account servicing institution.  ",
+                            "type": "string",
+                            "maxLength": 34
+                          },
+                          "SchemeName": {
+                            "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                            "type": "string",
+                            "enum": [
+                              "BBAN",
+                              "IBAN"
+                            ]
+                          },
+                          "Identification": {
+                            "minLength": 1,
+                            "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+                            "type": "string",
+                            "maxLength": 34
+                          },
+                          "Name": {
+                            "minLength": 1,
+                            "description": "Name of the account, as assigned by the account servicing institution, in agreement with the account owner in order to provide an additional means of identification of the account. ",
+                            "type": "string",
+                            "maxLength": 70
+                          }
+                        },
+                        "required": [
+                          "SchemeName",
+                          "Identification"
+                        ]
+                      },
+                      "BeneficiaryId": {
+                        "minLength": 1,
+                        "description": "A unique identifier used to identify the beneficiary resource. ",
+                        "type": "string",
+                        "maxLength": 40
+                      }
+                    }
+                  }
+                }
+              },
+              "required": [
+                "Data",
+                "Links",
+                "Meta"
+              ]
+            },
+            "headers": {
+              "x-jws-signature": {
+                "description": "Header containing a detached JWS signature of the response body.",
+                "type": "string"
+              },
+              "x-fapi-interaction-id": {
+                "description": "A correlation UUID to map requests and responses of the Application Information Service Providers (AISP) flow.",
+                "type": "string"
+              }
+            },
+            "description": "Account Beneficiaries  successfully retrieved"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "AccountId",
+            "description": "A unique identifier used to identify the customer’s bank account. Use 34568 or 41825 for this demo.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-interaction-id",
+            "description": "A correlation UUID to map requests and responses in the AISP flow. Example: 85bac548-d2de-4546-b106-880a5018460c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-ip-address",
+            "description": "Header containing the payment service user’s (PSU's) IP address provided that the PSU is currently logged in via a Third-Party Provider (TPP).",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-financial-id",
+            "description": "Header containing the unique ID of the Account Servicing Payment Services Provider (ASPSP) to which the request is issued. The unique ID will be issued by WSO2 Open Banking. For this demo, you can use a 4-digit integer.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-last-logged-time",
+            "description": "Header containing the time when the PSU last logged in via the TPP.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "x-throttling-tier": "Unlimited",
+        "tags": [
+          "Get Details on Account Beneficiaries"
+        ]
+      }
+    },
+    "/accounts/{AccountId}/direct-debits": {
+      "get": {
+        "summary": "Get Account Direct Debits",
+        "security": [
+          {
+            "default": [
+              "accounts"
+            ]
+          }
+        ],
+        "x-auth-type": "Application & Application User",
+        "x-scope": "accounts",
+        "produces": [
+          "application/json"
+        ],
+        "description": "Get details on the direct debits that have been made to a customer’s bank account. Use an OAuth2 access token that is generated using the AUTHORIZATION CODE grant type to invoke this resource.",
+        "operationId": "GetAccountDirectDebits",
+        "responses": {
+          "200": {
+            "schema": {
+              "additionalProperties": false,
+              "title": "Account GET response",
+              "type": "object",
+              "properties": {
+                "Meta": {
+                  "title": "Meta",
+                  "type": "object",
+                  "properties": {
+                    "Copyright": {
+                      "minLength": 1,
+                      "description": "Copyright",
+                      "type": "string",
+                      "maxLength": 128
+                    },
+                    "TotalResults": {
+                      "description": "Specifies the number of entries in the response collection.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "Links": {
+                  "description": "Links relevant to the payload pagination",
+                  "additionalProperties": false,
+                  "title": "Links",
+                  "type": "object",
+                  "properties": {
+                    "selft": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  }
+                },
+                "Data": {
+                  "title": "DirectDebit",
+                  "type": "array",
+                  "items": {
+                    "description": "Direct Debit",
+                    "additionalProperties": false,
+                    "type": "object",
+                    "title": "Direct Debit",
+                    "properties": {
+                      "PreviousPaymentDateTime": {
+                        "format": "date-time",
+                        "description": "Date of most recent direct debit collection.",
+                        "type": "string"
+                      },
+                      "AccountId": {
+                        "minLength": 1,
+                        "description": "A unique identifier used to identify the account resource. This identifier has no meaning to the account owner.",
+                        "type": "string",
+                        "maxLength": 40
+                      },
+                      "DirectDebitStatusCode": {
+                        "description": "Specifies the status of the direct debit in code form.",
+                        "type": "string",
+                        "enum": [
+                          "Active",
+                          "Inactive"
+                        ]
+                      },
+                      "DirectDebitId": {
+                        "minLength": 1,
+                        "description": "A unique identifier used to identify the direct debit resource. This identifier has no meaning to the account owner.",
+                        "type": "string",
+                        "maxLength": 40
+                      },
+                      "PreviousPaymentAmount": {
+                        "description": "The amount of the most recent direct debit collection.",
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                          "Amount": {
+                            "pattern": "^-?\\d{1,13}\\.\\d{1,5}$",
+                            "type": "string"
+                          },
+                          "Currency": {
+                            "pattern": "^[A-Z]{3}$",
+                            "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme.",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "Amount",
+                          "Currency"
+                        ]
+                      },
+                      "Name": {
+                        "minLength": 1,
+                        "description": "Name of Service User",
+                        "type": "string",
+                        "maxLength": 70
+                      }
+                    },
+                    "required": [
+                      "AccountId",
+                      "Name"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "Data",
+                "Links",
+                "Meta"
+              ]
+            },
+            "headers": {
+              "x-jws-signature": {
+                "description": "Header containing a detached JWS signature of the response body.",
+                "type": "string"
+              },
+              "x-fapi-interaction-id": {
+                "description": "A correlation UUID to map requests and responses of the Application Information Service Providers (AISP) flow.",
+                "type": "string"
+              }
+            },
+            "description": "Successfully retrieved details on direct debits made to the customer’s bank account."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "AccountId",
+            "description": "A unique identifier used to identify the customer’s bank account. Use 34568 or 41825 for this demo.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-interaction-id",
+            "description": "A correlation UUID to map requests and responses of the AISP flow. Example: 85bac548-d2de-4546-b106-880a5018460c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-ip-address",
+            "description": "Header containing the payment service user’s (PSU's) IP address provided that the PSU is currently logged in via a Third-Party Provider (TPP).",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-financial-id",
+            "description": "Header containing the unique ID of the Account Servicing Payment Services Provider (ASPSP) to which the request is issued. The unique ID will be issued by WSO2 Open Banking. For this demo, you can use a 4-digit integer.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-last-logged-time",
+            "description": "Header containing the time when the PSU last logged in via the TPP.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "x-throttling-tier": "Unlimited",
+        "tags": [
+          "Get Direct Debits of an Account"
+        ]
+      }
+    },
+    "/accounts/{AccountId}/standing-orders": {
+      "get": {
+        "summary": "Get Account Standing Orders",
+        "security": [
+          {
+            "default": [
+              "accounts"
+            ]
+          }
+        ],
+        "x-auth-type": "Application & Application User",
+        "x-scope": "accounts",
+        "produces": [
+          "application/json"
+        ],
+        "description": "Get details regarding standing orders related to an account. Use an OAuth2 access token generated from AUTHORIZATION CODE grant type to invoke the resource.",
+        "operationId": "GetAccountStandingOrders",
+        "responses": {
+          "200": {
+            "schema": {
+              "additionalProperties": false,
+              "title": "Standing Orders GET response",
+              "type": "object",
+              "properties": {
+                "Meta": {
+                  "title": "Meta",
+                  "type": "object",
+                  "properties": {
+                    "Copyright": {
+                      "minLength": 1,
+                      "description": "Copyright",
+                      "type": "string",
+                      "maxLength": 128
+                    },
+                    "TotalResults": {
+                      "description": "Specifies the number of entries in the response collection.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "Links": {
+                  "description": "Links relevant to the payload pagination",
+                  "additionalProperties": false,
+                  "title": "Links",
+                  "type": "object",
+                  "properties": {
+                    "self": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  }
+                },
+                "Data": {
+                  "title": "StandingOrder",
+                  "type": "array",
+                  "items": {
+                    "description": "Standing Order",
+                    "additionalProperties": false,
+                    "type": "object",
+                    "title": "Standing Order",
+                    "properties": {
+                      "NextPaymentAmount": {
+                        "description": "The amount of the next Standing Order",
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                          "Amount": {
+                            "pattern": "^-?\\d{1,13}\\.\\d{1,5}$",
+                            "type": "string"
+                          },
+                          "Currency": {
+                            "pattern": "^[A-Z]{3}$",
+                            "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme.",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "Amount",
+                          "Currency"
+                        ]
+                      },
+                      "Servicer": {
+                        "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account. ",
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                          "SchemeName": {
+                            "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                            "type": "string",
+                            "enum": [
+                              "BICFI",
+                              "UKSortCode"
+                            ]
+                          },
+                          "Identification": {
+                            "minLength": 1,
+                            "description": "Unique and unambiguous identification of the servicing institution.",
+                            "type": "string",
+                            "maxLength": 35
+                          }
+                        },
+                        "required": [
+                          "SchemeName",
+                          "Identification"
+                        ]
+                      },
+                      "AccountId": {
+                        "minLength": 1,
+                        "description": "The date on which the first payment for a Standing Order schedule will be made.",
+                        "type": "string",
+                        "maxLength": 40
+                      },
+                      "NextPaymentDateTime": {
+                        "format": "date-time",
+                        "description": "The date on which the next payment for a Standing Order schedule will be made.",
+                        "type": "string"
+                      },
+                      "StandingOrderId": {
+                        "minLength": 1,
+                        "description": "A unique  identifier used to identify the standing order resource. ",
+                        "type": "string",
+                        "maxLength": 40
+                      },
+                      "Reference": {
+                        "minLength": 1,
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction. ",
+                        "maxLength": 35
+                      },
+                      "CreditorAccount": {
+                        "description": "Provides the details to identify the beneficiary account.",
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                          "SecondaryIdentification": {
+                            "minLength": 1,
+                            "description": "This is secondary identification of the account, as assigned by the account servicing institution. ",
+                            "type": "string",
+                            "maxLength": 34
+                          },
+                          "SchemeName": {
+                            "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                            "type": "string",
+                            "enum": [
+                              "BBAN",
+                              "IBAN"
+                            ]
+                          },
+                          "Identification": {
+                            "minLength": 1,
+                            "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+                            "type": "string",
+                            "maxLength": 34
+                          },
+                          "Name": {
+                            "minLength": 1,
+                            "description": "Name of the account, as assigned by the account servicing institution, in agreement with the account owner in order to provide an additional means of identification of the account. ",
+                            "type": "string",
+                            "maxLength": 70
+                          }
+                        },
+                        "required": [
+                          "SchemeName",
+                          "Identification"
+                        ]
+                      },
+                      "Frequency": {
+                        "description": "repetitive pattern for the standing order",
+                        "type": "string"
+                      },
+                      "FirstPaymentAmount": {
+                        "description": "The amount of the first Standing Order",
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                          "Amount": {
+                            "pattern": "^-?\\d{1,13}\\.\\d{1,5}$",
+                            "type": "string"
+                          },
+                          "Currency": {
+                            "pattern": "^[A-Z]{3}$",
+                            "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme.",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "Amount",
+                          "Currency"
+                        ]
+                      },
+                      "FirstPaymentDateTime": {
+                        "format": "date-time",
+                        "description": "The date on which the first payment for a Standing Order schedule will be made.",
+                        "type": "string"
+                      },
+                      "FinalPaymentAmount": {
+                        "description": "The amount of the final Standing Order",
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                          "Amount": {
+                            "pattern": "^-?\\d{1,13}\\.\\d{1,5}$",
+                            "type": "string"
+                          },
+                          "Currency": {
+                            "pattern": "^[A-Z]{3}$",
+                            "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme.",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "Amount",
+                          "Currency"
+                        ]
+                      },
+                      "FinalPaymentDateTime": {
+                        "format": "date-time",
+                        "description": "The date on which the final payment for a Standing Order schedule will be made.",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "AccountId",
+                      "Frequency",
+                      "NextPaymentDateTime",
+                      "NextPaymentAmount"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "Data",
+                "Links",
+                "Meta"
+              ]
+            },
+            "headers": {
+              "x-jws-signature": {
+                "description": "Header containing a detached JWS signature of the response body.",
+                "type": "string"
+              },
+              "x-fapi-interaction-id": {
+                "description": "A correlation UUID to map requests and responses of the Application Information Service Providers (AISP) flow.",
+                "type": "string"
+              }
+            },
+            "description": "Successfully retrieved account standing orders."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "AccountId",
+            "description": "A unique identifier used to identify the customer’s bank account. Use 34568 or 41825 for this demo.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-interaction-id",
+            "description": "A correlation UUID to map requests and responses in the AISP flow. Example: 85bac548-d2de-4546-b106-880a5018460c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-ip-address",
+            "description": "Header containing the payment service user’s (PSU's) IP address provided that the PSU is currently logged in via a Third-Party Provider (TPP).",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-financial-id",
+            "description": "Header containing the unique ID of the Account Servicing Payment Services Provider (ASPSP) to which the request is issued. The unique ID will be issued by WSO2 Open Banking. For this demo, you can use a 4-digit integer.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-last-logged-time",
+            "description": "Header containing the time when the PSU last logged in via the TPP.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "x-throttling-tier": "Unlimited",
+        "tags": [
+          "Get Standing Orders of an Account"
+        ]
+      }
+    },
+    "/accounts/{AccountId}/balances": {
+      "get": {
+        "summary": "Get Balance Details of an Account",
+        "security": [
+          {
+            "default": [
+              "accounts"
+            ]
+          }
+        ],
+        "x-auth-type": "Application & Application User",
+        "x-scope": "accounts",
+        "produces": [
+          "application/json"
+        ],
+        "description": "Get bank balance details related to an account. Use an OAuth2 access token generated from AUTHORIZATION CODE grant type to invoke the resource.",
+        "operationId": "GetAccountBalances",
+        "responses": {
+          "200": {
+            "schema": {
+              "additionalProperties": false,
+              "title": "Balances GET response",
+              "type": "object",
+              "properties": {
+                "Meta": {
+                  "title": "Meta",
+                  "type": "object",
+                  "properties": {
+                    "Copyright": {
+                      "minLength": 1,
+                      "description": "Copyright",
+                      "type": "string",
+                      "maxLength": 128
+                    },
+                    "TotalResults": {
+                      "description": "Specifies the number of entries in the response collection.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "Links": {
+                  "description": "Links relevant to the payload pagination",
+                  "additionalProperties": false,
+                  "title": "Links",
+                  "type": "object",
+                  "properties": {
+                    "self": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  }
+                },
+                "Data": {
+                  "minItems": 1,
+                  "title": "Balance",
+                  "type": "array",
+                  "items": {
+                    "description": "Balance",
+                    "type": "object",
+                    "title": "Balance",
+                    "properties": {
+                      "Type": {
+                        "description": "Balance type, in a coded form.",
+                        "type": "string",
+                        "enum": [
+                          "ClosingAvailable",
+                          "ClosingBooked",
+                          "Expected",
+                          "ForwardAvailable",
+                          "Information",
+                          "InterimAvailable",
+                          "InterimBooked",
+                          "OpeningAvailable",
+                          "OpeningBooked",
+                          "PreviouslyClosedBooked"
+                        ]
+                      },
+                      "AccountId": {
+                        "minLength": 1,
+                        "description": "A unique identifier used to identify the account resource. ",
+                        "type": "string",
+                        "maxLength": 40
+                      },
+                      "Amount": {
+                        "description": "Amount of money of the cash balance.",
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                          "Amount": {
+                            "pattern": "^-?\\d{1,13}\\.\\d{1,5}$",
+                            "type": "string"
+                          },
+                          "Currency": {
+                            "pattern": "^[A-Z]{3}$",
+                            "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme.",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "Amount",
+                          "Currency"
+                        ]
+                      },
+                      "CreditDebitIndicator": {
+                        "description": "Indicates whether the balance is a credit or a debit balance. Usage: A zero balance is considered to be a credit balance.",
+                        "type": "string",
+                        "enum": [
+                          "Credit",
+                          "Debit"
+                        ]
+                      },
+                      "DateTime": {
+                        "format": "date-time",
+                        "description": "Indicates the date (and time) of the balance.",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "AccountId",
+                      "Amount",
+                      "CreditDebitIndicator",
+                      "DateTime",
+                      "Type"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "Data",
+                "Links",
+                "Meta"
+              ]
+            },
+            "headers": {
+              "x-jws-signature": {
+                "description": "Header containing a detached JWS signature of the response body.",
+                "type": "string"
+              },
+              "x-fapi-interaction-id": {
+                "description": "A correlation UUID to map requests and responses of the Application Information Service Providers (AISP) flow.",
+                "type": "string"
+              }
+            },
+            "description": "Successfully retrieved details of account balances"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "AccountId",
+            "description": "A unique identifier used to identify the customer’s bank account. Use 34568 or 41825 for this demo.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-interaction-id",
+            "description": "A correlation UUID to map requests and responses in the AISP flow. Example: 85bac548-d2de-4546-b106-880a5018460c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-ip-address",
+            "description": "Header containing the payment service user’s (PSU's) IP address if the PSU is currently logged in via a third-party provider (TPP).",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-financial-id",
+            "description": "Header containing the unique ID of the Account Servicing Payment Services Provider (ASPSP) to which the request is issued. The unique ID will be issued by WSO2 Open Banking. For this demo, you can use a 4-digit integer.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-last-logged-time",
+            "description": "Header containig the time when the PSU last logged in with the TPP.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "x-throttling-tier": "Unlimited",
+        "tags": [
+          "Get Account Balance"
+        ]
+      }
+    },
+    "/accounts/{AccountId}/product": {
+      "get": {
+        "summary": "Get Account Product Details",
+        "security": [
+          {
+            "default": [
+              "accounts"
+            ]
+          }
+        ],
+        "x-auth-type": "Application & Application User",
+        "x-scope": "accounts",
+        "produces": [
+          "application/json"
+        ],
+        "description": "Get product details related to an account. Use an OAuth2 access token that is generated using the AUTHORIZATION CODE grant type to invoke the resource.",
+        "operationId": "GetAccountProduct",
+        "responses": {
+          "200": {
+            "schema": {
+              "additionalProperties": false,
+              "title": "Product GET response",
+              "type": "object",
+              "properties": {
+                "Meta": {
+                  "title": "Meta",
+                  "type": "object",
+                  "properties": {
+                    "Copyright": {
+                      "minLength": 1,
+                      "description": "Copyright",
+                      "type": "string",
+                      "maxLength": 128
+                    },
+                    "TotalResults": {
+                      "description": "Specifies the number of entries in the response collection.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "Links": {
+                  "description": "Links relevant to the payload pagination",
+                  "additionalProperties": false,
+                  "title": "Links",
+                  "type": "object",
+                  "properties": {
+                    "self": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  }
+                },
+                "Data": {
+                  "title": "Product",
+                  "type": "array",
+                  "items": {
+                    "description": "Product",
+                    "additionalProperties": false,
+                    "type": "object",
+                    "title": "Product",
+                    "properties": {
+                      "AccountId": {
+                        "minLength": 1,
+                        "description": "A unique identifier used to identify the account resource. ",
+                        "type": "string",
+                        "maxLength": 40
+                      },
+                      "ProductName": {
+                        "description": "The name of the product used for marketing purposes from a customer perspective.",
+                        "type": "string"
+                      },
+                      "ProductIdentifier": {
+                        "description": "Identifier of the product. Must be unique in the organisation.",
+                        "type": "string"
+                      },
+                      "ProductType": {
+                        "description": "Descriptive code for the product category.",
+                        "type": "string",
+                        "enum": [
+                          "BCA",
+                          "PCA"
+                        ]
+                      },
+                      "SecondaryProductIdentifier": {
+                        "description": "Identifier for the product. Must be unique in the organisation.",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "AccountId",
+                      "ProductIdentifier",
+                      "ProductType"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "Data",
+                "Links",
+                "Meta"
+              ]
+            },
+            "headers": {
+              "x-jws-signature": {
+                "description": "Header containing a detached JWS signature of the response body.",
+                "type": "string"
+              },
+              "x-fapi-interaction-id": {
+                "description": "A correlation UUID to map requests and responses of the Application Information Service Providers (AISP) flow.",
+                "type": "string"
+              }
+            },
+            "description": "Successfully retrieved product details related to the account."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "AccountId",
+            "description": "A unique identifier used to identify the customer’s bank account. Use  34568 or 41825 for this demo.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-interaction-id",
+            "description": "A correlation UUID to map requests and responses in the AISP flow. Example: 85bac548-d2de-4546-b106-880a5018460c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-ip-address",
+            "description": "Header containing the payment service user’s (PSU's) IP address if the PSU is currently logged in via a third-party provider (TPP).",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-financial-id",
+            "description": "Header containing the unique ID of the Account Servicing Payment Services Provider (ASPSP) to which the request is issued. The unique ID will be issued by WSO2 Open Banking. For this demo, you can use a 4-digit integer.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-last-logged-time",
+            "description": "Header containing the time when the PSU last logged in via the TPP.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "x-throttling-tier": "Unlimited",
+        "tags": [
+          "Get Product Details of the Account"
+        ]
+      }
+    },
+    "/accounts/{AccountId}/transactions": {
+      "get": {
+        "summary": "Get Account Transactions",
+        "security": [
+          {
+            "default": [
+              "accounts"
+            ]
+          }
+        ],
+        "x-auth-type": "Application & Application User",
+        "x-scope": "accounts",
+        "produces": [
+          "application/json"
+        ],
+        "description": "Get transactions related to an account. Use an OAuth2 access token that is generated using the AUTHORIZATION CODE grant type to invoke the resource.",
+        "operationId": "GetAccountTransactions",
+        "responses": {
+          "200": {
+            "schema": {
+              "additionalProperties": false,
+              "title": "Account Transactions GET response",
+              "type": "object",
+              "properties": {
+                "Meta": {
+                  "title": "Meta",
+                  "type": "object",
+                  "properties": {
+                    "Copyright": {
+                      "minLength": 1,
+                      "description": "Copyright",
+                      "type": "string",
+                      "maxLength": 128
+                    },
+                    "TotalResults": {
+                      "description": "Specifies the number of entries in the response collection.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "Links": {
+                  "description": "Links relevant to the payload",
+                  "additionalProperties": false,
+                  "title": "Links",
+                  "type": "object",
+                  "properties": {
+                    "self": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  }
+                },
+                "Data": {
+                  "description": "Data Section of the Payload",
+                  "title": "Transaction",
+                  "type": "array",
+                  "items": {
+                    "additionalProperties": false,
+                    "type": "object",
+                    "properties": {
+                      "Status": {
+                        "description": "Status of a transaction entry on the books of the account servicer.",
+                        "type": "string",
+                        "enum": [
+                          "Booked",
+                          "Pending"
+                        ]
+                      },
+                      "BookingDateTime": {
+                        "format": "date-time",
+                        "description": "Date and time when a transaction entry is posted to an account on the account servicer's books. ",
+                        "type": "string"
+                      },
+                      "AccountId": {
+                        "minLength": 1,
+                        "description": "A unique identifier used to identify the account resource. This identifier has no meaning to the account owner.",
+                        "type": "string",
+                        "maxLength": 40
+                      },
+                      "TransactionReference": {
+                        "minLength": 1,
+                        "description": "Unique reference for the transaction. ",
+                        "type": "string",
+                        "maxLength": 35
+                      },
+                      "BankTransactionCode": {
+                        "description": "Set of elements used to fully identify the type of underlying transaction resulting in an entry.",
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                          "SubCode": {
+                            "description": "Specifies the sub-product family within a specific family.",
+                            "type": "string"
+                          },
+                          "Code": {
+                            "description": "Specifies the family within a domain.",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "Code",
+                          "SubCode"
+                        ]
+                      },
+                      "MerchantDetails": {
+                        "description": "Details of the merchant involved in the transaction.",
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                          "MerchantName": {
+                            "minLength": 1,
+                            "description": "Name by which the merchant is known.",
+                            "type": "string",
+                            "maxLength": 350
+                          },
+                          "MerchantCategoryCode": {
+                            "minLength": 3,
+                            "description": "Category code conform to ISO 18245, related to the type of services or goods the merchant provides for the transaction.",
+                            "type": "string",
+                            "maxLength": 4
+                          }
+                        }
+                      },
+                      "Amount": {
+                        "description": "Amount of money in the cash entry.",
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                          "Amount": {
+                            "pattern": "^-?\\d{1,13}\\.\\d{1,5}$",
+                            "type": "string"
+                          },
+                          "Currency": {
+                            "pattern": "^[A-Z]{3}$",
+                            "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 'Codes for the representation of currencies and funds'",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "Amount",
+                          "Currency"
+                        ]
+                      },
+                      "ValueDateTime": {
+                        "format": "date-time",
+                        "description": "Date and time at which assets become available to the account owner in case of a credit entry, or cease to be available to the account owner in case of a debit entry. ",
+                        "type": "string"
+                      },
+                      "CreditDebitIndicator": {
+                        "description": "Indicates whether the transaction is a credit or a debit entry.",
+                        "type": "string",
+                        "enum": [
+                          "Credit",
+                          "Debit"
+                        ]
+                      },
+                      "Balance": {
+                        "description": "Set of elements used to define the balance as a numerical representation of the net increases and decreases in an account after a transaction entry is applied to the account.",
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                          "Amount": {
+                            "description": "Amount of money of the cash balance after a transaction entry is applied to the account..",
+                            "additionalProperties": false,
+                            "type": "object",
+                            "properties": {
+                              "Amount": {
+                                "pattern": "^-?\\d{1,13}\\.\\d{1,5}$",
+                                "type": "string"
+                              },
+                              "Currency": {
+                                "pattern": "^[A-Z]{3}$",
+                                "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 'Codes for the representation of currencies and funds'",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Amount",
+                              "Currency"
+                            ]
+                          },
+                          "CreditDebitIndicator": {
+                            "description": "Indicates whether the balance is a credit or a debit balance. Usage: A zero balance is considered to be a credit balance.",
+                            "type": "string",
+                            "enum": [
+                              "Credit",
+                              "Debit"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "Amount",
+                          "CreditDebitIndicator"
+                        ]
+                      },
+                      "TransactionId": {
+                        "minLength": 1,
+                        "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable.",
+                        "type": "string",
+                        "maxLength": 40
+                      }
+                    },
+                    "required": [
+                      "AccountId",
+                      "Amount",
+                      "CreditDebitIndicator",
+                      "Status",
+                      "BookingDateTime"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "Data",
+                "Links",
+                "Meta"
+              ]
+            },
+            "headers": {
+              "x-jws-signature": {
+                "description": "Header containing a detached JWS signature of the response body.",
+                "type": "string"
+              },
+              "x-fapi-interaction-id": {
+                "description": "A correlation UUID to map requests and responses of the Application Information Service Providers (AISP) flow.",
+                "type": "string"
+              }
+            },
+            "description": "Account Transactions successfully retrieved"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "AccountId",
+            "description": "A unique identifier used to identify the customer’s bank account. Use 34568 or 41825 for this demo",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-interaction-id",
+            "description": "A correlation UUID to map requests and responses of the AISP flow. Example: 85bac548-d2de-4546-b106-880a5018460c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-ip-address",
+            "description": "Header containing the payment service user’s (PSU's) IP address if the PSU is currently logged in via a third-party provider (TPP).",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-financial-id",
+            "description": "Header containing the unique ID of the Account Servicing Payment Services Provider (ASPSP) to which the request is issued. The unique ID will be issued by WSO2 Open Banking. For this demo, you can use a 4-digit integer.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-last-logged-time",
+            "description": "Header containing the time when the PSU last logged in via the TPP.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "x-throttling-tier": "Unlimited",
+        "tags": [
+          "Get Transaction Information of an Account"
+        ]
+      }
+    },
+    "/accounts": {
+      "get": {
+        "summary": "Get all Account Information",
+        "security": [
+          {
+            "default": [
+              "accounts"
+            ]
+          }
+        ],
+        "x-auth-type": "Application & Application User",
+        "x-scope": "accounts",
+        "produces": [
+          "application/json"
+        ],
+        "description": "Get a list of all the bank accounts. Use an OAuth2 access token that was generated using the AUTHORIZATION CODE grant type to invoke the resource.",
+        "operationId": "GetAccounts",
+        "responses": {
+          "200": {
+            "schema": {
+              "additionalProperties": false,
+              "title": "Account GET response",
+              "type": "object",
+              "properties": {
+                "Meta": {
+                  "title": "Meta",
+                  "type": "object",
+                  "properties": {
+                    "Copyright": {
+                      "minLength": 1,
+                      "description": "Copyright",
+                      "type": "string",
+                      "maxLength": 128
+                    },
+                    "TotalResults": {
+                      "description": "Specifies the number of entries in the response collection.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "Links": {
+                  "description": "Links relevant to the payload",
+                  "additionalProperties": false,
+                  "title": "Links",
+                  "type": "object",
+                  "properties": {
+                    "self": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  }
+                },
+                "Data": {
+                  "title": "Account",
+                  "type": "array",
+                  "items": {
+                    "description": "Account",
+                    "additionalProperties": false,
+                    "type": "object",
+                    "title": "Account",
+                    "properties": {
+                      "Account": {
+                        "description": "Provides the details to identify an account.",
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                          "SecondaryIdentification": {
+                            "minLength": 1,
+                            "description": "This is secondary identification of the account, as assigned by the account servicing institution. ",
+                            "type": "string",
+                            "maxLength": 34
+                          },
+                          "SchemeName": {
+                            "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                            "type": "string",
+                            "enum": [
+                              "BBAN",
+                              "IBAN"
+                            ]
+                          },
+                          "Identification": {
+                            "minLength": 1,
+                            "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+                            "type": "string",
+                            "maxLength": 34
+                          },
+                          "Name": {
+                            "minLength": 1,
+                            "description": "Name of the account, as assigned by the account servicing institution, in agreement with the account owner in order to provide an additional means of identification of the account. Usage: The account name is different from the account owner name.",
+                            "type": "string",
+                            "maxLength": 70
+                          }
+                        },
+                        "required": [
+                          "SchemeName",
+                          "Identification"
+                        ]
+                      },
+                      "Servicer": {
+                        "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.",
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                          "SchemeName": {
+                            "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                            "type": "string",
+                            "enum": [
+                              "BICFI",
+                              "UKSortCode"
+                            ]
+                          },
+                          "Identification": {
+                            "minLength": 1,
+                            "description": "Unique and unambiguous identification of the servicing institution.",
+                            "type": "string",
+                            "maxLength": 35
+                          }
+                        },
+                        "required": [
+                          "SchemeName",
+                          "Identification"
+                        ]
+                      },
+                      "AccountId": {
+                        "minLength": 1,
+                        "description": "A unique identifier used to identify the account resource. ",
+                        "type": "string",
+                        "maxLength": 40
+                      },
+                      "Currency": {
+                        "pattern": "^[A-Z]{3}$",
+                        "description": "Identification of the currency in which the account is held.  Usage: Currency should only be used in case one and the same account number covers several currencies and the initiating party needs to identify which currency needs to be used for settlement on the account.",
+                        "type": "string"
+                      },
+                      "Nickname": {
+                        "minLength": 1,
+                        "description": "The nickname of the account, assigned by the account owner in order to provide an additional means of identification of the account.",
+                        "type": "string",
+                        "maxLength": 70
+                      }
+                    },
+                    "required": [
+                      "AccountId",
+                      "Currency"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "Data",
+                "Links",
+                "Meta"
+              ]
+            },
+            "headers": {
+              "x-jws-signature": {
+                "description": "Header containing a detached JWS signature of the response body.",
+                "type": "string"
+              },
+              "x-fapi-interaction-id": {
+                "description": "A correlation UUID to map requests and responses of the Application Information Service Providers (AISP) flow.",
+                "type": "string"
+              }
+            },
+            "description": "Successfully retrieved bank account details."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-fapi-interaction-id",
+            "description": "A correlation UUID to map requests and responses of the AISP flow. Example: 85bac548-d2de-4546-b106-880a5018460c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-ip-address",
+            "description": "Header containing the payment service user’s (PSU's) IP address if the PSU is currently logged in via a third-party provider (TPP).",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-financial-id",
+            "description": "Header containing the unique ID of the Account Servicing Payment Services Provider (ASPSP) to which the request is issued. The unique ID will be issued by WSO2 Open Banking. For this demo, you can use a 4-digit integer.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-last-logged-time",
+            "description": "Header containing the time when the PSU last logged in via the TPP.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "x-throttling-tier": "Unlimited",
+        "tags": [
+          "Get Information on Accounts"
+        ]
+      }
+    },
+    "/account-initiations/{AccountRequestId}": {
+      "get": {
+        "summary": "Get an account request",
+        "security": [
+          {
+            "default": [
+              "accounts"
+            ]
+          }
+        ],
+        "x-auth-type": "Application",
+        "x-scope": "accounts",
+        "produces": [
+          "application/json"
+        ],
+        "description": "Get an account request-Use an Oauth2 access token generated from CLIENT CREDENTIALS grant type to invoke the resource.",
+        "operationId": "GetAccountRequest",
+        "responses": {
+          "200": {
+            "schema": {
+              "additionalProperties": false,
+              "title": "Account Request GET response",
+              "type": "object",
+              "properties": {
+                "Meta": {
+                  "title": "Meta",
+                  "type": "object",
+                  "properties": {
+                    "Copyright": {
+                      "minLength": 1,
+                      "description": "Copyright",
+                      "type": "string",
+                      "maxLength": 128
+                    },
+                    "TotalResults": {
+                      "description": "Specifies the number of entries in the response collection.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "Data": {
+                  "additionalProperties": false,
+                  "title": "Data",
+                  "type": "object",
+                  "properties": {
+                    "Status": {
+                      "description": "Specifies the status of the account request resource.",
+                      "type": "string",
+                      "enum": [
+                        "Authorised",
+                        "Rejected"
+                      ]
+                    },
+                    "CreationDateTime": {
+                      "format": "date-time",
+                      "description": "Date and time at which the resource was created.",
+                      "type": "string"
+                    },
+                    "Permissions": {
+                      "description": "Specifies the account request types. This is a list of the data clusters being consented by the PSU, and requested for authorisation with the ASPSP.",
+                      "additionalProperties": false,
+                      "type": "array",
+                      "items": {
+                        "description": "Specifies the account request types. This is a list of the data clusters being consented by the PSU, and requested for authorisation with the ASPSP.",
+                        "type": "string",
+                        "enum": [
+                          "ReadAccountsBasic",
+                          "ReadAccountsDetail",
+                          "ReadBalances",
+                          "ReadBeneficiariesBasic",
+                          "ReadBeneficiariesDetail",
+                          "ReadDirectDebits",
+                          "ReadProducts",
+                          "ReadStandingOrdersBasic",
+                          "ReadStandingOrdersDetail",
+                          "ReadTransactionsBasic",
+                          "ReadTransactionsDetail"
+                        ]
+                      },
+                      "minProperties": 1
+                    },
+                    "AccountRequestId": {
+                      "minLength": 1,
+                      "description": "Unique identification as assigned to identify the account request resource.",
+                      "type": "string",
+                      "maxLength": 128
+                    }
+                  },
+                  "required": [
+                    "AccountRequestId",
+                    "CreationDateTime",
+                    "Permissions"
+                  ]
+                }
+              },
+              "required": [
+                "Data",
+                "Meta"
+              ]
+            },
+            "headers": {
+              "x-jws-signature": {
+                "description": "Header containig a detached JWS signature of the payload body.",
+                "type": "string"
+              }
+            },
+            "description": "Account Request resource successfully retrieved"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "AccountRequestId",
+            "description": "Unique identification as assigned by the ASPSP to uniquely identify the account request resource.This value can obtain from POST-Account-Initiations API call.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-interaction-id",
+            "description": "A corelation uuid to map requests and responses in AISP flow.Example-85bac548-d2de-4546-b106-880a5018460c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-ip-address",
+            "description": "Header containig the PSU's IP address if the PSU is currently logged in with the TPP.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-financial-id",
+            "description": "Header containig an unique id of the ASPSP to which the request is issued. The unique id will be issued by OB.For this demo,you can use a 4-digit integer.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-last-logged-time",
+            "description": "Header containig the time when the PSU last logged in with the TPP.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "x-throttling-tier": "Unlimited",
+        "tags": [
+          "Get an initiated  Account Request Entry"
+        ]
+      },
+      "delete": {
+        "summary": "Delete an Account Request",
+        "security": [
+          {
+            "default": [
+              "accounts"
+            ]
+          }
+        ],
+        "x-auth-type": "Application",
+        "x-scope": "accounts",
+        "produces": [
+          "application/json"
+        ],
+        "description": "Delete an account request. Use an OAuth2 access token that is generated using the CLIENT CREDENTIALS grant type to invoke the resource.",
+        "operationId": "DeleteAccountRequest",
+        "responses": {
+          "204": {
+            "headers": {
+              "x-fapi-interaction-id": {
+                "description": "A correlation UUID to map requests and responses of the AISP flow.",
+                "type": "string"
+              }
+            },
+            "description": "Account Request resource successfully deleted"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "AccountRequestId",
+            "description": "Unique identification that is assigned by the Account Servicing Payment Services Provider (ASPSP) to uniquely identify the account request. You can obtain this value from the POST-Account-Initiations API call.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-interaction-id",
+            "description": "A correlation UUID to map requests and responses in the Application Information Service Providers (AISP) flow. Example: 85bac548-d2de-4546-b106-880a5018460c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-ip-address",
+            "description": "Header containing the payment service user’s (PSU's) IP address if the PSU is currently logged in via a third-party provider (TPP).",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-financial-id",
+            "description": "Header containing the unique ID of the Account Servicing Payment Services Provider (ASPSP) to which the request is issued. The unique ID will be issued by WSO2 Open Banking. For this demo, you can use a 4-digit integer.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-last-logged-time",
+            "description": "Header containing the time when the PSU last logged in via the TPP.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "x-throttling-tier": "Unlimited",
+        "tags": [
+          "Remove an Account Request Entry"
+        ]
+      }
+    },
+    "/accounts/{AccountId}": {
+      "get": {
+        "summary": "Get Account",
+        "security": [
+          {
+            "default": [
+              "accounts"
+            ]
+          }
+        ],
+        "x-auth-type": "Application & Application User",
+        "x-scope": "accounts",
+        "produces": [
+          "application/json"
+        ],
+        "description": "Get an account-Use an Oauth2 access token generated from AUTHORIZATION CODE grant type to invoke the resource.",
+        "operationId": "GetAccount",
+        "responses": {
+          "200": {
+            "schema": {
+              "additionalProperties": false,
+              "title": "Account GET response",
+              "type": "object",
+              "properties": {
+                "Meta": {
+                  "title": "Meta",
+                  "type": "object",
+                  "properties": {
+                    "Copyright": {
+                      "minLength": 1,
+                      "description": "Copyright",
+                      "type": "string",
+                      "maxLength": 128
+                    },
+                    "TotalResults": {
+                      "description": "Specifies the number of entries in the response collection.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "Links": {
+                  "description": "Links relevant to the payload pagination",
+                  "additionalProperties": false,
+                  "title": "Links",
+                  "type": "object",
+                  "properties": {
+                    "self": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  }
+                },
+                "Data": {
+                  "title": "Account",
+                  "type": "array",
+                  "items": {
+                    "description": "Account",
+                    "additionalProperties": false,
+                    "type": "object",
+                    "title": "Account",
+                    "properties": {
+                      "Account": {
+                        "description": "Provides the details to identify an account.",
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                          "SecondaryIdentification": {
+                            "minLength": 1,
+                            "description": "This is secondary identification of the account, as assigned by the account servicing institution.  ",
+                            "type": "string",
+                            "maxLength": 34
+                          },
+                          "SchemeName": {
+                            "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                            "type": "string",
+                            "enum": [
+                              "BBAN",
+                              "IBAN"
+                            ]
+                          },
+                          "Identification": {
+                            "minLength": 1,
+                            "description": "Identification assigned by an institution to identify an account.",
+                            "type": "string",
+                            "maxLength": 34
+                          },
+                          "Name": {
+                            "minLength": 1,
+                            "description": "Name of the account, as assigned by the account servicing institution, in agreement with the account owner in order to provide an additional means of identification of the account.",
+                            "type": "string",
+                            "maxLength": 70
+                          }
+                        },
+                        "required": [
+                          "SchemeName",
+                          "Identification"
+                        ]
+                      },
+                      "Servicer": {
+                        "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.",
+                        "additionalProperties": false,
+                        "type": "object",
+                        "properties": {
+                          "SchemeName": {
+                            "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                            "type": "string",
+                            "enum": [
+                              "BICFI",
+                              "UKSortCode"
+                            ]
+                          },
+                          "Identification": {
+                            "minLength": 1,
+                            "description": "Unique identification of the servicing institution.",
+                            "type": "string",
+                            "maxLength": 35
+                          }
+                        },
+                        "required": [
+                          "SchemeName",
+                          "Identification"
+                        ]
+                      },
+                      "AccountId": {
+                        "minLength": 1,
+                        "description": "A unique identifier used to identify the account resource. This identifier has no meaning to the account owner.",
+                        "type": "string",
+                        "maxLength": 40
+                      },
+                      "Currency": {
+                        "pattern": "^[A-Z]{3}$",
+                        "description": "Identification of the currency in which the account is held.  ",
+                        "type": "string"
+                      },
+                      "Nickname": {
+                        "minLength": 1,
+                        "description": "The nickname of the account, assigned by the account owner in order to provide an additional means of identification of the account.",
+                        "type": "string",
+                        "maxLength": 70
+                      }
+                    },
+                    "required": [
+                      "AccountId",
+                      "Currency"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "Data",
+                "Links",
+                "Meta"
+              ]
+            },
+            "headers": {
+              "x-jws-signature": {
+                "description": "Header containig a detached JWS signature of the response body.",
+                "type": "string"
+              },
+              "x-fapi-interaction-id": {
+                "description": "An corelation UUID to map requests and responses of AISP flow.",
+                "type": "string"
+              }
+            },
+            "description": "Account resource successfully retrieved"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "AccountId",
+            "description": "A unique identifier used to identify the account resource.Use '34568' or '41825' for this demo.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-interaction-id",
+            "description": "A corelation uuid to map requests and responses in AISP flow.Example-85bac548-d2de-4546-b106-880a5018460c",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-ip-address",
+            "description": "Header containig the PSU's IP address if the PSU is currently logged in with the TPP.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-financial-id",
+            "description": "Header containig an unique id of the ASPSP to which the request is issued. The unique id will be issued by OB.For this demo,you can use a 4-digit integer.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-last-logged-time",
+            "description": "Header containig the time when the PSU last logged in with the TPP.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "x-throttling-tier": "Unlimited",
+        "tags": [
+          "Get an Account Information"
+        ]
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "host": "api-openbanking.wso2.com",
+  "responses": {
+    "400ErrorResponse": {
+      "description": "Bad Request"
+    },
+    "500ErrorResponse": {
+      "description": "Internal Server Error"
+    },
+    "403ErrorResponse": {
+      "description": "Forbidden"
+    },
+    "429ErrorResponse": {
+      "description": "Too Many Requests"
+    },
+    "401ErrorResponse": {
+      "description": "Unauthorized"
+    }
+  },
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "securityDefinitions": {
+    "default": {
+      "type": "oauth2",
+      "authorizationUrl": "https://api-openbanking.wso2.com/authorize",
+      "flow": "implicit",
+      "scopes": {
+        "accounts": "accounts"
+      }
+    },
+    "TPPOAuth2Security": {
+      "tokenUrl": "/token",
+      "description": "TPP client credential authorisation flow with the ASPSP",
+      "scopes": {
+        "tpp_client_credential": "TPP Client Credential Scope"
+      },
+      "type": "oauth2",
+      "flow": "application"
+    },
+    "PSUOAuth2Security": {
+      "tokenUrl": "/token",
+      "authorizationUrl": "/authorization",
+      "description": "OAuth flow, it is required when the PSU needs to perform SCA with the ASPSP when a TPP wants to access an ASPSP resource owned by the PSU",
+      "scopes": {
+        "accounts": "Ability to read Accounts information"
+      },
+      "type": "oauth2",
+      "flow": "accessCode"
+    }
+  },
+  "x-wso2-security": {
+    "apim": {
+      "x-wso2-scopes": [
+        {
+          "roles": "Internal/everyone",
+          "name": "accounts",
+          "description": "This scope will group users to access account API resources",
+          "key": "accounts"
+        }
+      ]
+    }
+  },
+  "info": {
+    "description": "An API to get Information on a customer's bank accounts.",
+    "title": "AccountInformationAPI",
+    "version": "v2.0.0"
+  }
+}
