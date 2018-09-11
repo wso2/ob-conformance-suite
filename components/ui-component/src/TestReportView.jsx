@@ -26,8 +26,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { PieChart, Pie } from 'recharts';
 import RequestBuilder from './utils/RequestBuilder';
+import TestReportHelper from './utils/TestReportHelper';
 
 const client = new RequestBuilder();
+const reportHelper = new TestReportHelper();
 
 const ReportSpec = connect((state) => ({specifications: state.specifications,}))(({spec,specName,specifications}) => (
   <div>
@@ -79,18 +81,50 @@ class TestReportView extends React.Component {
             this.state = {
                 uuid: props.match.params.uuid,
                 loading: true,
-                data: null
+                data: null,
+                currentSpecName: "specExample"
             }
+
+            this.interval = null;
             this.renderMain = this.renderMain.bind(this);
+            this.appendResults = this.appendResults.bind(this);
     }
 
-    componentDidMount(){
-        client.getResultsForTestPlan(this.state.uuid).then((reponse)=>{
+
+    componentDidMount() {
+        var currentRoute = this.props.location.pathname
+        //console.log(currentLocation);
+        client.getResultsForTestPlan(this.state.uuid).then((response)=>{
             this.setState({
                 loading:false,
-                data: reponse.data
+                data: response.data
             })
-        })
+        });
+
+        if(currentRoute.includes("running")){
+            console.log(this.state.data);
+            this.interval = setInterval(() => this.appendResults(), 2000);
+        }
+    }
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
+    appendResults(){
+        client.pollResultsForTestPlan(this.state.uuid).then((response)=>{
+            var resultObject = this.state.data;
+            response.data.forEach((feature) => {
+                console.log(feature.featureResult);
+                resultObject = {
+                    ...resultObject,
+                    [feature.specName] : [...resultObject[feature.specName],feature.featureResult]
+                };
+            });
+            //console.log("F",resultObject);
+            this.setState({
+                data : resultObject
+            })
+        });
     }
 
   render() {
