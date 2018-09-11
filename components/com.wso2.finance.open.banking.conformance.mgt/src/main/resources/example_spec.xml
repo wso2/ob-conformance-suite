@@ -32,6 +32,14 @@
                 <defaultValue>https://api-openbanking.wso2.com/OpenBankAPI</defaultValue>
             </Attribute>
         </AttributeGroup>
+        <AttributeGroup groupName="oauth" title="Server Configuration">
+            <Attribute name="callback_url">
+                <label>Callback URL</label>
+                <attributeType>TextLabel</attributeType>
+                <helpText>Set this as your callback url</helpText>
+                <defaultValue>http://{OIDC_CONFORMANCE_SUITE_HOST}:8080/</defaultValue>
+            </Attribute>
+        </AttributeGroup>
     </attributeGroups>
     <vectors>
         <Vector tag="@security">

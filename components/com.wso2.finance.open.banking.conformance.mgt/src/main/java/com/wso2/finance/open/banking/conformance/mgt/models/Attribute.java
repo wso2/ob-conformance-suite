@@ -44,7 +44,7 @@ public class Attribute {
     String validationRegex;
 
     public enum ATTRIBUTE_TYPE {
-        String
+        String, TextLabel, LinkButton
     }
 
     public Attribute() {
