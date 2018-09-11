@@ -36,14 +36,17 @@ public class OIDCSteps {
 
     private String AUTH_END_POINT;
     private String CALLBACK_URL;
+    private String clientID;
+    private String clientSecret;
 
     @Given("user is directed to the auth endpoint to get the consent")
     public void directUserToGetTheConcent(){
-        AUTH_END_POINT = "https://api-openbanking.wso2.com/AuthorizeAPI/v1.0.0/";
+        clientID = Context.getInstance().getCurrentSpecAttribute("client","consumer key");
+        clientSecret = Context.getInstance().getCurrentSpecAttribute("client","consumer secret");
+        AUTH_END_POINT = "https://api-openbanking.wso2.com/AuthorizeAPI/v1.0.0";
         CALLBACK_URL = Context.getInstance().getCurrentSpecAttribute("oauth","callback_url");
-        oidcHandler = new OIDCHandler(AUTH_END_POINT,CALLBACK_URL);
-        String clientID = Context.getInstance().getCurrentSpecAttribute("client","consumer key");
-        String url = oidcHandler.createAuthUrlForUserContent("YWlzcDozMTQ2",clientID);
+        oidcHandler = new OIDCHandler(clientID,clientSecret,AUTH_END_POINT,CALLBACK_URL);
+        String url = oidcHandler.createAuthUrlForUserContent("YWlzcDozMTQ2");
         setBrowserInteractionURLtoContext(url);
     }
 
@@ -51,7 +54,7 @@ public class OIDCSteps {
     public void receiveAuthorizationcode(){
         String authCode = Context.getInstance().getAttributesFromTempMap("auth_code");
         int i = 0;
-        while ((authCode == "") && (i < 20)){
+        while ((authCode == null) && (i < 20)){
             try {
                 Thread.sleep(1000);
                 authCode = Context.getInstance().getAttributesFromTempMap("auth_code");

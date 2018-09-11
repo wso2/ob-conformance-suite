@@ -25,19 +25,23 @@ public class OIDCHandler {
 
     //enum Scope {ACCCOUNT};
 
+    private String clientID="";
+    private String clientSecret="";
     private String callbackURL = ""; // eg: "https://openbanking.wso2.com/authenticationendpoint/authorize_callback.do";
     private String authEnd = "";  //eg: "https://api-openbanking.wso2.com/AuthorizeAPI/v1.0.0/";
     private String authCode = "";
 
     //https://api-openbanking.wso2.com/AuthorizeAPI/v1.0.0/?response_type=code&scope=accounts payments&state=YWlzcDozMTQ2&client_id=MGw0ych4DOR9Fz_m6xwEWLdIMjQa&redirect_uri=https://openbanking.wso2.com/authenticationendpoint/authorize_callback.do
 
-    public OIDCHandler(String authEnd, String callbackURL) {
+    public OIDCHandler(String clientID, String clientSecret, String authEnd, String callbackURL) {
+        this.clientID = clientID;
+        this.clientSecret = clientSecret;
         this.authEnd = authEnd;
         this.callbackURL = callbackURL;
     }
 
-    public  String createAuthUrlForUserContent(String state, String client_id) {
-        String url = authEnd+"?response_type=code&scope=accounts payments&state="+state+"&client_id="+client_id+"&redirect_uri="+callbackURL;
+    public  String createAuthUrlForUserContent(String state) {
+        String url = authEnd+"?response_type=code&scope=accounts payments&state="+state+"&client_id="+clientID+"&redirect_uri="+callbackURL;
         Log.info(url);
         return url;
     }

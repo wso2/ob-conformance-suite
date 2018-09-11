@@ -45,7 +45,7 @@ public class FeatureRunner {
 
         String[] argv = new String[]
                             {"-p","json:"+resultFile.getPath(), "-g",
-                              "com.wso2.finance.open.banking.conformance.test.core.steps.v1_0_0",
+                              "com.wso2.finance.open.banking.conformance.test.core.steps",
                               feature.getUri()
                              };
 
