@@ -19,8 +19,10 @@
 package com.wso2.finance.open.banking.conformance.test.core.runner;
 
 import com.google.gson.JsonObject;
+import com.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;
 
 public class TestPlanFeatureResult {
     public JsonObject featureResult;
+    public AttributeGroup attributeGroup;
     public String specName;
 }
