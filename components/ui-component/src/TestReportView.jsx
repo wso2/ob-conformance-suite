@@ -18,35 +18,15 @@
 
 import React from 'react';
 import AppHeader from "./partials/AppHeader";
-import {ListGroup, ListGroupItem, Glyphicon, Button, Grid, Row, Col, Panel, Well} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Glyphicon, Button, Grid, Row, Col, Panel, Badge} from 'react-bootstrap';
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
-import '../public/css/report-style.css'
+import '../public/css/report-style.scss'
 import {connect} from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import RequestBuilder from './utils/RequestBuilder';
 
 const client = new RequestBuilder();
-
-const ReportSpec = connect((state) => ({specifications: state.specifications,}))(({spec,specName,specifications}) => (
-  <div>
-    <h3>{specifications.specs[specName].title}</h3>
-    {spec.map(featurex => <ReportFeature feature={featurex}/>)}
-  </div>
-));
-
-const ReportFeature = ({feature}) => (
-    <Panel bsStyle="primary">
-        <Panel.Heading>
-            <Panel.Title componentClass="h3">{feature.name}</Panel.Title>
-        </Panel.Heading>
-        <Panel.Body>
-          <ListGroup>
-            {feature.elements.map(elementx => <FeatureElement element={elementx}/>)}
-          </ListGroup>
-        </Panel.Body>
-    </Panel>
-);
 
 const stepStatus = (steps) => {
   var status = true;
@@ -58,11 +38,11 @@ const stepStatus = (steps) => {
     error.push(step.result.error_message);
   });
   if(status){
-      return (<p className="passed"><FontAwesomeIcon icon={faCheckCircle}/>Passed</p>) ;
+      return (<p className="passed status-badge"><FontAwesomeIcon icon={faCheckCircle}/>Passed</p>) ;
   }else{
       return (
           <div>
-              <p className="failed"><FontAwesomeIcon icon={faTimesCircle}/>Failed</p>
+              <p className="failed status-badge"><FontAwesomeIcon icon={faTimesCircle}/>Failed</p>
               <Panel className="error-panel" defaultExpanded={false}>
                   <Panel.Toggle componentClass="a">View more details about ths error</Panel.Toggle>
                   <Panel.Collapse>
@@ -80,16 +60,41 @@ const stepStatus = (steps) => {
 const FeatureElement = ({element}) => (
     <ListGroupItem>
         <h4 className="scenario-title">{element.name}</h4>
-        <span className="scenario-details"> Checking conformance for: {element.tags[0].name.slice(1)} | v {element.tags[1].name.slice(1)}</span>
-        <br/><br/>
+        <p>
+            <span className="text-muted">Checking Compliance for </span>
+            <span className="scenario-spec-details">
+                <b>{element.tags[0].name.slice(1)} &nbsp;</b>
+                <Badge>Section {element.tags[1].name.slice(1)}</Badge>
+            </span>
+        </p>
         {stepStatus(element.steps)}
     </ListGroupItem>
 )
 
 const ElementStep = ({step}) => (
   step.result.status
-)
+);
 
+const ReportFeature = ({feature}) => (
+    <ListGroup>
+        <ListGroupItem disabled>
+            <div className="pull-right feature-result">
+                <span><FontAwesomeIcon icon={faCheckCircle}/> 3/3</span>
+            </div>
+            <h4 className="feature-title"><b>Feature:</b> {feature.name}</h4>
+        </ListGroupItem>
+        {feature.elements.map(element => <FeatureElement element={element}/>)}
+    </ListGroup>
+);
+
+const ReportSpec = connect((state) => ({specifications: state.specifications,}))(({spec,specName,specifications}) => (
+    <div>
+        <h2>{specifications.specs[specName].title} <small>{specifications.specs[specName].version} </small></h2>
+        <p className={"text-muted"}>{specifications.specs[specName].description}</p>
+        <br/>
+        {spec.map(featurex => <ReportFeature feature={featurex}/>)}
+    </div>
+));
 
 class TestReportView extends React.Component {
 
@@ -155,24 +160,29 @@ class TestReportView extends React.Component {
   renderMain(){
     return (
         <Grid>
-    <Row>
-        <Col md={3}>
-            <Well bsSize="small">
-                <h2>Test Summary</h2>
-                <p>Passed : </p>
-                <p>Failed : </p>
-                <p>Success Rate :</p>
-            </Well>
-        </Col>
+            <Row>
+                <Col md={12}>
+                    <h1>Test Report <small>{this.state.uuid}</small></h1>
+                    <hr/>
+                </Col>
+            </Row>
+            <Row>
+                <Col md={3}>
+                    <div>
+                        <h2>Test Summary</h2>
+                        <p>Passed : </p>
+                        <p>Failed : </p>
+                        <p>Success Rate :</p>
+                    </div>
+                </Col>
 
-        <Col md={9}>
-            <Well bsSize="small">
-                <h2>Detailed Report</h2>
-                {Object.keys(this.state.data).map((key) => <ReportSpec spec={this.state.data[key]} specName={key}/>)}
-            </Well>
-        </Col>
-    </Row>
-</Grid>
+                <Col md={12}>
+                    <div>
+                        {Object.keys(this.state.data).map((key) => <ReportSpec spec={this.state.data[key]} specName={key}/>)}
+                    </div>
+                </Col>
+            </Row>
+        </Grid>
     );
   }
 }

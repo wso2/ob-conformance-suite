@@ -25,10 +25,23 @@
     box-shadow: none;
 }
 
-.scenario-title{
-
+.feature-title {
+    padding-bottom: 0px;
 }
+
+.feature-result {
+   font-size: 1.3em;
+    padding: 8px 8px 0px 0px;
+}
+
 .scenario-details {
     color: gray;
 }
 
+.status-badge {
+    padding: 5px 5px 0px 0px;
+    font-size: 1.1em;
+    svg {
+        margin-right: 5px;
+    }
+}
