@@ -24,12 +24,9 @@ import '../public/css/report-style.css'
 import {connect} from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
-import { PieChart, Pie } from 'recharts';
 import RequestBuilder from './utils/RequestBuilder';
-import TestReportHelper from './utils/TestReportHelper';
 
 const client = new RequestBuilder();
-const reportHelper = new TestReportHelper();
 
 const ReportSpec = connect((state) => ({specifications: state.specifications,}))(({spec,specName,specifications}) => (
   <div>
@@ -53,18 +50,38 @@ const ReportFeature = ({feature}) => (
 
 const stepStatus = (steps) => {
   var status = true;
-  var error="";
+  var error=[];
   
 
   steps.forEach(step => {
     status = status && (step.result.status === "passed");
-    error = step.result.error_message;
+    error.push(step.result.error_message);
   });
-  return status? <p className="passed"><FontAwesomeIcon icon={faCheckCircle}/>Passed</p> : <div><p className="failed"><FontAwesomeIcon icon={faTimesCircle}/>Failed</p> <p className="error">{error}</p></div>;
-} 
+  if(status){
+      return (<p className="passed"><FontAwesomeIcon icon={faCheckCircle}/>Passed</p>) ;
+  }else{
+      return (
+          <div>
+              <p className="failed"><FontAwesomeIcon icon={faTimesCircle}/>Failed</p>
+              <Panel className="error-panel" defaultExpanded={false}>
+                  <Panel.Toggle componentClass="a">View more details about ths error</Panel.Toggle>
+                  <Panel.Collapse>
+                      <Panel.Body>
+                          <p className="error">{error}</p>
+                      </Panel.Body>
+                  </Panel.Collapse>
+              </Panel>
+          </div>
+
+      );
+  }
+}
+
 const FeatureElement = ({element}) => (
     <ListGroupItem>
-        <h4>{element.name}</h4>
+        <h4 className="scenario-title">{element.name}</h4>
+        <span className="scenario-details"> Checking conformance for: {element.tags[0].name.slice(1)} | v {element.tags[1].name.slice(1)}</span>
+        <br/><br/>
         {stepStatus(element.steps)}
     </ListGroupItem>
 )
@@ -102,7 +119,6 @@ class TestReportView extends React.Component {
         });
 
         if(currentRoute.includes("running")){
-            console.log(this.state.data);
             this.interval = setInterval(() => this.appendResults(), 2000);
         }
     }
@@ -114,13 +130,11 @@ class TestReportView extends React.Component {
         client.pollResultsForTestPlan(this.state.uuid).then((response)=>{
             var resultObject = this.state.data;
             response.data.forEach((feature) => {
-                console.log(feature.featureResult);
                 resultObject = {
                     ...resultObject,
                     [feature.specName] : [...resultObject[feature.specName],feature.featureResult]
                 };
             });
-            //console.log("F",resultObject);
             this.setState({
                 data : resultObject
             })
