@@ -21,6 +21,7 @@ package com.wso2.finance.open.banking.conformance.test.core;
 
 import com.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.*;
+import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerInstance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +41,10 @@ public class Context {
     private String accessToken = "";
     private String test_id = UUID.randomUUID().toString();
     private Map<String, String> tempAttributeMap = new HashMap<>();
-    private List<AttributeGroup> userInteractionAttributes = new ArrayList<>();
 
     private Map<String,String> swaggerJsonFileMap = new HashMap<String,String>(); //specname+version -> swaggerJsonFile
+
+    private TestPlanRunnerInstance runnerInstance;
 
     private Context(){}
 
@@ -150,9 +152,12 @@ public class Context {
         return tempAttributeMap.get(key);
     }
 
-    public void setUserInteractionAttributes(List<AttributeGroup> attributeGroupList)
-    {
-        userInteractionAttributes = attributeGroupList;
+    public void setRunnerInstance(TestPlanRunnerInstance testPlanRunnerInstance) {
+        this.runnerInstance = testPlanRunnerInstance;
     }
 
+    public TestPlanRunnerInstance getRunnerInstance() {
+
+        return runnerInstance;
+    }
 }

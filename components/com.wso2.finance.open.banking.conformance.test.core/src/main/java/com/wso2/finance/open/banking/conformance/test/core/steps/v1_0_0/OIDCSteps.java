@@ -27,7 +27,6 @@ import cucumber.api.java.en.When;
 import com.wso2.finance.open.banking.conformance.test.core.response.ResponseValidator;
 import com.wso2.finance.open.banking.conformance.test.core.request.RequestGenerator;
 import com.wso2.finance.open.banking.conformance.test.core.oidc.OIDCHandler;
-import sun.jvm.hotspot.utilities.Assert;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -76,6 +75,6 @@ public class OIDCSteps {
         AttributeGroup atrGrp = new AttributeGroup("browser","","",atrList);
         List<AttributeGroup> atrGrpList = new ArrayList();
         atrGrpList.add(atrGrp);
-        Context.getInstance().setUserInteractionAttributes(atrGrpList);
+        Context.getInstance().getRunnerInstance().addBrowserInteractionAttrinutes(atrGrp);
     }
 }
