@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ Copyright (c) 2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~
+  ~ WSO2 Inc. licenses this file to you under the Apache License,
+  ~ Version 2.0 (the "License"); you may not use this file except
+  ~ in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<ns2:Specification xmlns:ns2="com.wso2.finance.open.banking.conformance.mgt.models" name="specExample-2" version="v2.0">
+    <title>OpenBankAPI-2</title>
+    <description>This API exposes open data of a bank such as the branch locations, ATM locations, and supporting products.
+    </description>
+    <specificationUri>https://github.com/OpenBankingUK/</specificationUri>
+    <attributeGroups>
+        <AttributeGroup groupName="default" title="Server Configuration">
+            <Attribute name="base_url">
+                <label>Base URL</label>
+                <attributeType>String</attributeType>
+                <helpText>base url of the API</helpText>
+                <validationRegex>(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&amp;//=]*)</validationRegex>
+                <defaultValue>https://api-openbanking.wso2.com/OpenBankAPI</defaultValue>
+            </Attribute>
+        </AttributeGroup>
+    </attributeGroups>
+    <vectors>
+        <Vector tag="@security">
+            <title>Security</title>
+            <description>check OIDC flow</description>
+        </Vector>
+        <Vector tag="@data">
+            <title>Data Formats</title>
+            <description>check OpenAPI compliance</description>
+        </Vector>
+    </vectors>
+    <features>
+        <Feature
+                uri="components/com.wso2.finance.open.banking.conformance.test.core/src/main/resources/features/v1_0_0/opendata/atms.feature">
+            <title>ATMs endpoint</title>
+            <description>Get the details of all atms owned by a bank</description>
+            <attributeGroups>
+                <AttributeGroup groupName="uri" title="URI Parameters">
+                    <Attribute name="bank_id">
+                        <label>Bank ID</label>
+                        <attributeType>String</attributeType>
+                        <helpText>Bank ID of the ATM</helpText>
+                        <defaultValue>bank-4020-01</defaultValue>
+                    </Attribute>
+                </AttributeGroup>
+            </attributeGroups>
+            <Scenarios>
+                <Sceario scenarioName= "Get the details of all atms owned by a bank" specName="ExampleSpec" specSection="1.1" />
+                <Sceario scenarioName= "Get the details of all atms owned by a bank1" specName="ExampleSpec" specSection="1.2" />
+                <Sceario scenarioName= "Get the details of all atms owned by a bank2" specName="ExampleSpec" specSection="1.3" />
+            </Scenarios>
+        </Feature>
+        <Feature
+                uri="components/com.wso2.finance.open.banking.conformance.test.core/src/main/resources/features/v1_0_0/opendata/branches.feature">
+            <title>Branches endpoint</title>
+            <description>Get the details of all the branches of a bank</description>
+            <attributeGroups>
+                <AttributeGroup groupName="uri" title="URI Parameters">
+                    <Attribute name="bank_id">
+                        <label>Bank ID</label>
+                        <attributeType>String</attributeType>
+                        <helpText>Bank ID of the ATM</helpText>
+                        <defaultValue>bank-4020-01</defaultValue>
+                    </Attribute>
+                </AttributeGroup>
+            </attributeGroups>
+            <Scenarios>
+                <Sceario scenarioName= "Get the details of all branches of a bank" specName="ExampleSpec" specSection="2.1" />
+                <Sceario scenarioName= "Get the details of all branches of a bank2" specName="ExampleSpec" specSection="2.2" />
+                <Sceario scenarioName= "Get the details of all branches of a bank3" specName="ExampleSpec" specSection="2.3" />
+            </Scenarios>
+        </Feature>
+        <Feature
+                uri="components/com.wso2.finance.open.banking.conformance.test.core/src/main/resources/features/v1_0_0/opendata/products.feature">
+            <title>Products endpoint</title>
+            <description>Get the details of the products supported by a bank</description>
+            <attributeGroups>
+                <AttributeGroup groupName="uri" title="URI Parameters">
+                    <Attribute name="bank_id">
+                        <label>Bank ID</label>
+                        <attributeType>String</attributeType>
+                        <helpText>Bank ID of the ATM</helpText>
+                        <defaultValue>bank-4020-01</defaultValue>
+                    </Attribute>
+                </AttributeGroup>
+            </attributeGroups>
+            <Scenarios>
+                <Sceario scenarioName= "Get the details of all products which are supported by bank" specName="ExampleSpec" specSection="3.1" />
+                <Sceario scenarioName= "Get the details of all products which are supported by bank" specName="ExampleSpec" specSection="3.2" />
+                <Sceario scenarioName= "Get the details of all products which are supported by bank" specName="ExampleSpec" specSection="3.3" />
+            </Scenarios>
+        </Feature>
+    </features>
+</ns2:Specification>

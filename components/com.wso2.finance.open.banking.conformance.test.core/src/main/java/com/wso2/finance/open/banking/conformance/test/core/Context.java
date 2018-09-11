@@ -47,7 +47,8 @@ public class Context {
     public void init(TestPlan testPlan){
         this.testPlan = testPlan;
         swaggerJsonFileMap.put("specExamplev1.0","schema/v1_0_0/open_data.json");
-
+        swaggerJsonFileMap.put("specExample-2v2.0","schema/v1_0_0/open_data.json");
+        swaggerJsonFileMap.put("AccountsInformationv2.0.0","schema/v2_0_0/accounts_information.json");
     }
 
     public String getSwaggerJsonFile() {
