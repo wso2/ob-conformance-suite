@@ -17,7 +17,7 @@
  */
 
 import React from "react";
-import {FormGroup, ControlLabel, FormControl, HelpBlock} from 'react-bootstrap';
+import {FormGroup, ControlLabel, FormControl, HelpBlock, Button} from 'react-bootstrap';
 import {connect} from "react-redux";
 import {setSpecValue, setFeatureValue} from "../actions";
 
@@ -83,6 +83,20 @@ export class StringAttribute extends React.Component {
     }
 }
 
+const TextLabelAttribute = ({attribute}) => (
+    <div>
+        <p>{attribute.label ? <b>{attribute.label} : </b> : []}{attribute.defaultValue}</p>
+    </div>
+);
+
+const LinkButtonAttribute = ({attribute}) => (
+    <div className={"text-center"}>
+        <Button bsStyle="primary" onClick={()=>{
+            window.open(attribute.defaultValue, '_blank');
+        }}>{attribute.label}</Button>
+    </div>
+);
+
 class AttributeGroup extends React.Component {
 
     constructor(props){
@@ -116,6 +130,10 @@ class AttributeGroup extends React.Component {
         switch (attribute.attributeType){
             case "String":
                 return <StringAttribute attribute={attribute} key={attribute.name} updateChange={this.updateChange} getValue={this.getValue} specName={this.props.specName}/>;
+            case "TextLabel":
+                return <TextLabelAttribute attribute={attribute} key={attribute.name}/>
+            case "LinkButton":
+                return <LinkButtonAttribute attribute={attribute} key={attribute.name}/>
             default:
                 return <p>Not A Valid Field Type</p>
         }
