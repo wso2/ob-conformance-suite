@@ -31,6 +31,30 @@
                 <defaultValue>https://api-openbanking.wso2.com/AccountsInfoAPI/</defaultValue>
             </Attribute>
         </AttributeGroup>
+        <AttributeGroup groupName="client" title="Client Configuration">
+            <Attribute name="consumer key">
+                <label>Consumer Key</label>
+                <attributeType>String</attributeType>
+                <helpText>API key associated with the application</helpText>
+                <validationRegex>(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&amp;//=]*)</validationRegex>
+                <defaultValue>MGw0ych4DOR9Fz_m6xwEWLdIMjQa</defaultValue>
+            </Attribute>
+            <Attribute name="consumer secret">
+                <label>Consumer Secret</label>
+                <attributeType>String</attributeType>
+                <helpText>client password that is used to authenticate with the authentication server</helpText>
+                <validationRegex>(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&amp;//=]*)</validationRegex>
+                <defaultValue>1ZFZuUU9xBFr7MxaP5V0XutuTRga</defaultValue>
+            </Attribute>
+        </AttributeGroup>
+        <AttributeGroup groupName="oauth" title="Server Configuration">
+            <Attribute name="callback_url">
+                <label>Callback URL</label>
+                <attributeType>TextLabel</attributeType>
+                <helpText>Set this as your callback url</helpText>
+                <defaultValue>http://{OIDC_CONFORMANCE_SUITE_HOST}:8080/</defaultValue>
+            </Attribute>
+        </AttributeGroup>
     </attributeGroups>
     <vectors>
         <Vector tag="@security">
@@ -44,8 +68,8 @@
     </vectors>
     <features>
         <Feature
-                uri="components/com.wso2.finance.open.banking.conformance.test.core/src/main/resources/features/v2_0_0/accountinfo/benificiaries.feature">
-            <title>Benificiaries endpoint</title>
+                uri="components/com.wso2.finance.open.banking.conformance.test.core/src/main/resources/features/v2_0_0/accountinfo/beneficiaries.feature">
+            <title>Beneficiaries endpoint</title>
             <description>Get Details on Account Beneficiaries</description>
             <attributeGroups>
                 <AttributeGroup groupName="uri" title="URI Parameters">
