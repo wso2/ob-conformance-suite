@@ -25,8 +25,10 @@ import {connect} from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import RequestBuilder from './utils/RequestBuilder';
+import TestReportHelper from './utils/TestReportHelper';
 
 const client = new RequestBuilder();
+const reportHelper = new TestReportHelper();
 
 const ReportSpec = connect((state) => ({specifications: state.specifications,}))(({spec,specName,specifications}) => (
   <div>
@@ -99,7 +101,10 @@ class TestReportView extends React.Component {
                 uuid: props.match.params.uuid,
                 loading: true,
                 data: null,
-                currentSpecName: "specExample"
+                currentSpecName: "specExample",
+                passed: 0,
+                failed: 0,
+                rate: 0
             }
 
             this.interval = null;
@@ -110,12 +115,16 @@ class TestReportView extends React.Component {
 
     componentDidMount() {
         var currentRoute = this.props.location.pathname
-        //console.log(currentLocation);
         client.getResultsForTestPlan(this.state.uuid).then((response)=>{
+            var results = reportHelper.getTestSummary(response.data);
             this.setState({
                 loading:false,
-                data: response.data
-            })
+                data: response.data,
+                passed: results.passed,
+                failed: results.failed,
+                rate: results.rate
+            });
+            reportHelper.getTestSummary(this.state.data);
         });
 
         if(currentRoute.includes("running")){
@@ -159,9 +168,9 @@ class TestReportView extends React.Component {
         <Col md={3}>
             <Well bsSize="small">
                 <h2>Test Summary</h2>
-                <p>Passed : </p>
-                <p>Failed : </p>
-                <p>Success Rate :</p>
+                <p>Passed : {this.state.passed}</p>
+                <p>Failed : {this.state.failed}</p>
+                <p>Success Rate : {this.state.rate}%</p>
             </Well>
         </Col>
 
