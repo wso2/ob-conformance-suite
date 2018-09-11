@@ -38,11 +38,11 @@ public class OIDCSteps {
     private String CALLBACK_URL;
 
     @Given("user is directed to the auth endpoint to get the consent")
-    public void directUsertoGetTheConcent(){
-        AUTH_END_POINT = "v1.0.0";
+    public void directUserToGetTheConcent(){
+        AUTH_END_POINT = "https://api-openbanking.wso2.com/AuthorizeAPI/v1.0.0/";
         CALLBACK_URL = Context.getInstance().getCurrentSpecAttribute("oauth","callback_url");
         oidcHandler = new OIDCHandler(AUTH_END_POINT,CALLBACK_URL);
-        String clientID = Context.getInstance().getCurrentSpecAttribute("client","client_id");
+        String clientID = Context.getInstance().getCurrentSpecAttribute("client","consumer key");
         String url = oidcHandler.createAuthUrlForUserContent("YWlzcDozMTQ2",clientID);
         setBrowserInteractionURLtoContext(url);
     }
@@ -58,6 +58,7 @@ public class OIDCSteps {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            i++;
         }
         oidcHandler.setAuthCode(authCode);
     }

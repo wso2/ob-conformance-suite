@@ -36,18 +36,16 @@
                 <label>Consumer Key</label>
                 <attributeType>String</attributeType>
                 <helpText>API key associated with the application</helpText>
-                <validationRegex>(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&amp;//=]*)</validationRegex>
                 <defaultValue>MGw0ych4DOR9Fz_m6xwEWLdIMjQa</defaultValue>
             </Attribute>
             <Attribute name="consumer secret">
                 <label>Consumer Secret</label>
                 <attributeType>String</attributeType>
                 <helpText>client password that is used to authenticate with the authentication server</helpText>
-                <validationRegex>(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&amp;//=]*)</validationRegex>
                 <defaultValue>1ZFZuUU9xBFr7MxaP5V0XutuTRga</defaultValue>
             </Attribute>
         </AttributeGroup>
-        <AttributeGroup groupName="oauth" title="Server Configuration">
+        <AttributeGroup groupName="oauth" title="Auth Configuration">
             <Attribute name="callback_url">
                 <label>Callback URL</label>
                 <attributeType>TextLabel</attributeType>
@@ -82,7 +80,7 @@
                 </AttributeGroup>
             </attributeGroups>
             <Scenarios>
-                <Sceario scenarioName= "Get Details on Account Beneficiaries" specName="AccountAndTransactionAPI" specSection="9.1.8" />
+                <Scenario scenarioName= "Get Details on Account Beneficiaries" specName="AccountAndTransactionAPI" specSection="9.1.8" />
             </Scenarios>
         </Feature>
     </features>
