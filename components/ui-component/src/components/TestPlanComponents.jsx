@@ -19,10 +19,36 @@
 import React from 'react';
 import TestPlanReduxHelper from "../utils/TestPlanReduxHelper";
 import {connect} from "react-redux";
-import {ListGroup, ListGroupItem, Panel, Row, Col} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Panel, Row, Col, Popover, OverlayTrigger, Button, Table} from 'react-bootstrap';
 import {toggleVector, toggleFeature} from "../actions";
 import AttributeGroup from "./AttributeGroup";
 
+const ScenariodataRow = connect((state) => ({specifications: state.specifications.specs}))(({scenario}) => (
+    <tr>
+        <td>{scenario.scenarioName}</td>
+        <td>{scenario.specName}</td>
+        <td>{scenario.specSection}</td>
+    </tr>
+));
+
+function makePop(feature){
+    return (
+        <Popover id="popover-positioned-bottom" placement="bottom" title="Scenario Details">
+            <Table striped bordered condensed hover>
+                <thead>
+                    <tr>
+                        <th className={"tableHead"}>Scenario Name</th>
+                        <th className={"tableHead"}>Spec Name</th>
+                        <th className={"tableHead"}>Section</th>
+                    </tr>
+                </thead>
+                <tbody className={"text-center"}>
+                    {feature.scenarios.map((scenario) => <ScenariodataRow key={feature.uri.path} scenario={scenario}/>)}
+                </tbody>
+             </Table>
+        </Popover>
+    );
+}
 
 export const Feature = connect((state) => ({testvalues: state.testvalues}))(({feature, specName, dispatch, testvalues}) => (
     <Panel expanded={TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path)}>
@@ -36,7 +62,11 @@ export const Feature = connect((state) => ({testvalues: state.testvalues}))(({fe
             <Panel.Body>
                 <Row>
                     <Col xs={8}><b>{feature.description}</b></Col>
-                    <Col xs={4} className="specdetails">AccountAPI v1.0 Section 2.5</Col>
+                    <Col xs={4} className="specdetails">
+                        <OverlayTrigger trigger="click" placement="bottom" className="s" overlay={makePop(feature)}>
+                            <Button className="pull-right">Show scenarios</Button>
+                        </OverlayTrigger>
+                    </Col>
                 </Row>
                 {feature.attributeGroups ? <hr/> : []}
                 {feature.attributeGroups ?

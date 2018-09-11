@@ -64,11 +64,12 @@ class TestHistoryView extends React.Component{
                     </div>
                     <Table striped bordered condensed hover>
                         <thead>
-                            <tr>    <th className={"tableHead"}>Specifications</th>
-                            <th className={"tableHead"}>Test ID</th>
-                            <th className={"tableHead"}>Last Test Run Date</th>
-                            <th className={"tableHead"}>Test Status</th>
-                            <th className={"tableHead"}>Results</th>
+                            <tr>    
+                                <th className={"tableHead"}>Specifications</th>
+                                <th className={"tableHead"}>Test ID</th>
+                                <th className={"tableHead"}>Last Test Run Date</th>
+                                <th className={"tableHead"}>Test Status</th>
+                                <th className={"tableHead"}>Results</th>
                             </tr>
                         </thead>
                         <tbody className={"text-center"}>
