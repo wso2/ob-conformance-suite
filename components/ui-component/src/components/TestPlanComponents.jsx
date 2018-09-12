@@ -88,19 +88,11 @@ export const Vector = connect((state) => ({testvalues: state.testvalues}))(({tes
 ));
 
 
-export const Specification = ({spec,selectElement}) => (
-    <ListGroup>
-        <ListGroupItem key={"root-spec"} onClick={() => {selectElement(spec.name)}}>
-            <div className="pull-right">
-                <i className="fas fa-cog"></i>
-            </div>
-            <h4>{spec.title} {spec.version}</h4>
-            <p>{spec.description}</p>
-        </ListGroupItem>
-        {
-            spec.testingVectors.map((vector) => (<Vector vector={vector} specName={spec.name} key={vector.tag}/>))
-        }
-    </ListGroup>
+export const Specification = ({spec,selectElement, selected}) => (
+    <ListGroupItem key={"root-spec"} onClick={() => {selectElement(spec.name)}} active={selected}>
+        <h4>{spec.title} {spec.version}</h4>
+        <p>{spec.description}</p>
+    </ListGroupItem>
 );
 
 export const SpecificationEditor = ({spec}) => (
@@ -109,6 +101,12 @@ export const SpecificationEditor = ({spec}) => (
             <Panel.Title componentClass="h3">Configure {spec.title} {spec.version} Test</Panel.Title>
         </Panel.Heading>
         <Panel.Body>
+            <div>
+                <ListGroup>
+                    <ListGroupItem disabled header={"Testing Vectors"}/>
+                    {spec.testingVectors.map((vector) => (<Vector vector={vector} specName={spec.name} key={vector.tag}/>))}
+                </ListGroup>
+            </div>
             <div id={"attributeGroups"}>
                 {spec.attributeGroups.map((group) => <AttributeGroup scope={"specification"} specName={spec.name} group={group} key={group.groupName}/>)}
             </div>

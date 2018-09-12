@@ -20,7 +20,7 @@ import React from 'react';
 import AppHeader from "./partials/AppHeader";
 import RequestBuilder from './utils/RequestBuilder';
 import {withRouter} from 'react-router-dom'
-import { Grid, Row, Col, Button} from 'react-bootstrap';
+import { Grid, Row, Col, Button, ListGroup} from 'react-bootstrap';
 import {updateSpecification,addSpecificationToTestValues,addTestPlan,clearTestValues,clearSelectedSpecifications} from "./actions";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import {connect} from 'react-redux'
@@ -70,7 +70,7 @@ class TestConfigurationView extends React.Component {
     renderSpecs() {
         return TestPlanReduxHelper.getSelectedSpecsFromState(this.props.specifications,this.props.specifications.selected).map(spec => {
             return (
-                <Specification key={spec.name} spec={spec} selectElement={this.selectSpec}/>
+                <Specification selected={spec.name == this.state.selectedSpec} key={spec.name} spec={spec} selectElement={this.selectSpec}/>
             );
         });
     }
@@ -102,7 +102,9 @@ class TestConfigurationView extends React.Component {
                 <Grid>
                     <Row>
                         <Col md={4}>
-                            {this.renderSpecs()}
+                            <ListGroup>
+                                {this.renderSpecs()}
+                            </ListGroup>
                         </Col>
                         <Col md={8}>
                             {this.state.selectedSpec ? this.renderEditor() : null}
