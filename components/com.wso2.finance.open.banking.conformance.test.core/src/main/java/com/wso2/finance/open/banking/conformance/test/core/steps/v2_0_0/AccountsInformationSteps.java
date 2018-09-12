@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -16,13 +16,20 @@
  * under the License.
  */
 
-package com.wso2.finance.open.banking.conformance.test.core.runner;
+package com.wso2.finance.open.banking.conformance.test.core.steps.v2_0_0;
 
-import com.google.gson.JsonObject;
-import com.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
-public class TestPlanFeatureResult {
-    public JsonObject featureResult;
-    public AttributeGroup attributeGroup;
-    public String specName;
+public class AccountsInformationSteps {
+    @When("user initiates a request to Beneficiaries endpoint")
+    public void initiateRequestToBeneficiariesEnd(){
+            return;
+    }
+
+    @Then("user receives the beneficiaries details for the given account")
+    public void getBeneficiaryDetails(){
+        return;
+    }
 }

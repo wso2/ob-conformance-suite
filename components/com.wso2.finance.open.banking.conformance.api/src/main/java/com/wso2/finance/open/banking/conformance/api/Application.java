@@ -43,6 +43,12 @@ public class Application {
             specifications.put("specExample", XmlHelper.unmarshallSepcificationXML(
                     new File("components/" +
                             "com.wso2.finance.open.banking.conformance.mgt/src/main/resources/example_spec.xml")));
+            specifications.put("specExample-2", XmlHelper.unmarshallSepcificationXML(
+                    new File("components/" +
+                            "com.wso2.finance.open.banking.conformance.mgt/src/main/resources/example_spec-2.xml")));
+            specifications.put("AccountsInformation", XmlHelper.unmarshallSepcificationXML(
+                    new File("components/" +
+                            "com.wso2.finance.open.banking.conformance.mgt/src/main/resources/accountsinformation.xml")));
 
             ApplicationDataHolder.getInstance().setSpecifications(specifications);
 

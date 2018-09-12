@@ -71,4 +71,8 @@ public class TestPlanRunnerManager {
         this.runnerInstanceMap.forEach((uuid, runnerInstance) -> results.put(uuid,runnerInstance.getTestPlan()));
         return results;
     }
+
+    public void setCallback(String token){
+
+    }
 }

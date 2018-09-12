@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!--
-  ~ Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~ Copyright (c) 2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
   ~
   ~ WSO2 Inc. licenses this file to you under the Apache License,
   ~ Version 2.0 (the "License"); you may not use this file except
@@ -17,8 +17,8 @@
   ~ under the License.
   -->
 
-<ns2:Specification xmlns:ns2="com.wso2.finance.open.banking.conformance.mgt.models" name="specExample" version="v1.0">
-    <title>OpenBankAPI</title>
+<ns2:Specification xmlns:ns2="com.wso2.finance.open.banking.conformance.mgt.models" name="specExample-2" version="v2.0">
+    <title>OpenBankAPI-2</title>
     <description>This API exposes open data of a bank such as the branch locations, ATM locations, and supporting products.
     </description>
     <specificationUri>https://github.com/OpenBankingUK/</specificationUri>
@@ -30,14 +30,6 @@
                 <helpText>base url of the API</helpText>
                 <validationRegex>(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&amp;//=]*)</validationRegex>
                 <defaultValue>https://api-openbanking.wso2.com/OpenBankAPI</defaultValue>
-            </Attribute>
-        </AttributeGroup>
-        <AttributeGroup groupName="oauth" title="Server Configuration">
-            <Attribute name="callback_url">
-                <label>Callback URL</label>
-                <attributeType>TextLabel</attributeType>
-                <helpText>Set this as your callback url</helpText>
-                <defaultValue>http://{OIDC_CONFORMANCE_SUITE_HOST}:8080/</defaultValue>
             </Attribute>
         </AttributeGroup>
     </attributeGroups>
@@ -67,9 +59,9 @@
                 </AttributeGroup>
             </attributeGroups>
             <Scenarios>
-                <Scenario scenarioName= "Get the details of all atms owned by a bank" specName="ExampleSpec" specSection="1.1" />
-                <Scenario scenarioName= "Get the details of all atms owned by a bank1" specName="ExampleSpec" specSection="1.2" />
-                <Scenario scenarioName= "Get the details of all atms owned by a bank2" specName="ExampleSpec" specSection="1.3" />
+                <Sceario scenarioName= "Get the details of all atms owned by a bank" specName="ExampleSpec" specSection="1.1" />
+                <Sceario scenarioName= "Get the details of all atms owned by a bank1" specName="ExampleSpec" specSection="1.2" />
+                <Sceario scenarioName= "Get the details of all atms owned by a bank2" specName="ExampleSpec" specSection="1.3" />
             </Scenarios>
         </Feature>
         <Feature
@@ -87,9 +79,9 @@
                 </AttributeGroup>
             </attributeGroups>
             <Scenarios>
-                <Scenario scenarioName= "Get the details of all branches of a bank" specName="ExampleSpec" specSection="2.1" />
-                <Scenario scenarioName= "Get the details of all branches of a bank2" specName="ExampleSpec" specSection="2.2" />
-                <Scenario scenarioName= "Get the details of all branches of a bank3" specName="ExampleSpec" specSection="2.3" />
+                <Sceario scenarioName= "Get the details of all branches of a bank" specName="ExampleSpec" specSection="2.1" />
+                <Sceario scenarioName= "Get the details of all branches of a bank2" specName="ExampleSpec" specSection="2.2" />
+                <Sceario scenarioName= "Get the details of all branches of a bank3" specName="ExampleSpec" specSection="2.3" />
             </Scenarios>
         </Feature>
         <Feature
@@ -107,9 +99,9 @@
                 </AttributeGroup>
             </attributeGroups>
             <Scenarios>
-                <Scenario scenarioName= "Get the details of all products which are supported by bank" specName="ExampleSpec" specSection="3.1" />
-                <Scenario scenarioName= "Get the details of all products which are supported by bank" specName="ExampleSpec" specSection="3.2" />
-                <Scenario scenarioName= "Get the details of all products which are supported by bank" specName="ExampleSpec" specSection="3.3" />
+                <Sceario scenarioName= "Get the details of all products which are supported by bank" specName="ExampleSpec" specSection="3.1" />
+                <Sceario scenarioName= "Get the details of all products which are supported by bank" specName="ExampleSpec" specSection="3.2" />
+                <Sceario scenarioName= "Get the details of all products which are supported by bank" specName="ExampleSpec" specSection="3.3" />
             </Scenarios>
         </Feature>
     </features>

@@ -19,7 +19,12 @@
 
 package com.wso2.finance.open.banking.conformance.test.core;
 
+import com.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.*;
+import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerInstance;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.UUID;
@@ -33,9 +38,13 @@ public class Context {
     private String currentSpceVersion = "";
     private String currentFeatureTitle = "";
     private String currentFeatureUri = "";
+    private String accessToken = "";
     private String test_id = UUID.randomUUID().toString();
+    private Map<String, String> tempAttributeMap = new HashMap<>();
 
     private Map<String,String> swaggerJsonFileMap = new HashMap<String,String>(); //specname+version -> swaggerJsonFile
+
+    private TestPlanRunnerInstance runnerInstance;
 
     private Context(){}
 
@@ -47,7 +56,8 @@ public class Context {
     public void init(TestPlan testPlan){
         this.testPlan = testPlan;
         swaggerJsonFileMap.put("specExamplev1.0","schema/v1_0_0/open_data.json");
-
+        swaggerJsonFileMap.put("specExample-2v2.0","schema/v1_0_0/open_data.json");
+        swaggerJsonFileMap.put("AccountsInformationv2.0.0","schema/v2_0_0/accounts_information.json");
     }
 
     public String getSwaggerJsonFile() {
@@ -123,5 +133,31 @@ public class Context {
     public String getTest_id() {
 
         return test_id;
+    }
+
+    public void setAccessToken(String token){
+        this.accessToken = token;
+    }
+
+    public String getAccessToken(){
+        return accessToken;
+    }
+
+    public void setAttributesToTempMap(String key, String value){
+        tempAttributeMap.put(key,value);
+    }
+
+    public String getAttributesFromTempMap(String key)
+    {
+        return tempAttributeMap.get(key);
+    }
+
+    public void setRunnerInstance(TestPlanRunnerInstance testPlanRunnerInstance) {
+        this.runnerInstance = testPlanRunnerInstance;
+    }
+
+    public TestPlanRunnerInstance getRunnerInstance() {
+
+        return runnerInstance;
     }
 }
