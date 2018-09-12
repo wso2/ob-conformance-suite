@@ -25,4 +25,5 @@ public class TestPlanFeatureResult {
     public JsonObject featureResult;
     public AttributeGroup attributeGroup;
     public String specName;
+    public TestPlanRunnerInstance.RUNNER_STATE runnerState;
 }

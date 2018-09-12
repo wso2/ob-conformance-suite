@@ -18,7 +18,7 @@
 
 import React from 'react';
 import AppHeader from "./partials/AppHeader";
-import {ListGroup, ListGroupItem, Glyphicon, Button, Grid, Row, Col, Panel, Badge} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Button, Modal, Grid, Row, Col, Panel, Badge} from 'react-bootstrap';
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import '../public/css/report-style.scss'
 import {connect} from 'react-redux'
@@ -26,6 +26,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import RequestBuilder from './utils/RequestBuilder';
 import TestReportHelper from './utils/TestReportHelper';
+import AttributeGroup from "./components/AttributeGroup";
 
 const client = new RequestBuilder();
 const reportHelper = new TestReportHelper()
@@ -108,7 +109,9 @@ class TestReportView extends React.Component {
             currentSpecName: "specExample",
             passed: 0,
             failed: 0,
-            rate: 0
+            rate: 0,
+            attributes: null,
+            showInteractionModel: null
         }
 
         this.interval = null;
@@ -140,16 +143,23 @@ class TestReportView extends React.Component {
 
     appendResults(){
         client.pollResultsForTestPlan(this.state.uuid).then((response)=>{
-            var resultObject = this.state.data;
-            response.data.forEach((feature) => {
-                resultObject = {
-                    ...resultObject,
-                    [feature.specName] : [...resultObject[feature.specName],feature.featureResult]
-                };
+            response.data.forEach((result) => {
+                var resultObject = this.state.data;
+                if(result.featureResult){
+                    resultObject = {
+                        ...resultObject,
+                        [result.specName] : [...resultObject[result.specName],result.featureResult]
+                    };
+                    this.setState({
+                        data : resultObject
+                    })
+                }else if(result.attributeGroup){
+                    this.setState({
+                        attributes : result.attributeGroup,
+                        showInteractionModel : true
+                    })
+                }
             });
-            this.setState({
-                data : resultObject
-            })
         });
     }
 
@@ -167,6 +177,19 @@ class TestReportView extends React.Component {
     renderMain(){
         return (
             <Grid>
+                <Modal show={this.state.showInteractionModel} onHide={()=>{this.setState({showInteractionModel : false})}} container={this}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            Browser Interaction
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {this.state.attributes ? <AttributeGroup group={this.state.attributes} key={this.state.attributes.groupName}/> : []}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={()=>{this.setState({showInteractionModel : false})}}>Close</Button>
+                    </Modal.Footer>
+                </Modal>
                 <Row>
                     <Col md={12}>
                         <h1>Test Report <small>{this.state.uuid}</small></h1>

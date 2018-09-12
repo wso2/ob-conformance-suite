@@ -59,7 +59,15 @@ public class TestPlanRunnerInstance extends Thread{
         TestPlanFeatureResult testPlanFeatureResult = new TestPlanFeatureResult();
         testPlanFeatureResult.featureResult = result;
         testPlanFeatureResult.specName = specification.getName();
+        testPlanFeatureResult.runnerState = this.status;
         this.resultQueue.add(testPlanFeatureResult);
+    }
+
+    public void queueBrowserInteractionAttributes(AttributeGroup attributeGroup){
+        TestPlanFeatureResult featureResult = new TestPlanFeatureResult();
+        featureResult.attributeGroup = attributeGroup;
+        featureResult.runnerState = this.status;
+        this.resultQueue.add(featureResult);
     }
 
     private void processSpec(Specification specification){
@@ -98,11 +106,5 @@ public class TestPlanRunnerInstance extends Thread{
     public TestPlan getTestPlan() {
 
         return testPlan;
-    }
-
-    public void addBrowserInteractionAttrinutes(AttributeGroup attributeGroup){
-        TestPlanFeatureResult featureResult = new TestPlanFeatureResult();
-        featureResult.attributeGroup = attributeGroup;
-        this.resultQueue.add(featureResult);
     }
 }
