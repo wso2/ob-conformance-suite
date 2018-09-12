@@ -83,7 +83,7 @@ export const Vector = connect((state) => ({testvalues: state.testvalues}))(({tes
         <div className="pull-right">
             <i className={"fas fa-lg fa-" + (TestPlanReduxHelper.getSelectedVectorsFromState(testvalues, specName).includes(vector.tag) ? "check-square" : "square")}/>
         </div>
-        <p><b>Test {vector.title}</b></p>
+        <p>Test {vector.title}</p>
     </ListGroupItem>
 ));
 
@@ -96,24 +96,26 @@ export const Specification = ({spec,selectElement, selected}) => (
 );
 
 export const SpecificationEditor = ({spec}) => (
-    <Panel>
-        <Panel.Heading>
-            <Panel.Title componentClass="h3">Configure {spec.title} {spec.version} Test</Panel.Title>
-        </Panel.Heading>
-        <Panel.Body>
-            <div>
-                <ListGroup>
-                    <ListGroupItem disabled header={"Testing Vectors"}/>
-                    {spec.testingVectors.map((vector) => (<Vector vector={vector} specName={spec.name} key={vector.tag}/>))}
-                </ListGroup>
-            </div>
-            <div id={"attributeGroups"}>
+    <div>
+        <div>
+            <h2>{spec.title} {spec.version} configuration</h2>
+            <hr/>
+            <ListGroup>
+                <ListGroupItem disabled header={"Testing Vectors"}/>
+                {spec.testingVectors.map((vector) => (<Vector vector={vector} specName={spec.name} key={vector.tag}/>))}
+            </ListGroup>
+        </div>
+        <Panel>
+            <Panel.Heading>Global Configuration</Panel.Heading>
+            <Panel.Body id={"attributeGroups"}>
                 {spec.attributeGroups.map((group) => <AttributeGroup scope={"specification"} specName={spec.name} group={group} key={group.groupName}/>)}
-            </div>
-            <br/>
-            <div id={"features"}>
-                {spec.features.map((feature) => <Feature key={feature.uri.path} feature={feature} specName={spec.name}/>)}
-            </div>
-        </Panel.Body>
-    </Panel>
+            </Panel.Body>
+        </Panel>
+        <br/>
+        <h4>Testing Features</h4>
+        <br/>
+        <div id={"features"}>
+            {spec.features.map((feature) => <Feature key={feature.uri.path} feature={feature} specName={spec.name}/>)}
+        </div>
+    </div>
 )

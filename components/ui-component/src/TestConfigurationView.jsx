@@ -111,8 +111,7 @@ class TestConfigurationView extends React.Component {
                         </Col>
                     </Row>
                     <div className={"text-center"}>
-                        <Button bsStyle={"primary"}
-                                bsSize={"lg"}
+                        <Button bsStyle={"primary"} bsSize={"lg"}
                                 disabled={this.isCompleted()}
                                 onClick={this.buildTestPlan}
                         >Continue</Button>
