@@ -72,7 +72,11 @@ public class TestPlanRunnerManager {
         return results;
     }
 
-    public void setCallback(String token){
-
+    public void setContextAttribute(String key, String value){
+        for(TestPlanRunnerInstance instance : this.runnerInstanceMap.values()){
+            if(instance.getStatus() == TestPlanRunnerInstance.RUNNER_STATE.WAITING){
+                instance.setContextAttributes(key,value);
+            }
+        }
     }
 }

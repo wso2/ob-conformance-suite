@@ -144,6 +144,9 @@ class TestReportView extends React.Component {
     appendResults(){
         client.pollResultsForTestPlan(this.state.uuid).then((response)=>{
             response.data.forEach((result) => {
+                this.setState({
+                    showInteractionModel : false
+                });
                 var resultObject = this.state.data;
                 if(result.featureResult){
                     resultObject = {

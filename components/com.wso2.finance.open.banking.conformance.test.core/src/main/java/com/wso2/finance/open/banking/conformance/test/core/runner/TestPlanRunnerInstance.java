@@ -39,7 +39,7 @@ public class TestPlanRunnerInstance extends Thread{
     private volatile Map<String,List<JsonObject>> formattedResult = new HashMap();
     private volatile RUNNER_STATE status;
     public enum RUNNER_STATE {
-        RUNNING, DONE, NOT_STARTED
+        RUNNING, DONE, NOT_STARTED, WAITING
     }
 
 
@@ -106,5 +106,14 @@ public class TestPlanRunnerInstance extends Thread{
     public TestPlan getTestPlan() {
 
         return testPlan;
+    }
+
+    public void setStatus(RUNNER_STATE status) {
+
+        this.status = status;
+    }
+
+    public void setContextAttributes(String key, String value){
+        Context.getInstance().setAttributesToTempMap(key,value);
     }
 }

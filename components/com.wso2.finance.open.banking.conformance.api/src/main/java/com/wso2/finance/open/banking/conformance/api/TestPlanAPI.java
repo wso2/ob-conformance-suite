@@ -99,8 +99,8 @@ public class TestPlanAPI {
 
     @GET
     @Path("/callback")
-    public Response processCallback(@QueryParam("token") String token){
-        this.runnerManager.setCallback(token);
+    public Response processCallback(@QueryParam("code") String code){
+        this.runnerManager.setContextAttribute("auth_code",code);
         return Response.ok().type(MediaType.TEXT_HTML).entity("Done").build();
     }
 
