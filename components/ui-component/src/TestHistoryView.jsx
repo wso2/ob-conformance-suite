@@ -28,12 +28,12 @@ const client = new RequestBuilder();
 
 
 const TestPlanRow = connect((state) => ({specifications: state.specifications.specs}))(({testPlan,specifications}) => (
-    <tr>
-        <td align="left">{Object.keys(testPlan.testPlan.specifications).map((key) => <p>{specifications[key].title} {specifications[key].version}</p>)}</td>
-        <td>{testPlan.testId}</td>
-        <td>{testPlan.testPlan.lastRun}</td>
-        <td><b>{testPlan.status}</b></td>
-        <td><Link to={"/tests/report/"+testPlan.testId}>check report</Link></td>
+    <tr align="left">
+        <td >{Object.keys(testPlan.testPlan.specifications).map((key) => <p>{specifications[key].title} {specifications[key].version}</p>)}</td>
+        <td >{testPlan.testId}</td>
+        <td >{testPlan.testPlan.lastRun}</td>
+        <td ><b>{testPlan.status}</b></td>
+        <td ><Link to={"/tests/report/"+testPlan.testId}>check report</Link></td>
     </tr>
 ));
 
