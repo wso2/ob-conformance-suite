@@ -19,28 +19,55 @@
 
 export default class TestReportHelper {
 
-     getTestSummary(testData) {
-         var results = {passed : 0, failed : 0, rate: 0}
-         var passed = 0;
-         var failed = 0;
+    getTestSummary(testData){
+        var results = {passed : 0, failed : 0};
+        var curResult;
+        for (var spec in testData) {
+            curResult = this.getSpecResult(testData[spec], this);
+            results.passed += curResult.passed;
+            results.failed += curResult.failed;
+        }
+        if(results.passed + results.failed === 0){
+            results.rate = 0;
+        }else{
+            results.rate = (100*(results.passed/(results.passed+results.failed))).toFixed(2);
+        }
+        return results;
+    }
 
-         for (var specName in testData) {
-             var specArray = testData[specName];
-             for (var spec in specArray) {
-                 var elementArray = specArray[spec]['elements'];
-                 for (var element in elementArray){
-                     var stepArray = elementArray[element]["steps"];
-                     var status = true;
-                     for (var result in stepArray){
-                         var curStatus = stepArray[result]['result']['status']
+    getSpecResult(spec, thisClass){
+        var results = {passed : 0, failed : 0, rate: 0};
+        var curResult;
+        spec.forEach(function(feature){
+            curResult = thisClass.getFeatureResult(feature, thisClass);
+            results.passed += curResult.passed;
+            results.failed += curResult.failed;
+        });
+        return results;
+    }
 
-                         status = status && (curStatus === "passed");
-                     }
-                     status ? results.passed += 1 : results.failed +=1
-                 }
-             }
-         }
-         results.rate = (100*(results.passed/(results.passed+results.failed))).toFixed(2);
-         return results
+    getFeatureResult(feature, thisClass){
+        var results = {passed : 0, failed : 0};
+        feature['elements'].forEach(function(scenario){
+            thisClass.getScenarioResult(scenario,thisClass)===true ? results.passed += 1 : results.failed += 1;
+        });
+        return results;
+    }
+
+    getScenarioResult(scenario, thisClass){
+         var status = true;
+         scenario['steps'].forEach(function(step){
+            status=status && (thisClass.getStepResult(step) === "passed");
+         });
+         return status;
+    }
+
+    getStepResult(step){
+         return step['result']['status'];
+    }
+
+    getFeatureResultFraction(feature, thisClass){
+        var result = thisClass.getFeatureResult(feature, thisClass);
+        return result.passed+"/"+(result.passed+result.failed);
     }
 }
