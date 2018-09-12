@@ -39,7 +39,7 @@ public class TestPlanRunnerInstance extends Thread{
     private volatile Map<String,List<JsonObject>> formattedResult = new HashMap();
     private volatile RUNNER_STATE status;
     public enum RUNNER_STATE {
-        RUNNING, DONE, NOT_STARTED
+        RUNNING, DONE, NOT_STARTED, WAITING
     }
 
 
@@ -59,7 +59,15 @@ public class TestPlanRunnerInstance extends Thread{
         TestPlanFeatureResult testPlanFeatureResult = new TestPlanFeatureResult();
         testPlanFeatureResult.featureResult = result;
         testPlanFeatureResult.specName = specification.getName();
+        testPlanFeatureResult.runnerState = this.status;
         this.resultQueue.add(testPlanFeatureResult);
+    }
+
+    public void queueBrowserInteractionAttributes(AttributeGroup attributeGroup){
+        TestPlanFeatureResult featureResult = new TestPlanFeatureResult();
+        featureResult.attributeGroup = attributeGroup;
+        featureResult.runnerState = this.status;
+        this.resultQueue.add(featureResult);
     }
 
     private void processSpec(Specification specification){
@@ -100,9 +108,12 @@ public class TestPlanRunnerInstance extends Thread{
         return testPlan;
     }
 
-    public void addBrowserInteractionAttrinutes(AttributeGroup attributeGroup){
-        TestPlanFeatureResult featureResult = new TestPlanFeatureResult();
-        featureResult.attributeGroup = attributeGroup;
-        this.resultQueue.add(featureResult);
+    public void setStatus(RUNNER_STATE status) {
+
+        this.status = status;
+    }
+
+    public void setContextAttributes(String key, String value){
+        Context.getInstance().setAttributesToTempMap(key,value);
     }
 }

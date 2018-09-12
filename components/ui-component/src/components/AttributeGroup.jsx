@@ -90,7 +90,7 @@ const TextLabelAttribute = ({attribute}) => (
 );
 
 const LinkButtonAttribute = ({attribute}) => (
-    <div className={"text-center"}>
+    <div>
         <Button bsStyle="primary" onClick={()=>{
             window.open(attribute.defaultValue, '_blank');
         }}>{attribute.label}</Button>
@@ -122,6 +122,8 @@ class AttributeGroup extends React.Component {
                 return this.props.testvalues.specs[this.props.specName].selectedValues.specification[this.props.group.groupName][attributeName];
             case "feature":
                 return this.props.testvalues.specs[this.props.specName].selectedValues.features[this.props.featureName][this.props.group.groupName][attributeName];
+            default:
+                return null;
 
         }
     }

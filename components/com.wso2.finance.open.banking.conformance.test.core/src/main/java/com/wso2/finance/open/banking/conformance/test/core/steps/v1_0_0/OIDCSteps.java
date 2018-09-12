@@ -20,12 +20,11 @@ package com.wso2.finance.open.banking.conformance.test.core.steps.v1_0_0;
 import com.wso2.finance.open.banking.conformance.mgt.models.Attribute;
 import com.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;
 import com.wso2.finance.open.banking.conformance.test.core.Context;
+import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerInstance;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import com.wso2.finance.open.banking.conformance.test.core.response.ResponseValidator;
-import com.wso2.finance.open.banking.conformance.test.core.request.RequestGenerator;
 import com.wso2.finance.open.banking.conformance.test.core.oidc.OIDCHandler;
 
 import java.util.List;
@@ -43,7 +42,7 @@ public class OIDCSteps {
     public void directUserToGetTheConcent(){
         clientID = Context.getInstance().getCurrentSpecAttribute("client","consumer key");
         clientSecret = Context.getInstance().getCurrentSpecAttribute("client","consumer secret");
-        AUTH_END_POINT = "https://api-openbanking.wso2.com/AuthorizeAPI/v1.0.0";
+        AUTH_END_POINT = "https://api-openbanking.wso2.com/AuthorizeAPI/v1.0.0/";
         CALLBACK_URL = Context.getInstance().getCurrentSpecAttribute("oauth","callback_url");
         oidcHandler = new OIDCHandler(clientID,clientSecret,AUTH_END_POINT,CALLBACK_URL);
         String url = oidcHandler.createAuthUrlForUserContent("YWlzcDozMTQ2");
@@ -54,7 +53,7 @@ public class OIDCSteps {
     public void receiveAuthorizationcode(){
         String authCode = Context.getInstance().getAttributesFromTempMap("auth_code");
         int i = 0;
-        while ((authCode == null) && (i < 20)){
+        while ((authCode == null) && (i < 60)){
             try {
                 Thread.sleep(1000);
                 authCode = Context.getInstance().getAttributesFromTempMap("auth_code");
@@ -63,7 +62,9 @@ public class OIDCSteps {
             }
             i++;
         }
+        Context.getInstance().getRunnerInstance().setStatus(TestPlanRunnerInstance.RUNNER_STATE.RUNNING);
         oidcHandler.setAuthCode(authCode);
+        Log.info(authCode);
     }
 
     @Then("TPP requests an access token from token endpoint")
@@ -72,13 +73,14 @@ public class OIDCSteps {
     }
 
     private void setBrowserInteractionURLtoContext(String url) {
-        Attribute atr = new Attribute("browserUrl", "",Attribute.ATTRIBUTE_TYPE.String, url, url,"");
+        Attribute atr = new Attribute("consentUrl", "Get Consent",Attribute.ATTRIBUTE_TYPE.LinkButton, url, url,"Get Consent");
         List<Attribute> atrList = new ArrayList();
         atrList.add(atr);
 
-        AttributeGroup atrGrp = new AttributeGroup("browser","","",atrList);
+        AttributeGroup atrGrp = new AttributeGroup("browser","Get Consent","Get Consent through browser interaction",atrList);
         List<AttributeGroup> atrGrpList = new ArrayList();
         atrGrpList.add(atrGrp);
-        Context.getInstance().getRunnerInstance().addBrowserInteractionAttrinutes(atrGrp);
+        Context.getInstance().getRunnerInstance().queueBrowserInteractionAttributes(atrGrp);
+        Context.getInstance().getRunnerInstance().setStatus(TestPlanRunnerInstance.RUNNER_STATE.WAITING);
     }
 }
