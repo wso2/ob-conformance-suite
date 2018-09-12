@@ -81,7 +81,7 @@ const ReportFeature = ({feature}) => (
     <ListGroup>
         <ListGroupItem disabled>
             <div className="pull-right feature-result">
-                <span><FontAwesomeIcon icon={faCheckCircle}/>{reportHelper.getFeatureResultFraction(feature, reportHelper)}</span>
+                <span><FontAwesomeIcon icon={faCheckCircle}/>&nbsp;{reportHelper.getFeatureResultFraction(feature, reportHelper)}</span>
             </div>
             <h4 className="feature-title"><b>Feature:</b> {feature.name}</h4>
         </ListGroupItem>
@@ -190,20 +190,16 @@ class TestReportView extends React.Component {
                 </Modal>
                 <Row>
                     <Col md={12}>
-                        <h1>Test Report <small>{this.state.uuid}</small></h1>
+                        <h1>Test Report</h1>
+                        <div className={"overall-results-block"}>
+                            <p><b>Passed</b> : {this.state.passed}</p>
+                            <p><b>Failed</b> : {this.state.failed}</p>
+                            <p><b>Success Rate</b> : {this.state.rate}%</p>
+                        </div>
                         <hr/>
                     </Col>
                 </Row>
                 <Row>
-                    <Col md={3}>
-                        <div>
-                            <h2>Test Summary</h2>
-                            <p>Passed : {this.state.passed}</p>
-                            <p>Failed : {this.state.failed}</p>
-                            <p>Success Rate : {this.state.rate}%</p>
-                        </div>
-                    </Col>
-
                     <Col md={12}>
                         <div>
                             {Object.keys(this.state.data).map((key) => <ReportSpec spec={this.state.data[key]} specName={key}/>)}
