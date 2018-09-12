@@ -68,17 +68,18 @@ class SpecificationSelectView extends React.Component {
     renderMain() {
         return (
             <div>
-                <h1>Available Tests</h1>
+                <h1>Available APIs in the AU Open Banking Specification</h1>
                 <hr/>
+                <h4>Select the APIs to test</h4>
                 <ListGroup>
-                    <ListGroupItem disabled><b>Available APIs</b></ListGroupItem>
+                    {/* <ListGroupItem disabled><b>Available APIs</b></ListGroupItem> */}
                     {Object.values(this.props.specifications.specs).map((spec) => {
                         return this.renderSpec(spec)
                     })}
                 </ListGroup>
                 <div className={"text-center"}>
                     <Link to={"/tests/new/configure"}>
-                        <Button bsStyle={"primary"} bsSize={"lg"} disabled={this.isEmptySelection()}>Continue</Button>
+                        <Button bsStyle={"primary"} bsSize={"lg"} disabled={this.isEmptySelection()}>Configure</Button>
                     </Link>
                 </div>
             </div>
