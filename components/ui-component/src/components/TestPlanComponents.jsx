@@ -100,11 +100,14 @@ export const SpecificationEditor = ({spec}) => (
         <div>
             <h2>{spec.title} {spec.version} configuration</h2>
             <hr/>
+        </div>
+        <br/>
+        <Panel>
+            <Panel.Heading>Testing Vectors</Panel.Heading>
             <ListGroup>
-                <ListGroupItem disabled header={"Testing Vectors"}/>
                 {spec.testingVectors.map((vector) => (<Vector vector={vector} specName={spec.name} key={vector.tag}/>))}
             </ListGroup>
-        </div>
+        </Panel>
         <Panel>
             <Panel.Heading>Global Configuration</Panel.Heading>
             <Panel.Body id={"attributeGroups"}>
@@ -112,10 +115,11 @@ export const SpecificationEditor = ({spec}) => (
             </Panel.Body>
         </Panel>
         <br/>
-        <h4>Testing Features</h4>
-        <br/>
-        <div id={"features"}>
-            {spec.features.map((feature) => <Feature key={feature.uri.path} feature={feature} specName={spec.name}/>)}
-        </div>
+        <Panel>
+            <Panel.Heading>Testing Features</Panel.Heading>
+            <Panel.Body id={"features"}>
+                {spec.features.map((feature) => <Feature key={feature.uri.path} feature={feature} specName={spec.name}/>)}
+            </Panel.Body>
+        </Panel>
     </div>
 )
