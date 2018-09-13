@@ -67,5 +67,6 @@
 
 .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover{
     background-color: #f5f5f5 !important;
-    color: black !important
+    color: black !important;
+    border: 0px !important
 }
