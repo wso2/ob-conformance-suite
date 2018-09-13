@@ -101,7 +101,7 @@ class TestConfigurationView extends React.Component {
                 <br/>
                 <Grid>
                     <Row>
-                        <Col md={4}>
+                        <Col md={4} className={"navigation-list"}>
                             <Panel>
                                 <Panel.Heading>Selected API Specifications</Panel.Heading>
                                 <ListGroup>
