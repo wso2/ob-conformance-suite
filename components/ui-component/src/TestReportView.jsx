@@ -33,28 +33,35 @@ const reportHelper = new TestReportHelper()
 const stepStatus = (steps) => {
     var status = true;
     var error=[];
-
+    var errorClass = {Given : "", When:"", Then:""};
 
     steps.forEach(step => {
         status = status && (step.result.status === "passed");
-        error.push(step.result.error_message);
+        errorClass[step.keyword.trim()]=step.result.status;
+        error.push(step.keyword +" | " + step.name);
     });
     if(status){
-        return (<p className="passed status-badge"><FontAwesomeIcon icon={faCheckCircle}/>Passed</p>) ;
+        return (<p className="passedTag status-badge"><FontAwesomeIcon icon={faCheckCircle}/>Passed</p>) ;
     }else{
         return (
             <div>
-                <p className="failed status-badge"><FontAwesomeIcon icon={faTimesCircle}/>Failed</p>
+                <p className="failedTag status-badge"><FontAwesomeIcon icon={faTimesCircle}/>Failed</p>
                 <Panel className="error-panel" defaultExpanded={false}>
                     <Panel.Toggle componentClass="a">View more details about ths error</Panel.Toggle>
                     <Panel.Collapse>
                         <Panel.Body>
-                            <p className="error">{error}</p>
+                            <ListGroup>
+                                <ListGroupItem bsStyle="" className = {errorClass.Given}>
+                                        <b>{error[0].split(" ")[0]}</b> {error[0].split(' ').slice(1).join(' ')}</ListGroupItem>
+                                <ListGroupItem bsStyle="" className = {errorClass.When}>
+                                        <b>{error[1].split(" ")[0]}</b> {error[1].split(' ').slice(1).join(' ')}</ListGroupItem>
+                                <ListGroupItem bsStyle="" className = {errorClass.Then}>
+                                        <b>{error[2].split(" ")[0]}</b> {error[2].split(' ').slice(1).join(' ')}</ListGroupItem>
+                            </ListGroup>
                         </Panel.Body>
                     </Panel.Collapse>
                 </Panel>
             </div>
-
         );
     }
 }
