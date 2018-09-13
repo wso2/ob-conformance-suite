@@ -58,6 +58,28 @@
     }
 }
 
+.passed-badge {
+  display: inline-block;
+  min-width: 75px;
+  font-size: 14px;
+  color: #fff;
+  vertical-align: middle;
+  background-color: #4caf50;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.failed-badge {
+  display: inline-block;
+  min-width: 75px;
+  font-size: 14px;
+  color: #fff;
+  vertical-align: middle;
+  background-color: #e62213;
+  border-radius: 10px;
+  text-align: center;
+}
+
 .overall-results-block {
     font-size: 1.2em;
     p {
