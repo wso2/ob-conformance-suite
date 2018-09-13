@@ -35,6 +35,7 @@ public class OIDCSteps {
 
     private String AUTH_END_POINT;
     private String CALLBACK_URL;
+    private String TOKEN_END_POINT;
     private String clientID;
     private String clientSecret;
 
@@ -44,7 +45,8 @@ public class OIDCSteps {
         clientSecret = Context.getInstance().getCurrentSpecAttribute("client","consumer secret");
         AUTH_END_POINT = "https://api-openbanking.wso2.com/AuthorizeAPI/v1.0.0/";
         CALLBACK_URL = Context.getInstance().getCurrentSpecAttribute("oauth","callback_url");
-        oidcHandler = new OIDCHandler(clientID,clientSecret,AUTH_END_POINT,CALLBACK_URL);
+        TOKEN_END_POINT = "https://api-openbanking.wso2.com/TokenAPI/v1.0.0/";
+        oidcHandler = new OIDCHandler(clientID,clientSecret,AUTH_END_POINT,CALLBACK_URL,TOKEN_END_POINT);
         String url = oidcHandler.createAuthUrlForUserContent("YWlzcDozMTQ2");
         setBrowserInteractionURLtoContext(url);
     }
@@ -64,12 +66,14 @@ public class OIDCSteps {
         }
         Context.getInstance().getRunnerInstance().setStatus(TestPlanRunnerInstance.RUNNER_STATE.RUNNING);
         oidcHandler.setAuthCode(authCode);
-        Log.info(authCode);
+        Log.info("Received Auth Code: "+authCode);
     }
 
     @Then("TPP requests an access token from token endpoint")
     public void getAccessToken(){
-        Context.getInstance().setAccessToken(oidcHandler.getAccessToken());
+        String accessToken = oidcHandler.getAccessToken();
+        Context.getInstance().setAccessToken(accessToken);
+        Log.info("Received Access Token: "+ accessToken);
     }
 
     private void setBrowserInteractionURLtoContext(String url) {
