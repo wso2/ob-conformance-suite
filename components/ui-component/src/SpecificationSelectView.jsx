@@ -19,7 +19,7 @@
 import React from 'react';
 import AppHeader from "./partials/AppHeader";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
-import {ListGroup, ListGroupItem, FormControl, Button, Panel} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, FormControl, Button, Panel, Checkbox} from 'react-bootstrap';
 import {connect} from 'react-redux'
 import {addSpecification, toggleSpecification, clearSpecifications} from "./actions";
 import {Link} from 'react-router-dom'
@@ -46,7 +46,7 @@ class SpecificationSelectView extends React.Component {
         return (
             <ListGroupItem key={specification.name} onClick={() => {this.toggleSpec(specification)}} active={this.isSpecSelected(specification.name)}>
                 <div className="pull-right">
-                    <i className={"fas fa-2x fa-" + (this.isSpecSelected(specification.name) ? "check-square" : "square")}></i>
+                    <i className={"fas fa-2x fa-" + (this.isSpecSelected(specification.name) ? "check-square" : "square fa-square-config")}></i>
                 </div>
                 <h4>{specification.title} {specification.version}</h4>
                 <p>{specification.description}</p>
