@@ -69,6 +69,14 @@ class SpecificationSelectView extends React.Component {
         return (
             <div>
                 <h1>Available API Specifications</h1>
+                <Panel>
+                    <Panel.Heading>Name of the Test Configuration</Panel.Heading>
+                    <Panel.Body>
+                    <form>
+                        <FormControl type="text" value="" placeholder="Enter Name for the Text Configuration"/>
+                    </form>
+                    </Panel.Body>
+                </Panel>
                 <hr/>
                 <ListGroup>
                     <ListGroupItem disabled><h4>Select the APIs to test</h4></ListGroupItem>
