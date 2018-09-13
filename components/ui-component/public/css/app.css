@@ -64,3 +64,8 @@
     border: 0px !important;
     background-color: transparent !important
 }
+
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover{
+    background-color: #f5f5f5 !important;
+    color: black !important
+}
