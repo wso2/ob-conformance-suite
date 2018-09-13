@@ -19,7 +19,7 @@
 import React from 'react';
 import TestPlanReduxHelper from "../utils/TestPlanReduxHelper";
 import {connect} from "react-redux";
-import {ListGroup, ListGroupItem, Panel, Row, Col, Popover, OverlayTrigger, Button, Table} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Panel, Row, Col, Popover, OverlayTrigger, Button, Table, Collapse} from 'react-bootstrap';
 import {toggleVector, toggleFeature} from "../actions";
 import AttributeGroup from "./AttributeGroup";
 
@@ -51,29 +51,31 @@ function makePop(feature){
 }
 
 export const Feature = connect((state) => ({testvalues: state.testvalues}))(({feature, specName, dispatch, testvalues}) => (
-    <Panel expanded={TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path)}>
-        <Panel.Heading onClick={() => {dispatch(toggleFeature(specName, feature.uri.path))}}>
-            <div className="pull-right">
+    [
+        <ListGroupItem>
+            <div className="pull-right" onClick={() => {dispatch(toggleFeature(specName, feature.uri.path))}}>
                 <i className={"fas fa-lg fa-" + (TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path) ? "check-square" : "square")}/>
             </div>
-            <Panel.Title>Execute Test {feature.title}</Panel.Title>
-        </Panel.Heading>
-        <Panel.Collapse>
-            <Panel.Body>
-                <Row>
-                    <Col xs={8}><b>{feature.description}</b></Col>
-                    <Col xs={4} className="specdetails">
-                        <OverlayTrigger trigger="click" placement="bottom" className="s" overlay={makePop(feature)}>
-                            <Button className="pull-right">Show scenarios</Button>
-                        </OverlayTrigger>
-                    </Col>
-                </Row>
-                {feature.attributeGroups ? <hr/> : []}
-                {feature.attributeGroups ?
-                    feature.attributeGroups.map(group => <AttributeGroup scope={"feature"} specName={specName} featureName={feature.uri.path} group={group} key={group.groupName}/>) : []}
-            </Panel.Body>
-        </Panel.Collapse>
-    </Panel>
+            Execute Test {feature.title}
+        </ListGroupItem>,
+        <div className={"attributes-well"}>
+            <Collapse in={TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path)}>
+                <Panel.Body>
+                    <Row>
+                        <Col xs={8}>{feature.description}</Col>
+                        <Col xs={4} className="specdetails">
+                            <OverlayTrigger trigger="click" placement="bottom" className="s" overlay={makePop(feature)}>
+                                <Button className="pull-right">Show scenarios</Button>
+                            </OverlayTrigger>
+                        </Col>
+                    </Row>
+                    {feature.attributeGroups ? <hr/> : []}
+                    {feature.attributeGroups ?
+                        feature.attributeGroups.map(group => <AttributeGroup scope={"feature"} specName={specName} featureName={feature.uri.path} group={group} key={group.groupName}/>) : []}
+                </Panel.Body>
+            </Collapse>
+        </div>
+    ]
 ));
 
 export const Vector = connect((state) => ({testvalues: state.testvalues}))(({testvalues, specName, vector, dispatch}) => (
@@ -96,7 +98,7 @@ export const Specification = ({spec,selectElement, selected}) => (
 );
 
 export const SpecificationEditor = ({spec}) => (
-    <div>
+    <div className={"test-configuration-view"}>
         <div>
             <h2>{spec.title} {spec.version} configuration</h2>
             <hr/>
@@ -117,9 +119,9 @@ export const SpecificationEditor = ({spec}) => (
         <br/>
         <Panel>
             <Panel.Heading>Testing Features</Panel.Heading>
-            <Panel.Body id={"features"}>
+            <ListGroup>
                 {spec.features.map((feature) => <Feature key={feature.uri.path} feature={feature} specName={spec.name}/>)}
-            </Panel.Body>
+            </ListGroup>
         </Panel>
     </div>
 )
