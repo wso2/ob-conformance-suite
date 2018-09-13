@@ -111,14 +111,15 @@ class TestConfigurationView extends React.Component {
                         </Col>
                         <Col md={8}>
                             {this.state.selectedSpec ? this.renderEditor() : null}
+                            <br/>
+                            <div>
+                                <Button bsStyle={"primary"} bsSize={"lg"}
+                                        disabled={this.isCompleted()}
+                                        onClick={this.buildTestPlan}
+                                >Continue</Button>
+                            </div>
                         </Col>
                     </Row>
-                    <div className={"text-center"}>
-                        <Button bsStyle={"primary"} bsSize={"lg"}
-                                disabled={this.isCompleted()}
-                                onClick={this.buildTestPlan}
-                        >Continue</Button>
-                    </div>
                 </Grid>
             </div>
         );
