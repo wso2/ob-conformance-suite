@@ -19,7 +19,7 @@
 import React from 'react';
 import AppHeader from "./partials/AppHeader";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
-import {ListGroup, ListGroupItem, Glyphicon, Button} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, FormControl, Button, Panel} from 'react-bootstrap';
 import {connect} from 'react-redux'
 import {addSpecification, toggleSpecification, clearSpecifications} from "./actions";
 import {Link} from 'react-router-dom'
@@ -70,9 +70,8 @@ class SpecificationSelectView extends React.Component {
             <div>
                 <h1>Available API Specifications</h1>
                 <hr/>
-                <h4>Select the APIs to test</h4>
                 <ListGroup>
-                    {/* <ListGroupItem disabled><b>Available APIs</b></ListGroupItem> */}
+                    <ListGroupItem disabled><h4>Select the APIs to test</h4></ListGroupItem>
                     {Object.values(this.props.specifications.specs).map((spec) => {
                         return this.renderSpec(spec)
                     })}
