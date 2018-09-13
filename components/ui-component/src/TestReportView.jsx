@@ -18,7 +18,7 @@
 
 import React from 'react';
 import AppHeader from "./partials/AppHeader";
-import {ListGroup, ListGroupItem, Button, Modal, Grid, Row, Col, Panel, Badge} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Button, Modal, Grid, Row, Col, Panel, Badge, Popover} from 'react-bootstrap';
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import '../public/css/report-style.scss'
 import {connect} from 'react-redux'
@@ -29,20 +29,25 @@ import TestReportHelper from './utils/TestReportHelper';
 import AttributeGroup from "./components/AttributeGroup";
 
 const client = new RequestBuilder();
-const reportHelper = new TestReportHelper()
+const reportHelper = new TestReportHelper();
+
 const stepStatus = (steps) => {
     var status = true;
     var error=[];
+    var errorMessage = {Given : "", When:"", Then:""};
     var errorClass = {Given : "", When:"", Then:""};
 
     steps.forEach(step => {
         status = status && (step.result.status === "passed");
         errorClass[step.keyword.trim()]=step.result.status;
+        errorMessage[step.keyword.trim()]=step.result.error_message;
         error.push(step.keyword +" | " + step.name);
+
     });
     if(status){
         return (<p className="passedTag status-badge"><FontAwesomeIcon icon={faCheckCircle}/>Passed</p>) ;
     }else{
+        console.log(errorMessage);
         return (
             <div>
                 <p className="failedTag status-badge"><FontAwesomeIcon icon={faTimesCircle}/>Failed</p>
@@ -52,7 +57,8 @@ const stepStatus = (steps) => {
                         <Panel.Body>
                             <ListGroup>
                                 <ListGroupItem bsStyle="" className = {errorClass.Given}>
-                                        <b>{error[0].split(" ")[0]}</b> {error[0].split(' ').slice(1).join(' ')}</ListGroupItem>
+                                    <b>{error[0].split(" ")[0]}</b> {error[0].split(' ').slice(1).join(' ')}
+                                </ListGroupItem>
                                 <ListGroupItem bsStyle="" className = {errorClass.When}>
                                         <b>{error[1].split(" ")[0]}</b> {error[1].split(' ').slice(1).join(' ')}</ListGroupItem>
                                 <ListGroupItem bsStyle="" className = {errorClass.Then}>
@@ -78,7 +84,7 @@ const FeatureElement = ({element}) => (
         </p>
         {stepStatus(element.steps)}
     </ListGroupItem>
-)
+);
 
 const ElementStep = ({step}) => (
     step.result.status
