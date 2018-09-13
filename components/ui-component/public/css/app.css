@@ -45,3 +45,27 @@
 .check-square-m{
     font-size:18px !important
 }
+
+.scenario-panel{
+    padding: 10px 15px !important
+}
+
+.custome-modal{
+    left: 0px !important;
+    top:0px !important; 
+    background-color: aliceblue !important
+}
+.modal-table{
+    background-color: aliceblue !important;
+    color: black !important
+}
+
+.span-custom{
+    border: 0px !important;
+    background-color: transparent !important
+}
+
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover{
+    background-color: #f5f5f5 !important;
+    color: black !important
+}

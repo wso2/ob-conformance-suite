@@ -113,7 +113,7 @@ class TestConfigurationView extends React.Component {
                             {this.state.selectedSpec ? this.renderEditor() : null}
                             <br/>
                             <div>
-                                <Button bsStyle={"primary"} bsSize={"lg"}
+                                <Button bsStyle={"secondary"} bsSize={"lg"}
                                         disabled={this.isCompleted()}
                                         onClick={this.buildTestPlan}
                                 >Continue</Button>

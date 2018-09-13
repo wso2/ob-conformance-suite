@@ -91,7 +91,7 @@ const TextLabelAttribute = ({attribute}) => (
 
 const LinkButtonAttribute = ({attribute}) => (
     <div>
-        <Button bsStyle="primary" onClick={()=>{
+        <Button bsStyle="secondary" onClick={()=>{
             window.open(attribute.defaultValue, '_blank');
         }}>{attribute.label}</Button>
     </div>
