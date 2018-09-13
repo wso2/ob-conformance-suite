@@ -207,7 +207,7 @@ class TestReportView extends React.Component {
                         <div className={"overall-results-block"}>
                             <p><b>Passed</b> : {this.state.passed}</p>
                             <p><b>Failed</b> : {this.state.failed}</p>
-                            <p><b>Success Rate</b> : {this.state.rate}%</p>
+                            <p><b>Pass Rate</b> : {this.state.rate}%</p>
                         </div>
                         <hr/>
                     </Col>
