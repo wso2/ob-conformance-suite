@@ -90,3 +90,9 @@ export const addTestPlan = (id,testplan,status) => ({
 export const clearTestPlan = () => ({
     type: 'CLEAR_TESTPLAN',
 });
+
+export const toggleScenario = (name,feature) => ({
+    type: 'TOGGLE_SCENARIO',
+    name: name,
+    feature: feature
+});
