@@ -73,3 +73,14 @@
 .test-configuration-view {
     margin: 0px 1px 0px 1px;
 }
+
+.navigation-list {
+    padding: 0px 1px 0px 1px;
+    .list-group {
+        .active{
+            background-color: inherit;
+            color: inherit;
+            border-width: 0px 0px 0px 6px;
+        }
+    }
+}

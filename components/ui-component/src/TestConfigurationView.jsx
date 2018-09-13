@@ -101,7 +101,7 @@ class TestConfigurationView extends React.Component {
                 <br/>
                 <Grid>
                     <Row>
-                        <Col md={4}>
+                        <Col md={4} className={"navigation-list"}>
                             <Panel>
                                 <Panel.Heading>Selected API Specifications</Panel.Heading>
                                 <ListGroup>
@@ -111,14 +111,15 @@ class TestConfigurationView extends React.Component {
                         </Col>
                         <Col md={8}>
                             {this.state.selectedSpec ? this.renderEditor() : null}
+                            <br/>
+                            <div>
+                                <Button bsStyle={"secondary"} bsSize={"lg"}
+                                        disabled={this.isCompleted()}
+                                        onClick={this.buildTestPlan}
+                                >Continue</Button>
+                            </div>
                         </Col>
                     </Row>
-                    <div className={"text-center"}>
-                        <Button bsStyle={"secondary"} bsSize={"lg"}
-                                disabled={this.isCompleted()}
-                                onClick={this.buildTestPlan}
-                        >Continue</Button>
-                    </div>
                 </Grid>
             </div>
         );

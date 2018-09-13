@@ -51,31 +51,29 @@ function makePop(feature){
 }
 
 export const Feature = connect((state) => ({testvalues: state.testvalues}))(({feature, specName, dispatch, testvalues}) => (
-    [
-        <ListGroupItem>
-            <div className="pull-right" onClick={() => {dispatch(toggleFeature(specName, feature.uri.path))}}>
-                <i className={"fas fa-" + (TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path) ? "check-square check-square-m" : "square fa-1x fa-square-list")}/>
+    <Panel expanded={TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path)}>
+        <Panel.Heading onClick={() => {dispatch(toggleFeature(specName, feature.uri.path))}}>
+            <div className="pull-right">
+                <i className={"fas fa-lg fa-" + (TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path) ? "check-square" : "square")}/>
             </div>
-            Execute Test {feature.title}
-        </ListGroupItem>,
-        <div className={"attributes-well"}>
-            <Collapse in={TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path)}>
-                <Panel.Body>
-                    <Row>
-                        <Col xs={8}>{feature.description}</Col>
-                        <Col xs={4} className="specdetails">
-                            <OverlayTrigger trigger="click" placement="bottom" className="s" overlay={makePop(feature)}>
-                                <Button className="pull-right">Show scenarios</Button>
-                            </OverlayTrigger>
-                        </Col>
-                    </Row>
-                    {feature.attributeGroups ? <hr/> : []}
-                    {feature.attributeGroups ?
-                        feature.attributeGroups.map(group => <AttributeGroup scope={"feature"} specName={specName} featureName={feature.uri.path} group={group} key={group.groupName}/>) : []}
-                </Panel.Body>
-            </Collapse>
-        </div>
-    ]
+            <Panel.Title>Execute Test {feature.title}</Panel.Title>
+        </Panel.Heading>
+        <Panel.Collapse>
+            <Panel.Body>
+                <Row>
+                    <Col xs={8}><b>{feature.description}</b></Col>
+                    <Col xs={4} className="specdetails">
+                        <OverlayTrigger trigger="click" placement="bottom" className="s" overlay={makePop(feature)}>
+                            <Button className="pull-right">Show scenarios</Button>
+                        </OverlayTrigger>
+                    </Col>
+                </Row>
+                {feature.attributeGroups ? <hr/> : []}
+                {feature.attributeGroups ?
+                    feature.attributeGroups.map(group => <AttributeGroup scope={"feature"} specName={specName} featureName={feature.uri.path} group={group} key={group.groupName}/>) : []}
+            </Panel.Body>
+        </Panel.Collapse>
+    </Panel>
 ));
 
 export const Vector = connect((state) => ({testvalues: state.testvalues}))(({testvalues, specName, vector, dispatch}) => (
@@ -117,11 +115,8 @@ export const SpecificationEditor = ({spec}) => (
             </Panel.Body>
         </Panel>
         <br/>
-        <Panel>
-            <Panel.Heading>Testing Features</Panel.Heading>
-            <ListGroup>
-                {spec.features.map((feature) => <Feature key={feature.uri.path} feature={feature} specName={spec.name}/>)}
-            </ListGroup>
-        </Panel>
+        <h4>Testing Features</h4>
+        <br/>
+        {spec.features.map((feature) => <Feature key={feature.uri.path} feature={feature} specName={spec.name}/>)}
     </div>
 )
