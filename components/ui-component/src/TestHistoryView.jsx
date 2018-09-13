@@ -23,17 +23,19 @@ import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import {Table, Row, Col, Button, Glyphicon} from 'react-bootstrap';
 import RequestBuilder from './utils/RequestBuilder';
+import '../public/css/report-style.scss'
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCheckCircle, faTimesCircle, faPercent} from "@fortawesome/free-solid-svg-icons";
 const client = new RequestBuilder();
-
 
 
 const TestPlanRow = connect((state) => ({specifications: state.specifications.specs}))(({testPlan,specifications}) => (
     <tr align="left">
         <td>{Object.keys(testPlan.testPlan.specifications).map((key) => <p>{specifications[key].title} {specifications[key].version}</p>)}</td>
-        <td>{testPlan.testId}</td>
         <td>{testPlan.testPlan.lastRun}</td>
         <td><b>{testPlan.status}</b></td>
-        <td><Link to={"/tests/report/"+testPlan.testId}>check report</Link></td>
+        <td style={{textAlign:"left"}}><span style={{color: "green"}}><FontAwesomeIcon icon={faCheckCircle}/> Passed : 6</span><br/><span style={{color: "red"}}><FontAwesomeIcon icon={faTimesCircle}/> Failed : 3</span><br/> <span><FontAwesomeIcon icon={faPercent}/> Success Rate: 66.67%</span></td>
+        <td><Link to={"/tests/report/"+testPlan.testId}>Check Report</Link></td>
     </tr>
 ));
 
@@ -66,9 +68,9 @@ class TestHistoryView extends React.Component{
                         <thead>
                             <tr>    
                                 <th className={"tableHead"}>Specifications</th>
-                                <th className={"tableHead"}>Test ID</th>
                                 <th className={"tableHead"}>Last Test Run Date</th>
                                 <th className={"tableHead"}>Test Status</th>
+                                <th className={"tableHead"}>Summary</th>
                                 <th className={"tableHead"}>Results</th>
                             </tr>
                         </thead>
