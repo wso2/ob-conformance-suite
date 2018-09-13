@@ -51,7 +51,7 @@ class TestHistoryView extends React.Component{
                 <AppHeader/>
                 <AppBreadcrumbs/>
                 <div className={"divStyle"}>
-                    <div className={"headStyle"}>Organization</div>
+                    <div className={"headStyle"}>National Australia Bank (NAB)</div>
                     <div className={"subHeadStyle"}>
                         <Row className="show-grid">
                             <Col xs={8}>Test History</Col>
@@ -66,7 +66,7 @@ class TestHistoryView extends React.Component{
                     </div>
                     <Table striped bordered condensed hover>
                         <thead>
-                            <tr>    
+                            <tr>
                                 <th className={"tableHead"}>Specifications</th>
                                 <th className={"tableHead"}>Last Test Run Date</th>
                                 <th className={"tableHead"}>Test Status</th>
