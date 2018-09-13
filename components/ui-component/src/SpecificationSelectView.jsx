@@ -68,7 +68,7 @@ class SpecificationSelectView extends React.Component {
     renderMain() {
         return (
             <div>
-                <h1>Available APIs in the AU Open Banking Specification</h1>
+                <h1>Available API Specifications</h1>
                 <hr/>
                 <h4>Select the APIs to test</h4>
                 <ListGroup>

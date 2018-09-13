@@ -20,7 +20,7 @@ import React from 'react';
 import AppHeader from "./partials/AppHeader";
 import RequestBuilder from './utils/RequestBuilder';
 import {withRouter} from 'react-router-dom'
-import { Grid, Row, Col, Button, ListGroup} from 'react-bootstrap';
+import { Grid, Row, Col, Button, ListGroup, Panel} from 'react-bootstrap';
 import {updateSpecification,addSpecificationToTestValues,addTestPlan,clearTestValues,clearSelectedSpecifications} from "./actions";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import {connect} from 'react-redux'
@@ -102,17 +102,19 @@ class TestConfigurationView extends React.Component {
                 <Grid>
                     <Row>
                         <Col md={4}>
-                            <ListGroup>
-                                {this.renderSpecs()}
-                            </ListGroup>
+                            <Panel>
+                                <Panel.Heading>Selected API Specifications</Panel.Heading>
+                                <ListGroup>
+                                    {this.renderSpecs()}
+                                </ListGroup>
+                            </Panel>
                         </Col>
                         <Col md={8}>
                             {this.state.selectedSpec ? this.renderEditor() : null}
                         </Col>
                     </Row>
                     <div className={"text-center"}>
-                        <Button bsStyle={"primary"}
-                                bsSize={"lg"}
+                        <Button bsStyle={"primary"} bsSize={"lg"}
                                 disabled={this.isCompleted()}
                                 onClick={this.buildTestPlan}
                         >Continue</Button>
