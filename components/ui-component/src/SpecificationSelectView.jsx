@@ -91,7 +91,7 @@ class SpecificationSelectView extends React.Component {
                 </ListGroup>
                 <div className={"text-center"}>
                     <Link to={"/tests/new/configure"}>
-                        <Button bsStyle={"primary"} bsSize={"lg"} disabled={this.isEmptySelection()}>Configure</Button>
+                        <Button bsStyle={"secondary"} bsSize={"lg"} disabled={this.isEmptySelection()}>Configure</Button>
                     </Link>
                 </div>
             </div>
