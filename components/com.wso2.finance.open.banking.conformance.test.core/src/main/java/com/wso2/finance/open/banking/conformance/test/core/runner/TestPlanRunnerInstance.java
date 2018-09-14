@@ -63,6 +63,12 @@ public class TestPlanRunnerInstance extends Thread{
         this.resultQueue.add(testPlanFeatureResult);
     }
 
+    private void queueStopMessege() {
+        TestPlanFeatureResult testPlanFeatureResult = new TestPlanFeatureResult();
+        testPlanFeatureResult.runnerState = this.status;
+        this.resultQueue.add(testPlanFeatureResult);
+    }
+
     public void queueBrowserInteractionAttributes(AttributeGroup attributeGroup){
         TestPlanFeatureResult featureResult = new TestPlanFeatureResult();
         featureResult.attributeGroup = attributeGroup;
@@ -91,6 +97,7 @@ public class TestPlanRunnerInstance extends Thread{
         }
         this.status = RUNNER_STATE.DONE;
         this.testPlan.setLastRun(new Date());
+        queueStopMessege();
     }
 
     public RUNNER_STATE getStatus() {
