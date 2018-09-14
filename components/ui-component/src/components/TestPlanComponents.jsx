@@ -24,31 +24,12 @@ import {toggleVector, toggleFeature} from "../actions";
 import AttributeGroup from "./AttributeGroup";
 
 const ScenariodataRow = connect((state) => ({specifications: state.specifications.specs}))(({scenario}) => (
-    <tr>
+    <tr align="left">
         <td>{scenario.scenarioName}</td>
         <td>{scenario.specName}</td>
         <td>{scenario.specSection}</td>
     </tr>
 ));
-
-function makePop(feature){
-    return (
-        <Popover id="popover-positioned-bottom" placement="bottom" title="Scenario Details">
-            <Table striped bordered condensed hover>
-                <thead>
-                    <tr>
-                        <th className={"tableHead"}>Scenario Name</th>
-                        <th className={"tableHead"}>Spec Name</th>
-                        <th className={"tableHead"}>Section</th>
-                    </tr>
-                </thead>
-                <tbody className={"text-center"}>
-                    {feature.scenarios.map((scenario) => <ScenariodataRow key={feature.uri.path} scenario={scenario}/>)}
-                </tbody>
-             </Table>
-        </Popover>
-    );
-}
 
 export const Feature = connect((state) => ({testvalues: state.testvalues}))(({feature, specName, dispatch, testvalues}) => (
     <Panel expanded={TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path)}>
@@ -57,16 +38,30 @@ export const Feature = connect((state) => ({testvalues: state.testvalues}))(({fe
                 <i className={"fas fa-lg fa-" + (TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path) ? "check-square" : "square")}/>
             </div>
             <Panel.Title>Execute Test {feature.title}</Panel.Title>
+            {feature.description}
         </Panel.Heading>
         <Panel.Collapse>
             <Panel.Body>
                 <Row>
-                    <Col xs={8}><b>{feature.description}</b></Col>
-                    <Col xs={4} className="specdetails">
-                        <OverlayTrigger trigger="click" placement="bottom" className="s" overlay={makePop(feature)}>
-                            <Button className="pull-right">Show scenarios</Button>
-                        </OverlayTrigger>
-                    </Col>
+                    <Panel className="" defaultExpanded={false}>
+                            <Panel.Toggle className="scenario-panel">Show Scenario</Panel.Toggle>
+                            <Panel.Collapse>
+                                <Panel.Body>
+                                    <Table striped bordered condensed hover>
+                                        <thead>
+                                            <tr align="left">
+                                                <th className={"tableHead"}>Scenario Name</th>
+                                                <th className={"tableHead"}>Spec Name</th>
+                                                <th className={"tableHead"}>Section</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className={"text-center"}>
+                                            {feature.scenarios.map((scenario) => <ScenariodataRow key={feature.uri.path} scenario={scenario}/>)}
+                                        </tbody>
+                                    </Table>
+                                </Panel.Body>
+                            </Panel.Collapse>
+                        </Panel>
                 </Row>
                 {feature.attributeGroups ? <hr/> : []}
                 {feature.attributeGroups ?
