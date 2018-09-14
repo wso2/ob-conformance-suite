@@ -60,9 +60,9 @@ export class StringAttribute extends React.Component {
     getValidationStatus(){
         if(this.props.attribute.validationRegex){
             var isValid = this.state.value.match(RegExp(this.props.attribute.validationRegex));
-            return isValid ? "success" : "error"
+            return isValid ? null : "error"
         }else{
-            return "success";
+            return null;
         }
     }
 
