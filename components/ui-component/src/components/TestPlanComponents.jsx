@@ -32,18 +32,23 @@ const ScenariodataRow = connect((state) => ({specifications: state.specification
 ));
 
 export const Feature = connect((state) => ({testvalues: state.testvalues}))(({feature, specName, dispatch, testvalues}) => (
-    <Panel expanded={TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path)}>
-        <Panel.Heading onClick={() => {dispatch(toggleFeature(specName, feature.uri.path))}}>
-            <div className="pull-right">
-                <i className={"fas fa-lg fa-" + (TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path) ? "check-square" : "square")}/>
-            </div>
-            <Panel.Title>Execute Test {feature.title}</Panel.Title>
-            {feature.description}
-        </Panel.Heading>
-        <Panel.Collapse>
-            <Panel.Body>
-                <Row>
-                    <Panel className="" defaultExpanded={false}>
+    <div className="tc-feature-panel">
+        <Panel expanded={TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path)}>
+            <Panel.Heading onClick={() => {dispatch(toggleFeature(specName, feature.uri.path))}}>
+                <div className="pull-right tc-checkbox">
+                    <i className={"fas fa-lg fa-" + (TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path) ? "check-square" : "square")}/>
+                </div>
+                <Panel.Title>
+                    <div className="tc-feature-panel-head">
+                        <p>Execute Test {feature.title}</p>
+                        <small><p className={"text-muted"}>{feature.description}</p></small>
+                    </div>
+                </Panel.Title>
+            </Panel.Heading>
+            <Panel.Collapse>
+                <Panel.Body>
+                    <Row>
+                        <Panel className="" defaultExpanded={false}>
                             <Panel.Toggle className="scenario-panel">Show Scenario</Panel.Toggle>
                             <Panel.Collapse>
                                 <Panel.Body>
@@ -62,13 +67,14 @@ export const Feature = connect((state) => ({testvalues: state.testvalues}))(({fe
                                 </Panel.Body>
                             </Panel.Collapse>
                         </Panel>
-                </Row>
-                {feature.attributeGroups ? <hr/> : []}
-                {feature.attributeGroups ?
-                    feature.attributeGroups.map(group => <AttributeGroup scope={"feature"} specName={specName} featureName={feature.uri.path} group={group} key={group.groupName}/>) : []}
-            </Panel.Body>
-        </Panel.Collapse>
-    </Panel>
+                    </Row>
+                    {feature.attributeGroups ? <hr/> : []}
+                    {feature.attributeGroups ?
+                        feature.attributeGroups.map(group => <AttributeGroup scope={"feature"} specName={specName} featureName={feature.uri.path} group={group} key={group.groupName}/>) : []}
+                </Panel.Body>
+            </Panel.Collapse>
+        </Panel>
+    </div>
 ));
 
 export const Vector = connect((state) => ({testvalues: state.testvalues}))(({testvalues, specName, vector, dispatch}) => (
