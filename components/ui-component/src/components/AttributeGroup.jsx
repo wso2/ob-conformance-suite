@@ -77,7 +77,9 @@ export class StringAttribute extends React.Component {
                     onChange={this.handleChange}
                 />
                 <FormControl.Feedback />
-                <HelpBlock>{this.props.attribute.helpText}</HelpBlock>
+                <div hidden={this.getValidationStatus() != "error"}>
+                    <HelpBlock>{this.props.attribute.helpText}</HelpBlock>
+                </div>
             </FormGroup>
         );
     }
