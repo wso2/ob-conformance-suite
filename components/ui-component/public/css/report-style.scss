@@ -138,3 +138,11 @@ input[type="text"] {
   background-size : 100% 2px,100% 1px;
   background-image: linear-gradient(#888,#333),linear-gradient(#333,#888);
 }
+
+.attribute-group {
+  padding-bottom: 1em;
+
+  &:last-child{
+    padding-bottom: 0px;
+  }
+}

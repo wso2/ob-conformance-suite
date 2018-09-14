@@ -77,7 +77,7 @@ export class StringAttribute extends React.Component {
                     onChange={this.handleChange}
                 />
                 <FormControl.Feedback />
-                <div hidden={this.getValidationStatus() != "error"}>
+                <div hidden={this.getValidationStatus() != "error"} className={"text-warning"}>
                     <HelpBlock>{this.props.attribute.helpText}</HelpBlock>
                 </div>
             </FormGroup>
@@ -145,8 +145,8 @@ class AttributeGroup extends React.Component {
 
     render(){
         return (
-            <div>
-                <h4>{this.props.group.title}</h4>
+            <div className={"attribute-group"}>
+                <h4 className={"sub-heading"}>{this.props.group.title}</h4>
                 {this.props.group.attributes.map(attribute => this.renderAttribute(attribute))}
             </div>
         );
