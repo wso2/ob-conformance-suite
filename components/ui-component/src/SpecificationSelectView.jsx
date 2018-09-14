@@ -19,7 +19,7 @@
 import React from 'react';
 import AppHeader from "./partials/AppHeader";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
-import {ListGroup, ListGroupItem, FormControl, Button, Well, Row} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Button} from 'react-bootstrap';
 import {connect} from 'react-redux'
 import {addSpecification, toggleSpecification, clearSpecifications} from "./actions";
 import {Link} from 'react-router-dom'
@@ -69,19 +69,10 @@ class SpecificationSelectView extends React.Component {
         return (
             <div>
                 <h1>Available API Specifications</h1>
-                <div class="input-group">
-                    <span class="input-group-addon span-custom">Name of the Test Configuration</span>
-                    <input id="msg" type="text" class="form-control" name="msg" placeholder="Enter Name for the Text Configuration"></input>
+                <div className="input-group">
+                    <span className="input-group-addon span-custom">Name of the Test Configuration</span>
+                    <input id="name" type="text" className="form-control" name="name" placeholder="Enter Name for the Text Configuration"></input>
                 </div>
-
-                {/* <Panel>
-                    <Panel.Heading>Name of the Test Configuration</Panel.Heading>
-                    <Panel.Body>
-                    <form>
-                        <FormControl type="text" value="" placeholder="Enter Name for the Text Configuration"/>
-                    </form>
-                    </Panel.Body>
-                </Panel> */}
                 <hr/>
                 <ListGroup>
                     <ListGroupItem disabled><h4>Select the APIs to test</h4></ListGroupItem>
