@@ -45,7 +45,7 @@ class SpecificationSelectView extends React.Component {
     renderSpec(specification) {
         return (
             <ListGroupItem key={specification.name} onClick={() => {this.toggleSpec(specification)}} active={this.isSpecSelected(specification.name)}>
-                <div className="pull-right">
+                <div className="pull-right checkbox">
                     <i className={"fas fa-2x fa-" + (this.isSpecSelected(specification.name) ? "check-square" : "square fa-square-config")}></i>
                 </div>
                 <h4>{specification.title} {specification.version}</h4>
