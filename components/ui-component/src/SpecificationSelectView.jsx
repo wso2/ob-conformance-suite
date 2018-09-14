@@ -81,7 +81,6 @@ class SpecificationSelectView extends React.Component {
                     </Panel.Body>
                 </Panel>
                 <br/>
-
                 <ListGroup>
                     <ListGroupItem disabled><h4>APIs to be tested</h4></ListGroupItem>
                     {Object.values(this.props.specifications.specs).map((spec) => {
