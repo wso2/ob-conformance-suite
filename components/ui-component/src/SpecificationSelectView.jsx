@@ -45,7 +45,7 @@ class SpecificationSelectView extends React.Component {
     renderSpec(specification) {
         return (
             <ListGroupItem key={specification.name} onClick={() => {this.toggleSpec(specification)}} active={this.isSpecSelected(specification.name)}>
-                <div className="pull-right">
+                <div className="pull-right checkbox">
                     <i className={"fas fa-2x fa-" + (this.isSpecSelected(specification.name) ? "check-square" : "square fa-square-config")}></i>
                 </div>
                 <h4>{specification.title} {specification.version}</h4>
@@ -67,19 +67,27 @@ class SpecificationSelectView extends React.Component {
 
     renderMain() {
         return (
-            <div>
-                <h1>Available API Specifications</h1>
-                <div className="input-group">
-                    <span className="input-group-addon span-custom">Name of the Test Configuration</span>
-                    <input id="name" type="text" className="form-control" name="name" placeholder="Enter Name for the Text Configuration"></input>
-                </div>
-                <hr/>
+            <div className={"test-configuration-view"}>
+                <h1 className={"page-header"}>Create new test</h1>
+                <br/>
+                <Panel>
+                    <Panel.Heading>Test Configuration</Panel.Heading>
+                    <Panel.Body>
+                        <div className="input-group">
+                            <span className="input-group-addon span-custom">Name of the Test Configuration</span>
+                            <input id="msg" type="text" className="form-control" name="msg"
+                                   placeholder="Enter Name for the Text Configuration"></input>
+                        </div>
+                    </Panel.Body>
+                </Panel>
+                <br/>
                 <ListGroup>
-                    <ListGroupItem disabled><h4>Select the APIs to test</h4></ListGroupItem>
+                    <ListGroupItem disabled><h4>APIs to be tested</h4></ListGroupItem>
                     {Object.values(this.props.specifications.specs).map((spec) => {
                         return this.renderSpec(spec)
                     })}
                 </ListGroup>
+                <p className={"text-warning"} hidden={!this.isEmptySelection()}><small>* Select at least one API to continue</small></p>
                 <Link to={"/tests/new/configure"}>
                     <Button bsStyle={"secondary"} bsSize={"lg"} disabled={this.isEmptySelection()}>Configure</Button>
                 </Link>

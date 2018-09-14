@@ -204,7 +204,7 @@ class TestReportView extends React.Component {
                 <Row>
                     <Col md={12}>
                         <h1>Test Report</h1>
-                        <div className={"overall-results-block"}>
+                        <div className={"overall-results-block report-block"}>
                             <p><span class="passed-badge">Passed</span> : {this.state.passed}</p>
                             <p><span class="failed-badge">Failed</span> : {this.state.failed}</p>
                             <p><b>Pass Rate</b> : {this.state.rate}%</p>
