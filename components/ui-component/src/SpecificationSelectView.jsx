@@ -19,7 +19,7 @@
 import React from 'react';
 import AppHeader from "./partials/AppHeader";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
-import {ListGroup, ListGroupItem, FormControl, Button, Well, Row} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Panel, Button, Well, Row} from 'react-bootstrap';
 import {connect} from 'react-redux'
 import {addSpecification, toggleSpecification, clearSpecifications} from "./actions";
 import {Link} from 'react-router-dom'
@@ -67,28 +67,27 @@ class SpecificationSelectView extends React.Component {
 
     renderMain() {
         return (
-            <div>
-                <h1>Available API Specifications</h1>
-                <div class="input-group">
-                    <span class="input-group-addon span-custom">Name of the Test Configuration</span>
-                    <input id="msg" type="text" class="form-control" name="msg" placeholder="Enter Name for the Text Configuration"></input>
-                </div>
-
-                {/* <Panel>
-                    <Panel.Heading>Name of the Test Configuration</Panel.Heading>
+            <div className={"test-configuration-view"}>
+                <h1 className={"page-header"}>Create new test</h1>
+                <br/>
+                <Panel>
+                    <Panel.Heading>Test Configuration</Panel.Heading>
                     <Panel.Body>
-                    <form>
-                        <FormControl type="text" value="" placeholder="Enter Name for the Text Configuration"/>
-                    </form>
+                        <div className="input-group">
+                            <span className="input-group-addon span-custom">Name of the Test Configuration</span>
+                            <input id="msg" type="text" className="form-control" name="msg"
+                                   placeholder="Enter Name for the Text Configuration"></input>
+                        </div>
                     </Panel.Body>
-                </Panel> */}
-                <hr/>
+                </Panel>
+                <br/>
                 <ListGroup>
-                    <ListGroupItem disabled><h4>Select the APIs to test</h4></ListGroupItem>
+                    <ListGroupItem disabled><h4>APIs to be tested</h4></ListGroupItem>
                     {Object.values(this.props.specifications.specs).map((spec) => {
                         return this.renderSpec(spec)
                     })}
                 </ListGroup>
+                <p className={"text-warning"} hidden={!this.isEmptySelection()}><small>* Select at least one API to continue</small></p>
                 <Link to={"/tests/new/configure"}>
                     <Button bsStyle={"secondary"} bsSize={"lg"} disabled={this.isEmptySelection()}>Configure</Button>
                 </Link>

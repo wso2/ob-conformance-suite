@@ -104,11 +104,6 @@ export const Specification = ({spec,selectElement, selected}) => (
 
 export const SpecificationEditor = ({spec}) => (
     <div className={"test-configuration-view"}>
-        <div>
-            <h2>{spec.title} {spec.version} configuration</h2>
-            <hr/>
-        </div>
-        <br/>
         <Panel>
             <Panel.Heading>Testing Vectors</Panel.Heading>
             <ListGroup>
