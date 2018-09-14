@@ -60,9 +60,9 @@ export class StringAttribute extends React.Component {
     getValidationStatus(){
         if(this.props.attribute.validationRegex){
             var isValid = this.state.value.match(RegExp(this.props.attribute.validationRegex));
-            return isValid ? "success" : "error"
+            return isValid ? null : "error"
         }else{
-            return "success";
+            return null;
         }
     }
 
@@ -77,7 +77,9 @@ export class StringAttribute extends React.Component {
                     onChange={this.handleChange}
                 />
                 <FormControl.Feedback />
-                <HelpBlock>{this.props.attribute.helpText}</HelpBlock>
+                <div hidden={this.getValidationStatus() != "error"} className={"text-warning"}>
+                    <HelpBlock>{this.props.attribute.helpText}</HelpBlock>
+                </div>
             </FormGroup>
         );
     }
@@ -143,8 +145,8 @@ class AttributeGroup extends React.Component {
 
     render(){
         return (
-            <div>
-                <h4>{this.props.group.title}</h4>
+            <div className={"attribute-group"}>
+                <h4 className={"sub-heading"}>{this.props.group.title}</h4>
                 {this.props.group.attributes.map(attribute => this.renderAttribute(attribute))}
             </div>
         );

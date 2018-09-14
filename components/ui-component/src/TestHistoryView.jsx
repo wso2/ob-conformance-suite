@@ -34,7 +34,11 @@ const TestPlanRow = connect((state) => ({specifications: state.specifications.sp
         <td>{Object.keys(testPlan.testPlan.specifications).map((key) => <p>{specifications[key].title} {specifications[key].version}</p>)}</td>
         <td>{testPlan.testPlan.lastRun}</td>
         <td><b>{testPlan.status}</b></td>
-        <td style={{textAlign:"left"}}><span style={{color: "green"}}><FontAwesomeIcon icon={faCheckCircle}/> Passed : 6</span><br/><span style={{color: "red"}}><FontAwesomeIcon icon={faTimesCircle}/> Failed : 3</span><br/> <span><FontAwesomeIcon icon={faPercent}/> Success Rate: 66.67%</span></td>
+        <td className={"overall-results-block"}>
+            <p><span style={{color: "green"}}><FontAwesomeIcon icon={faCheckCircle}/> Passed : 6</span></p>
+            <p><span style={{color: "red"}}><FontAwesomeIcon icon={faTimesCircle}/> Failed : 3</span></p>
+            <p><span><FontAwesomeIcon icon={faPercent}/> Success Rate: 66.67%</span></p>
+        </td>
         <td><Link to={"/tests/report/"+testPlan.testId}>Check Report</Link></td>
     </tr>
 ));
