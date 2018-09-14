@@ -62,7 +62,7 @@ class TestHistoryView extends React.Component{
                             <Col xs={4}>
                                 <Link to={"/tests/new"}>
                                     <Button className="pull-right btn-secondary" bsStyle="default">
-                                        Create Test Configuration
+                                        + Test Configuration
                                     </Button>
                                 </Link>
                             </Col>
