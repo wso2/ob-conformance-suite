@@ -88,10 +88,6 @@
     }
 }
 
-.attributes-well {
-    background-color: #f5f5f5;
-}
-
 .test-configuration-view {
     margin: 0px 1px 0px 1px;
 }
@@ -105,4 +101,15 @@
             border-width: 0px 0px 0px 6px;
         }
     }
+}
+.tc-feature-panel{
+  .panel-heading{
+    padding-bottom: 0px;
+  }
+  .tc-feature-panel-head {
+    margin: 0px 5px 0px 5px;
+  }
+  .tc-checkbox {
+    margin-top: 1.3em;
+  }
 }
