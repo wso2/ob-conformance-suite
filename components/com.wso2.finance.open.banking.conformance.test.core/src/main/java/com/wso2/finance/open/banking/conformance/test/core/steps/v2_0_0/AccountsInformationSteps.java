@@ -23,12 +23,17 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class AccountsInformationSteps {
-    @When("user initiates a request to Beneficiaries endpoint")
+    @Given("TPP wants to access beneficiary details of an account")
+    public void setup(){
+        return;
+    }
+
+    @When("TPP initiates a request to Beneficiaries endpoint")
     public void initiateRequestToBeneficiariesEnd(){
             return;
     }
 
-    @Then("user receives the beneficiaries details for the given account")
+    @Then("TPP receives the beneficiary details of the given account")
     public void getBeneficiaryDetails(){
         return;
     }

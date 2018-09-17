@@ -76,7 +76,7 @@ public class OIDCHandler {
     -k -d "client_id=MGw0ych4DOR9Fz_m6xwEWLdIMjQa&grant_type=authorization_code&code=YOUR_AUTHORIZATION_CODE&scope=accounts payments&redirect_uri
     =https://openbanking.wso2.com/authenticationendpoint/authorize_callback.do" https://api-openbanking.wso2.com/TokenAPI/v1.0.0/
      */
-    public String getAccessToken(){
+    public String getAccessTokenByAuthorizationCode(){
 
         RequestGenerator reqGen = new RequestGenerator();
         RequestSpecification req = reqGen.createRequestForTokenEndPoint("https://api-openbanking.wso2.com/TokenAPI/v1.0.0/");
@@ -89,6 +89,11 @@ public class OIDCHandler {
         Gson gson = new Gson();
         return gson.fromJson(response.getBody().asString(), TokenEndResponse.class).getAccess_token();
 
+    }
+
+    public String getAccessTokenByClientCredintials()
+    {
+        return "";
     }
 
     public void setAuthCode(String authCode){

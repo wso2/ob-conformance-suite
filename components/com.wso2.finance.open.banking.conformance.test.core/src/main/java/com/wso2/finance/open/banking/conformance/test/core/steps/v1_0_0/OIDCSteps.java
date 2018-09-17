@@ -39,7 +39,7 @@ public class OIDCSteps {
     private String clientID;
     private String clientSecret;
 
-    @Given("user is directed to the auth endpoint to get the consent")
+    @When("user provides his consent by clicking on redirect url")
     public void directUserToGetTheConcent(){
         clientID = Context.getInstance().getCurrentSpecAttribute("client","consumer key");
         clientSecret = Context.getInstance().getCurrentSpecAttribute("client","consumer secret");
@@ -69,9 +69,9 @@ public class OIDCSteps {
         Log.info("Received Auth Code: "+authCode);
     }
 
-    @Then("TPP requests an access token from token endpoint")
+    @Then("TPP requests and receives an access token from token endpoint")
     public void getAccessToken(){
-        String accessToken = oidcHandler.getAccessToken();
+        String accessToken = oidcHandler.getAccessTokenByAuthorizationCode();
         Context.getInstance().setAccessToken(accessToken);
         Log.info("Received Access Token: "+ accessToken);
     }
