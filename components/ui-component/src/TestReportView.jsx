@@ -56,6 +56,7 @@ const stepStatus = (steps) => {
                     <Panel.Toggle componentClass="a" className="error-details-link">View details</Panel.Toggle>
                     <Panel.Collapse>
                         <Panel.Body>
+                            <p>Error details :</p>
                             <ListGroup>
                                 <ListGroupItem bsStyle="" className = {errorClass.Given}>
                                     <b>{error[0].split(" ")[0]}</b> {error[0].split(' ').slice(1).join(' ')}
@@ -92,17 +93,22 @@ const ElementStep = ({step}) => (
 );
 
 const ReportFeature = ({feature}) => (
-    <ListGroup>
-        <ListGroupItem disabled>
-            <div className="pull-right feature-result">
+        <Panel defaultExpanded={false}>
+            <Panel.Heading>
+                <div className="pull-right feature-result">
                 <span className={reportHelper.getFeatureResultStatus(feature, reportHelper).class}>
                     <FontAwesomeIcon icon={reportHelper.getFeatureResultStatus(feature, reportHelper).status === "Passed"
                         ? faCheckCircle : faTimesCircle}/>&nbsp;{reportHelper.getFeatureResultStatus(feature, reportHelper).status}</span>
-            </div>
-            <h4 className="feature-title"><b>Feature:</b> {feature.name}</h4>
-        </ListGroupItem>
-        {feature.elements.map(element => <FeatureElement element={element}/>)}
-    </ListGroup>
+                </div>
+                <Panel.Title><h4 className="feature-title"><b>Feature:</b> {feature.name}</h4></Panel.Title>
+                <Panel.Toggle componentClass="a">View Scenarios</Panel.Toggle>
+            </Panel.Heading>
+            <Panel.Collapse>
+                <Panel.Body>
+                    {feature.elements.map(element => <FeatureElement element={element}/>)}
+                </Panel.Body>
+            </Panel.Collapse>
+        </Panel>
 );
 
 const ReportSpec = connect((state) => ({specifications: state.specifications,}))(({spec,specName,specifications}) => (
