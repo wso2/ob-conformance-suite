@@ -163,26 +163,60 @@ class TestReportView extends React.Component {
         clearInterval(this.interval);
     }
 
-    appendResults(){
-        client.pollResultsForTestPlan(this.state.uuid).then((response)=>{
-            //console.log(response);
-            var resultObject = this.state.data;
-            response.data.forEach((feature) => {
-                var featureResult = reportHelper.getFeatureResult(feature['featureResult'],reportHelper);
-                    resultObject = {
-                    ...resultObject,
-                    [feature.specName] : [...resultObject[feature.specName],feature.featureResult]
-                };
-                    this.setState({
-                        data: resultObject,
-                        passed: this.state.passed + featureResult.passed,
-                        failed: this.state.failed + featureResult.failed,
-                        rate: (((this.state.passed+ featureResult.passed)/(parseFloat(this.state.passed + featureResult.passed)+(this.state.failed + featureResult.failed)))*100).toFixed(2)
-                })
-            });
+//    appendResults(){
+       //        client.pollResultsForTestPlan(this.state.uuid).then((response)=>{
+       //            //console.log(response);
+       //            var resultObject = this.state.data;
+       //            response.data.forEach((feature) => {
+       //                if(feature['featureResult']){
+       //                    var featureResult = reportHelper.getFeatureResult(feature['featureResult'],reportHelper);
+       //                        resultObject = {
+       //                        ...resultObject,
+       //                        [feature.specName] : [...resultObject[feature.specName],feature.featureResult]
+       //                    };
+       //                        this.setState({
+       //                            data: resultObject,
+       //                            passed: this.state.passed + featureResult.passed,
+       //                            failed: this.state.failed + featureResult.failed,
+       //                            rate: (((this.state.passed+ featureResult.passed)/(parseFloat(this.state.passed + featureResult.passed)+(this.state.failed + featureResult.failed)))*100).toFixed(2)
+       //                    })
+       //                }
+       //
+       //            });
+       //
+       //        });
+       //    }
 
-        });
-    }
+        appendResults(){
+            client.pollResultsForTestPlan(this.state.uuid).then((response)=>{
+                response.data.forEach((result) => {
+                    this.setState({
+                        showInteractionModel : false
+                    });
+                    var resultObject = this.state.data;
+                    if(result.featureResult){
+                        var feature = result; //todo - Refactor this
+
+                        var featureResult = reportHelper.getFeatureResult(feature['featureResult'],reportHelper);
+                            resultObject = {
+                            ...resultObject,
+                            [feature.specName] : [...resultObject[feature.specName],feature.featureResult]
+                        };
+                            this.setState({
+                                data: resultObject,
+                                passed: this.state.passed + featureResult.passed,
+                                failed: this.state.failed + featureResult.failed,
+                                rate: (((this.state.passed+ featureResult.passed)/(parseFloat(this.state.passed + featureResult.passed)+(this.state.failed + featureResult.failed)))*100).toFixed(2)
+                        })
+                    }else if(result.attributeGroup){
+                        this.setState({
+                            attributes : result.attributeGroup,
+                            showInteractionModel : true
+                        })
+                    }
+                });
+            });
+        }
 
     render() {
         return (
