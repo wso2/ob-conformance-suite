@@ -46,14 +46,14 @@ const stepStatus = (steps) => {
 
     });
     if(status){
-        return (<p className="passedTag status-badge"><FontAwesomeIcon icon={faCheckCircle}/>Passed</p>) ;
+        return (<p className="passedTag status-badge"><FontAwesomeIcon icon={faCheckCircle}/></p>) ;
     }else{
         //console.log(errorMessage);
         return (
             <div>
-                <p className="failedTag status-badge"><FontAwesomeIcon icon={faTimesCircle}/>Failed</p>
+                <p className="failedTag status-badge"><FontAwesomeIcon icon={faTimesCircle}/></p>
                 <Panel className="error-panel" defaultExpanded={false}>
-                    <Panel.Toggle componentClass="a">View more details about ths error</Panel.Toggle>
+                    <Panel.Toggle componentClass="a" className="error-details-link">View details</Panel.Toggle>
                     <Panel.Collapse>
                         <Panel.Body>
                             <ListGroup>
@@ -95,7 +95,9 @@ const ReportFeature = ({feature}) => (
     <ListGroup>
         <ListGroupItem disabled>
             <div className="pull-right feature-result">
-                <span><FontAwesomeIcon icon={faCheckCircle}/>&nbsp;{reportHelper.getFeatureResultFraction(feature, reportHelper)}</span>
+                <span className={reportHelper.getFeatureResultStatus(feature, reportHelper).class}>
+                    <FontAwesomeIcon icon={reportHelper.getFeatureResultStatus(feature, reportHelper).status === "Passed"
+                        ? faCheckCircle : faTimesCircle}/>&nbsp;{reportHelper.getFeatureResultStatus(feature, reportHelper).status}</span>
             </div>
             <h4 className="feature-title"><b>Feature:</b> {feature.name}</h4>
         </ListGroupItem>
@@ -157,6 +159,7 @@ class TestReportView extends React.Component {
 
     appendResults(){
         client.pollResultsForTestPlan(this.state.uuid).then((response)=>{
+            //console.log(response);
             var resultObject = this.state.data;
             response.data.forEach((feature) => {
                 var featureResult = reportHelper.getFeatureResult(feature['featureResult'],reportHelper);
@@ -202,13 +205,13 @@ class TestReportView extends React.Component {
                         <Button onClick={()=>{this.setState({showInteractionModel : false})}}>Close</Button>
                     </Modal.Footer>
                 </Modal>
-                <Row>
+                <Row className="stickeyHeader">
                     <Col md={12}>
                         <h1>Test Report</h1>
 
                         <div className={"overall-results-block report-block"}>
-                            <p><span class="passed-badge">Passed</span> : {this.state.passed}</p>
-                            <p><span class="failed-badge">Failed</span> : {this.state.failed}</p>
+                            <p><span className="passed-summary">Passed</span> : {this.state.passed}</p>
+                            <p><span className="failed-summary">Failed</span> : {this.state.failed}</p>
                             <p><b>Pass Rate</b> : {this.state.rate}%</p>
                             <LoaderComponent/>
                         </div>

@@ -66,8 +66,12 @@ export default class TestReportHelper {
          return step['result']['status'];
     }
 
-    getFeatureResultFraction(feature, thisClass){
+    getFeatureResultStatus(feature, thisClass){
         var result = thisClass.getFeatureResult(feature, thisClass);
-        return result.passed+"/"+(result.passed+result.failed);
+        if(result.failed === 0){
+            return {class: "passed-summary", status: "Passed"};
+        }else{
+            return {class: "failed-summary", status: "Failed"};
+        }
     }
 }
