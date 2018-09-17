@@ -17,10 +17,14 @@
  */
 
 const initialState = {
-    testplans: {},
-    results: {}
+    testplans: {}
 };
 
+const reportsToObj = (reports) =>
+    reports.reduce(function(map, report) {
+        map[report.reportId] = report;
+        return map;
+    }, {});
 
 const testplans = (state = initialState, action) => {
     switch (action.type) {
@@ -29,10 +33,9 @@ const testplans = (state = initialState, action) => {
                 testplans: {...state.testplans, [action.id] : {
                         testId : action.id,
                         testPlan : action.testplan,
-                        status: "DUMMY"
+                        reports : reportsToObj(action.reports)
                     }
                 },
-                results: state.results
             };
         case 'CLEAR_TESTPLANS':
             return initialState;

@@ -80,10 +80,11 @@ export const clearTestValues = () => ({
     type: 'CLEAR_TESTVALUES',
 });
 
-export const addTestPlan = (id,testplan) => ({
+export const addTestPlan = (id,testplan,reports) => ({
     type: 'ADD_TESTPLAN',
     id: id,
     testplan: testplan,
+    reports: reports
 });
 
 export const clearTestPlan = () => ({
