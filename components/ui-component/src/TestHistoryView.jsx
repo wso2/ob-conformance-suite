@@ -21,12 +21,14 @@ import AppHeader from "./partials/AppHeader";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
-import {Table, Row, Col, Button, Glyphicon} from 'react-bootstrap';
+import {Table, Row, Col, Button, Panel, ButtonGroup, PanelGroup, ButtonToolbar} from 'react-bootstrap';
 import RequestBuilder from './utils/RequestBuilder';
 import '../public/css/report-style.scss'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle, faTimesCircle, faPercent} from "@fortawesome/free-solid-svg-icons";
 const client = new RequestBuilder();
+
+
 
 
 const TestPlanRow = connect((state) => ({specifications: state.specifications.specs}))(({testPlan,specifications}) => (
@@ -43,6 +45,71 @@ const TestPlanRow = connect((state) => ({specifications: state.specifications.sp
     </tr>
 ));
 
+const TestPlanItem = connect((state) => ({specifications: state.specifications.specs}))(({testPlan,specifications, id}) => (
+
+    <Panel defaultExpanded={false}>
+        <Panel.Heading>
+        <Panel.Title>
+            <Row>
+                <Col xs={6}><Panel.Toggle>Security Test Configuration</Panel.Toggle></Col>
+                <Col xs={4}>
+                    <ButtonToolbar className="pull-right">
+                        <Button bsStyle="secondary" className="round-btn"><i className={"fas fa-play"}/></Button>
+                        <Button bsStyle="secondary" className="round-btn"><i className={"fas fa-cog"}/></Button>
+                        <Button bsStyle="secondary" className="round-btn"><i className={"fas fa-trash"}/></Button>
+                    </ButtonToolbar>
+                </Col>
+                <Col xs={2}>
+                    <div className="pull-right"><i className={"fas fa-angle-down"}/></div>
+                    {/* <i className={"fas fa-" + expanded ? "angle-up" : "angle-down")}/> */}
+                </Col>
+                </Row>
+        </Panel.Title>
+        </Panel.Heading>
+        <Panel.Collapse>
+            <Panel.Body collapsible>
+                <b>Test Iterations</b>
+                <Table className = "test-history-table" striped bordered condensed hover>
+                    <thead>
+                        <tr>
+                            <th className={"tableHead"}>Specifications</th>
+                            <th className={"tableHead"}>Test Run Date</th>
+                            <th className={"tableHead"}>Status</th>
+                            <th className={"tableHead"}>Summary</th>
+                            <th className={"tableHead"}></th>
+                        </tr>
+                    </thead>
+                    <tbody className={"text-center"}>
+                        <tr align="left">
+                            <td>{Object.keys(testPlan.testPlan.specifications).map((key) => <p>{specifications[key].title} {specifications[key].version}</p>)}</td>
+                            <td>{testPlan.testPlan.lastRun}</td>
+                            <td><b>{testPlan.status}</b></td>
+                            <td className={"overall-results-block"}>
+                                <p><span style={{color: "green"}}><FontAwesomeIcon icon={faCheckCircle}/> Passed : 6</span></p>
+                                <p><span style={{color: "red"}}><FontAwesomeIcon icon={faTimesCircle}/> Failed : 3</span></p>
+                                <p><span> Success Rate: 66.67%</span></p>
+                            </td>
+                            <td><Link to={"/tests/report/"+testPlan.testId}>Check Report</Link></td>
+                        </tr>
+                        <tr align="left">
+                            <td>{Object.keys(testPlan.testPlan.specifications).map((key) => <p>{specifications[key].title} {specifications[key].version}</p>)}</td>
+                            <td>{testPlan.testPlan.lastRun}</td>
+                            <td><b>{testPlan.status}</b></td>
+                            <td className={"overall-results-block"}>
+                                <p><span style={{color: "green"}}><FontAwesomeIcon icon={faCheckCircle}/> Passed : 6</span></p>
+                                <p><span style={{color: "red"}}><FontAwesomeIcon icon={faTimesCircle}/> Failed : 3</span></p>
+                                <p><span> Success Rate: 66.67%</span></p>
+                            </td>
+                            <td><Link to={"/tests/report/"+testPlan.testId}>Check Report</Link></td>
+                        </tr>
+                    </tbody>
+                </Table>
+            </Panel.Body>
+        </Panel.Collapse>
+    </Panel>
+));
+
+
 class TestHistoryView extends React.Component{
 
     constructor(props){
@@ -58,7 +125,7 @@ class TestHistoryView extends React.Component{
                     <div className={"headStyle"}>National Australia Bank (NAB)</div>
                     <div className={"subHeadStyle"}>
                         <Row className="show-grid">
-                            <Col xs={8}>Test History</Col>
+                            <Col xs={8}><h4>Test History</h4></Col>
                             <Col xs={4}>
                                 <Link to={"/tests/new"}>
                                     <Button className="pull-right btn-secondary" bsStyle="default">
@@ -68,7 +135,18 @@ class TestHistoryView extends React.Component{
                             </Col>
                         </Row>
                     </div>
-                    <Table striped bordered condensed hover>
+                    <Panel>
+                        <Panel.Heading>
+                            <Panel.Title>
+                                Test Configurations
+                            </Panel.Title>
+                        </Panel.Heading>
+                        <Panel.Body>
+                        {Object.values(this.props.testplans).map((plan) =><TestPlanItem testPlan={plan}/>)}
+                        </Panel.Body>
+                    </Panel>
+                    
+                    {/* <Table striped bordered condensed hover>
                         <thead>
                             <tr>
                                 <th className={"tableHead"}>Specifications</th>
@@ -81,7 +159,7 @@ class TestHistoryView extends React.Component{
                         <tbody className={"text-center"}>
                             {Object.values(this.props.testplans).map((plan) => <TestPlanRow testPlan={plan}/> )}
                         </tbody>
-                    </Table>
+                    </Table> */}
                 </div>
             </div>
         );
