@@ -41,6 +41,7 @@ class TestConfigurationView extends React.Component {
         this.selectSpec = this.selectSpec.bind(this);
         this.isCompleted = this.isCompleted.bind(this);
         this.buildTestPlan = this.buildTestPlan.bind(this);
+        this.saveTestPlan = this.saveTestPlan.bind(this);
     }
 
     componentDidMount() {
@@ -95,6 +96,11 @@ class TestConfigurationView extends React.Component {
         });
     }
 
+    saveTestPlan(){
+        let testConfiguration = TestPlanReduxHelper.buildTestPlanFromTestValues(this.props.testvalues);
+        console.log(testConfiguration)
+    }
+
     renderMain() {
         return (
             <div>
@@ -122,7 +128,11 @@ class TestConfigurationView extends React.Component {
                                 <Button bsStyle={"secondary"} bsSize={"lg"}
                                         disabled={this.isCompleted()}
                                         onClick={this.buildTestPlan}
-                                >Continue</Button>
+                                >Save and Run</Button>
+                                <Button className="test-save-btn" bsStyle={"secondary"} bsSize={"lg"}
+                                        disabled={this.isCompleted()}
+                                        onClick={this.saveTestPlan}
+                                >Save</Button>
                             </div>
                         </Col>
                     </Row>
