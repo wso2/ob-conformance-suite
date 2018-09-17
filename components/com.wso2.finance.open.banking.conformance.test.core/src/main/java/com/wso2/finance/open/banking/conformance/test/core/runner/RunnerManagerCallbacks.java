@@ -16,18 +16,12 @@
  * under the License.
  */
 
-package com.wso2.finance.open.banking.conformance.api.dto;
+package com.wso2.finance.open.banking.conformance.test.core.runner;
 
 import com.wso2.finance.open.banking.conformance.mgt.models.Report;
 
-public class TestPlanAddConfirmationDTO {
-
-    String testId;
-    Report report;
-
-    public TestPlanAddConfirmationDTO(String testId, Report report) {
-
-        this.testId = testId;
-        this.report = report;
-    }
+public interface RunnerManagerCallbacks {
+    void cleanup(String uuid);
+    Report addResult(Report report);
+    void updateResult(Report report);
 }

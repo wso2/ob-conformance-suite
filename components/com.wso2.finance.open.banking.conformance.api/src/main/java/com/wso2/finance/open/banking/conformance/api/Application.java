@@ -64,6 +64,7 @@ public class Application {
         new MicroservicesRunner()
                 .deploy(new ConformanceSuiteAPI())
                 .deploy(new TestPlanAPI())
+                .deploy(new ResultsAPI())
                 .start();
     }
 }
