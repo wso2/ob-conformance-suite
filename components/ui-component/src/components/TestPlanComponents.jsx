@@ -36,7 +36,7 @@ export const Feature = connect((state) => ({testvalues: state.testvalues}))(({fe
         <Panel expanded={TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path)}>
             <Panel.Heading onClick={() => {dispatch(toggleFeature(specName, feature.uri.path))}}>
                 <div className="pull-right tc-checkbox">
-                    <i className={"fas fa-lg fa-" + (TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path) ? "check-square" : "square")}/>
+                    <i className={"fas fa-" + (TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path) ? "check-square check-square-m" : "square fa-1x fa-square-list")}/>
                 </div>
                 <Panel.Title>
                     <div className="tc-feature-panel-head">
@@ -50,7 +50,7 @@ export const Feature = connect((state) => ({testvalues: state.testvalues}))(({fe
                     <Row>
                         <Panel className="scenario-panel" defaultExpanded={false}>
                             <Panel.Title className="scenario-panel">
-                                <Panel.Toggle className="scenario-panel-title">Show Scenario</Panel.Toggle>
+                                <Panel.Toggle className="scenario-panel-title">Show Scenarios</Panel.Toggle>
                             </Panel.Title>
                             <Panel.Collapse>
                                 <Panel.Body className="scenario-panel-body">

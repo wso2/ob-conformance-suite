@@ -62,9 +62,10 @@
 }
 .scenario-panel-title{
     margin: 10px;
-    font-weight: bold;
+    /* font-weight: bold; */
     margin-bottom: 0px !important;
-    border: 0px !important
+    border: 0px !important;
+    color: #507192 !important
 }
 
 .scenario-panel{
