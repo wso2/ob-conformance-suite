@@ -60,8 +60,18 @@
     border: 0px !important;
     background-color: transparent !important
 }
-
-.scenario-panel{
+.scenario-panel-title{
     margin: 10px;
     font-weight: bold;
+    margin-bottom: 0px !important;
+    border: 0px !important
+}
+
+.scenario-panel{
+    border: 0px !important
+}
+
+.scenario-panel-body{
+    border:1px solid grey !important;
+    margin: 10px !important
 }
