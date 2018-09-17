@@ -48,10 +48,12 @@ export const Feature = connect((state) => ({testvalues: state.testvalues}))(({fe
             <Panel.Collapse>
                 <Panel.Body>
                     <Row>
-                        <Panel className="" defaultExpanded={false}>
-                            <Panel.Toggle className="scenario-panel">Show Scenario</Panel.Toggle>
+                        <Panel className="scenario-panel" defaultExpanded={false}>
+                            <Panel.Title className="scenario-panel">
+                                <Panel.Toggle className="scenario-panel-title">Show Scenario</Panel.Toggle>
+                            </Panel.Title>
                             <Panel.Collapse>
-                                <Panel.Body>
+                                <Panel.Body className="scenario-panel-body">
                                     <Table striped bordered condensed hover>
                                         <thead>
                                             <tr align="left">
