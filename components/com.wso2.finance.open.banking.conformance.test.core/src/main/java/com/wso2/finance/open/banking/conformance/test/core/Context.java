@@ -28,18 +28,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.UUID;
+import com.wso2.finance.open.banking.conformance.test.core.utilities.Constants;
 
 public class Context {
 
     private static final Context contextInstance = new Context();
+
     private TestPlan testPlan;
 
+    //current API Spec Context
     private String currentSpec = "";
     private String currentSpceVersion = "";
+
+    //current Feature context
     private String currentFeatureTitle = "";
     private String currentFeatureUri = "";
+
+    //security context
     private String accessToken = "";
+
     private String test_id = UUID.randomUUID().toString();
+
     private Map<String, String> tempAttributeMap = new HashMap<>();
 
     private Map<String,String> swaggerJsonFileMap = new HashMap<String,String>(); //specname+version -> swaggerJsonFile
@@ -55,13 +64,19 @@ public class Context {
 
     public void init(TestPlan testPlan){
         this.testPlan = testPlan;
-        swaggerJsonFileMap.put("specExamplev1.0","schema/v1_0_0/open_data.json");
-        swaggerJsonFileMap.put("specExample-2v2.0","schema/v1_0_0/open_data.json");
-        swaggerJsonFileMap.put("AccountsInformationv2.0.0","schema/v2_0_0/accounts_information.json");
+        swaggerJsonFileMap.put(Constants.EXAMPLE_API_SPEC+"v1.0","schema/v1_0_0/open_data.json");
+        swaggerJsonFileMap.put(Constants.EXAMPLE_2_API_SPEC+"v2.0","schema/v1_0_0/open_data.json");
+        swaggerJsonFileMap.put(Constants.ACCOUNTS_INFORMATION_API_SPEC+"v2.0.0","schema/v2_0_0/accounts_information.json");
+        swaggerJsonFileMap.put(Constants.AUTH_API_SPEC+"1.0.0","schema/v1_0_0/authorize.json");
+        swaggerJsonFileMap.put(Constants.TOKEN_API_SPEC+"v1.0.0","schema/v1_0_0/token.json");
     }
 
-    public String getSwaggerJsonFile() {
+    public String getCurrentSwaggerJsonFile() {
         return swaggerJsonFileMap.get(currentSpec+currentSpceVersion);
+    }
+
+    public String getSwaggerJsonFile(String name) {
+        return swaggerJsonFileMap.get(name);
     }
 
     public void setSpecContext(String spec, String specVersion)
@@ -69,6 +84,7 @@ public class Context {
         currentSpec = spec;
         currentSpceVersion = specVersion;
     }
+
 
     public void clearSpecContext()
     {

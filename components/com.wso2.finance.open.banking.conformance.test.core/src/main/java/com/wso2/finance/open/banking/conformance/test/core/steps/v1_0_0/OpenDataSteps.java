@@ -21,6 +21,7 @@ package com.wso2.finance.open.banking.conformance.test.core.steps.v1_0_0;
 
 import com.wso2.finance.open.banking.conformance.test.core.Context;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
+import com.wso2.finance.open.banking.conformance.test.core.utilities.Constants;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -30,6 +31,7 @@ import com.wso2.finance.open.banking.conformance.test.core.request.RequestGenera
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+
 
 public class OpenDataSteps {
 
@@ -46,7 +48,7 @@ public class OpenDataSteps {
     public void createRequestToAtmEndpoint()
     {
       ENDPOINT_GET_ATMS_BY_BANK_ID =  "/v1.0.0/banks/" + Context.getInstance().getCurrentFeatureAttribute("uri", "bank_id") + "/atms";
-      httpRequest = requestGenerator.createRequest("ATM_END_POINT");
+      httpRequest = requestGenerator.createRequest(Constants.ATM_END_POINT);
     }
 
     @When("a user retrieves the atm details")
@@ -65,7 +67,7 @@ public class OpenDataSteps {
     public void createRequestToBranchEndpoint()
     {
         ENDPOINT_GET_BRANCHES_BY_BANK_ID =  "/v1.0.0/banks/" + Context.getInstance().getCurrentFeatureAttribute("uri", "bank_id") + "/branches";
-        httpRequest = requestGenerator.createRequest("BRANCH_END_POINT");
+        httpRequest = requestGenerator.createRequest(Constants.BRANCH_END_POINT);
     }
 
     @When("a user retrieves the branch details")
@@ -78,7 +80,7 @@ public class OpenDataSteps {
     public void createRequestToProductEndpoint()
     {
         ENDPOINT_GET_PRODUCTS_BY_BANK_ID =  "/v1.0.0/banks/" + Context.getInstance().getCurrentFeatureAttribute("uri", "bank_id") + "/products";
-        httpRequest = requestGenerator.createRequest("PRODUCT_END_POINT");
+        httpRequest = requestGenerator.createRequest(Constants.PRODUCT_END_POINT);
     }
 
     @When("a user retrieves the product details")

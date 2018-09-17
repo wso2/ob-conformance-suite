@@ -1,9 +1,10 @@
 Feature: Beneficiaries endpoint
 
-  @AccountAndTransactionAPI @9.1.8 @security @data
+  @AccountAndTransactionAPI @9.1.8 @security
   Scenario: Get Details on Account Beneficiaries
-    Given user is directed to the auth endpoint to get the consent
+    Given TPP wants to access beneficiary details of an account
+    And user provides his consent by clicking on redirect url
     When TPP receives the authorization code
-    Then TPP requests an access token from token endpoint
-    When user initiates a request to Beneficiaries endpoint
-    Then user receives the beneficiaries details for the given account
+    And TPP requests and receives an access token from token endpoint
+    When TPP initiates a request to Beneficiaries endpoint
+    Then TPP receives the beneficiary details of the given account
