@@ -18,16 +18,10 @@
 
 package com.wso2.finance.open.banking.conformance.api.dto;
 
-import com.wso2.finance.open.banking.conformance.mgt.models.Report;
+import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 
-public class TestPlanAddConfirmationDTO {
+public class AddTestPlanDTO {
 
-    String testId;
-    Report report;
-
-    public TestPlanAddConfirmationDTO(String testId, Report report) {
-
-        this.testId = testId;
-        this.report = report;
-    }
+    public TestPlan testPlan;
+    public boolean runNow;
 }

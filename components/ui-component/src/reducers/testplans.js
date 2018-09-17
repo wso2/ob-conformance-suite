@@ -29,7 +29,7 @@ const testplans = (state = initialState, action) => {
                 testplans: {...state.testplans, [action.id] : {
                         testId : action.id,
                         testPlan : action.testplan,
-                        status: action.status
+                        status: "DUMMY"
                     }
                 },
                 results: state.results
