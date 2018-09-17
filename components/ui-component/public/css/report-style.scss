@@ -21,11 +21,11 @@
 }
 
 .passed {
-    color:green;
+    color:gray;
 }
 
 .skipped {
-    color:orange;
+    color:gray;
 }
 
 .failed {
@@ -145,4 +145,8 @@ input[type="text"] {
   &:last-child{
     padding-bottom: 0px;
   }
+}
+
+.loader{
+
 }

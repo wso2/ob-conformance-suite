@@ -27,6 +27,7 @@ import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import RequestBuilder from './utils/RequestBuilder';
 import TestReportHelper from './utils/TestReportHelper';
 import AttributeGroup from "./components/AttributeGroup";
+import LoaderComponent from "./components/LoaderComponent"
 
 const client = new RequestBuilder();
 const reportHelper = new TestReportHelper();
@@ -47,7 +48,7 @@ const stepStatus = (steps) => {
     if(status){
         return (<p className="passedTag status-badge"><FontAwesomeIcon icon={faCheckCircle}/>Passed</p>) ;
     }else{
-        console.log(errorMessage);
+        //console.log(errorMessage);
         return (
             <div>
                 <p className="failedTag status-badge"><FontAwesomeIcon icon={faTimesCircle}/>Failed</p>
@@ -204,10 +205,12 @@ class TestReportView extends React.Component {
                 <Row>
                     <Col md={12}>
                         <h1>Test Report</h1>
+
                         <div className={"overall-results-block report-block"}>
                             <p><span class="passed-badge">Passed</span> : {this.state.passed}</p>
                             <p><span class="failed-badge">Failed</span> : {this.state.failed}</p>
                             <p><b>Pass Rate</b> : {this.state.rate}%</p>
+                            <LoaderComponent/>
                         </div>
                         <hr/>
                     </Col>
