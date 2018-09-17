@@ -18,7 +18,7 @@
 
 import React from 'react';
 import AppHeader from "./partials/AppHeader";
-import {ListGroup, ListGroupItem, Button, Modal, Grid, Row, Col, Panel, Badge, Popover} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Button, Modal, Grid, Row, Col, Panel, Badge, ProgressBar} from 'react-bootstrap';
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import '../public/css/report-style.scss'
 import {connect} from 'react-redux'
@@ -27,6 +27,7 @@ import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import RequestBuilder from './utils/RequestBuilder';
 import TestReportHelper from './utils/TestReportHelper';
 import AttributeGroup from "./components/AttributeGroup";
+import LoaderComponent from "./components/LoaderComponent"
 
 const client = new RequestBuilder();
 const reportHelper = new TestReportHelper();
@@ -45,16 +46,17 @@ const stepStatus = (steps) => {
 
     });
     if(status){
-        return (<p className="passedTag status-badge"><FontAwesomeIcon icon={faCheckCircle}/>Passed</p>) ;
+        return (<p className="passedTag status-badge"><FontAwesomeIcon icon={faCheckCircle}/></p>) ;
     }else{
-        console.log(errorMessage);
+        //console.log(errorMessage);
         return (
             <div>
-                <p className="failedTag status-badge"><FontAwesomeIcon icon={faTimesCircle}/>Failed</p>
+                <p className="failedTag status-badge"><FontAwesomeIcon icon={faTimesCircle}/></p>
                 <Panel className="error-panel" defaultExpanded={false}>
-                    <Panel.Toggle componentClass="a">View more details about ths error</Panel.Toggle>
+                    <Panel.Toggle componentClass="a" className="error-details-link">View details</Panel.Toggle>
                     <Panel.Collapse>
                         <Panel.Body>
+                            <p>Error details :</p>
                             <ListGroup>
                                 <ListGroupItem bsStyle="" className = {errorClass.Given}>
                                     <b>{error[0].split(" ")[0]}</b> {error[0].split(' ').slice(1).join(' ')}
@@ -91,15 +93,22 @@ const ElementStep = ({step}) => (
 );
 
 const ReportFeature = ({feature}) => (
-    <ListGroup>
-        <ListGroupItem disabled>
-            <div className="pull-right feature-result">
-                <span><FontAwesomeIcon icon={faCheckCircle}/>&nbsp;{reportHelper.getFeatureResultFraction(feature, reportHelper)}</span>
-            </div>
-            <h4 className="feature-title"><b>Feature:</b> {feature.name}</h4>
-        </ListGroupItem>
-        {feature.elements.map(element => <FeatureElement element={element}/>)}
-    </ListGroup>
+        <Panel defaultExpanded={false}>
+            <Panel.Heading>
+                <div className="pull-right feature-result">
+                <span className={reportHelper.getFeatureResultStatus(feature, reportHelper).class}>
+                    <FontAwesomeIcon icon={reportHelper.getFeatureResultStatus(feature, reportHelper).status === "Passed"
+                        ? faCheckCircle : faTimesCircle}/>&nbsp;{reportHelper.getFeatureResultStatus(feature, reportHelper).status}</span>
+                </div>
+                <Panel.Title><h4 className="feature-title"><b>Feature:</b> {feature.name}</h4></Panel.Title>
+                <Panel.Toggle componentClass="a">View Scenarios</Panel.Toggle>
+            </Panel.Heading>
+            <Panel.Collapse>
+                <Panel.Body>
+                    {feature.elements.map(element => <FeatureElement element={element}/>)}
+                </Panel.Body>
+            </Panel.Collapse>
+        </Panel>
 );
 
 const ReportSpec = connect((state) => ({specifications: state.specifications,}))(({spec,specName,specifications}) => (
@@ -156,6 +165,7 @@ class TestReportView extends React.Component {
 
     appendResults(){
         client.pollResultsForTestPlan(this.state.uuid).then((response)=>{
+            //console.log(response);
             var resultObject = this.state.data;
             response.data.forEach((feature) => {
                 var featureResult = reportHelper.getFeatureResult(feature['featureResult'],reportHelper);
@@ -167,7 +177,7 @@ class TestReportView extends React.Component {
                         data: resultObject,
                         passed: this.state.passed + featureResult.passed,
                         failed: this.state.failed + featureResult.failed,
-                        rate: (((this.state.passed+ featureResult.passed)/(parseFloat(this.state.passed+ featureResult.passed)+(this.state.failed + featureResult.failed)))*100).toFixed(2)
+                        rate: (((this.state.passed+ featureResult.passed)/(parseFloat(this.state.passed + featureResult.passed)+(this.state.failed + featureResult.failed)))*100).toFixed(2)
                 })
             });
 
@@ -201,13 +211,19 @@ class TestReportView extends React.Component {
                         <Button onClick={()=>{this.setState({showInteractionModel : false})}}>Close</Button>
                     </Modal.Footer>
                 </Modal>
-                <Row>
+                <Row className="stickeyHeader">
                     <Col md={12}>
                         <h1>Test Report</h1>
+
                         <div className={"overall-results-block report-block"}>
-                            <p><span class="passed-badge">Passed</span> : {this.state.passed}</p>
-                            <p><span class="failed-badge">Failed</span> : {this.state.failed}</p>
+                            <p><span className="passed-summary">Passed</span> : {this.state.passed}</p>
+                            <p><span className="failed-summary">Failed</span> : {this.state.failed}</p>
                             <p><b>Pass Rate</b> : {this.state.rate}%</p>
+                            <LoaderComponent/>
+                            <ProgressBar className="pass-rate-progress">
+                                <ProgressBar  striped bsStyle="success" now={this.state.rate} />
+                                <ProgressBar  striped bsStyle="danger" now={((this.state.passed + this.state.failed)>0)*100-this.state.rate} />
+                            </ProgressBar>
                         </div>
                         <hr/>
                     </Col>
