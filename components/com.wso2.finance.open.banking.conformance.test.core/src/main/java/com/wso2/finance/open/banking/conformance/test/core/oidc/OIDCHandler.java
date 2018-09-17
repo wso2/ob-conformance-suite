@@ -42,15 +42,13 @@ public class OIDCHandler {
             return access_token;
         }
     }
-    //enum Scope {ACCCOUNT};
 
-    private String clientID="";         //client username
-    private String clientSecret="";     //client password
-    private String callbackURL = "";    // eg: "https://openbanking.wso2.com/authenticationendpoint/authorize_callback.do";
-    private String authEnd = "";        //eg: "https://api-openbanking.wso2.com/AuthorizeAPI/v1.0.0/";
-    private String tokenEnd = "";       //eg: https://api-openbanking.wso2.com/TokenAPI/v1.0.0/
-    private String authCode = "";       //Authorization code received from authorization endpoint
-
+    private String clientID="";
+    private String clientSecret="";
+    private String callbackURL = ""; // eg: "https://openbanking.wso2.com/authenticationendpoint/authorize_callback.do";
+    private String authEnd = "";  //eg: "https://api-openbanking.wso2.com/AuthorizeAPI/v1.0.0/";
+    private String tokenEnd = "";
+    private String authCode = "";
 
     public OIDCHandler(String clientID, String clientSecret, String authEnd, String callbackURL, String tokenEnd) {
         this.clientID = clientID;
