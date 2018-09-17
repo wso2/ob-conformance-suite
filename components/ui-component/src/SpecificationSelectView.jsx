@@ -19,7 +19,7 @@
 import React from 'react';
 import AppHeader from "./partials/AppHeader";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
-import {ListGroup, ListGroupItem, Button} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Button, Panel} from 'react-bootstrap';
 import {connect} from 'react-redux'
 import {addSpecification, toggleSpecification, clearSpecifications} from "./actions";
 import {Link} from 'react-router-dom'
