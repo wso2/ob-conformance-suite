@@ -27,8 +27,6 @@ import '../public/css/report-style.scss'
 const client = new RequestBuilder();
 
 
-
-
 const TestPlanRow = ({report}) => (
     <tr align="left">
         <td>{report.executed}</td>
@@ -85,7 +83,6 @@ const TestPlanItem = connect((state) => ({specifications: state.specifications.s
     </Panel>
 ));
 
-
 class TestHistoryView extends React.Component{
 
     constructor(props){
@@ -112,8 +109,6 @@ class TestHistoryView extends React.Component{
                         </Row>
                     </div>
                     {Object.values(this.props.testplans).map((plan) =><TestPlanItem testPlan={plan}/>)}
-
-
                     {/* <Table striped bordered condensed hover>
                         <thead>
                             <tr>
