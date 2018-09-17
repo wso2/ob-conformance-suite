@@ -71,7 +71,9 @@ public class OIDCSteps {
 
     @Then("TPP requests and receives an access token from token endpoint")
     public void getAccessToken(){
+
         String accessToken = oidcHandler.getAccessTokenByAuthorizationCode();
+
         Context.getInstance().setAccessToken(accessToken);
         Log.info("Received Access Token: "+ accessToken);
     }

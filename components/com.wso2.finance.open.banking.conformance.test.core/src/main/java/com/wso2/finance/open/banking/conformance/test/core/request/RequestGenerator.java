@@ -35,8 +35,7 @@ public class RequestGenerator {
     }*/
 
 
-    public RequestSpecification createRequest(String endPoint)
-    {
+    public RequestSpecification createRequest(String endPoint) {
         Log.info("Generating Request for " + endPoint);
 
         String SWAGGER_JSON_FILE = Context.getInstance().getCurrentSwaggerJsonFile();
@@ -47,8 +46,7 @@ public class RequestGenerator {
     }
 
 
-    public RequestSpecification createRequestForTokenEndPoint(String endPoint)
-    {
+    public RequestSpecification createRequestForTokenEndPoint(String endPoint) {
         Log.info("Generating Request for token endpoint " + endPoint);
 
         //String SWAGGER_JSON_FILE = Context.getInstance().getSwaggerJsonFile();
@@ -81,6 +79,5 @@ public class RequestGenerator {
                 .body(requestBody)
                 .filter(validationFilter);
     }
-
 
 }
