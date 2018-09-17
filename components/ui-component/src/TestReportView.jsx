@@ -18,7 +18,7 @@
 
 import React from 'react';
 import AppHeader from "./partials/AppHeader";
-import {ListGroup, ListGroupItem, Button, Modal, Grid, Row, Col, Panel, Badge, Popover} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Button, Modal, Grid, Row, Col, Panel, Badge, ProgressBar} from 'react-bootstrap';
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import '../public/css/report-style.scss'
 import {connect} from 'react-redux'
@@ -177,7 +177,7 @@ class TestReportView extends React.Component {
                         data: resultObject,
                         passed: this.state.passed + featureResult.passed,
                         failed: this.state.failed + featureResult.failed,
-                        rate: (((this.state.passed+ featureResult.passed)/(parseFloat(this.state.passed+ featureResult.passed)+(this.state.failed + featureResult.failed)))*100).toFixed(2)
+                        rate: (((this.state.passed+ featureResult.passed)/(parseFloat(this.state.passed + featureResult.passed)+(this.state.failed + featureResult.failed)))*100).toFixed(2)
                 })
             });
 
@@ -220,6 +220,10 @@ class TestReportView extends React.Component {
                             <p><span className="failed-summary">Failed</span> : {this.state.failed}</p>
                             <p><b>Pass Rate</b> : {this.state.rate}%</p>
                             <LoaderComponent/>
+                            <ProgressBar className="pass-rate-progress">
+                                <ProgressBar  striped bsStyle="success" now={this.state.rate} />
+                                <ProgressBar  striped bsStyle="danger" now={((this.state.passed + this.state.failed)>0)*100-this.state.rate} />
+                            </ProgressBar>
                         </div>
                         <hr/>
                     </Col>
