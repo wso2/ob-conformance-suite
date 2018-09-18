@@ -92,13 +92,17 @@
 }
 
 .round-btn{
-    border-radius: 50% !important;
+    /* border-radius: 50% !important;
     display:block;
     height: 30px;
     width: 30px;
     border: 1px solid;
     padding: 0px 7px !important;
-    margin-left: 50px !important
+    margin-left: 50px !important */
+    /* color: transparent !important; */
+    background-color: transparent !important;
+    border: 0px !important;
+    box-shadow: 0 0px 0px rgba(0,0,0,.12), 0 0px 0px rgba(0,0,0,.24) !important
 }
 
 .head-top{
@@ -148,7 +152,7 @@
     text-align: center !important;
     margin-top: 15px !important;
  }
-
+ 
  .login-logo{
     width:40% !important;
     display: block;
@@ -161,5 +165,5 @@
  .login-P{
     font-size: 15px !important;
     text-align: center !important;
-    margin-top: 15px !important;
+    margin-top: 10px !important
  }
