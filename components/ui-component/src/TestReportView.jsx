@@ -95,13 +95,14 @@ const ElementStep = ({step}) => (
     step.result.status
 );
 
+
 const ReportFeature = ({feature}) => (
         <Panel defaultExpanded={false}>
             <Panel.Heading>
                 <div className="pull-right feature-result">
                 <span className={reportHelper.getFeatureResultStatus(feature, reportHelper).class}>
                     <i className={reportHelper.getFeatureResultStatus(feature, reportHelper).status === "Passed"
-                        ? "fas fa-check-circle" : "fas fa-times-circle"}/>&nbsp;{reportHelper.getFeatureResultStatus(feature, reportHelper)
+                        ? "fas fa-check-circle" : "fas fa-times-circle"}/>&nbsp;{reportHelper.getFeatureResultStatus(feature, reportHelper).status}</span>
                 </div>
                 <Panel.Title><h4 className="feature-title"><b>Feature:</b> {feature.name}</h4></Panel.Title>
                 <Panel.Toggle componentClass="a">View Scenarios</Panel.Toggle>
