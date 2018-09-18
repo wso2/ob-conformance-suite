@@ -17,7 +17,7 @@
  */
 
 import React from 'react';
-import {Button, Form, FormGroup, FormControl, Col, ControlLabel, Checkbox, Jumbotron, Alert} from 'react-bootstrap';
+import {Button, Form, FormGroup, FormControl, Col, ControlLabel, Checkbox, Jumbotron, Row} from 'react-bootstrap';
 import '../public/css/report-style.scss';
 import {Link} from 'react-router-dom'
 import LoaderComponent from "./components/LoaderComponent";
@@ -28,7 +28,6 @@ class LoginView extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            show:false,
             isHidden:false
         }
     }
@@ -42,50 +41,56 @@ class LoginView extends React.Component{
         }
         else{
             this.setState({isHidden: true})
+            // this.props.history.push("/");
         }
     }
 
     render(){
         return(
             <div>
-                <LoginAppHeader/>
-                <Jumbotron className="login-jumbotron">
-                    <h2 className="login-head">Login</h2>
-                    <hr></hr>
-                    <Form horizontal className="login-form">
-                        <FormGroup controlId="formHorizontalEmail">
-                            <Col componentClass={ControlLabel}>
-                            Username
-                            </Col>
-                            <Col>
-                            <FormControl type="text" placeholder="Enter Username"  inputRef={(ref) => {this.username = ref}}/>
-                            </Col>
-                        </FormGroup>
-
-                        <FormGroup controlId="formHorizontalPassword">
-                            <Col componentClass={ControlLabel}>
-                            Password
-                            </Col>
-                            <Col>
-                            <FormControl type="password" placeholder="Enter Password" inputRef={(ref) => {this.password = ref}}/>
-                            </Col>
-                        </FormGroup>
-
-                        {/* { this.state.isHidden ? <div className="login-error-span"><span style={{color: "red"}}><i className="fas fa-times-circle"/>Incorrect Username or password</span></div> : null } */}
-
+                <Row>
+                    <Col xs={4}></Col>
+                    <Col xs={4}>
+                    <Jumbotron className="login-jumbotron">
+                        <img src="/images/logo-inverse.svg" alt="wso2" title="wso2" className="logo login-logo"/>
+                        <p className="login-P"><span>Open Banking Conformance Suite</span></p>
                         
+                            <h2 className="login-head">Login</h2>
+                            <Form horizontal className="login-form">
+                                <FormGroup controlId="formHorizontalEmail">
+                                    <Col componentClass={ControlLabel}>
+                                    Username
+                                    </Col>
+                                    <Col>
+                                    <FormControl type="text" placeholder="Enter Username"  inputRef={(ref) => {this.username = ref}}/>
+                                    </Col>
+                                </FormGroup>
 
-                        <FormGroup>
-                            <Col>
-                            <Checkbox>Remember me</Checkbox>
-                            </Col>
-                        </FormGroup>
+                                <FormGroup controlId="formHorizontalPassword">
+                                    <Col componentClass={ControlLabel}>
+                                    Password
+                                    </Col>
+                                    <Col>
+                                    <FormControl type="password" placeholder="Enter Password" inputRef={(ref) => {this.password = ref}}/>
+                                    </Col>
+                                </FormGroup>
 
-                        <FormGroup>
-                            <Button bsStyle={"secondary"} type="submit" onClick={()=>this.validateUser()}>Login</Button>
-                        </FormGroup>
-                    </Form>
-                </Jumbotron>
+                                {/* { this.state.isHidden ? <div className="login-error-span"><span style={{color: "red"}}><i className="fas fa-times-circle"/>Incorrect Username or password</span></div> : null } */}
+
+                                <FormGroup>
+                                    <Col>
+                                    <Checkbox>Remember me</Checkbox>
+                                    </Col>
+                                </FormGroup>
+
+                                <FormGroup>
+                                    <Button bsStyle={"secondary"} type="submit" onClick={()=>this.validateUser()}>Login</Button>
+                                </FormGroup>
+                            </Form>
+                        </Jumbotron>
+                    </Col>
+                    <Col xs={4}></Col>
+                </Row>
             </div>
         )
     }
