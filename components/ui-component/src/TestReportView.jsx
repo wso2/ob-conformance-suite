@@ -233,7 +233,6 @@ class TestReportView extends React.Component {
         return (
             <div>
                 <AppHeader/>
-                <AppBreadcrumbs/>
                 <br/>
                 {this.state.loading ? <h1>Loading..</h1> : this.renderMain()}
             </div>
