@@ -95,6 +95,7 @@ const ElementStep = ({step}) => (
     step.result.status
 );
 
+
 const ReportFeature = ({feature}) => (
         <Panel defaultExpanded={false}>
             <Panel.Heading>
