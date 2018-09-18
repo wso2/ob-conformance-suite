@@ -95,3 +95,8 @@ export const addTestPlan = (id,testplan,reports) => ({
 export const clearTestPlan = () => ({
     type: 'CLEAR_TESTPLAN',
 });
+
+export const updateReport = (report) => ({
+    type: 'UPDATE_REPORT',
+    report: report,
+});

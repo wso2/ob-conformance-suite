@@ -37,6 +37,17 @@ const testplans = (state = initialState, action) => {
                     }
                 },
             };
+        case 'UPDATE_REPORT':
+            return {
+                testplans: {...state.testplans, [action.report.testId] : {
+                        ...state.testplans[action.report.testId],
+                        reports : {
+                            ...state.testplans[action.report.testId].reports,
+                            [action.report.reportId] : action.report
+                        }
+                    }
+                },
+            };
         case 'CLEAR_TESTPLANS':
             return initialState;
         default:

@@ -24,6 +24,7 @@ import {withRouter, Link} from 'react-router-dom'
 import {Table, Row, Col, Button, Panel, ButtonGroup, PanelGroup, ButtonToolbar} from 'react-bootstrap';
 import RequestBuilder from './utils/RequestBuilder';
 import '../public/css/report-style.scss'
+import {updateReport} from "./actions";
 const client = new RequestBuilder();
 
 const TestPlanRow = ({report}) => (
@@ -100,6 +101,7 @@ class TestHistoryView extends React.Component{
 
     runTest(testPlan){
         client.runTestPlan(testPlan).then((response) => {
+            this.props.dispatch(updateReport(response.data));
             this.props.history.push("/tests/report/"+response.data.testId+"/"+response.data.reportId);
         })
     }
