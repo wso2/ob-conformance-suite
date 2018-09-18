@@ -26,9 +26,6 @@ import RequestBuilder from './utils/RequestBuilder';
 import '../public/css/report-style.scss'
 const client = new RequestBuilder();
 
-
-
-
 const TestPlanRow = ({report}) => (
     <tr align="left">
         <td>{report.executed}</td>
@@ -85,7 +82,6 @@ const TestPlanItem = connect((state) => ({specifications: state.specifications.s
     </Panel>
 ));
 
-
 class TestHistoryView extends React.Component{
 
     constructor(props){
@@ -100,7 +96,7 @@ class TestHistoryView extends React.Component{
                 <div className={"divStyle"}>
                     <div className={"subHeadStyle"}>
                         <Row className="show-grid">
-                            <Col xs={8}><h4>Test History</h4></Col>
+                            <Col xs={8}><h4>Test Configurations</h4></Col>
                             <Col xs={4}>
                                 <Link to={"/tests/new"}>
                                     <Button className="pull-right btn-secondary" bsStyle="default">
@@ -111,22 +107,6 @@ class TestHistoryView extends React.Component{
                         </Row>
                     </div>
                     {Object.values(this.props.testplans).map((plan) =><TestPlanItem testPlan={plan}/>)}
-
-
-                    {/* <Table striped bordered condensed hover>
-                        <thead>
-                            <tr>
-                                <th className={"tableHead"}>Specifications</th>
-                                <th className={"tableHead"}>Last Test Run Date</th>
-                                <th className={"tableHead"}>Test Status</th>
-                                <th className={"tableHead"}>Summary</th>
-                                <th className={"tableHead"}>Results</th>
-                            </tr>
-                        </thead>
-                        <tbody className={"text-center"}>
-                            {Object.values(this.props.testplans).map((plan) => <TestPlanRow testPlan={plan}/> )}
-                        </tbody>
-                    </Table> */}
                 </div>
             </div>
         );
