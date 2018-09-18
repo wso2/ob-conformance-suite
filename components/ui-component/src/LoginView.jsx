@@ -35,7 +35,7 @@ class LoginView extends React.Component{
     validateUser(){
         console.log(this.username.value);
         console.log(this.password.value);
-        if(this.username.value == "admin" && this.password.value == "admin"){
+        if(this.username.value == "nab" && this.password.value == "nab"){
             this.setState({isHidden: false})
             this.props.history.push("/dashboard");
         }
