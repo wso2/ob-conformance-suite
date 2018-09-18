@@ -116,10 +116,15 @@ class TestConfigurationView extends React.Component {
                 <br/>
                 <Grid>
                     <Row>
-                        <Col md={12}>
-                            <h1 className={"page-header"}>Configure New Test</h1>
-                            <br/>
-                        </Col>
+                    <ul class="nav nav-wizard nav-justified nav-margin"> 
+                        <li role="presentation" class="active"> 
+                            <a href={"/tests/new"}> <span class="step-number">01</span> <span class="step-desc"> <h2>Create new Test</h2> <p>Description goes here</p> </span> </a>
+                        </li>
+                        <li role="presentation"> <a> 
+                            <span class="step-number">02</span> <span class="step-desc"> <h2>Configure New Test</h2> <p>Description goes here</p> </span> </a>
+                        </li> 
+                    </ul> 
+                    <hr></hr>
                     </Row>
                     <Row>
                         <Col md={4} className={"navigation-list"}>
@@ -154,7 +159,7 @@ class TestConfigurationView extends React.Component {
         return (
             <div>
                 <AppHeader/>
-                <AppBreadcrumbs/>
+                {/* <AppBreadcrumbs/> */}
                 <div className={"container"}>
                     {this.state.loading ? <h1>Loading</h1> : this.renderMain()}
                 </div>

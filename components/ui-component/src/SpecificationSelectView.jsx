@@ -34,7 +34,7 @@ class SpecificationSelectView extends React.Component {
         return (
             <div>
                 <AppHeader/>
-                <AppBreadcrumbs/>
+                {/* <AppBreadcrumbs/> */}
                 <div className={"container"}>
                     {this.renderMain()}
                 </div>
@@ -68,18 +68,22 @@ class SpecificationSelectView extends React.Component {
     renderMain() {
         return (
             <div className={"test-configuration-view"}>
-                <h1 className={"page-header"}>Create new test</h1>
+                <ul class="nav nav-wizard nav-justified nav-margin"> 
+                    <li role="presentation" class="active"> 
+                        <a href={"/tests/new"}> <span class="step-number">01</span> <span class="step-desc"> <h2>Create new Test</h2> <p>Description goes here</p> </span> </a>
+                    </li>
+                    <li role="presentation"><a>
+                        <span class="step-number">02</span> <span class="step-desc"> <h2>Configure New Test</h2> <p>Description goes here</p> </span></a>
+                    </li> 
+                </ul> 
+                <hr></hr>
+
                 <br/>
-                <Panel>
-                    <Panel.Heading>Test Configuration</Panel.Heading>
-                    <Panel.Body>
-                        <div className="input-group">
-                            <span className="input-group-addon span-custom">Name of the Test Configuration</span>
-                            <input id="msg" type="text" className="form-control" name="msg"
-                                   placeholder="Enter Name for the Text Configuration"></input>
-                        </div>
-                    </Panel.Body>
-                </Panel>
+                <div className="input-group">
+                    <span className="input-group-addon span-custom">Name of the Test Configuration</span>
+                    <input id="msg" type="text" className="form-control" name="msg"
+                            placeholder="Enter Name for the Text Configuration"></input>
+                </div>
                 <br/>
                 <ListGroup>
                     <ListGroupItem disabled><h4>APIs to be tested</h4></ListGroupItem>
