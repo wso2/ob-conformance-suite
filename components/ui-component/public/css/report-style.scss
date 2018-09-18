@@ -158,7 +158,7 @@ input[type="text"] {
 }
 
 .pass-rate-progress{
-    width: 26%;
+    width: 100%;
     height: 5px;
 }
 
@@ -170,6 +170,11 @@ input[type="text"] {
     background-color: #e6e6e6 !important;
 }
 
+.test-complete-badge{
+    margin-top: 4px;
+    margin-left: 15px;
+    background-color: green;
+}
 .history-view-inline-specs {
 
   span::after {

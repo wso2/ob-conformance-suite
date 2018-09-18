@@ -25,7 +25,7 @@ export default class LoaderComponent extends React.Component {
                     className={override}
                     sizeUnit={"px"}
                     size={10}
-                    color={'orange'}
+                    color={'#507192'}
                     loading={this.state.loading}
                 />
             </div>

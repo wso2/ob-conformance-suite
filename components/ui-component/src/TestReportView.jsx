@@ -260,6 +260,11 @@ class TestReportView extends React.Component {
                         <h1>Test Report</h1>
 
                         <div className={"overall-results-block report-block"}>
+                            {this.state.passed + this.state.failed> 0
+                                ? <p><b>Scenarios |</b></p>
+                                : null
+                            }
+
                             {this.state.passed > 0
                                 ? <p><span className="passed-summary">Passed</span> : {this.state.passed}</p>
                                 : null
@@ -272,7 +277,7 @@ class TestReportView extends React.Component {
 
                             { this.state.testRunning
                                 ? <LoaderComponent/>
-                                : null
+                                : <Badge className="test-complete-badge">Completed</Badge>
                             }
 
                             { this.state.testRunning
