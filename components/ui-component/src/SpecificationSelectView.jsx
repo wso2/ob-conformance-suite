@@ -19,9 +19,9 @@
 import React from 'react';
 import AppHeader from "./partials/AppHeader";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
-import {ListGroup, ListGroupItem, Button, Panel} from 'react-bootstrap';
-import {connect} from 'react-redux';
-import {addSpecification, toggleSpecification, clearSpecifications} from "./actions";
+import {ListGroup, ListGroupItem, Button, FormControl, Panel} from 'react-bootstrap';
+import {connect} from 'react-redux'
+import {setTestName, toggleSpecification, clearSpecifications} from "./actions";
 import {Link} from 'react-router-dom'
 
 class SpecificationSelectView extends React.Component {
@@ -81,8 +81,11 @@ class SpecificationSelectView extends React.Component {
                 <br/>
                 <div className="input-group">
                     <span className="input-group-addon span-custom">Name of the Test Configuration</span>
-                    <input id="msg" type="text" className="form-control" name="msg"
-                            placeholder="Enter Name for the Text Configuration"></input>
+                    <FormControl
+                        type="text"
+                        value={this.props.testvalues.name}
+                        onChange={(e)=>{this.props.dispatch(setTestName(e.target.value))}}
+                    />
                 </div>
                 <br/>
                 <ListGroup>
@@ -101,5 +104,5 @@ class SpecificationSelectView extends React.Component {
 }
 
 export default connect((state) =>
-    ({specifications: state.specifications}))
+    ({specifications: state.specifications, testvalues: state.testvalues}))
 (SpecificationSelectView);

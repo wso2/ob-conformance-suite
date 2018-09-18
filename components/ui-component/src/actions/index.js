@@ -75,6 +75,11 @@ export const setFeatureValue = (specName,featureName,groupName,attributeName,val
     value: value
 });
 
+export const setTestName = (name) => ({
+    type: 'SET_NAME_TO_TESTVALUES',
+    name: name
+});
+
 
 export const clearTestValues = () => ({
     type: 'CLEAR_TESTVALUES',

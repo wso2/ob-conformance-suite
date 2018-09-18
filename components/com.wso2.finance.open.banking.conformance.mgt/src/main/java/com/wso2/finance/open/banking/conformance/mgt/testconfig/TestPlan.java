@@ -27,6 +27,7 @@ public class TestPlan {
 
     private Map<String, Specification> specifications;
     private String testId;
+    private String name;
 
     private Date lastRun;
 
@@ -67,5 +68,15 @@ public class TestPlan {
     public void setTestId(String testId) {
 
         this.testId = testId;
+    }
+
+    public String getName() {
+
+        return name;
+    }
+
+    public void setName(String name) {
+
+        this.name = name;
     }
 }

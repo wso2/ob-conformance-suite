@@ -59,6 +59,7 @@ export default class TestPlanReduxHelper {
             specs[key] = TestPlanReduxHelper.buildTestPlanSpecFromTestValues(testvalues.specs[key])
         });
         return {
+            name : testvalues.name,
             "specifications" : specs
         }
     }

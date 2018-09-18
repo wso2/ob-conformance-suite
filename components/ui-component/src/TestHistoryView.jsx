@@ -47,7 +47,7 @@ const TestPlanItem = connect((state) => ({specifications: state.specifications.s
             <Row className={"history-view-row"}>
                 <Col xs={8}>
                     <p>
-                        Security Test Configuration
+                        {testPlan.testPlan.name}
                         <small>
                             <p className={"text-muted"}>
                                 <span className={"history-view-inline-specs"}>
