@@ -64,8 +64,8 @@ public class Context {
 
     public void init(TestPlan testPlan){
         this.testPlan = testPlan;
-        swaggerJsonFileMap.put(Constants.EXAMPLE_API_SPEC+"v1.0","schema/v1_0_0/open_data.json");
-        swaggerJsonFileMap.put(Constants.EXAMPLE_2_API_SPEC+"v2.0","schema/v1_0_0/open_data.json");
+        swaggerJsonFileMap.put(Constants.OPEN_DATA_API_SPEC+"v1.0","schema/v1_0_0/open_data.json");
+        //swaggerJsonFileMap.put(Constants.EXAMPLE_2_API_SPEC+"v2.0","schema/v1_0_0/open_data.json");
         swaggerJsonFileMap.put(Constants.ACCOUNTS_INFORMATION_API_SPEC+"v2.0.0","schema/v2_0_0/accounts_information.json");
         swaggerJsonFileMap.put(Constants.AUTH_API_SPEC+"1.0.0","schema/v1_0_0/authorize.json");
         swaggerJsonFileMap.put(Constants.TOKEN_API_SPEC+"v1.0.0","schema/v1_0_0/token.json");

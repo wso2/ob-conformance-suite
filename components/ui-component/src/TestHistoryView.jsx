@@ -24,8 +24,6 @@ import {withRouter, Link} from 'react-router-dom'
 import {Table, Row, Col, Button, Panel, ButtonGroup, PanelGroup, ButtonToolbar} from 'react-bootstrap';
 import RequestBuilder from './utils/RequestBuilder';
 import '../public/css/report-style.scss'
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCheckCircle, faTimesCircle, faPercent} from "@fortawesome/free-solid-svg-icons";
 const client = new RequestBuilder();
 
 
@@ -36,9 +34,9 @@ const TestPlanRow = ({report}) => (
         <td>{report.executed}</td>
         <td>{report.state}</td>
         <td className={"overall-results-block"}>
-            <p><span style={{color: "green"}}><FontAwesomeIcon icon={faCheckCircle}/> Passed : 6</span></p>
-            <p><span style={{color: "red"}}><FontAwesomeIcon icon={faTimesCircle}/> Failed : 3</span></p>
-            <p><span><FontAwesomeIcon icon={faPercent}/> Success Rate: 66.67%</span></p>
+            <p><span style={{color: "green"}}><i className="fas fa-check-circle"/> Passed : 6</span></p>
+            <p><span style={{color: "red"}}><i className="fas fa-times-circle"/> Failed : 3</span></p>
+            <p><span>Success Rate: 66.67%</span></p>
         </td>
         <td><Link to={"/tests/report/"+report.testId+"/"+report.reportId}>Check Report</Link></td>
     </tr>

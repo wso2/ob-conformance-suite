@@ -1,18 +1,18 @@
 Feature: Get ATM Details
 
-  @ExampleSpec @1.1 @data
+  @OpenDataAPI @1.1 @data
   Scenario: Get the details of all atms owned by a bank
     Given a request is initiated to ATM endpoint
     When a user retrieves the atm details
     Then response json data should be compliant to the standard
 
-  @ExampleSpec @1.2 @security
+  @OpenDataAPI @1.2 @security
   Scenario: Get the details of all atms owned by a bank1
     Given a request is initiated to ATM endpoint
     When a user retrieves the atm details
     Then response json data should be compliant to the standard
 
-  @ExampleSpec @1.3 @data
+  @OpenDataAPI @1.3 @data
   Scenario: Get the details of all atms owned by a bank2
     Given a request is initiated to ATM endpoint
     When a user retrieves the atm details
