@@ -60,8 +60,6 @@
             </attributeGroups>
             <Scenarios>
                 <Scenario scenarioName= "Get the details of all atms owned by a bank" specName="OpenData" specSection="1.1" />
-                <Scenario scenarioName= "Get the details of all atms owned by a bank1" specName="OpenData" specSection="1.2" />
-                <Scenario scenarioName= "Get the details of all atms owned by a bank2" specName="OpenData" specSection="1.3" />
             </Scenarios>
         </Feature>
         <Feature
@@ -80,8 +78,7 @@
             </attributeGroups>
             <Scenarios>
                 <Scenario scenarioName= "Get the details of all branches of a bank" specName="OpenData" specSection="2.1" />
-                <Scenario scenarioName= "Get the details of all branches of a bank2" specName="OpenData" specSection="2.2" />
-                <Scenario scenarioName= "Get the details of all branches of a bank3" specName="OpenData" specSection="2.3" />
+                <Scenario scenarioName= "Check the geo-location information of the branch" specName="OpenData" specSection="2.2" />
             </Scenarios>
         </Feature>
         <Feature
@@ -100,8 +97,6 @@
             </attributeGroups>
             <Scenarios>
                 <Scenario scenarioName= "Get the details of all products which are supported by bank" specName="OpenData" specSection="3.1" />
-                <Scenario scenarioName= "Get the details of all products which are supported by bank" specName="OpenData" specSection="3.2" />
-                <Scenario scenarioName= "Get the details of all products which are supported by bank" specName="OpenData" specSection="3.3" />
             </Scenarios>
         </Feature>
     </features>
