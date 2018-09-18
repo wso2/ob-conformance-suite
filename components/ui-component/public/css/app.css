@@ -136,3 +136,15 @@
      text-align: center !important;
      font-weight: 400 !important
  }
+
+ .login-alert{
+     background-color: beige !important;
+     border: 1px solid black !important;
+     margin: 120px !important
+ }
+
+ .login-error-span{
+
+    text-align: center !important;
+    margin-top: 15px !important;
+ }
