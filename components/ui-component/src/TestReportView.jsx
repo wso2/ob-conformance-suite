@@ -18,7 +18,7 @@
 
 import React from 'react';
 import AppHeader from "./partials/AppHeader";
-import {ListGroup, ListGroupItem, Button, Modal, Grid, Row, Col, Panel, Badge, ProgressBar} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Button, Modal, Grid, Row, Col, Panel, Badge, ProgressBar, Well} from 'react-bootstrap';
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import '../public/css/report-style.scss'
 import {connect} from 'react-redux'
@@ -43,7 +43,7 @@ const stepStatus = (steps) => {
         errorClass=step.result.status;
         errorDescription=step.result.error_message;
         errorStep = (step.keyword +" | " + step.name);
-        step.result.status === "passed" ? faIconClass = "pull-right fas fa-check-circle" : faIconClass = "pull-right fas fa-times-circle";
+        step.result.status === "passed" ? faIconClass = "" : faIconClass = "error-pointer pull-left fas fa-angle-right";
 
         errorDisplayList.push(
             <ListGroupItem bsStyle="" className = {errorClass}>
@@ -55,13 +55,15 @@ const stepStatus = (steps) => {
 
                 { step.result.status === "failed"
                     ?  <Panel defaultExpanded={false} className="error-description-panel">
-                        <Panel.Toggle componentClass="a"><span className="error-more-info-link">More information <i className="fas fa-chevron-circle-down"/></span></Panel.Toggle>
+                        <Panel.Toggle componentClass="a"><span className="error-more-info-link"><i className="fas fa-chevron-circle-down"/></span></Panel.Toggle>
                         <Panel.Collapse>
                             <Panel.Body>
-                                {(errorDescription.match(new RegExp("AssertionError: " + "(.*)" + "expected:")) !== null)
-                                    ? errorDescription.match(new RegExp("AssertionError: " + "(.*)" + "expected:"))[1]
-                                    : errorDescription
-                                }
+                                <i>
+                                    {(errorDescription.match(new RegExp("AssertionError: " + "(.*)" + "expected:")) !== null)
+                                        ? errorDescription.match(new RegExp("AssertionError: " + "(.*)" + "expected:"))[1]
+                                        : errorDescription
+                                    }
+                                </i>
                             </Panel.Body>
                         </Panel.Collapse>
                     </Panel>
@@ -72,18 +74,20 @@ const stepStatus = (steps) => {
 
     });
     if(status){
-        return (<p className="passedTag status-badge"><i className="fas fa-check-circle"/> Passed</p>) ;
+        return (<p className="passedTag status-badge"><i className="fas fa-check-circle"/></p>) ;
     }else{
         //console.log(errorMessage);
         return (
             <div>
-                <p className="failedTag status-badge"><i className="fas fa-times-circle"/> Failed</p>
-                <Panel className="error-panel" defaultExpanded={false}>
+                <p className="failedTag status-badge"><i className="fas fa-times-circle"/></p>
+                <Panel className="error-panel" defaultExpanded>
                     <Panel.Toggle componentClass="a" className="error-details-link">View details</Panel.Toggle>
                     <Panel.Collapse>
-                        <p><b>Failure details :</b></p>
+                        <p className="top-left-padding"><b>Failure details :</b></p>
                         <ListGroup>
-                            {errorDisplayList}
+                            <Well bsSize="small">
+                                {errorDisplayList}
+                            </Well>
                         </ListGroup>
                     </Panel.Collapse>
                 </Panel>
@@ -112,7 +116,7 @@ const ElementStep = ({step}) => (
 
 
 const ReportFeature = ({feature}) => (
-        <Panel defaultExpanded={false}>
+        <Panel defaultExpanded={reportHelper.getFeatureResultStatus(feature, reportHelper).status === "Failed"}>
             <Panel.Heading>
                 <div className="pull-right feature-result">
                 <span className={reportHelper.getFeatureResultStatus(feature, reportHelper).class}>
@@ -214,8 +218,8 @@ class TestReportView extends React.Component {
                         };
                         this.setState({
                             data: resultObject,
-                            passed: this.state.passed + featureResult.passed,
-                            failed: this.state.failed + featureResult.failed,
+                            passed: this.state.passed + (featureResult.failed === 0)*1, //all scenarios of feature passed
+                            failed: this.state.failed + (featureResult.failed > 0) * 1, //any scenario of feature failed
                             rate: (((this.state.passed+ featureResult.passed)/(parseFloat(this.state.passed + featureResult.passed)+(this.state.failed + featureResult.failed)))*100).toFixed(2),
                             completedFeatures: this.state.completedFeatures + 1,
                             progress: ((this.state.completedFeatures +1)/this.state.featureCount)*100
@@ -261,20 +265,15 @@ class TestReportView extends React.Component {
                 <Row className="stickeyHeader">
                     <Col md={12}>
                         <div>
-                            <h1 className="report-title">Report - {this.state.testName}</h1>
+                            <h1 className="report-title">{this.state.testName}</h1>
 
                             { this.state.testRunning
                                 ? <LoaderComponent/>
-                                : null
+                                : this.state.failed>0 ? <Badge className="test-complete-withfail-badge">Completed</Badge> : <Badge className="test-complete-badge">Completed</Badge>
                             }
                         </div>
 
                         <div className={"overall-results-block report-block"}>
-                            {this.state.passed + this.state.failed> 0
-                                ? <p><b>Scenarios |</b></p>
-                                : null
-                            }
-
                             {this.state.passed > 0
                                 ? <p><span className="passed-summary">Passed</span> : {this.state.passed}</p>
                                 : null
@@ -285,14 +284,10 @@ class TestReportView extends React.Component {
                                 : null
                             }
 
-                            { this.state.testRunning
-                                ? null
-                                : <Badge className="test-complete-badge">Completed</Badge>
-                            }
 
                             { this.state.testRunning
-                                ? <ProgressBar className="pass-rate-progress" active striped bsStyle="success" now={this.state.progress} />
-                                : <ProgressBar className="pass-rate-progress" striped bsStyle="success" now="100" />
+                                ? <ProgressBar className="pass-rate-progress" active striped bsStyle="" now={this.state.progress} />
+                                : <ProgressBar className="pass-rate-progress" striped bsStyle="" now="100" />
                             }
 
                         </div>

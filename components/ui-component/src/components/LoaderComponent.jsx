@@ -7,7 +7,7 @@ const override = css`
     margin: 0 auto;
     border-color: red;
     padding-top: 35px;
-    margin-left: 250px;
+    margin-left: 10px;
 `;
 
 export default class LoaderComponent extends React.Component {
@@ -23,7 +23,7 @@ export default class LoaderComponent extends React.Component {
                 <PulseLoader
                     className={override}
                     sizeUnit={"px"}
-                    size={10}
+                    size={5}
                     color={'#507192'}
                     loading={this.state.loading}
                 />

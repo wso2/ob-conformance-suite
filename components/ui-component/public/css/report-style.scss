@@ -1,14 +1,14 @@
 .passedTag {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    color: green;
+    top: 13px;
+    left: 15px;
+    color: gray;
 }
 
 .failedTag {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 13px;
+    left: 15px;
     color: red;
 }
 
@@ -20,25 +20,37 @@
 
 .passed {
     color:gray;
+    border: 0 none;
+    padding-bottom: 0px;
+    background-color: transparent;
 }
 
 .skipped {
     color:gray;
+    border: 0 none;
+    padding-bottom: 0px;
+    background-color: transparent;
 }
 
 .failed {
     color:red;
+    border: 0 none;
+    padding-left: 7px;
+    padding-bottom: 0px;
+    background-color: transparent;
 }
 
 .error-panel {
     border: none;
     box-shadow: none;
+    background-color: transparent;
 }
 
 .error-description-panel {
     border: none;
     box-shadow: none;
     margin-bottom: 0px;
+    background-color: transparent;
 }
 
 .error-more-info-link{
@@ -51,7 +63,7 @@
 
 .feature-result {
    font-size: 1.3em;
-    padding: 8px 8px 0px 0px;
+   padding: 8px 8px 0px 0px;
 }
 
 .scenario-details {
@@ -152,9 +164,6 @@ input[type="text"] {
 }
 
 .error-details-link{
-    position: absolute;
-    top: 40px;
-    right: 14px;
     font-size: 12px;
 }
 
@@ -172,9 +181,15 @@ input[type="text"] {
 }
 
 .test-complete-badge{
-    margin-top: 4px;
+    margin-top: 32px;
     margin-left: 15px;
     background-color: green;
+}
+
+.test-complete-withfail-badge{
+    margin-top: 32px;
+    margin-left: 15px;
+    background-color: orange;
 }
 .history-view-inline-specs {
 
@@ -198,4 +213,17 @@ input[type="text"] {
 
 .report-title{
     float: left;
+}
+
+.top-left-padding{
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
+.scenario-title{
+    padding-left: 20px;
+}
+
+.error-pointer{
+    padding-top:2px;
 }
