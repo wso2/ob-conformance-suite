@@ -6,7 +6,9 @@
 .headStyle{
     font-size: 25px;
     font-weight: bolder;
-    margin: 20px 0px
+    margin: 5px 0px 30px 0px;
+    text-align: right
+
 }
 
 .subHeadStyle{
@@ -97,4 +99,10 @@
     border: 1px solid;
     padding: 0px 7px !important;
     margin-left: 50px !important
+}
+
+.head-top{
+    text-align: right;
+    margin-top: 15px;
+    margin-right: 50px;
 }
