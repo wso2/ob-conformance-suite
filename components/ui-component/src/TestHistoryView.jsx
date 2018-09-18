@@ -29,19 +29,18 @@ const client = new RequestBuilder();
 
 
 
-const TestPlanRow = connect((state) => ({specifications: state.specifications.specs}))(({testPlan,specifications}) => (
+const TestPlanRow = ({report}) => (
     <tr align="left">
-        <td>{Object.keys(testPlan.testPlan.specifications).map((key) => <p>{specifications[key].title} {specifications[key].version}</p>)}</td>
-        <td>{testPlan.testPlan.lastRun}</td>
-        <td><b>{testPlan.status}</b></td>
+        <td>{report.executed}</td>
+        <td>{report.state}</td>
         <td className={"overall-results-block"}>
             <p><span style={{color: "green"}}><i className="fas fa-check-circle"/> Passed : 6</span></p>
             <p><span style={{color: "red"}}><i className="fas fa-times-circle"/> Failed : 3</span></p>
             <p><span>Success Rate: 66.67%</span></p>
         </td>
-        <td><Link to={"/tests/report/"+testPlan.testId}>Check Report</Link></td>
+        <td><Link to={"/tests/report/"+report.testId+"/"+report.reportId}>Check Report</Link></td>
     </tr>
-));
+);
 
 const TestPlanItem = connect((state) => ({specifications: state.specifications.specs}))(({testPlan,specifications, id}) => (
 
@@ -66,11 +65,11 @@ const TestPlanItem = connect((state) => ({specifications: state.specifications.s
         </Panel.Heading>
         <Panel.Collapse>
             <Panel.Body collapsible>
+                <p>{Object.keys(testPlan.testPlan.specifications).map((key) => <p>{specifications[key].title} {specifications[key].version}</p>)}</p>
                 <b>Test Iterations</b>
                 <Table className = "test-history-table" striped bordered condensed hover>
                     <thead>
                         <tr>
-                            <th className={"tableHead"}>Specifications</th>
                             <th className={"tableHead"}>Test Run Date</th>
                             <th className={"tableHead"}>Status</th>
                             <th className={"tableHead"}>Summary</th>
@@ -78,28 +77,7 @@ const TestPlanItem = connect((state) => ({specifications: state.specifications.s
                         </tr>
                     </thead>
                     <tbody className={"text-center"}>
-                        <tr align="left">
-                            <td>{Object.keys(testPlan.testPlan.specifications).map((key) => <p>{specifications[key].title} {specifications[key].version}</p>)}</td>
-                            <td>{testPlan.testPlan.lastRun}</td>
-                            <td><b>{testPlan.status}</b></td>
-                            <td className={"overall-results-block"}>
-                                <p><span style={{color: "green"}}><i className="fas fa-check-circle"/> Passed : 6</span></p>
-                                <p><span style={{color: "red"}}><i className="fas fa-times-circle"/> Failed : 3</span></p>
-                                <p><span> Success Rate: 66.67%</span></p>
-                            </td>
-                            <td><Link to={"/tests/report/"+testPlan.testId}>Check Report</Link></td>
-                        </tr>
-                        <tr align="left">
-                            <td>{Object.keys(testPlan.testPlan.specifications).map((key) => <p>{specifications[key].title} {specifications[key].version}</p>)}</td>
-                            <td>{testPlan.testPlan.lastRun}</td>
-                            <td><b>{testPlan.status}</b></td>
-                            <td className={"overall-results-block"}>
-                                <p><span style={{color: "green"}}><i className="fas fa-check-circle"/> Passed : 6</span></p>
-                                <p><span style={{color: "red"}}><i className="fas fa-times-circle"/> Failed : 3</span></p>
-                                <p><span> Success Rate: 66.67%</span></p>
-                            </td>
-                            <td><Link to={"/tests/report/"+testPlan.testId}>Check Report</Link></td>
-                        </tr>
+                        {Object.values(testPlan.reports).map((report) => <TestPlanRow report={report}/>)}
                     </tbody>
                 </Table>
             </Panel.Body>
@@ -133,17 +111,9 @@ class TestHistoryView extends React.Component{
                             </Col>
                         </Row>
                     </div>
-                    <Panel>
-                        <Panel.Heading>
-                            <Panel.Title>
-                                Test Configurations
-                            </Panel.Title>
-                        </Panel.Heading>
-                        <Panel.Body>
-                        {Object.values(this.props.testplans).map((plan) =><TestPlanItem testPlan={plan}/>)}
-                        </Panel.Body>
-                    </Panel>
-                    
+                    {Object.values(this.props.testplans).map((plan) =><TestPlanItem testPlan={plan}/>)}
+
+
                     {/* <Table striped bordered condensed hover>
                         <thead>
                             <tr>

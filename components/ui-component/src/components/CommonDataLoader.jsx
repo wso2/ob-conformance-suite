@@ -42,7 +42,7 @@ class CommonDataLoader extends React.Component {
 
                 var testplans = plans.data;
                 Object.keys(testplans).forEach((key) =>
-                    this.props.dispatch(addTestPlan(key, testplans[key].testPlan, testplans[key].status))
+                    this.props.dispatch(addTestPlan(key, testplans[key].testPlan, testplans[key].reports))
                 )
             })
         ).finally(() => {
