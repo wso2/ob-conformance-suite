@@ -62,7 +62,7 @@ class LoginView extends React.Component{
                         </FormGroup>
 
                         <FormGroup>
-                                <Link to={"/"}>
+                                <Link to={"/dashboard"}>
                                     <Button bsStyle={"secondary"} type="submit">Login</Button>
                                 </Link>
                         </FormGroup>

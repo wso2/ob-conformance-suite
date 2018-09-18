@@ -23,7 +23,7 @@ const LoginAppHeader = () => (
     <header className="header header-default">
         <div className="container-fluid">
             <div className="pull-left brand">
-                <Link to="/">
+                <Link to="/dashboard">
                     <img src="/images/logo-inverse.svg" alt="wso2" title="wso2"
                          className="logo"/>
                     <span>Open Banking Conformance Suite</span>
