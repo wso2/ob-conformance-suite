@@ -120,7 +120,7 @@ class TestConfigurationView extends React.Component {
                         <li role="presentation" class="active"> 
                             <Link to={"/tests/new"}> <span class="step-number">01</span> <span class="step-desc"> <h2>Create new Test</h2> <p>Description goes here</p> </span> </Link>
                         </li>
-                        <li role="presentation"> <Link to=''> 
+                        <li role="presentation" class="active"> <Link to=''> 
                             <span class="step-number">02</span> <span class="step-desc"> <h2>Configure New Test</h2> <p>Description goes here</p> </span> </Link>
                         </li> 
                     </ul> 
