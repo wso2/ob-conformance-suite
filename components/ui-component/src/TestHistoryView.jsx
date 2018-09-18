@@ -39,7 +39,7 @@ const TestPlanRow = ({report}) => (
     </tr>
 );
 
-const TestPlanItem = connect((state) => ({specifications: state.specifications.specs}))(({testPlan,specifications, id}) => (
+const TestPlanItem = connect((state) => ({specifications: state.specifications.specs}))(({testPlan,specifications, runTest}) => (
 
     <Panel defaultExpanded={false}>
         <Panel.Heading>
@@ -59,7 +59,7 @@ const TestPlanItem = connect((state) => ({specifications: state.specifications.s
                 </Col>
                 <Col xs={4}>
                     <ButtonToolbar className="pull-right history-view-button-bar">
-                        <Button bsStyle="secondary" className="round-btn"><i className={"fas fa-play"}/></Button>
+                        <Button onClick={()=>{runTest(testPlan)}} bsStyle="secondary" className="round-btn"><i className={"fas fa-play"}/></Button>
                         <Button bsStyle="secondary" className="round-btn"><i className={"fas fa-cog"}/></Button>
                         <Button bsStyle="secondary" className="round-btn"><i className={"fas fa-trash"}/></Button>
                         <Panel.Toggle>
@@ -95,6 +95,13 @@ class TestHistoryView extends React.Component{
 
     constructor(props){
         super(props);
+        this.runTest = this.runTest.bind(this);
+    }
+
+    runTest(testPlan){
+        client.runTestPlan(testPlan).then((response) => {
+            this.props.history.push("/tests/report/"+response.data.testId+"/"+response.data.reportId);
+        })
     }
 
     render(){
@@ -115,7 +122,8 @@ class TestHistoryView extends React.Component{
                             </Col>
                         </Row>
                     </div>
-                    {Object.values(this.props.testplans).map((plan) =><TestPlanItem testPlan={plan}/>)}
+
+                    {Object.values(this.props.testplans).map((plan) =><TestPlanItem testPlan={plan} runTest={this.runTest}/>)}
                 </div>
             </div>
         );
