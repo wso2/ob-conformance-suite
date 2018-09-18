@@ -110,3 +110,15 @@
 .nav-margin{
     margin-top: 25px !important
 }
+
+.header-user{
+    display: inline-block;
+    line-height: 1;
+    font-size: 14px;
+    margin: 15px 0 0 5px;
+    font-weight: 300;
+}
+
+.span-icon{
+    margin-left:5px !important
+}

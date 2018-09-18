@@ -29,6 +29,10 @@ const AppHeader = () => (
                     <span>Open Banking Conformance Suite</span>
                 </Link>
             </div>
+            <div className="pull-right header-user">
+                <i className="fas fa-user-circle"></i>
+                <span className="span-icon">National Australia Bank (NAB)</span>
+            </div>
         </div>
     </header>
 );
