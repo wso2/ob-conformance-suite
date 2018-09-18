@@ -99,7 +99,7 @@ class TestConfigurationView extends React.Component {
                 this.props.history.push("/tests/report/"+response.data.testId+"/"+response.data.report.reportId);
                 this.props.dispatch(updateReport(response.data.report));
             }else{
-                this.props.history.push("/");
+                this.props.history.push("/dashboard");
             }
         }).finally(() => {
             this.props.dispatch(clearTestValues());
