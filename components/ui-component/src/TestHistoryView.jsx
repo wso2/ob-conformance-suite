@@ -24,6 +24,7 @@ import {withRouter, Link} from 'react-router-dom'
 import {Table, Row, Col, Button, Panel, ButtonGroup, PanelGroup, ButtonToolbar} from 'react-bootstrap';
 import RequestBuilder from './utils/RequestBuilder';
 import '../public/css/report-style.scss'
+import {updateReport} from "./actions";
 const client = new RequestBuilder();
 
 const TestPlanRow = ({report}) => (
@@ -39,30 +40,39 @@ const TestPlanRow = ({report}) => (
     </tr>
 );
 
-const TestPlanItem = connect((state) => ({specifications: state.specifications.specs}))(({testPlan,specifications, id}) => (
+const TestPlanItem = connect((state) => ({specifications: state.specifications.specs}))(({testPlan,specifications, runTest}) => (
 
     <Panel defaultExpanded={false}>
         <Panel.Heading>
         <Panel.Title>
-            <Row>
-                <Col xs={6}><Panel.Toggle>Security Test Configuration</Panel.Toggle></Col>
+            <Row className={"history-view-row"}>
+                <Col xs={8}>
+                    <p>
+                        {testPlan.testPlan.name}
+                        <small>
+                            <p className={"text-muted"}>
+                                <span className={"history-view-inline-specs"}>
+                                {Object.keys(testPlan.testPlan.specifications).map((key) => <span>{specifications[key].title} {specifications[key].version}</span>)}
+                                </span>
+                            </p>
+                        </small>
+                    </p>
+                </Col>
                 <Col xs={4}>
-                    <ButtonToolbar className="pull-right">
-                        <Button bsStyle="secondary" className="round-btn"><i className={"fas fa-play"}/></Button>
+                    <ButtonToolbar className="pull-right history-view-button-bar">
+                        <Button onClick={()=>{runTest(testPlan)}} bsStyle="secondary" className="round-btn"><i className={"fas fa-play"}/></Button>
                         <Button bsStyle="secondary" className="round-btn"><i className={"fas fa-cog"}/></Button>
                         <Button bsStyle="secondary" className="round-btn"><i className={"fas fa-trash"}/></Button>
+                        <Panel.Toggle>
+                            <Button bsStyle="secondary" className="round-btn"><i className={"fas fa-history"}/></Button>
+                        </Panel.Toggle>
                     </ButtonToolbar>
-                </Col>
-                <Col xs={2}>
-                    <div className="pull-right"><i className={"fas fa-angle-down"}/></div>
-                    {/* <i className={"fas fa-" + expanded ? "angle-up" : "angle-down")}/> */}
                 </Col>
                 </Row>
         </Panel.Title>
         </Panel.Heading>
         <Panel.Collapse>
             <Panel.Body collapsible>
-                <p>{Object.keys(testPlan.testPlan.specifications).map((key) => <p>{specifications[key].title} {specifications[key].version}</p>)}</p>
                 <b>Test Iterations</b>
                 <Table className = "test-history-table" striped bordered condensed hover>
                     <thead>
@@ -86,6 +96,14 @@ class TestHistoryView extends React.Component{
 
     constructor(props){
         super(props);
+        this.runTest = this.runTest.bind(this);
+    }
+
+    runTest(testPlan){
+        client.runTestPlan(testPlan).then((response) => {
+            this.props.dispatch(updateReport(response.data));
+            this.props.history.push("/tests/report/"+response.data.testId+"/"+response.data.reportId);
+        })
     }
 
     render(){
@@ -106,7 +124,8 @@ class TestHistoryView extends React.Component{
                             </Col>
                         </Row>
                     </div>
-                    {Object.values(this.props.testplans).map((plan) =><TestPlanItem testPlan={plan}/>)}
+
+                    {Object.values(this.props.testplans).map((plan) =><TestPlanItem testPlan={plan} runTest={this.runTest}/>)}
                 </div>
             </div>
         );

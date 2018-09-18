@@ -21,7 +21,8 @@ import AppHeader from "./partials/AppHeader";
 import RequestBuilder from './utils/RequestBuilder';
 import {withRouter, Link} from 'react-router-dom'
 import { Grid, Row, Col, Button, ListGroup, Panel} from 'react-bootstrap';
-import {updateSpecification,addSpecificationToTestValues,addTestPlan,clearTestValues,clearSelectedSpecifications} from "./actions";
+import {updateSpecification,addSpecificationToTestValues,
+    addTestPlan,clearTestValues,clearSelectedSpecifications,updateReport} from "./actions";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import {connect} from 'react-redux'
 import TestPlanReduxHelper from './utils/TestPlanReduxHelper'
@@ -96,8 +97,9 @@ class TestConfigurationView extends React.Component {
             this.props.dispatch(addTestPlan(response.data.testId,testPlan,reports));
             if (runNow){
                 this.props.history.push("/tests/report/"+response.data.testId+"/"+response.data.report.reportId);
+                this.props.dispatch(updateReport(response.data.report));
             }else{
-                this.props.history.push("/");
+                this.props.history.push("/dashboard");
             }
         }).finally(() => {
             this.props.dispatch(clearTestValues());

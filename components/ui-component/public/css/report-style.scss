@@ -160,3 +160,23 @@ input[type="text"] {
 .spec-heading{
     background-color: #e6e6e6 !important;
 }
+
+.history-view-inline-specs {
+
+  span::after {
+    content: ', ';
+  }
+
+  span:last-child::after {
+    content: '';
+  }
+
+}
+
+.history-view-button-bar{
+  margin-top: 0.3em;
+}
+
+.history-view-row {
+  margin-top: 0.5em;
+}

@@ -17,6 +17,7 @@
  */
 
 const initialState = {
+    name: "",
     specs: {}
 };
 
@@ -56,8 +57,14 @@ function initSpec(spec) {
 
 const testvalues = (state = initialState, action) => {
     switch (action.type) {
+        case 'SET_NAME_TO_TESTVALUES':
+            return {
+                ...state,
+                name: action.name
+            }
         case 'ADD_SPEC_TO_TESTVALUES':
             return {
+                ...state,
                 specs: {
                     ...state.specs,
                     [action.specification.name]: initSpec(action.specification)
@@ -66,6 +73,7 @@ const testvalues = (state = initialState, action) => {
         case 'TOGGLE_VECTOR':
             var cur_vectors = state.specs[action.name].selectedVectors;
             return {
+                ...state,
                 specs: {
                     ...state.specs,
                     [action.name]: {
@@ -78,6 +86,7 @@ const testvalues = (state = initialState, action) => {
         case 'TOGGLE_FEATURE':
             var cur_features = state.specs[action.name].selectedFeatures;
             return {
+                ...state,
                 specs: {
                     ...state.specs,
                     [action.name]: {
@@ -89,6 +98,7 @@ const testvalues = (state = initialState, action) => {
             };
         case 'SET_VALUE_SPEC':
             return {
+                ...state,
                 specs: {
                     ...state.specs,
                     [action.specName] : {
@@ -108,6 +118,7 @@ const testvalues = (state = initialState, action) => {
             };
         case 'SET_VALUE_FEATURE':
             return {
+                ...state,
                 specs: {
                     ...state.specs,
                     [action.specName] : {
