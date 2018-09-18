@@ -93,8 +93,9 @@ class TestHistoryView extends React.Component{
         return(
             <div>
                 <AppHeader/>
-                <AppBreadcrumbs/>
+                {/* <AppBreadcrumbs/> */}
                 <div className={"divStyle"}>
+                    <div className={"head-top"}>Logged in as:</div>
                     <div className={"headStyle"}>National Australia Bank (NAB)</div>
                     <div className={"subHeadStyle"}>
                         <Row className="show-grid">
