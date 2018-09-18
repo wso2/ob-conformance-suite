@@ -112,20 +112,25 @@ class TestConfigurationView extends React.Component {
         console.log(testConfiguration)
     }
 
+    clearTestConfiguration(){
+        this.props.dispatch(clearTestValues());
+        this.props.dispatch(clearSelectedSpecifications());
+    }
+
     renderMain() {
         return (
             <div>
                 <br/>
                 <Grid>
                     <Row>
-                    <ul class="nav nav-wizard nav-justified nav-margin"> 
-                        <li role="presentation" class="active"> 
+                    <ul class="nav nav-wizard nav-justified nav-margin">
+                        <li role="presentation" class="active">
                             <Link to={"/tests/new"}> <span class="step-number">01</span> <span class="step-desc"> <h2>Create new Test</h2> <p>Description goes here</p> </span> </Link>
                         </li>
-                        <li role="presentation" class="active"> <Link to=''> 
+                        <li role="presentation" class="active"> <Link to=''>
                             <span class="step-number">02</span> <span class="step-desc"> <h2>Configure New Test</h2> <p>Description goes here</p> </span> </Link>
-                        </li> 
-                    </ul> 
+                        </li>
+                    </ul>
                     <hr></hr>
                     </Row>
                     <Row>
@@ -149,6 +154,11 @@ class TestConfigurationView extends React.Component {
                                         disabled={this.isCompleted()}
                                         onClick={()=>{this.buildTestPlan(false)}}
                                 >Save</Button>
+                                <Link to={"/dashboard"}>
+                                  <Button className="test-save-btn" bsStyle={"secondary"} bsSize={"lg"}
+                                        onClick={()=>this.clearTestConfiguration()}
+                                  >Cancel</Button>
+                                </Link>
                             </div>
                         </Col>
                     </Row>
