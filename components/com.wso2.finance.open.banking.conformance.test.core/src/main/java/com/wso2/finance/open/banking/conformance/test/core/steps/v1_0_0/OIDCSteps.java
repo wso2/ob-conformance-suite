@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class OIDCSteps {
     private OIDCHandler oidcHandler;
@@ -53,7 +54,7 @@ public class OIDCSteps {
         setBrowserInteractionURLtoContext(url);
     }
 
-    @When("TPP receives the authorization code")
+    @Then("TPP receives the authorization code from the authorization endpoint")
     public void receiveAuthorizationcode(){
         String authCode = Context.getInstance().getAttributesFromTempMap("auth_code");
         int i = 0;
@@ -69,7 +70,7 @@ public class OIDCSteps {
         Context.getInstance().getRunnerInstance().setStatus(Report.RUNNER_STATE.RUNNING);
         oidcHandler.setAuthCode(authCode);
         Log.info("Received Auth Code: "+authCode);
-        assertEquals("Authorization Code not received",authCode,true);
+        assertTrue("Authorization Code not received from authorization endpoint",authCode!=null);
 
     }
 

@@ -101,6 +101,7 @@ public class Context {
     {
         currentFeatureTitle = "";
         currentFeatureUri = "";
+        accessToken = "";
     }
 
     /**

@@ -28,7 +28,7 @@ public class AccountsInformationSteps {
         return;
     }
 
-    @When("TPP initiates a request to Beneficiaries endpoint")
+    @Then("TPP initiates a request to Beneficiaries endpoint")
     public void initiateRequestToBeneficiariesEnd(){
             return;
     }
