@@ -46,7 +46,7 @@ public class Application {
            // specifications.put("specExample-2", XmlHelper.unmarshallSepcificationXML(
            //         new File("components/" +
            //                 "com.wso2.finance.open.banking.conformance.mgt/src/main/resources/example_spec-2.xml")));
-            specifications.put("AccountsInformationAPI", XmlHelper.unmarshallSepcificationXML(
+            specifications.put("AccountsInformation", XmlHelper.unmarshallSepcificationXML(
                     new File("components/" +
                             "com.wso2.finance.open.banking.conformance.mgt/src/main/resources/accountsinformation.xml")));
 
