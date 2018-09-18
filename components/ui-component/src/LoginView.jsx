@@ -36,7 +36,7 @@ class LoginView extends React.Component{
         console.log(this.username.value);
         console.log(this.password.value);
         if(this.username.value == "admin" && this.password.value == "admin"){
-            // this.setState({isHidden: false})
+            this.setState({isHidden: false})
             this.props.history.push("/dashboard");
         }
         else{
