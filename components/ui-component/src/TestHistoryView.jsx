@@ -97,7 +97,7 @@ class TestHistoryView extends React.Component{
                 <div className={"divStyle"}>
                     <div className={"subHeadStyle"}>
                         <Row className="show-grid">
-                            <Col xs={8}><h4>Test History</h4></Col>
+                            <Col xs={8}><h4>Test Configurations</h4></Col>
                             <Col xs={4}>
                                 <Link to={"/tests/new"}>
                                     <Button className="pull-right btn-secondary" bsStyle="default">
