@@ -35,6 +35,15 @@
     box-shadow: none;
 }
 
+.error-description-panel {
+    border: none;
+    box-shadow: none;
+    margin-bottom: 0px;
+}
+
+.error-more-info-link{
+    font-size:12px;
+}
 .feature-title {
     color: black;
     padding-bottom: 0px;
@@ -70,6 +79,7 @@
         display: inline-block;
         margin-right: 10px;
     }
+    clear:both;
 }
 
 .report-block {
@@ -149,7 +159,7 @@ input[type="text"] {
 }
 
 .pass-rate-progress{
-    width: 26%;
+    width: 100%;
     height: 5px;
 }
 
@@ -161,6 +171,11 @@ input[type="text"] {
     background-color: #e6e6e6 !important;
 }
 
+.test-complete-badge{
+    margin-top: 4px;
+    margin-left: 15px;
+    background-color: green;
+}
 .history-view-inline-specs {
 
   span::after {
@@ -179,4 +194,8 @@ input[type="text"] {
 
 .history-view-row {
   margin-top: 0.5em;
+}
+
+.report-title{
+    float: left;
 }

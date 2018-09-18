@@ -52,6 +52,18 @@ const stepStatus = (steps) => {
                     ? <span className="pull-right">skipped</span>
                     : <i className={faIconClass}/>
                 }
+
+                { step.result.status === "failed"
+                    ?  <Panel defaultExpanded={false} className="error-description-panel">
+                        <Panel.Toggle componentClass="a"><span className="error-more-info-link">More information <i className="fas fa-chevron-circle-down"/></span></Panel.Toggle>
+                        <Panel.Collapse>
+                            <Panel.Body>
+                                {errorDescription.match(new RegExp("AssertionError: " + "(.*)" + "expected:"))[1]}
+                            </Panel.Body>
+                        </Panel.Collapse>
+                    </Panel>
+                    : null
+                }
             </ListGroupItem>
         );
 
@@ -140,7 +152,10 @@ class TestReportView extends React.Component {
             rate: 0,
             attributes: null,
             showInteractionModel: null,
-            testRunning: false
+            testRunning: false,
+            progress: 0,
+            completedFeatures: 0,
+            featureCount: 0
         };
 
         this.interval = null;
@@ -160,7 +175,9 @@ class TestReportView extends React.Component {
                 data: report,
                 passed: results.passed,
                 failed: results.failed,
-                rate: results.rate
+                rate: results.rate,
+                featureCount: (reportHelper.getFeatureCount(response.data.testPlan)),
+                testName: response.data.testPlan.name
             });
             if(response.data.report.state === "RUNNING"){
                 this.setState({testRunning: true});
@@ -196,7 +213,9 @@ class TestReportView extends React.Component {
                             data: resultObject,
                             passed: this.state.passed + featureResult.passed,
                             failed: this.state.failed + featureResult.failed,
-                            rate: (((this.state.passed+ featureResult.passed)/(parseFloat(this.state.passed + featureResult.passed)+(this.state.failed + featureResult.failed)))*100).toFixed(2)
+                            rate: (((this.state.passed+ featureResult.passed)/(parseFloat(this.state.passed + featureResult.passed)+(this.state.failed + featureResult.failed)))*100).toFixed(2),
+                            completedFeatures: this.state.completedFeatures + 1,
+                            progress: ((this.state.completedFeatures +1)/this.state.featureCount)*100
                         })
                 }else if(result.attributeGroup){
                     this.setState({
@@ -207,6 +226,8 @@ class TestReportView extends React.Component {
             });
         });
     }
+
+
 
     render() {
         return (
@@ -237,9 +258,21 @@ class TestReportView extends React.Component {
                 </Modal>
                 <Row className="stickeyHeader">
                     <Col md={12}>
-                        <h1>Test Report</h1>
+                        <div>
+                            <h1 className="report-title">Report - {this.state.testName}</h1>
+
+                            { this.state.testRunning
+                                ? <LoaderComponent/>
+                                : null
+                            }
+                        </div>
 
                         <div className={"overall-results-block report-block"}>
+                            {this.state.passed + this.state.failed> 0
+                                ? <p><b>Scenarios |</b></p>
+                                : null
+                            }
+
                             {this.state.passed > 0
                                 ? <p><span className="passed-summary">Passed</span> : {this.state.passed}</p>
                                 : null
@@ -251,9 +284,15 @@ class TestReportView extends React.Component {
                             }
 
                             { this.state.testRunning
-                                ? <LoaderComponent/>
-                                : null
+                                ? null
+                                : <Badge className="test-complete-badge">Completed</Badge>
                             }
+
+                            { this.state.testRunning
+                                ? <ProgressBar className="pass-rate-progress" active striped bsStyle="success" now={this.state.progress} />
+                                : <ProgressBar className="pass-rate-progress" striped bsStyle="success" now="100" />
+                            }
+
                         </div>
                         <hr/>
                     </Col>

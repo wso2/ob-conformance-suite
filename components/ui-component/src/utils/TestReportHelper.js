@@ -74,4 +74,14 @@ export default class TestReportHelper {
             return {class: "failed-summary", status: "Failed"};
         }
     }
+
+    getFeatureCount(testPlan){
+        var count=0;
+        for (var spec in testPlan['specifications']) {
+            for (var scenario in testPlan['specifications'][spec]['features']){
+                count+=1;
+            }
+        }
+        return count;
+    }
 }
