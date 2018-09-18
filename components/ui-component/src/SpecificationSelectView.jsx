@@ -62,7 +62,7 @@ class SpecificationSelectView extends React.Component {
     }
 
     isEmptySelection() {
-        return this.props.specifications.selected.length === 0;
+        return this.props.specifications.selected.length === 0 || this.props.testvalues.name.length === 0;
     }
 
     renderMain() {
