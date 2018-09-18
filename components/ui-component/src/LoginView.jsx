@@ -17,7 +17,7 @@
  */
 
 import React from 'react';
-import {Button, Form, FormGroup, FormControl, Col, ControlLabel, Checkbox, Jumbotron} from 'react-bootstrap';
+import {Button, Form, FormGroup, FormControl, Col, ControlLabel, Checkbox, Jumbotron, Alert} from 'react-bootstrap';
 import '../public/css/report-style.scss';
 import {Link} from 'react-router-dom'
 import LoaderComponent from "./components/LoaderComponent";
@@ -27,6 +27,22 @@ class LoginView extends React.Component{
 
     constructor(props){
         super(props);
+        this.state={
+            show:false,
+            isHidden:false
+        }
+    }
+
+    validateUser(){
+        console.log(this.username.value);
+        console.log(this.password.value);
+        if(this.username.value == "admin" && this.password.value == "admin"){
+            this.setState({isHidden: false})
+            this.props.history.push("/dashboard");
+        }
+        else{
+            this.setState({isHidden: true})
+        }
     }
 
     render(){
@@ -42,7 +58,7 @@ class LoginView extends React.Component{
                             Username
                             </Col>
                             <Col>
-                            <FormControl type="text" placeholder="Enter Username" />
+                            <FormControl type="text" placeholder="Enter Username"  inputRef={(ref) => {this.username = ref}}/>
                             </Col>
                         </FormGroup>
 
@@ -51,9 +67,13 @@ class LoginView extends React.Component{
                             Password
                             </Col>
                             <Col>
-                            <FormControl type="password" placeholder="Enter Password" />
+                            <FormControl type="password" placeholder="Enter Password" inputRef={(ref) => {this.password = ref}}/>
                             </Col>
                         </FormGroup>
+
+                        {/* { this.state.isHidden ? <div className="login-error-span"><span style={{color: "red"}}><i className="fas fa-times-circle"/>Incorrect Username or password</span></div> : null } */}
+
+                        
 
                         <FormGroup>
                             <Col>
@@ -62,9 +82,7 @@ class LoginView extends React.Component{
                         </FormGroup>
 
                         <FormGroup>
-                                <Link to={"/dashboard"}>
-                                    <Button bsStyle={"secondary"} type="submit">Login</Button>
-                                </Link>
+                            <Button bsStyle={"secondary"} type="submit" onClick={()=>this.validateUser()}>Login</Button>
                         </FormGroup>
                     </Form>
                 </Jumbotron>
