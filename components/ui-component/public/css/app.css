@@ -122,3 +122,17 @@
 .span-icon{
     margin-left:5px !important
 }
+ .login-jumbotron{
+     margin: 60px 300px!important
+ }
+
+ .login-form
+ {
+     margin: 70px !important
+ }
+
+ .login-head{
+     margin: 0px !important;
+     text-align: center !important;
+     font-weight: 400 !important
+ }

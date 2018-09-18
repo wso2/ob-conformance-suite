@@ -22,6 +22,7 @@ import SpecificationSelectView from "./SpecificationSelectView";
 import TestConfigurationView from "./TestConfigurationView";
 import TestHistoryView from "./TestHistoryView";
 import TestReportView from "./TestReportView";
+import LoginView from "./LoginView";
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
 import rootReducer from './reducers';
@@ -33,7 +34,8 @@ const App = () => (
     <Provider store={store}>
         <CommonDataLoader>
             <Switch>
-                <Route exact path='/' component={TestHistoryView}/>
+                <Route exact path='/' component={LoginView}/>
+                <Route exact path='/dashboard' component={TestHistoryView}/>
                 <Route exact path='/tests/new' component={SpecificationSelectView}/>
                 <Route exact path='/tests/new/configure' component={TestConfigurationView}/>
                 <Route exact path='/tests/report/:uuid/:revision' component={TestReportView}/>

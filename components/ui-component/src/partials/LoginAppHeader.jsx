@@ -19,7 +19,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
 
-const AppHeader = () => (
+const LoginAppHeader = () => (
     <header className="header header-default">
         <div className="container-fluid">
             <div className="pull-left brand">
@@ -29,12 +29,8 @@ const AppHeader = () => (
                     <span>Open Banking Conformance Suite</span>
                 </Link>
             </div>
-            <div className="pull-right header-user">
-                <i className="fas fa-user-circle"></i>
-                <span className="span-icon">National Australia Bank (NAB)</span>
-            </div>
         </div>
     </header>
 );
 
-export default AppHeader;
+export default LoginAppHeader;

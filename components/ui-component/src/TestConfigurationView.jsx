@@ -19,7 +19,7 @@
 import React from 'react';
 import AppHeader from "./partials/AppHeader";
 import RequestBuilder from './utils/RequestBuilder';
-import {withRouter} from 'react-router-dom'
+import {withRouter, Link} from 'react-router-dom'
 import { Grid, Row, Col, Button, ListGroup, Panel} from 'react-bootstrap';
 import {updateSpecification,addSpecificationToTestValues,addTestPlan,clearTestValues,clearSelectedSpecifications} from "./actions";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
@@ -118,10 +118,10 @@ class TestConfigurationView extends React.Component {
                     <Row>
                     <ul class="nav nav-wizard nav-justified nav-margin"> 
                         <li role="presentation" class="active"> 
-                            <a href={"/tests/new"}> <span class="step-number">01</span> <span class="step-desc"> <h2>Create new Test</h2> <p>Description goes here</p> </span> </a>
+                            <Link to={"/tests/new"}> <span class="step-number">01</span> <span class="step-desc"> <h2>Create new Test</h2> <p>Description goes here</p> </span> </Link>
                         </li>
-                        <li role="presentation"> <a> 
-                            <span class="step-number">02</span> <span class="step-desc"> <h2>Configure New Test</h2> <p>Description goes here</p> </span> </a>
+                        <li role="presentation"> <Link to=''> 
+                            <span class="step-number">02</span> <span class="step-desc"> <h2>Configure New Test</h2> <p>Description goes here</p> </span> </Link>
                         </li> 
                     </ul> 
                     <hr></hr>
