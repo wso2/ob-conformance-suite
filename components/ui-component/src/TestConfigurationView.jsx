@@ -86,11 +86,19 @@ class TestConfigurationView extends React.Component {
         //return TestPlanReduxHelper.isTestPlanFilled(this.props.testvalues);
     }
 
-    buildTestPlan(){
+    buildTestPlan(runNow){
         let testPlan = TestPlanReduxHelper.buildTestPlanFromTestValues(this.props.testvalues);
-        client.postTestPlan(testPlan).then((response) => {
-            this.props.dispatch(addTestPlan(response.data.testId,testPlan,response.data.status));
-            this.props.history.push("/tests/running/"+response.data.testId);
+        client.postTestPlan({
+            testPlan : testPlan,
+            runNow : runNow
+        }).then((response) => {
+            this.props.dispatch(addTestPlan(response.data.testId,testPlan));
+            if (runNow){
+                this.props.history.push("/tests/report/"+response.data.testId+"/"+response.data.report.reportId);
+            }else{
+                this.props.history.push("/");
+            }
+        }).finally(() => {
             this.props.dispatch(clearTestValues());
             this.props.dispatch(clearSelectedSpecifications());
         });
@@ -127,11 +135,11 @@ class TestConfigurationView extends React.Component {
                             <div>
                                 <Button bsStyle={"secondary"} bsSize={"lg"}
                                         disabled={this.isCompleted()}
-                                        onClick={this.buildTestPlan}
+                                        onClick={()=>{this.buildTestPlan(true)}}
                                 >Save and Run</Button>
                                 <Button className="test-save-btn" bsStyle={"secondary"} bsSize={"lg"}
                                         disabled={this.isCompleted()}
-                                        onClick={this.saveTestPlan}
+                                        onClick={()=>{this.buildTestPlan(false)}}
                                 >Save</Button>
                             </div>
                         </Col>

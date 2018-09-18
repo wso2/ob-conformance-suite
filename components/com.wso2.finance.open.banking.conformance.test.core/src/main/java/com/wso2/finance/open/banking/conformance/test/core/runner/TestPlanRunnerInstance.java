@@ -20,6 +20,7 @@ package com.wso2.finance.open.banking.conformance.test.core.runner;
 
 import com.google.gson.JsonObject;
 import com.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;
+import com.wso2.finance.open.banking.conformance.mgt.models.Report;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.Feature;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.Specification;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
@@ -35,20 +36,19 @@ import java.util.concurrent.BlockingQueue;
 
 public class TestPlanRunnerInstance extends Thread{
     private TestPlan testPlan;
+    private volatile Integer reportId;
     private BlockingQueue<TestPlanFeatureResult> resultQueue;
     private volatile Map<String,List<JsonObject>> formattedResult = new HashMap();
-    private volatile RUNNER_STATE status;
-    public enum RUNNER_STATE {
-        RUNNING, DONE, NOT_STARTED, WAITING
-    }
+    private volatile Report.RUNNER_STATE status;
+    private RunnerManagerCallbacks managerCallbacks;
 
-
-    public TestPlanRunnerInstance(TestPlan testPlan, BlockingQueue<TestPlanFeatureResult> resultQueue) {
+    public TestPlanRunnerInstance(TestPlan testPlan, BlockingQueue<TestPlanFeatureResult> resultQueue, RunnerManagerCallbacks managerCallbacks) {
         super();
         Context.getInstance().init(testPlan);
         this.testPlan = testPlan;
         this.resultQueue = resultQueue;
-        this.status = RUNNER_STATE.NOT_STARTED;
+        this.status = Report.RUNNER_STATE.NOT_STARTED;
+        this.managerCallbacks = managerCallbacks;
         //Initialize Specs in Data Structure
         for(Specification spec : this.testPlan.getSpecifications()){
             this.formattedResult.put(spec.getName(), new ArrayList<>());
@@ -90,24 +90,33 @@ public class TestPlanRunnerInstance extends Thread{
         Context.getInstance().clearSpecContext();
     }
 
+    public Report buildReport(){
+        Report report = new Report();
+        report.testId = this.testPlan.getTestId();
+        report.result = formattedResult;
+        report.state = this.status;
+        report.reportId = this.reportId;
+        report.executed = new Date();
+        return report;
+    }
+
     public void run(){
-        this.status = RUNNER_STATE.RUNNING;
+        this.status = Report.RUNNER_STATE.RUNNING;
+        //this.reportId = this.managerCallbacks.addResult(this.buildReport()).reportId;
         for(Specification specification : this.testPlan.getSpecifications()){
             this.processSpec(specification);
+            this.managerCallbacks.updateResult(this.buildReport());
         }
-        this.status = RUNNER_STATE.DONE;
+        this.status = Report.RUNNER_STATE.DONE;
         this.testPlan.setLastRun(new Date());
+        this.managerCallbacks.updateResult(this.buildReport());
         queueStopMessege();
+        this.interrupt();
     }
 
-    public RUNNER_STATE getStatus() {
+    public Report.RUNNER_STATE getStatus() {
 
         return status;
-    }
-
-    public Map<String, List<JsonObject>> getFormattedResult() {
-
-        return formattedResult;
     }
 
     public TestPlan getTestPlan() {
@@ -115,12 +124,22 @@ public class TestPlanRunnerInstance extends Thread{
         return testPlan;
     }
 
-    public void setStatus(RUNNER_STATE status) {
+    public void setStatus(Report.RUNNER_STATE status) {
 
         this.status = status;
     }
 
     public void setContextAttributes(String key, String value){
         Context.getInstance().setAttributesToTempMap(key,value);
+    }
+
+    public Integer getReportId() {
+
+        return reportId;
+    }
+
+    public void setReportId(Integer reportId) {
+
+        this.reportId = reportId;
     }
 }

@@ -18,7 +18,6 @@
 
 package com.wso2.finance.open.banking.conformance.api;
 
-
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
@@ -31,11 +30,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.google.gson.JsonObject;
+import com.wso2.finance.open.banking.conformance.api.dto.AddTestPlanDTO;
 import com.wso2.finance.open.banking.conformance.api.dto.TestPlanAddConfirmationDTO;
 import com.wso2.finance.open.banking.conformance.api.dto.TestPlanDTO;
+import com.wso2.finance.open.banking.conformance.mgt.models.Report;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanFeatureResult;
-import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerInstance;
 import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerManager;
 
 import java.util.HashMap;
@@ -58,49 +58,51 @@ public class TestPlanAPI {
     @Path("/add")
     @Consumes("application/json")
     @Produces("application/json")
-    public TestPlanAddConfirmationDTO runTestPlan(TestPlan plan) {
+    public TestPlanAddConfirmationDTO addTestPlan(AddTestPlanDTO plan) {
 
-        return new TestPlanAddConfirmationDTO(this.runnerManager.addPlan(plan),TestPlanRunnerInstance.RUNNER_STATE.RUNNING);
+        String testId = this.runnerManager.addPlan(plan.testPlan);
+        Report report = null;
+        if(plan.runNow){
+            report = this.runnerManager.start(testId);
+        }
+
+        return new TestPlanAddConfirmationDTO(testId,report);
     }
 
     @OPTIONS
     @Path("/add")
-    public Response getOptionsRunTestPlan(){
-        return Response.status(Response.Status.OK).header("Access-Control-Allow-Methods","POST,OPTIONS").build();
+    public Response getOptionsRunTestPlan() {
+
+        return Response.status(Response.Status.OK).header("Access-Control-Allow-Methods", "POST,OPTIONS").build();
     }
 
     @GET
-    @Path("/result/poll/{testId}")
+    @Path("/run/{uuid}")
     @Produces("application/json")
-    public List<TestPlanFeatureResult> getCurrentResult(@PathParam("testId") String testId) {
-
-        return this.runnerManager.getResults(testId);
+    public Report startTestPlan(@PathParam("uuid") String uuid){
+        return this.runnerManager.start(uuid);
     }
-
-    @GET
-    @Path("/result/complete/{testId}")
-    @Produces("application/json")
-    public Map<String, List<JsonObject>> getCompleteResult(@PathParam("testId") String testId) {
-
-        return this.runnerManager.getResultSet(testId);
-    }
-
 
     @GET
     @Path("/list/all")
     @Produces("application/json")
-    public Map<String, TestPlanDTO> getAllTestPlans(){
+    public Map<String, TestPlanDTO> getAllTestPlans() {
+
         Map<String, TestPlanDTO> results = new HashMap<>();
         this.runnerManager.getAllTests().forEach(
-                (uuid, testPlan) -> results.put(uuid,new TestPlanDTO(uuid,testPlan,this.runnerManager.getStatus(uuid)))
+                (uuid, testPlan) -> results.put(
+                        uuid,
+                        new TestPlanDTO(uuid, testPlan, this.runnerManager.getAllReports(uuid))
+                )
         );
         return results;
     }
 
     @GET
     @Path("/callback")
-    public Response processCallback(@QueryParam("code") String code){
-        this.runnerManager.setContextAttribute("auth_code",code);
+    public Response processCallback(@QueryParam("code") String code) {
+
+        this.runnerManager.setContextAttribute("auth_code", code);
         return Response.ok().type(MediaType.TEXT_HTML).entity("Done").build();
     }
 

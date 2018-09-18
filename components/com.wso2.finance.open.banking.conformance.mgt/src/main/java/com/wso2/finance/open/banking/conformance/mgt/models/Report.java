@@ -16,18 +16,23 @@
  * under the License.
  */
 
-package com.wso2.finance.open.banking.conformance.api.dto;
+package com.wso2.finance.open.banking.conformance.mgt.models;
 
-import com.wso2.finance.open.banking.conformance.mgt.models.Report;
+import com.google.gson.JsonObject;
 
-public class TestPlanAddConfirmationDTO {
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
-    String testId;
-    Report report;
+public class Report {
 
-    public TestPlanAddConfirmationDTO(String testId, Report report) {
+    public String testId;
+    public Integer reportId;
+    public Map<String, List<JsonObject>> result;
+    public RUNNER_STATE state;
+    public Date executed;
 
-        this.testId = testId;
-        this.report = report;
+    public enum RUNNER_STATE {
+        RUNNING, DONE, NOT_STARTED, WAITING
     }
 }

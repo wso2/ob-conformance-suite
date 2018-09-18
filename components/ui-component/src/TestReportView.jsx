@@ -22,8 +22,6 @@ import {ListGroup, ListGroupItem, Button, Modal, Grid, Row, Col, Panel, Badge, P
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import '../public/css/report-style.scss'
 import {connect} from 'react-redux'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import RequestBuilder from './utils/RequestBuilder';
 import TestReportHelper from './utils/TestReportHelper';
 import AttributeGroup from "./components/AttributeGroup";
@@ -34,39 +32,44 @@ const reportHelper = new TestReportHelper();
 
 const stepStatus = (steps) => {
     var status = true;
-    var error=[];
-    var errorMessage = {Given : "", When:"", Then:""};
-    var errorClass = {Given : "", When:"", Then:""};
+    var errorStep;
+    var errorDisplayList=[];
+    var errorDescription;
+    var errorClass;
+    var faIconClass;
 
     steps.forEach(step => {
         status = status && (step.result.status === "passed");
-        errorClass[step.keyword.trim()]=step.result.status;
-        errorMessage[step.keyword.trim()]=step.result.error_message;
-        error.push(step.keyword +" | " + step.name);
+        errorClass=step.result.status;
+        errorDescription=step.result.error_message;
+        errorStep = (step.keyword +" | " + step.name);
+        step.result.status === "passed" ? faIconClass = "pull-right fas fa-check-circle" : faIconClass = "pull-right fas fa-times-circle";
+
+        errorDisplayList.push(
+            <ListGroupItem bsStyle="" className = {errorClass}>
+                <b>{errorStep.split(" ")[0]}</b> {errorStep.split(' ').slice(1).join(' ')}
+                { step.result.status === "skipped"
+                    ? <span className="pull-right">skipped</span>
+                    : <i className={faIconClass}/>
+                }
+            </ListGroupItem>
+        );
 
     });
     if(status){
-        return (<p className="passedTag status-badge"><FontAwesomeIcon icon={faCheckCircle}/></p>) ;
+        return (<p className="passedTag status-badge"><i className="fas fa-check-circle"/> Passed</p>) ;
     }else{
         //console.log(errorMessage);
         return (
             <div>
-                <p className="failedTag status-badge"><FontAwesomeIcon icon={faTimesCircle}/></p>
+                <p className="failedTag status-badge"><i className="fas fa-times-circle"/> Failed</p>
                 <Panel className="error-panel" defaultExpanded={false}>
                     <Panel.Toggle componentClass="a" className="error-details-link">View details</Panel.Toggle>
                     <Panel.Collapse>
-                        <Panel.Body>
-                            <p>Error details :</p>
-                            <ListGroup>
-                                <ListGroupItem bsStyle="" className = {errorClass.Given}>
-                                    <b>{error[0].split(" ")[0]}</b> {error[0].split(' ').slice(1).join(' ')}
-                                </ListGroupItem>
-                                <ListGroupItem bsStyle="" className = {errorClass.When}>
-                                        <b>{error[1].split(" ")[0]}</b> {error[1].split(' ').slice(1).join(' ')}</ListGroupItem>
-                                <ListGroupItem bsStyle="" className = {errorClass.Then}>
-                                        <b>{error[2].split(" ")[0]}</b> {error[2].split(' ').slice(1).join(' ')}</ListGroupItem>
-                            </ListGroup>
-                        </Panel.Body>
+                        <p><b>Failure details :</b></p>
+                        <ListGroup>
+                            {errorDisplayList}
+                        </ListGroup>
                     </Panel.Collapse>
                 </Panel>
             </div>
@@ -81,7 +84,7 @@ const FeatureElement = ({element}) => (
             <span className="text-muted">Checking Compliance for </span>
             <span className="scenario-spec-details">
                 <b>{element.tags[0].name.slice(1)} &nbsp;</b>
-                <Badge>Section {element.tags[1].name.slice(1)}</Badge>
+                <Badge className="spec-badge">Section {element.tags[1].name.slice(1)}</Badge>
             </span>
         </p>
         {stepStatus(element.steps)}
@@ -97,8 +100,8 @@ const ReportFeature = ({feature}) => (
             <Panel.Heading>
                 <div className="pull-right feature-result">
                 <span className={reportHelper.getFeatureResultStatus(feature, reportHelper).class}>
-                    <FontAwesomeIcon icon={reportHelper.getFeatureResultStatus(feature, reportHelper).status === "Passed"
-                        ? faCheckCircle : faTimesCircle}/>&nbsp;{reportHelper.getFeatureResultStatus(feature, reportHelper).status}</span>
+                    <i className={reportHelper.getFeatureResultStatus(feature, reportHelper).status === "Passed"
+                        ? "fas fa-check-circle" : "fas fa-times-circle"}/>&nbsp;{reportHelper.getFeatureResultStatus(feature, reportHelper)
                 </div>
                 <Panel.Title><h4 className="feature-title"><b>Feature:</b> {feature.name}</h4></Panel.Title>
                 <Panel.Toggle componentClass="a">View Scenarios</Panel.Toggle>
@@ -112,12 +115,13 @@ const ReportFeature = ({feature}) => (
 );
 
 const ReportSpec = connect((state) => ({specifications: state.specifications,}))(({spec,specName,specifications}) => (
-    <div>
-        <h2>{specifications.specs[specName].title} <small>{specifications.specs[specName].version} </small></h2>
-        <p className={"text-muted"}>{specifications.specs[specName].description}</p>
-        <br/>
-        {spec.map(featurex => <ReportFeature feature={featurex}/>)}
-    </div>
+    <Panel>
+        <Panel.Heading className="spec-heading">
+            <h2>{specifications.specs[specName].title} <small>{specifications.specs[specName].version} </small></h2>
+            <p className={"text-muted"}>{specifications.specs[specName].description}</p>
+        </Panel.Heading>
+        <Panel.Body>{spec.map(featurex => <ReportFeature feature={featurex}/>)}</Panel.Body>
+    </Panel>
 ));
 
 class TestReportView extends React.Component {
@@ -126,6 +130,7 @@ class TestReportView extends React.Component {
         super(props);
         this.state = {
             uuid: props.match.params.uuid,
+            revision: props.match.params.revision,
             loading: true,
             data: null,
             currentSpecName: "specExample",
@@ -133,8 +138,9 @@ class TestReportView extends React.Component {
             failed: 0,
             rate: 0,
             attributes: null,
-            showInteractionModel: null
-        }
+            showInteractionModel: null,
+            testRunning: false
+        };
 
         this.interval = null;
         this.renderMain = this.renderMain.bind(this);
@@ -143,21 +149,23 @@ class TestReportView extends React.Component {
 
 
     componentDidMount() {
-        var currentRoute = this.props.location.pathname
-        client.getResultsForTestPlan(this.state.uuid).then((response)=>{
-            var results = reportHelper.getTestSummary(response.data);
+        //var currentRoute = this.props.location.pathname;
+        client.getResultsForTestPlan(this.state.uuid, this.state.revision).then((response)=>{
+            var report = response.data.report.result;
+            //console.log(response.data);
+            var results = reportHelper.getTestSummary(report);
             this.setState({
                 loading:false,
-                data: response.data,
+                data: report,
                 passed: results.passed,
                 failed: results.failed,
                 rate: results.rate
-            })
+            });
+            if(response.data.report.state === "RUNNING"){
+                this.setState({testRunning: true});
+                this.interval = setInterval(() => this.appendResults(), 2000);
+            }
         });
-
-        if(currentRoute.includes("running")){
-            this.interval = setInterval(() => this.appendResults(), 2000);
-        }
     }
     componentWillUnmount() {
         clearInterval(this.interval);
@@ -165,22 +173,37 @@ class TestReportView extends React.Component {
 
     appendResults(){
         client.pollResultsForTestPlan(this.state.uuid).then((response)=>{
-            //console.log(response);
-            var resultObject = this.state.data;
-            response.data.forEach((feature) => {
-                var featureResult = reportHelper.getFeatureResult(feature['featureResult'],reportHelper);
-                    resultObject = {
-                    ...resultObject,
-                    [feature.specName] : [...resultObject[feature.specName],feature.featureResult]
-                };
+            response.data.forEach((result) => {
+                if(result.runnerState==="DONE"){
                     this.setState({
-                        data: resultObject,
-                        passed: this.state.passed + featureResult.passed,
-                        failed: this.state.failed + featureResult.failed,
-                        rate: (((this.state.passed+ featureResult.passed)/(parseFloat(this.state.passed + featureResult.passed)+(this.state.failed + featureResult.failed)))*100).toFixed(2)
-                })
-            });
+                        testRunning : false
+                    });
+                }
+                this.setState({
+                    showInteractionModel : false
+                });
+                var resultObject = this.state.data;
+                if(result.featureResult){
+                    var feature = result; //todo - Refactor this
 
+                    var featureResult = reportHelper.getFeatureResult(feature['featureResult'],reportHelper);
+                        resultObject = {
+                        ...resultObject,
+                        [feature.specName] : [...resultObject[feature.specName],feature.featureResult]
+                        };
+                        this.setState({
+                            data: resultObject,
+                            passed: this.state.passed + featureResult.passed,
+                            failed: this.state.failed + featureResult.failed,
+                            rate: (((this.state.passed+ featureResult.passed)/(parseFloat(this.state.passed + featureResult.passed)+(this.state.failed + featureResult.failed)))*100).toFixed(2)
+                        })
+                }else if(result.attributeGroup){
+                    this.setState({
+                        attributes : result.attributeGroup,
+                        showInteractionModel : true
+                    })
+                }
+            });
         });
     }
 
@@ -216,14 +239,20 @@ class TestReportView extends React.Component {
                         <h1>Test Report</h1>
 
                         <div className={"overall-results-block report-block"}>
-                            <p><span className="passed-summary">Passed</span> : {this.state.passed}</p>
-                            <p><span className="failed-summary">Failed</span> : {this.state.failed}</p>
-                            <p><b>Pass Rate</b> : {this.state.rate}%</p>
-                            <LoaderComponent/>
-                            <ProgressBar className="pass-rate-progress">
-                                <ProgressBar  striped bsStyle="success" now={this.state.rate} />
-                                <ProgressBar  striped bsStyle="danger" now={((this.state.passed + this.state.failed)>0)*100-this.state.rate} />
-                            </ProgressBar>
+                            {this.state.passed > 0
+                                ? <p><span className="passed-summary">Passed</span> : {this.state.passed}</p>
+                                : null
+                            }
+
+                            {this.state.failed > 0
+                                ? <p><span className="failed-summary">Failed</span> : {this.state.failed}</p>
+                                : null
+                            }
+
+                            { this.state.testRunning
+                                ? <LoaderComponent/>
+                                : null
+                            }
                         </div>
                         <hr/>
                     </Col>

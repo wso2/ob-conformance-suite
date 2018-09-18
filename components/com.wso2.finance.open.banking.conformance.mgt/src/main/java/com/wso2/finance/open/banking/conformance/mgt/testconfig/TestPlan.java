@@ -25,23 +25,27 @@ import java.util.Map;
 
 public class TestPlan {
 
-    private Map<String,Specification> specifications;
+    private Map<String, Specification> specifications;
+    private String testId;
 
     private Date lastRun;
 
-    public TestPlan(){}
+    public TestPlan() {
 
-    public TestPlan(Map<String,Specification> specificationMap)
-    {
+    }
+
+    public TestPlan(Map<String, Specification> specificationMap) {
+
         this.specifications = specificationMap;
     }
 
-    public Specification getSpecification(String key)
-    {
+    public Specification getSpecification(String key) {
+
         return specifications.get(key);
     }
 
-    public List<Specification> getSpecifications(){
+    public List<Specification> getSpecifications() {
+
         return new ArrayList(specifications.values());
     }
 
@@ -53,5 +57,15 @@ public class TestPlan {
     public void setLastRun(Date lastRun) {
 
         this.lastRun = lastRun;
+    }
+
+    public String getTestId() {
+
+        return testId;
+    }
+
+    public void setTestId(String testId) {
+
+        this.testId = testId;
     }
 }
