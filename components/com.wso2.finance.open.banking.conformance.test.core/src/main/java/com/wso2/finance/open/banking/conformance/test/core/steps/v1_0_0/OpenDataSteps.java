@@ -89,7 +89,7 @@ public class OpenDataSteps {
         Log.info("response: " + response.getBody().asString());
     }
 
-    @Then("response json data body should contain geo-location of the bank")
+    @Then("response json data should contain geo-location of the branch")
     public void validateGeoLocation(){
         assertEquals("Response does not contain geo-location of the bank",false,true);
     }
