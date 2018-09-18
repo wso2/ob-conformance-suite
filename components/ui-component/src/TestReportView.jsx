@@ -140,7 +140,10 @@ class TestReportView extends React.Component {
             rate: 0,
             attributes: null,
             showInteractionModel: null,
-            testRunning: false
+            testRunning: false,
+            progress: 0,
+            completedFeatures: 0,
+            featureCount: 0
         };
 
         this.interval = null;
@@ -160,7 +163,8 @@ class TestReportView extends React.Component {
                 data: report,
                 passed: results.passed,
                 failed: results.failed,
-                rate: results.rate
+                rate: results.rate,
+                featureCount: (reportHelper.getFeatureCount(response.data.testPlan))
             });
             if(response.data.report.state === "RUNNING"){
                 this.setState({testRunning: true});
@@ -196,7 +200,9 @@ class TestReportView extends React.Component {
                             data: resultObject,
                             passed: this.state.passed + featureResult.passed,
                             failed: this.state.failed + featureResult.failed,
-                            rate: (((this.state.passed+ featureResult.passed)/(parseFloat(this.state.passed + featureResult.passed)+(this.state.failed + featureResult.failed)))*100).toFixed(2)
+                            rate: (((this.state.passed+ featureResult.passed)/(parseFloat(this.state.passed + featureResult.passed)+(this.state.failed + featureResult.failed)))*100).toFixed(2),
+                            completedFeatures: this.state.completedFeatures + 1,
+                            progress: ((this.state.completedFeatures +1)/this.state.featureCount)*100
                         })
                 }else if(result.attributeGroup){
                     this.setState({
@@ -207,6 +213,8 @@ class TestReportView extends React.Component {
             });
         });
     }
+
+
 
     render() {
         return (
@@ -254,6 +262,10 @@ class TestReportView extends React.Component {
                                 ? <LoaderComponent/>
                                 : null
                             }
+
+                            <ProgressBar className="pass-rate-progress">
+                                <ProgressBar active striped bsStyle="success" now={this.state.progress} />
+                            </ProgressBar>
                         </div>
                         <hr/>
                     </Col>
