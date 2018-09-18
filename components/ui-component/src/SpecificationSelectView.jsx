@@ -70,16 +70,11 @@ class SpecificationSelectView extends React.Component {
             <div className={"test-configuration-view"}>
                 <h1 className={"page-header"}>Create new test</h1>
                 <br/>
-                <Panel>
-                    <Panel.Heading>Test Configuration</Panel.Heading>
-                    <Panel.Body>
-                        <div className="input-group">
-                            <span className="input-group-addon span-custom">Name of the Test Configuration</span>
-                            <input id="msg" type="text" className="form-control" name="msg"
-                                   placeholder="Enter Name for the Text Configuration"></input>
-                        </div>
-                    </Panel.Body>
-                </Panel>
+                <div className="input-group">
+                    <span className="input-group-addon span-custom">Name of the Test Configuration</span>
+                    <input id="msg" type="text" className="form-control" name="msg"
+                            placeholder="Enter Name for the Text Configuration"></input>
+                </div>
                 <br/>
                 <ListGroup>
                     <ListGroupItem disabled><h4>APIs to be tested</h4></ListGroupItem>
