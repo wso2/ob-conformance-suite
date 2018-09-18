@@ -52,6 +52,18 @@ const stepStatus = (steps) => {
                     ? <span className="pull-right">skipped</span>
                     : <i className={faIconClass}/>
                 }
+
+                { step.result.status === "failed"
+                    ?  <Panel defaultExpanded={false} className="error-description-panel">
+                        <Panel.Toggle componentClass="a"><span className="error-more-info-link">More information <i className="fas fa-chevron-circle-down"/></span></Panel.Toggle>
+                        <Panel.Collapse>
+                            <Panel.Body>
+                                {errorDescription.match(new RegExp("AssertionError: " + "(.*)" + "expected:"))[1]}
+                            </Panel.Body>
+                        </Panel.Collapse>
+                    </Panel>
+                    : null
+                }
             </ListGroupItem>
         );
 
@@ -263,9 +275,11 @@ class TestReportView extends React.Component {
                                 : null
                             }
 
-                            <ProgressBar className="pass-rate-progress">
-                                <ProgressBar active striped bsStyle="success" now={this.state.progress} />
-                            </ProgressBar>
+                            { this.state.testRunning
+                                ? <ProgressBar className="pass-rate-progress" active striped bsStyle="success" now={this.state.progress} />
+                                : <ProgressBar className="pass-rate-progress" striped bsStyle="success" now="100" />
+                            }
+
                         </div>
                         <hr/>
                     </Col>
