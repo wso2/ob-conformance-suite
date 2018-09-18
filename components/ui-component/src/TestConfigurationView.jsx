@@ -107,6 +107,12 @@ class TestConfigurationView extends React.Component {
         });
     }
 
+    dismiss() {
+        this.props.history.push("/dashboard");
+        this.props.dispatch(clearTestValues());
+        this.props.dispatch(clearSelectedSpecifications());
+    }
+
     saveTestPlan(){
         let testConfiguration = TestPlanReduxHelper.buildTestPlanFromTestValues(this.props.testvalues);
         console.log(testConfiguration)
@@ -118,15 +124,28 @@ class TestConfigurationView extends React.Component {
                 <br/>
                 <Grid>
                     <Row>
-                    <ul class="nav nav-wizard nav-justified nav-margin"> 
-                        <li role="presentation" class="active"> 
-                            <Link to={"/tests/new"}> <span class="step-number">01</span> <span class="step-desc"> <h2>Create new Test</h2> <p>Description goes here</p> </span> </Link>
-                        </li>
-                        <li role="presentation" class="active"> <Link to=''> 
-                            <span class="step-number">02</span> <span class="step-desc"> <h2>Configure New Test</h2> <p>Description goes here</p> </span> </Link>
-                        </li> 
-                    </ul> 
-                    <hr></hr>
+                        <ul className="nav nav-wizard nav-justified nav-margin">
+                            <li role="presentation">
+                                <Link to={"/tests/new"}>
+                                    <span className="step-number">01</span>
+                                    <span className="step-desc">
+                                <h2>Create new Test Plan</h2>
+                                <p>Create new test plan for conformance testing</p>
+                            </span>
+                                </Link>
+                            </li>
+                            <li role="presentation" className="active">
+                                <a href="#">
+                                    <span className="step-number">02</span>
+                                    <span className="step-desc">
+                                <h2>Configure TestPlan</h2>
+                                <p>Configure test details</p>
+                            </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <br/>
+                        <br/>
                     </Row>
                     <Row>
                         <Col md={4} className={"navigation-list"}>
@@ -141,7 +160,7 @@ class TestConfigurationView extends React.Component {
                             {this.state.selectedSpec ? this.renderEditor() : null}
                             <br/>
                             <div>
-                                <Button bsStyle={"secondary"} bsSize={"lg"}
+                                <Button bsStyle={"primary"} bsSize={"lg"}
                                         disabled={this.isCompleted()}
                                         onClick={()=>{this.buildTestPlan(true)}}
                                 >Save and Run</Button>
@@ -149,6 +168,9 @@ class TestConfigurationView extends React.Component {
                                         disabled={this.isCompleted()}
                                         onClick={()=>{this.buildTestPlan(false)}}
                                 >Save</Button>
+                                <Button className="test-save-btn" bsStyle={"default"} bsSize={"lg"}
+                                        onClick={()=>{this.dismiss()}}
+                                >Cancel</Button>
                             </div>
                         </Col>
                     </Row>
