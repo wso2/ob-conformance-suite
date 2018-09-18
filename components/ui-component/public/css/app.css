@@ -123,7 +123,8 @@
     margin-left:5px !important
 }
  .login-jumbotron{
-     margin: 60px 300px!important
+     margin-top: 60px!important;
+     padding: 10px !important
  }
 
  .login-form
@@ -144,7 +145,21 @@
  }
 
  .login-error-span{
-
     text-align: center !important;
     margin-top: 15px !important;
+ }
+
+ .login-logo{
+    width:40% !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px !important
+
+ }
+
+ .login-P{
+    font-size: 15px !important;
+    text-align: center !important;
+    margin-top: 10px !important
  }
