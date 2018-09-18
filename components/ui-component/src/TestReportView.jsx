@@ -176,7 +176,8 @@ class TestReportView extends React.Component {
                 passed: results.passed,
                 failed: results.failed,
                 rate: results.rate,
-                featureCount: (reportHelper.getFeatureCount(response.data.testPlan))
+                featureCount: (reportHelper.getFeatureCount(response.data.testPlan)),
+                testName: response.data.testPlan.name
             });
             if(response.data.report.state === "RUNNING"){
                 this.setState({testRunning: true});
@@ -257,7 +258,14 @@ class TestReportView extends React.Component {
                 </Modal>
                 <Row className="stickeyHeader">
                     <Col md={12}>
-                        <h1>Test Report</h1>
+                        <div>
+                            <h1 className="report-title">Report - {this.state.testName}</h1>
+
+                            { this.state.testRunning
+                                ? <LoaderComponent/>
+                                : null
+                            }
+                        </div>
 
                         <div className={"overall-results-block report-block"}>
                             {this.state.passed + this.state.failed> 0
@@ -276,7 +284,7 @@ class TestReportView extends React.Component {
                             }
 
                             { this.state.testRunning
-                                ? <LoaderComponent/>
+                                ? null
                                 : <Badge className="test-complete-badge">Completed</Badge>
                             }
 

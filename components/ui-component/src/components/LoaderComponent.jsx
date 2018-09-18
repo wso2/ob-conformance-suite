@@ -6,9 +6,8 @@ const override = css`
     display: block;
     margin: 0 auto;
     border-color: red;
-    position: absolute;
-    top: 30px;
-    left: 230px;
+    padding-top: 35px;
+    margin-left: 250px;
 `;
 
 export default class LoaderComponent extends React.Component {

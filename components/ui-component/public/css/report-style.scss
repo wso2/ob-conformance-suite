@@ -79,6 +79,7 @@
         display: inline-block;
         margin-right: 10px;
     }
+    clear:both;
 }
 
 .report-block {
@@ -193,4 +194,8 @@ input[type="text"] {
 
 .history-view-row {
   margin-top: 0.5em;
+}
+
+.report-title{
+    float: left;
 }
