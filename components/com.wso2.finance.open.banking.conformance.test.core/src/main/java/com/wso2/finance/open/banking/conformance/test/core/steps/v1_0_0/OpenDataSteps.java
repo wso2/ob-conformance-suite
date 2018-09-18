@@ -18,7 +18,7 @@
  */
 
 package com.wso2.finance.open.banking.conformance.test.core.steps.v1_0_0;
-
+import static org.junit.Assert.*;
 import com.wso2.finance.open.banking.conformance.test.core.Context;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Constants;
@@ -89,6 +89,10 @@ public class OpenDataSteps {
         Log.info("response: " + response.getBody().asString());
     }
 
+    @Then("response json data body should contain geo-location of the bank")
+    public void validateGeoLocation(){
+        assertEquals("Response does not contain geo-location of the bank",false,true);
+    }
 
 
 }

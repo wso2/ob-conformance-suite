@@ -30,6 +30,8 @@ import com.wso2.finance.open.banking.conformance.test.core.oidc.OIDCHandler;
 import java.util.List;
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
+
 public class OIDCSteps {
     private OIDCHandler oidcHandler;
 
@@ -67,6 +69,8 @@ public class OIDCSteps {
         Context.getInstance().getRunnerInstance().setStatus(Report.RUNNER_STATE.RUNNING);
         oidcHandler.setAuthCode(authCode);
         Log.info("Received Auth Code: "+authCode);
+        assertEquals("Authorization Code not received",authCode,true);
+
     }
 
     @Then("TPP requests and receives an access token from token endpoint")
