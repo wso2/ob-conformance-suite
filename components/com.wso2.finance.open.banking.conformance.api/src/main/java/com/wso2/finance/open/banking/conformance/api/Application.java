@@ -40,7 +40,7 @@ public class Application {
 
         try {
             Map<String,Specification> specifications = new HashMap();
-            specifications.put("OpenBankingAPI", XmlHelper.unmarshallSepcificationXML(
+            specifications.put("OpenData", XmlHelper.unmarshallSepcificationXML(
                     new File("components/" +
                             "com.wso2.finance.open.banking.conformance.mgt/src/main/resources/openData.xml")));
            // specifications.put("specExample-2", XmlHelper.unmarshallSepcificationXML(
