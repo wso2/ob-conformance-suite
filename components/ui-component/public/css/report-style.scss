@@ -1,5 +1,6 @@
 $primary-color : #2c3e50;
 $secondary-color : #507192;
+$header-color: #050d2f;
 
 .passedTag {
     position: absolute;
@@ -220,4 +221,30 @@ input[type="text"] {
 
 .testplan-wrapper {
   margin: 1px 1px 1px 1px;
+}
+
+header {
+  &.header-default {
+    color: #fff;
+    background-color: $header-color;
+  }
+  .container-fluid {
+    height: 60px;
+    padding: 5px 15px 5px 15px;
+    .brand {
+      .logo {
+        height: 30px;
+      }
+      span {
+        margin-top: 15px;
+        margin-left: 10px;
+        font-size: 1.1em;
+        color: mix(black,#fff,20%);
+      }
+    }
+    .header-user{
+      margin-top: 25px;
+    }
+  }
+  margin-bottom: 40px;
 }
