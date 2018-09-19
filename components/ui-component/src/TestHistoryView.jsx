@@ -46,7 +46,7 @@ const TestPlanItem = connect((state) => ({specifications: state.specifications.s
         <Panel.Heading>
         <Panel.Title>
             <Row className={"history-view-row"}>
-                <Col xs={8}>
+                <Col xs={6}>
                     <p>
                         {testPlan.testPlan.name}
                         <small>
@@ -59,14 +59,19 @@ const TestPlanItem = connect((state) => ({specifications: state.specifications.s
                     </p>
                 </Col>
                 <Col xs={4}>
-                    <ButtonToolbar className="pull-right history-view-button-bar">
-                        <Button onClick={()=>{runTest(testPlan)}} bsStyle="secondary" className="round-btn"><i className={"fas fa-play"}/></Button>
-                        <Button bsStyle="secondary" className="round-btn"><i className={"fas fa-cog"}/></Button>
-                        <Button bsStyle="secondary" className="round-btn"><i className={"fas fa-trash"}/></Button>
-                        <Panel.Toggle>
-                            <Button bsStyle="secondary" className="round-btn"><i className={"fas fa-history"}/></Button>
-                        </Panel.Toggle>
+                    <ButtonToolbar className="pull-right">
+                        <Row>
+                            <Col xs={4}><Button onClick={()=>{runTest(testPlan)}} className="round-btn"><i className={"fas fa-play"}/></Button></Col>
+                            <Col xs={4}><Button className="round-btn"><i className={"fas fa-cog"}/></Button></Col>
+                            <Col xs={4}><Button className="round-btn"><i className={"fas fa-trash"}/></Button></Col>
+                        </Row>
                     </ButtonToolbar>
+                </Col>
+                <Col xs={2}>
+                    <Panel.Toggle className="pull-right">
+                        <Button className="round-btn"><i className="fas fa-angle-down"></i></Button>
+                        
+                    </Panel.Toggle>
                 </Col>
                 </Row>
         </Panel.Title>
