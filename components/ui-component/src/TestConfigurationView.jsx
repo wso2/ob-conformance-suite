@@ -96,7 +96,10 @@ class TestConfigurationView extends React.Component {
             var reports = runNow ? [response.data.report] : [];
             this.props.dispatch(addTestPlan(response.data.testId,testPlan,reports));
             if (runNow){
-                this.props.history.push("/tests/report/"+response.data.testId+"/"+response.data.report.reportId);
+                this.props.history.push({
+                    pathname: "/tests/report/"+response.data.testId+"/"+response.data.report.reportId,
+                    state: {fromDashboard: false}
+                });
                 this.props.dispatch(updateReport(response.data.report));
             }else{
                 this.props.history.push("/dashboard");
