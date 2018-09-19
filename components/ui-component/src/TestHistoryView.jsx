@@ -111,7 +111,7 @@ class TestHistoryView extends React.Component{
             <div>
                 <AppHeader/>
                 {/* <AppBreadcrumbs/> */}
-                <div className={"divStyle"}>
+                <div className={"container"}>
                     <div className={"subHeadStyle"}>
                         <Row className="show-grid">
                             <Col xs={8}><h4>Test Plans</h4></Col>
@@ -124,8 +124,9 @@ class TestHistoryView extends React.Component{
                             </Col>
                         </Row>
                     </div>
-
-                    {Object.values(this.props.testplans).map((plan) =><TestPlanItem testPlan={plan} runTest={this.runTest}/>)}
+                    <div className="testplan-wrapper">
+                        {Object.values(this.props.testplans).map((plan) =><TestPlanItem testPlan={plan} runTest={this.runTest}/>)}
+                    </div>
                 </div>
             </div>
         );

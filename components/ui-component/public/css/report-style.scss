@@ -1,3 +1,7 @@
+$primary-color : #2c3e50;
+$secondary-color : #507192;
+$header-color: #050d2f;
+
 .passedTag {
     position: absolute;
     top: 13px;
@@ -119,6 +123,7 @@
             background-color: inherit;
             color: inherit;
             border-width: 0px 0px 0px 6px !important;
+            border-color: $primary-color;
         }
     }
 }
@@ -226,4 +231,50 @@ input[type="text"] {
 
 .error-pointer{
     padding-top:2px;
+}
+.nav-wizard {
+  .active {
+    a {
+      background-color: $secondary-color !important;
+      .step-desc {
+        background-color: inherit;
+      }
+      .step-number {
+        background-color: mix(black,$secondary-color,40%) !important;
+      }
+    }
+  }
+}
+
+.testplan-wrapper {
+  margin: 1px 1px 1px 1px;
+}
+
+header {
+  &.header-default {
+    color: #fff;
+    background-color: $header-color;
+  }
+  .container-fluid {
+    height: 60px;
+    padding: 5px 15px 5px 15px;
+    .brand {
+      .logo {
+        height: 30px;
+      }
+      span {
+        margin-top: 15px;
+        margin-left: 10px;
+        font-size: 1.1em;
+        color: mix(black,#fff,20%);
+      }
+    }
+    .header-user{
+      margin-top: 25px;
+    }
+  }
+}
+
+.container {
+  padding: 40px 0px 40px 0px;
 }

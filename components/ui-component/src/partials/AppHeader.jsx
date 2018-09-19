@@ -24,9 +24,9 @@ const AppHeader = () => (
         <div className="container-fluid">
             <div className="pull-left brand">
                 <Link to="/dashboard">
-                    <img src="/images/logo-inverse.svg" alt="wso2" title="wso2"
+                    <img src="/images/ob-logo.svg" alt="wso2" title="wso2"
                          className="logo"/>
-                    <span>Open Banking Conformance Suite</span>
+                    <span>Conformance Suite</span>
                 </Link>
             </div>
             <div className="pull-right header-user">

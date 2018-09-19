@@ -58,12 +58,9 @@ const stepStatus = (steps) => {
                         <Panel.Toggle componentClass="a"><span className="error-more-info-link"><i className="fas fa-chevron-circle-down"/></span></Panel.Toggle>
                         <Panel.Collapse>
                             <Panel.Body>
-                                <i>
-                                    {(errorDescription.match(/(AssertionError: ([\s\S]*?)at )/gs)) !== null
-                                        ? errorDescription.match(/(AssertionError: ([\s\S]*?)at )/gs)[0].slice(16, -3)
-                                        : errorDescription
-                                    }
-                                </i>
+                              <i>
+                                {errorDescription.match(new RegExp("StartError" + "(.*)" + "EndError"))[1]}
+                              </i>
                             </Panel.Body>
                         </Panel.Collapse>
                     </Panel>
