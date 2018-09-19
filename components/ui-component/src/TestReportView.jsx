@@ -59,8 +59,8 @@ const stepStatus = (steps) => {
                         <Panel.Collapse>
                             <Panel.Body>
                                 <i>
-                                    {(errorDescription.match(new RegExp("AssertionError: " + "(.*)" + "expected:")) !== null)
-                                        ? errorDescription.match(new RegExp("AssertionError: " + "(.*)" + "expected:"))[1]
+                                    {(errorDescription.match(/(AssertionError: ([\s\S]*?)at )/gs)) !== null
+                                        ? errorDescription.match(/(AssertionError: ([\s\S]*?)at )/gs)[0].slice(16, -3)
                                         : errorDescription
                                     }
                                 </i>
