@@ -23,18 +23,25 @@ import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import {Table, Row, Col, Button, Panel, ButtonGroup, PanelGroup, ButtonToolbar} from 'react-bootstrap';
 import RequestBuilder from './utils/RequestBuilder';
+import TestReportHelper from './utils/TestReportHelper';
 import '../public/css/report-style.scss'
 import {updateReport} from "./actions";
+
 const client = new RequestBuilder();
+const reportHelper = new TestReportHelper();
 
 const TestPlanRow = ({report}) => (
     <tr align="left">
         <td>{report.executed}</td>
         <td>{report.state}</td>
         <td className={"overall-results-block"}>
-            <p><span style={{color: "green"}}><i className="fas fa-check-circle"/> Passed : 6</span></p>
-            <p><span style={{color: "red"}}><i className="fas fa-times-circle"/> Failed : 3</span></p>
-            <p><span>Success Rate: 66.67%</span></p>
+            <p><span style={{color: "green"}}><i className="fas fa-check-circle"/> Passed : {reportHelper.getTestSummary(report.result).passed}</span></p>
+
+            {reportHelper.getTestSummary(report.result).failed > 0
+                ? <p><span style={{color: "red"}}><i className="fas fa-times-circle"/> Failed : {reportHelper.getTestSummary(report.result).failed}</span></p>
+                : null
+            }
+            <p><span>Success Rate: {reportHelper.getTestSummary(report.result).rate}%</span></p>
         </td>
         <td><Link to={"/tests/report/"+report.testId+"/"+report.reportId}>Check Report</Link></td>
     </tr>
@@ -52,7 +59,7 @@ class TestHistoryView extends React.Component{
     }
 
     runTest(testPlan){
-        console.log(testPlan);
+        //console.log(testPlan);
         client.runTestPlan(testPlan).then((response) => {
             this.props.dispatch(updateReport(response.data));
             this.props.history.push("/tests/report/"+response.data.testId+"/"+response.data.reportId);

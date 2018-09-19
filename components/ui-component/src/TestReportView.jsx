@@ -59,7 +59,10 @@ const stepStatus = (steps) => {
                         <Panel.Collapse>
                             <Panel.Body>
                               <i>
-                                {errorDescription.match(new RegExp("StartError" + "(.*)" + "EndError"))[1]}
+                                {errorDescription.match(new RegExp("StartError" + "(.*)" + "EndError"))
+                                    ? errorDescription.match(new RegExp("StartError" + "(.*)" + "EndError"))[1]
+                                    : errorDescription
+                                }
                               </i>
                             </Panel.Body>
                         </Panel.Collapse>
