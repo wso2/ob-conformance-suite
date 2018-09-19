@@ -111,7 +111,7 @@ class TestHistoryView extends React.Component{
             <div>
                 <AppHeader/>
                 {/* <AppBreadcrumbs/> */}
-                <div className={"divStyle"}>
+                <div className={"container"}>
                     <div className={"subHeadStyle"}>
                         <Row className="show-grid">
                             <Col xs={8}><h4>Test Plans</h4></Col>
