@@ -168,9 +168,11 @@ class TestConfigurationView extends React.Component {
                                         disabled={this.isCompleted()}
                                         onClick={()=>{this.buildTestPlan(false)}}
                                 >Save</Button>
-                                <Button className="test-save-btn" bsStyle={"default"} bsSize={"lg"}
-                                        onClick={()=>{this.dismiss()}}
-                                >Cancel</Button>
+                                <Link to={"/dashboard"}>
+                                  <Button className="test-save-btn" bsStyle={"secondary"} bsSize={"lg"}
+                                        onClick={()=>this.clearTestConfiguration()}
+                                  >Cancel</Button>
+                                </Link>
                             </div>
                         </Col>
                     </Row>

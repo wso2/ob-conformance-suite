@@ -30,7 +30,7 @@ const AppHeader = () => (
                 </Link>
             </div>
             <div className="pull-right header-user">
-                <i className="fas fa-user-circle"></i>
+                <i className="fas fa-lg fa-university"></i>
                 <span className="span-icon">National Australia Bank (NAB)</span>
             </div>
         </div>
