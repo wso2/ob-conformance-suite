@@ -1,3 +1,5 @@
+$primary-color : #2c3e50;
+
 .passedTag {
     position: absolute;
     top: 10px;
@@ -107,6 +109,7 @@
             background-color: inherit;
             color: inherit;
             border-width: 0px 0px 0px 6px !important;
+            border-color: $primary-color;
         }
     }
 }
