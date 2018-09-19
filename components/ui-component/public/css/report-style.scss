@@ -90,6 +90,15 @@ $header-color: #050d2f;
   color: red;
 }
 
+.passed-feature {
+  color: green;
+}
+
+.failed-feature {
+  color: red;
+  padding-right:9px;
+}
+
 .overall-results-block {
     p {
         display: inline-block;
@@ -232,6 +241,7 @@ input[type="text"] {
 .error-pointer{
     padding-top:2px;
 }
+
 .nav-wizard {
   .active {
     a {
@@ -278,3 +288,18 @@ header {
 .container {
   padding: 40px 0px 40px 0px;
 }
+
+.well {
+    border-radius: 5px;
+    border-width: 0px
+}
+
+.list-item-feature{
+    padding:0;
+}
+
+.feature-item-panel{
+    margin-bottom: 0px;
+    border-style: none;
+}
+
