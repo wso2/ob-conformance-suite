@@ -43,7 +43,7 @@ const stepStatus = (steps) => {
         errorClass=step.result.status;
         errorDescription=step.result.error_message;
         errorStep = (step.keyword +" | " + step.name);
-        step.result.status === "passed" ? faIconClass = "" : faIconClass = "error-pointer pull-left fas fa-angle-right";
+        step.result.status === "passed" ? faIconClass = "" : faIconClass = "";
 
         errorDisplayList.push(
             <ListGroupItem bsStyle="" className = {errorClass}>
@@ -55,7 +55,7 @@ const stepStatus = (steps) => {
 
                 { step.result.status === "failed"
                     ?  <Panel defaultExpanded={false} className="error-description-panel">
-                        <Panel.Toggle componentClass="a"><span className="error-more-info-link"><i className="fas fa-chevron-circle-down"/></span></Panel.Toggle>
+                        <Panel.Toggle componentClass="a"><span className="error-more-info-link"><i className="fas fa-angle-down"/></span></Panel.Toggle>
                         <Panel.Collapse>
                             <Panel.Body>
                               <i>
@@ -290,7 +290,7 @@ class TestReportView extends React.Component {
 
                             { this.state.testRunning
                                 ? <ProgressBar className="pass-rate-progress" active striped bsStyle="" now={this.state.progress} />
-                                : <ProgressBar className="pass-rate-progress" striped bsStyle="" now="100" />
+                                : this.props.location.state.fromDashboard === false ? <ProgressBar className="pass-rate-progress fadeout" striped bsStyle="" now="100" /> : null
                             }
 
                         </div>
