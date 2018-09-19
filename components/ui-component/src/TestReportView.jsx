@@ -78,7 +78,7 @@ const stepStatus = (steps) => {
             <div>
                 <p className="failedTag status-badge"><i className="fas fa-times-circle"/></p>
                 <Panel className="error-panel" defaultExpanded>
-                    <Panel.Toggle componentClass="a" className="error-details-link">View details</Panel.Toggle>
+                    {/*<Panel.Toggle componentClass="a" className="error-details-link">View details</Panel.Toggle>*/}
                     <Panel.Collapse>
                         <p className="top-left-padding"><b>Failure details :</b></p>
                         <ListGroup>
@@ -113,7 +113,8 @@ const ElementStep = ({step}) => (
 
 
 const ReportFeature = ({feature}) => (
-        <Panel defaultExpanded={reportHelper.getFeatureResultStatus(feature, reportHelper).status === "Failed"}>
+    <ListGroupItem className="list-item-feature">
+        <Panel className="feature-item-panel" defaultExpanded={reportHelper.getFeatureResultStatus(feature, reportHelper).status === "Failed"}>
             <Panel.Heading>
                 <div className="pull-right feature-result">
                 <span className={reportHelper.getFeatureResultStatus(feature, reportHelper).class}>
@@ -129,6 +130,7 @@ const ReportFeature = ({feature}) => (
                 </Panel.Body>
             </Panel.Collapse>
         </Panel>
+    </ListGroupItem>
 );
 
 const ReportSpec = connect((state) => ({specifications: state.specifications,}))(({spec,specName,specifications}) => (
@@ -137,7 +139,7 @@ const ReportSpec = connect((state) => ({specifications: state.specifications,}))
             <h2>{specifications.specs[specName].title} <small>{specifications.specs[specName].version} </small></h2>
             <p className={"text-muted"}>{specifications.specs[specName].description}</p>
         </Panel.Heading>
-        <Panel.Body>{spec.map(featurex => <ReportFeature feature={featurex}/>)}</Panel.Body>
+        <ListGroup>{spec.map(featurex => <ReportFeature feature={featurex}/>)}</ListGroup>
     </Panel>
 ));
 
@@ -261,13 +263,14 @@ class TestReportView extends React.Component {
                 </Modal>
                 <Row className="stickeyHeader">
                     <Col md={12}>
-                        <div>
-                            <h1 className="report-title">{this.state.testName}</h1>
-
+                        <div className="pull-right">
                             { this.state.testRunning
                                 ? <LoaderComponent/>
                                 : this.state.failed>0 ? <Badge className="test-complete-withfail-badge">Completed</Badge> : <Badge className="test-complete-badge">Completed</Badge>
                             }
+                        </div>
+                        <div>
+                            <h1 className="report-title">{this.state.testName} <small>Report</small></h1>
                         </div>
 
                         <div className={"overall-results-block report-block"}>
@@ -288,11 +291,11 @@ class TestReportView extends React.Component {
                             }
 
                         </div>
-                        <hr/>
                     </Col>
                 </Row>
                 <Row>
                     <Col md={12}>
+                        <br/>
                         <div>
                             {Object.keys(this.state.data).map((key) => <ReportSpec spec={this.state.data[key]} specName={key}/>)}
                         </div>
