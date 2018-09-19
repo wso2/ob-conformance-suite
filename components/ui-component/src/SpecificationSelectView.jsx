@@ -21,7 +21,13 @@ import AppHeader from "./partials/AppHeader";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import {ListGroup, ListGroupItem, Button, FormControl, Panel} from 'react-bootstrap';
 import {connect} from 'react-redux'
-import {setTestName, toggleSpecification, clearSpecifications} from "./actions";
+import {
+    setTestName,
+    toggleSpecification,
+    clearSpecifications,
+    clearTestValues,
+    clearSelectedSpecifications
+} from "./actions";
 import {Link} from 'react-router-dom'
 
 class SpecificationSelectView extends React.Component {
@@ -65,18 +71,36 @@ class SpecificationSelectView extends React.Component {
         return this.props.specifications.selected.length === 0 || this.props.testvalues.name.length === 0;
     }
 
+    dismiss() {
+        this.props.history.push("/dashboard");
+        this.props.dispatch(clearTestValues());
+        this.props.dispatch(clearSelectedSpecifications());
+    }
+
     renderMain() {
         return (
             <div className={"test-configuration-view"}>
                 <ul class="nav nav-wizard nav-justified nav-margin"> 
                     <li role="presentation" class="active"> 
-                        <Link to={"/tests/new"}> <span class="step-number">01</span> <span class="step-desc"> <h2>Create new Test</h2> <p>Description goes here</p> </span> </Link>
+                        <Link to={"/tests/new"}>
+                            <span class="step-number">01</span>
+                            <span class="step-desc">
+                                <h2>Create new Test Plan</h2>
+                                <p>Create new test plan for conformance testing</p>
+                            </span>
+                        </Link>
                     </li>
-                    <li role="presentation"><Link to=''>
-                        <span class="step-number">02</span> <span class="step-desc"> <h2>Configure New Test</h2> <p>Description goes here</p> </span></Link>
-                    </li> 
-                </ul> 
-                <hr></hr>
+                    <li role="presentation">
+                        <a href="#">
+                            <span className="step-number">02</span>
+                            <span className="step-desc">
+                                <h2>Configure TestPlan</h2>
+                                <p>Configure test details</p>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <br/>
 
                 <br/>
                 <div className="input-group">
@@ -96,8 +120,12 @@ class SpecificationSelectView extends React.Component {
                 </ListGroup>
                 <p className={"text-warning"} hidden={!this.isEmptySelection()}><small>* Select at least one API to continue</small></p>
                 <Link to={"/tests/new/configure"}>
-                    <Button bsStyle={"secondary"} bsSize={"lg"} disabled={this.isEmptySelection()}>Configure >></Button>
+                    <Button bsStyle={"secondary"} bsSize={"lg"} disabled={this.isEmptySelection()}>Configure <i className="fas fa-chevron-right"></i></Button>
                 </Link>
+
+                <Button className="test-save-btn" bsStyle={"default"} bsSize={"lg"}
+                        onClick={()=>{this.dismiss()}}
+                >Cancel</Button>
             </div>
         );
     }

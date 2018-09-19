@@ -114,11 +114,11 @@ class TestHistoryView extends React.Component{
                 <div className={"divStyle"}>
                     <div className={"subHeadStyle"}>
                         <Row className="show-grid">
-                            <Col xs={8}><h4>Test Configurations</h4></Col>
+                            <Col xs={8}><h4>Test Plans</h4></Col>
                             <Col xs={4}>
                                 <Link to={"/tests/new"}>
                                     <Button className="pull-right btn-secondary" bsStyle="default">
-                                        + Test Configuration
+                                        <i className="fas fa-plus"></i>  Test plan
                                     </Button>
                                 </Link>
                             </Col>
