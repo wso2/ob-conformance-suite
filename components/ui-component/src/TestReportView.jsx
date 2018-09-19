@@ -58,7 +58,7 @@ const stepStatus = (steps) => {
                         <Panel.Toggle componentClass="a"><span className="error-more-info-link">More information <i className="fas fa-chevron-circle-down"/></span></Panel.Toggle>
                         <Panel.Collapse>
                             <Panel.Body>
-                                {errorDescription.match(new RegExp("AssertionError: " + "(.*)" + "expected:"))[1]}
+                                {errorDescription.match(new RegExp("StartError" + "(.*)" + "EndError"))[1]}
                             </Panel.Body>
                         </Panel.Collapse>
                     </Panel>

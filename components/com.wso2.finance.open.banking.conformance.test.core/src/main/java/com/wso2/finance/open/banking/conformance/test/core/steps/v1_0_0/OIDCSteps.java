@@ -22,6 +22,7 @@ import com.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;
 import com.wso2.finance.open.banking.conformance.mgt.models.Report;
 import com.wso2.finance.open.banking.conformance.test.core.Context;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
+import com.wso2.finance.open.banking.conformance.test.core.utilities.Utils;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -70,7 +71,7 @@ public class OIDCSteps {
         Context.getInstance().getRunnerInstance().setStatus(Report.RUNNER_STATE.RUNNING);
         oidcHandler.setAuthCode(authCode);
         Log.info("Received Auth Code: "+authCode);
-        assertTrue("Authorization Code not received from authorization endpoint",authCode!=null);
+        assertTrue(Utils.formatError("Authorization Code not received from authorization endpoint"),authCode!=null);
 
     }
 

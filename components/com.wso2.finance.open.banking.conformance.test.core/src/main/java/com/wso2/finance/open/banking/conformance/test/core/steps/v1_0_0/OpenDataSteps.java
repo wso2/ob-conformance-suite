@@ -20,8 +20,7 @@
 package com.wso2.finance.open.banking.conformance.test.core.steps.v1_0_0;
 import static org.junit.Assert.*;
 import com.wso2.finance.open.banking.conformance.test.core.Context;
-import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
-import com.wso2.finance.open.banking.conformance.test.core.utilities.Constants;
+import com.wso2.finance.open.banking.conformance.test.core.utilities.*;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -32,6 +31,7 @@ import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
+import java.lang.Error;
 
 public class OpenDataSteps {
 
@@ -91,7 +91,7 @@ public class OpenDataSteps {
 
     @Then("response json data should contain geo-location of the branch")
     public void validateGeoLocation(){
-        assertEquals("Response does not contain geo-location of the bank",false,true);
+        assertEquals(Utils.formatError("Response does not contain geo-location of the bank"),false,true);
     }
 
 
