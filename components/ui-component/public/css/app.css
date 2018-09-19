@@ -167,3 +167,12 @@
     text-align: center !important;
     margin-top: 10px !important
  }
+
+ .login-btn{
+    background-color: #F85322 !important;
+    color: white !important
+ }
+
+ .center-form{
+     text-align: center !important;
+ }

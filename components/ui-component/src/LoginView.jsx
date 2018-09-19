@@ -35,7 +35,7 @@ class LoginView extends React.Component{
     validateUser(){
         console.log(this.username.value);
         console.log(this.password.value);
-        if(this.username.value == "admin" && this.password.value == "admin"){
+        if(this.username.value == "nab" && this.password.value == "nab"){
             // this.setState({isHidden: false})
             this.props.history.push("/dashboard");
         }
@@ -51,11 +51,10 @@ class LoginView extends React.Component{
                 <Row>
                     <Col xs={4}></Col>
                     <Col xs={4}>
-                    <Jumbotron className="login-jumbotron">
-                        <img src="/images/logo-inverse.svg" alt="wso2" title="wso2" className="logo login-logo"/>
-                        <p className="login-P"><span>Open Banking Conformance Suite</span></p>
-                        
-                            <h2 className="login-head">Login</h2>
+                        <Jumbotron className="login-jumbotron">
+                            <img src="/images/WSO2logo.svg" alt="wso2" title="wso2" className="logo login-logo"/>
+                            <p className="login-P"><span><b>Open Banking Conformance Suite</b></span></p>
+                            <h4 className="login-head">Login</h4>
                             <Form horizontal className="login-form">
                                 <FormGroup controlId="formHorizontalEmail">
                                     <Col componentClass={ControlLabel}>
@@ -74,17 +73,15 @@ class LoginView extends React.Component{
                                     <FormControl type="password" placeholder="Enter Password" inputRef={(ref) => {this.password = ref}}/>
                                     </Col>
                                 </FormGroup>
-
-                                {/* { this.state.isHidden ? <div className="login-error-span"><span style={{color: "red"}}><i className="fas fa-times-circle"/>Incorrect Username or password</span></div> : null } */}
-
+                                
                                 <FormGroup>
                                     <Col>
                                     <Checkbox>Remember me</Checkbox>
                                     </Col>
                                 </FormGroup>
 
-                                <FormGroup>
-                                    <Button bsStyle={"secondary"} type="submit" onClick={()=>this.validateUser()}>Login</Button>
+                                <FormGroup className="center-form">
+                                    <Button className="login-btn" type="submit" onClick={()=>this.validateUser()}>Login</Button>
                                 </FormGroup>
                             </Form>
                         </Jumbotron>
