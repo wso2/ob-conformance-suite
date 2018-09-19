@@ -43,7 +43,7 @@ const TestPlanRow = ({report}) => (
             }
             <p><span>Success Rate: {reportHelper.getTestSummary(report.result).rate}%</span></p>
         </td>
-        <td><Link to={"/tests/report/"+report.testId+"/"+report.reportId}>Check Report</Link></td>
+        <td><Link to={{pathname: "/tests/report/"+report.testId+"/"+report.reportId, state: { fromDashboard: true }}}>Check Report</Link></td>
     </tr>
 );
 
@@ -52,7 +52,6 @@ class TestHistoryView extends React.Component{
     constructor(props){
         super(props);
         this.runTest = this.runTest.bind(this);
-
         this.state={
             open:false
         }

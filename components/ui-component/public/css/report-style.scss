@@ -39,7 +39,7 @@ $header-color: #050d2f;
 .failed {
     color:red;
     border: 0 none;
-    padding-left: 7px;
+    padding-left: 13px;
     padding-bottom: 0px;
     background-color: transparent;
 }
@@ -312,4 +312,23 @@ header {
 
 .button-header {
   margin-top: 20px;
+}
+
+
+.fadeout {
+  color: #ffffff;
+  font-size: large;
+  font-family: helvetica;
+  text-align: center;
+  opacity: 0;
+    -webkit-animation: fadeout 3s;
+       -moz-animation: fadeout 3s;
+        -ms-animation: fadeout 3s;
+         -o-animation: fadeout 3s;
+            animation: fadeout 3s;
+}
+
+@keyframes fadeout {
+    from { opacity: 1; }
+    to   { opacity: 0; }
 }
