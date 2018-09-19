@@ -246,6 +246,7 @@ input[type="text"] {
   .active {
     a {
       background-color: $secondary-color !important;
+      color: #ffffff !important;
       .step-desc {
         background-color: inherit;
       }
@@ -253,6 +254,12 @@ input[type="text"] {
         background-color: mix(black,$secondary-color,40%) !important;
       }
     }
+  }
+}
+
+.nav-wizard {
+  a {
+    color: #999999 !important;
   }
 }
 

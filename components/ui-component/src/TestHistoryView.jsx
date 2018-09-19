@@ -94,18 +94,16 @@ class TestHistoryView extends React.Component{
                                                     </small>
                                                 </p>
                                             </Col>
-                                            <Col xs={4}>
+                                            <Col xs={5}>
                                                 <ButtonToolbar className="pull-right">
-                                                    <Row>
-                                                        <Col xs={4}><Button onClick={()=>{this.runTest(plan)}} className="round-btn"><i className={"fas fa-play"}/></Button></Col>
-                                                        <Col xs={4}><Button className="round-btn"><i className={"fas fa-cog"}/></Button></Col>
-                                                        <Col xs={4}><Button className="round-btn"><i className={"fas fa-trash"}/></Button></Col>
-                                                    </Row>
+                                                    <Button onClick={()=>{this.runTest(plan)}} className="round-btn"><i className={"fas fa-lg fa-play"}/></Button>
+                                                    <Button className="round-btn"><i className={"fas fa-lg fa-cog"}/></Button>
+                                                    <Button className="round-btn"><i className={"fas fa-lg fa-trash"}/></Button>
                                                 </ButtonToolbar>
                                             </Col>
-                                            <Col xs={2}>
+                                            <Col xs={1}>
                                                 <Panel.Toggle className="pull-right" onClick={() => this.setState({ open: !this.state.open })}>
-                                                    <Button className="round-btn"><i className={"fas fa-" + (this.state.open ? "angle-up": "angle-down")}></i></Button>
+                                                    <Button className="round-btn"><i className={"fas fa-lg fa-" + (this.state.open ? "angle-up": "angle-down")}></i></Button>
                                                 </Panel.Toggle>
                                             </Col>
                                             </Row>
