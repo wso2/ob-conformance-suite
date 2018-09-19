@@ -147,6 +147,7 @@ class AttributeGroup extends React.Component {
         return (
             <div className={"attribute-group"}>
                 <h4 className={"sub-heading"}>{this.props.group.title}</h4>
+                {this.props.group.description ? <p>{this.props.group.description}</p> : []}
                 {this.props.group.attributes.map(attribute => this.renderAttribute(attribute))}
             </div>
         );
