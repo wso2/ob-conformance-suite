@@ -114,13 +114,15 @@ class TestHistoryView extends React.Component{
                 <div className={"container"}>
                     <div className={"subHeadStyle"}>
                         <Row className="show-grid">
-                            <Col xs={8}><h4>Test Plans</h4></Col>
+                            <Col xs={8}><h3>Test Plans</h3></Col>
                             <Col xs={4}>
-                                <Link to={"/tests/new"}>
-                                    <Button className="pull-right btn-secondary" bsStyle="default">
-                                        <i className="fas fa-plus"></i>  Test plan
-                                    </Button>
-                                </Link>
+                                <div className="pull-right button-header">
+                                    <Link to={"/tests/new"}>
+                                        <Button bsStyle="primary">
+                                            <i className="fas fa-plus"></i>  Test plan
+                                        </Button>
+                                    </Link>
+                                </div>
                             </Col>
                         </Row>
                     </div>
