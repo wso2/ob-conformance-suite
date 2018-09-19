@@ -33,7 +33,7 @@ import static io.restassured.RestAssured.given;
 
 public class ResponseValidator {
 
-    private static final String SWAGGER_JSON_URL = "./schema/v1_0_0/open_data.json";
+    private static final String SWAGGER_JSON_URL = "schema/v1_0_0/open_data.json";
 
     private final SwaggerValidationFilter validationFilter = new SwaggerValidationFilter(SWAGGER_JSON_URL);
 
