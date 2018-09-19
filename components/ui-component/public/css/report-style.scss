@@ -1,4 +1,5 @@
 $primary-color : #2c3e50;
+$secondary-color : #507192;
 
 .passedTag {
     position: absolute;
@@ -201,4 +202,18 @@ input[type="text"] {
 
 .report-title{
     float: left;
+}
+
+.nav-wizard {
+  .active {
+    a {
+      background-color: $secondary-color !important;
+      .step-desc {
+        background-color: inherit;
+      }
+      .step-number {
+        background-color: mix(black,$secondary-color,40%) !important;
+      }
+    }
+  }
 }
