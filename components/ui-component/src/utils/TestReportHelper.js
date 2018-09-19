@@ -40,8 +40,8 @@ export default class TestReportHelper {
         var curResult;
         spec.forEach(function(feature){
             curResult = thisClass.getFeatureResult(feature, thisClass);
-            results.passed += curResult.passed;
-            results.failed += curResult.failed;
+            results.passed += (curResult.failed === 0)*1;
+            results.failed += (curResult.failed > 0) * 1;
         });
         return results;
     }
