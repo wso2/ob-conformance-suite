@@ -47,7 +47,11 @@ const stepStatus = (steps) => {
 
         errorDisplayList.push(
             <ListGroupItem bsStyle="" className = {errorClass}>
-                <b>{errorStep.split(" ")[0]}</b> {errorStep.split(' ').slice(1).join(' ')}
+                { step.result.status !== "failed"
+                    ? <span><b>{errorStep.split(" ")[0]}</b> {errorStep.split(' ').slice(1).join(' ')}</span>
+                    : null
+                }
+
                 { step.result.status === "skipped"
                     ? <span className="pull-right">skipped</span>
                     : <i className={faIconClass}/>
@@ -55,18 +59,18 @@ const stepStatus = (steps) => {
 
                 { step.result.status === "failed"
                     ?  <Panel defaultExpanded={false} className="error-description-panel">
-                        <Panel.Toggle componentClass="a"><span className="error-more-info-link"><i className="fas fa-angle-down"/></span></Panel.Toggle>
-                        <Panel.Collapse>
-                            <Panel.Body>
-                              <i>
-                                {errorDescription.match(new RegExp("StartError" + "(.*)" + "EndError"))
-                                    ? errorDescription.match(new RegExp("StartError" + "(.*)" + "EndError"))[1]
-                                    : errorDescription
-                                }
-                              </i>
-                            </Panel.Body>
-                        </Panel.Collapse>
-                    </Panel>
+                            <Panel.Toggle componentClass="a"><span className="error-more-info-link"> <b>{errorStep.split(" ")[0]}</b> {errorStep.split(' ').slice(1).join(' ')} <i className="fas fa-angle-down"/></span></Panel.Toggle>
+                            <Panel.Collapse>
+                                <Panel.Body>
+                                  <i>
+                                    {errorDescription.match(new RegExp("StartError" + "(.*)" + "EndError"))
+                                        ? errorDescription.match(new RegExp("StartError" + "(.*)" + "EndError"))[1]
+                                        : errorDescription
+                                    }
+                                  </i>
+                                </Panel.Body>
+                            </Panel.Collapse>
+                        </Panel>
                     : null
                 }
             </ListGroupItem>
@@ -146,6 +150,14 @@ const ReportSpec = connect((state) => ({specifications: state.specifications,}))
     </Panel>
 ));
 
+const TestProgressBar = (testRunning, progress) => {
+    if(testRunning){
+        return <ProgressBar className="pass-rate-progress" active striped bsStyle="" now={progress} />;
+    }else{
+        return <ProgressBar className="pass-rate-progress fadeout" striped bsStyle="" now="100" />;
+    }
+};
+
 class TestReportView extends React.Component {
 
     constructor(props){
@@ -186,12 +198,14 @@ class TestReportView extends React.Component {
                 failed: results.failed,
                 rate: results.rate,
                 featureCount: (reportHelper.getFeatureCount(response.data.testPlan)),
-                testName: response.data.testPlan.name
+                testName: response.data.testPlan.name,
+                newTest: results.rate === 0
             });
             if(response.data.report.state === "RUNNING"){
                 this.setState({testRunning: true});
                 this.interval = setInterval(() => this.appendResults(), 2000);
             }
+
         });
     }
     componentWillUnmount() {
@@ -287,12 +301,13 @@ class TestReportView extends React.Component {
                                 : null
                             }
 
-
-                            { this.state.testRunning
-                                ? <ProgressBar className="pass-rate-progress" active striped bsStyle="" now={this.state.progress} />
-                                : <ProgressBar className="pass-rate-progress fadeout" striped bsStyle="" now="100" />
-                            }
-
+                            <div hidden={!this.state.newTest}>
+                                { this.state.progress !== 100
+                                    ? <ProgressBar className="pass-rate-progress" active striped bsStyle="" now={this.state.progress} />
+                                    : <ProgressBar className="pass-rate-progress fadeout" striped bsStyle="" now="100" />
+                                }
+                            </div>
+                            
                         </div>
                     </Col>
                 </Row>
