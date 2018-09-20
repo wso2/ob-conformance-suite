@@ -77,7 +77,7 @@ class TestPlanView extends React.Component {
                                     <small>
                                         <p className={"text-muted"}><span className={"history-view-inline-specs"}>
                                                             {Object.keys(this.props.plan.testPlan.specifications).map((key) => <span>{this.props.specifications[key].title} {this.props.specifications[key].version}</span>)}
-                                                        </span></p>
+                                                            </span></p>
                                     </small>
                                 </p>
                             </Col>
