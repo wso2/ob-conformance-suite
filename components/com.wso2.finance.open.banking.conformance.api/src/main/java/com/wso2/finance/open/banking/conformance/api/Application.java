@@ -16,6 +16,7 @@
 
 package com.wso2.finance.open.banking.conformance.api;
 
+import com.wso2.finance.open.banking.conformance.api.interceptors.CorsInterceptor;
 import com.wso2.finance.open.banking.conformance.mgt.helpers.XmlHelper;
 import com.wso2.finance.open.banking.conformance.mgt.models.Specification;
 import org.wso2.msf4j.MicroservicesRunner;
@@ -65,6 +66,7 @@ public class Application {
                 .deploy(new ConformanceSuiteAPI())
                 .deploy(new TestPlanAPI())
                 .deploy(new ResultsAPI())
+                .addGlobalResponseInterceptor(new CorsInterceptor())
                 .start();
     }
 }

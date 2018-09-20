@@ -58,6 +58,68 @@ const TestPlanRow = ({report}) => (
     </tr>
 );
 
+class TestPlanView extends React.Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            open : false
+        }
+    }
+
+    render(){
+        return (
+            <Panel defaultExpanded={false} expanded={this.state.open}>
+                <Panel.Heading>
+                    <Panel.Title>
+                        <Row className={"history-view-row"}>
+                            <Col xs={6}>
+                                <p>{this.props.plan.testPlan.name}
+                                    <small>
+                                        <p className={"text-muted"}><span className={"history-view-inline-specs"}>
+                                                            {Object.keys(this.props.plan.testPlan.specifications).map((key) => <span>{this.props.specifications[key].title} {this.props.specifications[key].version}</span>)}
+                                                        </span></p>
+                                    </small>
+                                </p>
+                            </Col>
+                            <Col xs={5}>
+                                <ButtonToolbar className="pull-right">
+                                    <Button onClick={()=>{this.props.runTest(this.props.plan)}} className="round-btn"><i className={"fas fa-lg fa-play"}/></Button>
+                                    <Button className="round-btn"><i className={"fas fa-lg fa-cog"}/></Button>
+                                    <Button className="round-btn"><i className={"fas fa-lg fa-trash"}/></Button>
+                                </ButtonToolbar>
+                            </Col>
+                            <Col xs={1}>
+                                <Button className="round-btn"  onClick={() => this.setState({ open: !this.state.open })}>
+                                    <i className={"fas fa-lg fa-" + (this.state.open ? "angle-up": "angle-down")}></i>
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Panel.Title>
+                </Panel.Heading>
+                <Panel.Collapse>
+                    <Panel.Body collapsible>
+                        <b>Test Iterations</b>
+                        <Table className = "test-history-table" striped bordered condensed hover>
+                            <thead>
+                            <tr>
+                                <th className={"tableHead"}>Test Run Date</th>
+                                <th className={"tableHead"}>Status</th>
+                                <th className={"tableHead"}>Summary</th>
+                                <th className={"tableHead"}></th>
+                            </tr>
+                            </thead>
+                            <tbody className={"text-center"}>
+                            {Object.values(this.props.plan.reports).map((report) => <TestPlanRow report={report}/>)}
+                            </tbody>
+                        </Table>
+                    </Panel.Body>
+                </Panel.Collapse>
+            </Panel>
+        );
+    }
+}
+
 class TestHistoryView extends React.Component{
 
     constructor(props){
@@ -96,69 +158,8 @@ class TestHistoryView extends React.Component{
                         </Row>
                     </div>
                     <div className="testplan-wrapper">
-                        {Object.values(this.props.testplans).map((plan) => 
-                            <Panel defaultExpanded={false}>
-                                <Panel.Heading>
-                                    <Panel.Title>
-                                        <Row className={"history-view-row"}>
-                                            <Col xs={6}>
-                                                <p>{plan.testPlan.name}
-                                                    <small>
-                                                        <p className={"text-muted"}><span className={"history-view-inline-specs"}>
-                                                            {Object.keys(plan.testPlan.specifications).map((key) => 
-                                                                <span>
-                                                                    {this.props.specifications[key].title} 
-                                                                    {this.props.specifications[key].version}
-                                                                </span>)}
-                                                            </span>
-                                                        </p>
-                                                    </small>
-                                                </p>
-                                            </Col>
-                                            <Col xs={5}>
-                                                <ButtonToolbar className="pull-right">
-                                                    <Button onClick={()=>{this.runTest(plan)}} className="round-btn">
-                                                        <i className={"fas fa-lg fa-play"}/>
-                                                    </Button>
-                                                    <Button className="round-btn">
-                                                        <i className={"fas fa-lg fa-cog"}/>
-                                                    </Button>
-                                                    <Button className="round-btn">
-                                                        <i className={"fas fa-lg fa-trash"}/>
-                                                    </Button>
-                                                </ButtonToolbar>
-                                            </Col>
-                                            <Col xs={1}>
-                                                <Panel.Toggle className="pull-right" onClick={() => 
-                                                    this.setState({ open: !this.state.open })}>
-                                                    <Button className="round-btn">
-                                                        <i className={"fas fa-lg fa-" + (this.state.open ? "angle-up": "angle-down")}>
-                                                        </i>
-                                                    </Button>
-                                                </Panel.Toggle>
-                                            </Col>
-                                            </Row>
-                                    </Panel.Title>
-                                </Panel.Heading>
-                                <Panel.Collapse>
-                                    <Panel.Body collapsible>
-                                        <b>Test Iterations</b>
-                                        <Table className = "test-history-table" striped bordered condensed hover>
-                                            <thead>
-                                                <tr>
-                                                    <th className={"tableHead"}>Test Run Date</th>
-                                                    <th className={"tableHead"}>Status</th>
-                                                    <th className={"tableHead"}>Summary</th>
-                                                    <th className={"tableHead"}></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className={"text-center"}>
-                                                {Object.values(plan.reports).map((report) => <TestPlanRow report={report}/>)}
-                                            </tbody>
-                                        </Table>
-                                    </Panel.Body>
-                                </Panel.Collapse>
-                            </Panel>
+                        {Object.values(this.props.testplans).map((plan) =>
+                            <TestPlanView plan={plan} specifications={this.props.specifications} runTest={this.runTest}/>
                         )}
                     </div>
                 </div>
