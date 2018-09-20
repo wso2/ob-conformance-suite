@@ -73,7 +73,7 @@ class TestPlanView extends React.Component {
                             </Col>
                             <Col xs={5}>
                                 <ButtonToolbar className="pull-right">
-                                    <Button onClick={()=>{this.runTest(this.props.plan)}} className="round-btn"><i className={"fas fa-lg fa-play"}/></Button>
+                                    <Button onClick={()=>{this.props.runTest(this.props.plan)}} className="round-btn"><i className={"fas fa-lg fa-play"}/></Button>
                                     <Button className="round-btn"><i className={"fas fa-lg fa-cog"}/></Button>
                                     <Button className="round-btn"><i className={"fas fa-lg fa-trash"}/></Button>
                                 </ButtonToolbar>
@@ -149,7 +149,7 @@ class TestHistoryView extends React.Component{
                     </div>
                     <div className="testplan-wrapper">
                         {Object.values(this.props.testplans).map((plan) => 
-                            <TestPlanView plan={plan} specifications={this.props.specifications}/>
+                            <TestPlanView plan={plan} specifications={this.props.specifications} runTest={this.runTest}/>
                         )}
                     </div>
                 </div>
