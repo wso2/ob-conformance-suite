@@ -118,9 +118,14 @@ class SpecificationSelectView extends React.Component {
                         return this.renderSpec(spec)
                     })}
                 </ListGroup>
-                <p className={"text-warning"} hidden={!this.isEmptySelection()}><small>* Select at least one API to continue</small></p>
+                <p className={"text-warning"} hidden={!this.isEmptySelection()}
+                    ><small>* Select at least one API to continue</small>
+                </p>
                 <Link to={"/tests/new/configure"}>
-                    <Button bsStyle={"primary"} bsSize={"lg"} disabled={this.isEmptySelection()}>Configure <i className="fas fa-chevron-right"></i></Button>
+                    <Button bsStyle={"primary"} bsSize={"lg"} disabled={this.isEmptySelection()}>
+                        sConfigure 
+                        <i className="fas fa-chevron-right"></i>
+                    </Button>
                 </Link>
 
                 <Button className="test-save-btn" bsStyle={"default"} bsSize={"lg"}

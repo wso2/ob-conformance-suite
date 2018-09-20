@@ -113,7 +113,8 @@ class AttributeGroup extends React.Component {
                 this.props.dispatch(setSpecValue(this.props.specName,this.props.group.groupName,attributeName,value));
                 return;
             case "feature":
-                this.props.dispatch(setFeatureValue(this.props.specName,this.props.featureName, this.props.group.groupName,attributeName,value));
+                this.props.dispatch(setFeatureValue(this.props.specName,this.props.featureName, 
+                    this.props.group.groupName,attributeName,value));
 
         }
     }
@@ -133,7 +134,8 @@ class AttributeGroup extends React.Component {
     renderAttribute(attribute){
         switch (attribute.attributeType){
             case "String":
-                return <StringAttribute attribute={attribute} key={attribute.name} updateChange={this.updateChange} getValue={this.getValue} specName={this.props.specName}/>;
+                return <StringAttribute attribute={attribute} key={attribute.name} updateChange={this.updateChange} 
+                    getValue={this.getValue} specName={this.props.specName}/>;
             case "TextLabel":
                 return <TextLabelAttribute attribute={attribute} key={attribute.name}/>
             case "LinkButton":

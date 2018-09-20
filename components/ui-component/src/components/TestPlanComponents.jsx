@@ -19,7 +19,7 @@
 import React from 'react';
 import TestPlanReduxHelper from "../utils/TestPlanReduxHelper";
 import {connect} from "react-redux";
-import {ListGroup, ListGroupItem, Panel, Row, Col, Popover, OverlayTrigger, Button, Table, Collapse} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Panel, Row, Table } from 'react-bootstrap';
 import {toggleVector, toggleFeature} from "../actions";
 import AttributeGroup from "./AttributeGroup";
 
@@ -36,7 +36,8 @@ export const Feature = connect((state) => ({testvalues: state.testvalues}))(({fe
         <Panel expanded={TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path)}>
             <Panel.Heading onClick={() => {dispatch(toggleFeature(specName, feature.uri.path))}}>
                 <div className="pull-right tc-checkbox">
-                    <i className={"fas fa-" + (TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path) ? "check-square check-square-m" : "square fa-1x fa-square-list")}/>
+                    <i className={"fas fa-" + (TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName)
+                        .includes(feature.uri.path) ? "check-square check-square-m" : "square fa-1x fa-square-list")}/>
                 </div>
                 <Panel.Title>
                     <div className="tc-feature-panel-head">
@@ -63,7 +64,8 @@ export const Feature = connect((state) => ({testvalues: state.testvalues}))(({fe
                                             </tr>
                                         </thead>
                                         <tbody className={"text-center"}>
-                                            {feature.scenarios.map((scenario) => <ScenariodataRow key={feature.uri.path} scenario={scenario}/>)}
+                                            {feature.scenarios.map((scenario) => 
+                                                <ScenariodataRow key={feature.uri.path} scenario={scenario}/>)}
                                         </tbody>
                                     </Table>
                                 </Panel.Body>
@@ -71,8 +73,11 @@ export const Feature = connect((state) => ({testvalues: state.testvalues}))(({fe
                         </Panel>
                     </Row>
                     {feature.attributeGroups ? <hr/> : []}
-                    {feature.attributeGroups ?
-                        feature.attributeGroups.map(group => <AttributeGroup scope={"feature"} specName={specName} featureName={feature.uri.path} group={group} key={group.groupName}/>) : []}
+                    {feature.attributeGroups 
+                        ? feature.attributeGroups.map(group => 
+                            <AttributeGroup scope={"feature"} specName={specName} featureName={feature.uri.path} 
+                                group={group} key={group.groupName}/>) 
+                        : []}
                 </Panel.Body>
             </Panel.Collapse>
         </Panel>
@@ -84,7 +89,8 @@ export const Vector = connect((state) => ({testvalues: state.testvalues}))(({tes
         dispatch(toggleVector(specName, vector.tag))
     }}>
         <div className="pull-right">
-            <i className={"fas fa-" + (TestPlanReduxHelper.getSelectedVectorsFromState(testvalues, specName).includes(vector.tag) ? "check-square check-square-m" : "square fa-1x fa-square-list")}/>
+            <i className={"fas fa-" + (TestPlanReduxHelper.getSelectedVectorsFromState(testvalues, specName)
+                .includes(vector.tag) ? "check-square check-square-m" : "square fa-1x fa-square-list")}/>
         </div>
         <p>Test {vector.title}</p>
     </ListGroupItem>
@@ -109,7 +115,8 @@ export const SpecificationEditor = ({spec}) => (
         <Panel>
             <Panel.Heading>Global Configuration</Panel.Heading>
             <Panel.Body id={"attributeGroups"}>
-                {spec.attributeGroups.map((group) => <AttributeGroup scope={"specification"} specName={spec.name} group={group} key={group.groupName}/>)}
+                {spec.attributeGroups.map((group) => 
+                    <AttributeGroup scope={"specification"} specName={spec.name} group={group} key={group.groupName}/>)}
             </Panel.Body>
         </Panel>
         <br/>
