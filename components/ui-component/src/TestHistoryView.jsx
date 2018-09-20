@@ -80,8 +80,10 @@ class TestPlanView extends React.Component {
                                 <div>{this.props.plan.testPlan.name}
                                     <small>
                                         <p className={"text-muted"}><span className={"history-view-inline-specs"}>
-                                                            {Object.keys(this.props.plan.testPlan.specifications).map((key) => <span key={this.props.specifications[key].title}>{this.props.specifications[key].title} {this.props.specifications[key].version}</span>)}
-                                                            </span></p>
+                                            {Object.keys(this.props.plan.testPlan.specifications).map((key) => 
+                                            <span key={this.props.specifications[key].title}>
+                                            {this.props.specifications[key].title} {this.props.specifications[key].version}</span>)}
+                                        </span></p>
                                     </small>
                                 </div>
                             </Col>
