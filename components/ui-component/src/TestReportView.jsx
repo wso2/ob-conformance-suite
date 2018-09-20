@@ -55,7 +55,9 @@ const stepStatus = (steps) => {
 
                 { step.result.status === "failed"
                     ?  <Panel defaultExpanded={false} className="error-description-panel">
-                        <Panel.Toggle componentClass="a"><span className="error-more-info-link"><i className="fas fa-angle-down"/></span></Panel.Toggle>
+                        <Panel.Toggle componentClass="a"><span className="error-more-info-link">
+                            <i className="fas fa-angle-down"/></span>
+                        </Panel.Toggle>
                         <Panel.Collapse>
                             <Panel.Body>
                               <i>
@@ -122,7 +124,8 @@ const ReportFeature = ({feature}) => (
                 <div className="pull-right feature-result">
                 <span className={reportHelper.getFeatureResultStatus(feature, reportHelper).class}>
                     <i className={reportHelper.getFeatureResultStatus(feature, reportHelper).status === "Passed"
-                        ? "fas fa-check-circle" : "fas fa-times-circle"}/>&nbsp;{reportHelper.getFeatureResultStatus(feature, reportHelper).status}</span>
+                        ? "fas fa-check-circle" : "fas fa-times-circle"}/>
+                        &nbsp;{reportHelper.getFeatureResultStatus(feature, reportHelper).status}</span>
                 </div>
                 <Panel.Title><h4 className="feature-title"><b>Feature:</b> {feature.name}</h4></Panel.Title>
                 <Panel.Toggle componentClass="a">View Scenarios</Panel.Toggle>
@@ -222,7 +225,8 @@ class TestReportView extends React.Component {
                             data: resultObject,
                             passed: this.state.passed + (featureResult.failed === 0)*1, //all scenarios of feature passed
                             failed: this.state.failed + (featureResult.failed > 0) * 1, //any scenario of feature failed
-                            rate: (((this.state.passed+ featureResult.passed)/(parseFloat(this.state.passed + featureResult.passed)+(this.state.failed + featureResult.failed)))*100).toFixed(2),
+                            rate: (((this.state.passed+ featureResult.passed)/(parseFloat(this.state.passed + featureResult.passed)
+                                +(this.state.failed + featureResult.failed)))*100).toFixed(2),
                             completedFeatures: this.state.completedFeatures + 1,
                             progress: ((this.state.completedFeatures +1)/this.state.featureCount)*100
                         })
@@ -269,7 +273,9 @@ class TestReportView extends React.Component {
                         <div className="pull-right">
                             { this.state.testRunning
                                 ? <LoaderComponent/>
-                                : this.state.failed>0 ? <Badge className="test-complete-withfail-badge">Completed</Badge> : <Badge className="test-complete-badge">Completed</Badge>
+                                : this.state.failed>0 
+                                    ? <Badge className="test-complete-withfail-badge">Completed</Badge> 
+                                    : <Badge className="test-complete-badge">Completed</Badge>
                             }
                         </div>
                         <div>

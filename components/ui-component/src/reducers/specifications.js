@@ -32,7 +32,9 @@ const specifications = (state = initialState, action) => {
         case 'TOGGLE_SPEC':
             return {
                 specs: {...state.specs},
-                selected: (state.selected.includes(action.name) ? state.selected.filter((key) => key !== action.name) : [...state.selected, action.name])
+                selected: (state.selected.includes(action.name) 
+                    ? state.selected.filter((key) => key !== action.name) 
+                    : [...state.selected, action.name])
             };
 
         case 'CLEAR_SELECTED_SPECS':

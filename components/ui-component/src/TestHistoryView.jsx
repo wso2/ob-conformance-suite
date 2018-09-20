@@ -21,7 +21,7 @@ import AppHeader from "./partials/AppHeader";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
-import {Table, Row, Col, Button, Panel, ButtonGroup, PanelGroup, ButtonToolbar} from 'react-bootstrap';
+import {Table, Row, Col, Button, Panel, ButtonToolbar} from 'react-bootstrap';
 import RequestBuilder from './utils/RequestBuilder';
 import TestReportHelper from './utils/TestReportHelper';
 import '../public/css/report-style.scss'
@@ -35,15 +35,26 @@ const TestPlanRow = ({report}) => (
         <td>{report.executed}</td>
         <td>{report.state}</td>
         <td className={"overall-results-block"}>
-            <p><span style={{color: "green"}}><i className="fas fa-check-circle"/> Passed : {reportHelper.getTestSummary(report.result).passed}</span></p>
-
-            {reportHelper.getTestSummary(report.result).failed > 0
-                ? <p><span style={{color: "red"}}><i className="fas fa-times-circle"/> Failed : {reportHelper.getTestSummary(report.result).failed}</span></p>
+            <p>
+                <span style={{color: "green"}}>
+                    <i className="fas fa-check-circle"/> Passed : {reportHelper.getTestSummary(report.result).passed}
+                </span>
+            </p>
+            {reportHelper.getTestSummary(report.result).failed > 0 
+                ? <p>
+                    <span style={{color: "red"}}>
+                        <i className="fas fa-times-circle"/> Failed : {reportHelper.getTestSummary(report.result).failed}
+                    </span>
+                </p>
                 : null
             }
             <p><span>Success Rate: {reportHelper.getTestSummary(report.result).rate}%</span></p>
         </td>
-        <td><Link to={{pathname: "/tests/report/"+report.testId+"/"+report.reportId, state: { fromDashboard: true }}}>Check Report</Link></td>
+        <td>
+            <Link to={{pathname: "/tests/report/"+report.testId+"/"+report.reportId, state: { fromDashboard: true }}}>
+            Check Report
+            </Link>
+        </td>
     </tr>
 );
 
@@ -58,7 +69,6 @@ class TestHistoryView extends React.Component{
     }
 
     runTest(testPlan){
-        //console.log(testPlan);
         client.runTestPlan(testPlan).then((response) => {
             this.props.dispatch(updateReport(response.data));
             this.props.history.push("/tests/report/"+response.data.testId+"/"+response.data.reportId);
@@ -95,21 +105,36 @@ class TestHistoryView extends React.Component{
                                                 <p>{plan.testPlan.name}
                                                     <small>
                                                         <p className={"text-muted"}><span className={"history-view-inline-specs"}>
-                                                            {Object.keys(plan.testPlan.specifications).map((key) => <span>{this.props.specifications[key].title} {this.props.specifications[key].version}</span>)}
-                                                        </span></p>
+                                                            {Object.keys(plan.testPlan.specifications).map((key) => 
+                                                                <span>
+                                                                    {this.props.specifications[key].title} 
+                                                                    {this.props.specifications[key].version}
+                                                                </span>)}
+                                                            </span>
+                                                        </p>
                                                     </small>
                                                 </p>
                                             </Col>
                                             <Col xs={5}>
                                                 <ButtonToolbar className="pull-right">
-                                                    <Button onClick={()=>{this.runTest(plan)}} className="round-btn"><i className={"fas fa-lg fa-play"}/></Button>
-                                                    <Button className="round-btn"><i className={"fas fa-lg fa-cog"}/></Button>
-                                                    <Button className="round-btn"><i className={"fas fa-lg fa-trash"}/></Button>
+                                                    <Button onClick={()=>{this.runTest(plan)}} className="round-btn">
+                                                        <i className={"fas fa-lg fa-play"}/>
+                                                    </Button>
+                                                    <Button className="round-btn">
+                                                        <i className={"fas fa-lg fa-cog"}/>
+                                                    </Button>
+                                                    <Button className="round-btn">
+                                                        <i className={"fas fa-lg fa-trash"}/>
+                                                    </Button>
                                                 </ButtonToolbar>
                                             </Col>
                                             <Col xs={1}>
-                                                <Panel.Toggle className="pull-right" onClick={() => this.setState({ open: !this.state.open })}>
-                                                    <Button className="round-btn"><i className={"fas fa-lg fa-" + (this.state.open ? "angle-up": "angle-down")}></i></Button>
+                                                <Panel.Toggle className="pull-right" onClick={() => 
+                                                    this.setState({ open: !this.state.open })}>
+                                                    <Button className="round-btn">
+                                                        <i className={"fas fa-lg fa-" + (this.state.open ? "angle-up": "angle-down")}>
+                                                        </i>
+                                                    </Button>
                                                 </Panel.Toggle>
                                             </Col>
                                             </Row>
