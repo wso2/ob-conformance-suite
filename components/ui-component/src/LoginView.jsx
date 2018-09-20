@@ -51,15 +51,16 @@ class LoginView extends React.Component {
               <Form horizontal className="login-form">
                 <FormGroup controlId="formHorizontalEmail">
                   <Col componentClass={ControlLabel}>
-                                    Username
+                    Username
                   </Col>
                   <Col>
-                    <FormControl type="text" placeholder="Enter Username" inputRef={(ref) => { this.username = ref; }} />
+                    <FormControl type="text" placeholder="Enter Username" inputRef={(ref) => {this.username = ref}}/>
                   </Col>
                 </FormGroup>
+
                 <FormGroup controlId="formHorizontalPassword">
                   <Col componentClass={ControlLabel}>
-                                    Password
+                    Password
                   </Col>
                   <Col>
                     <FormControl type="password" placeholder="Enter Password" inputRef={(ref) => { this.password = ref; }} />

@@ -19,7 +19,6 @@
 import React from 'react';
 import AppHeader from "./partials/AppHeader";
 import {ListGroup, ListGroupItem, Button, Modal, Grid, Row, Col, Panel, Badge, ProgressBar, Well} from 'react-bootstrap';
-import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import '../public/css/report-style.scss'
 import {connect} from 'react-redux'
 import RequestBuilder from './utils/RequestBuilder';
