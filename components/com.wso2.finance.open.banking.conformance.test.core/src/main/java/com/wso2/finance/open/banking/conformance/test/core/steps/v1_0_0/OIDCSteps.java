@@ -31,10 +31,13 @@ import com.wso2.finance.open.banking.conformance.test.core.oidc.OIDCHandler;
 import java.util.List;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Steps used in OIDC flow
+ */
 public class OIDCSteps {
+
     private OIDCHandler oidcHandler;
 
     private String AUTH_END_POINT;
@@ -44,22 +47,24 @@ public class OIDCSteps {
     private String clientSecret;
 
     @When("user provides his consent by clicking on redirect url")
-    public void directUserToGetTheConcent(){
-        clientID = Context.getInstance().getCurrentSpecAttribute("client","consumer key");
-        clientSecret = Context.getInstance().getCurrentSpecAttribute("client","consumer secret");
+    public void directUserToGetTheConcent() {
+
+        clientID = Context.getInstance().getCurrentSpecAttribute("client", "consumer key");
+        clientSecret = Context.getInstance().getCurrentSpecAttribute("client", "consumer secret");
         AUTH_END_POINT = "https://api-openbanking.wso2.com/AuthorizeAPI/v1.0.0/";
-        CALLBACK_URL = Context.getInstance().getCurrentSpecAttribute("oauth","callback_url");
+        CALLBACK_URL = Context.getInstance().getCurrentSpecAttribute("oauth", "callback_url");
         TOKEN_END_POINT = "https://api-openbanking.wso2.com/TokenAPI/v1.0.0/";
-        oidcHandler = new OIDCHandler(clientID,clientSecret,AUTH_END_POINT,CALLBACK_URL,TOKEN_END_POINT);
+        oidcHandler = new OIDCHandler(clientID, clientSecret, AUTH_END_POINT, CALLBACK_URL, TOKEN_END_POINT);
         String url = oidcHandler.createAuthUrlForUserContent("YWlzcDozMTQ2");
         setBrowserInteractionURLtoContext(url);
     }
 
     @Then("TPP receives the authorization code from the authorization endpoint")
-    public void receiveAuthorizationcode(){
+    public void receiveAuthorizationcode() {
+
         String authCode = Context.getInstance().getAttributesFromTempMap("auth_code");
         int i = 0;
-        while ((authCode == null) && (i < 60)){
+        while ((authCode == null) && (i < 60)) {
             try {
                 Thread.sleep(1000);
                 authCode = Context.getInstance().getAttributesFromTempMap("auth_code");
@@ -70,26 +75,27 @@ public class OIDCSteps {
         }
         Context.getInstance().getRunnerInstance().setStatus(Report.RUNNER_STATE.RUNNING);
         oidcHandler.setAuthCode(authCode);
-        Log.info("Received Auth Code: "+authCode);
-        assertTrue(Utils.formatError("Authorization Code not received from authorization endpoint"),authCode!=null);
+        Log.info("Received Auth Code: " + authCode);
+        assertTrue(Utils.formatError("Authorization Code not received from authorization endpoint"), authCode != null);
 
     }
 
     @Then("TPP requests and receives an access token from token endpoint")
-    public void getAccessToken(){
+    public void getAccessToken() {
 
         String accessToken = oidcHandler.getAccessTokenByAuthorizationCode();
 
         Context.getInstance().setAccessToken(accessToken);
-        Log.info("Received Access Token: "+ accessToken);
+        Log.info("Received Access Token: " + accessToken);
     }
 
     private void setBrowserInteractionURLtoContext(String url) {
-        Attribute atr = new Attribute("consentUrl", "Get Consent",Attribute.ATTRIBUTE_TYPE.LinkButton, url, url,"Get Consent");
+
+        Attribute atr = new Attribute("consentUrl", "Get Consent", Attribute.ATTRIBUTE_TYPE.LinkButton, url, url, "Get Consent");
         List<Attribute> atrList = new ArrayList();
         atrList.add(atr);
 
-        AttributeGroup atrGrp = new AttributeGroup("browser","Get Consent","Get Consent through browser interaction",atrList);
+        AttributeGroup atrGrp = new AttributeGroup("browser", "Get Consent", "Get Consent through browser interaction", atrList);
         List<AttributeGroup> atrGrpList = new ArrayList();
         atrGrpList.add(atrGrp);
         Context.getInstance().getRunnerInstance().queueBrowserInteractionAttributes(atrGrp);

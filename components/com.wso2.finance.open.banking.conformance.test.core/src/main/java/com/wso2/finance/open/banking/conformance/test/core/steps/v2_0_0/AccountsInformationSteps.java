@@ -22,6 +22,9 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
+/**
+ * Steps used in accessing AccountsInformation steps
+ */
 public class AccountsInformationSteps {
     @Given("TPP wants to access beneficiary details of an account")
     public void setup(){
