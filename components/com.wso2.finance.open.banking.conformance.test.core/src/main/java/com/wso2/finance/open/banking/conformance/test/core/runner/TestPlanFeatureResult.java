@@ -22,7 +22,11 @@ import com.google.gson.JsonObject;
 import com.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;
 import com.wso2.finance.open.banking.conformance.mgt.models.Report;
 
+/**
+ * Class that holds results of a feature
+ */
 public class TestPlanFeatureResult {
+
     public JsonObject featureResult;
     public AttributeGroup attributeGroup;
     public String specName;
