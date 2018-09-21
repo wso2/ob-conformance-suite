@@ -19,9 +19,6 @@
 import React from 'react';
 import {Button, Form, FormGroup, FormControl, Col, ControlLabel, Checkbox, Jumbotron, Row} from 'react-bootstrap';
 import '../public/css/report-style.scss';
-import {Link} from 'react-router-dom'
-import LoaderComponent from "./components/LoaderComponent";
-import LoginAppHeader from "./partials/LoginAppHeader";
 
 class LoginView extends React.Component{
 
@@ -61,7 +58,7 @@ class LoginView extends React.Component{
                                     Username
                                     </Col>
                                     <Col>
-                                    <FormControl type="text" placeholder="Enter Username"  inputRef={(ref) => {this.username = ref}}/>
+                                    <FormControl type="text" placeholder="Enter Username" inputRef={(ref) => {this.username = ref}}/>
                                     </Col>
                                 </FormGroup>
 

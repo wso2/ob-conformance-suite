@@ -21,7 +21,7 @@ import AppHeader from "./partials/AppHeader";
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
-import {Table, Row, Col, Button, Panel, ButtonGroup, PanelGroup, ButtonToolbar} from 'react-bootstrap';
+import {Table, Row, Col, Button, Panel, ButtonToolbar} from 'react-bootstrap';
 import RequestBuilder from './utils/RequestBuilder';
 import TestReportHelper from './utils/TestReportHelper';
 import '../public/css/report-style.scss'
@@ -35,15 +35,26 @@ const TestPlanRow = ({report}) => (
         <td>{report.executed}</td>
         <td>{report.state}</td>
         <td className={"overall-results-block"}>
-            <p><span style={{color: "green"}}><i className="fas fa-check-circle"/> Passed : {reportHelper.getTestSummary(report.result).passed}</span></p>
-
-            {reportHelper.getTestSummary(report.result).failed > 0
-                ? <p><span style={{color: "red"}}><i className="fas fa-times-circle"/> Failed : {reportHelper.getTestSummary(report.result).failed}</span></p>
+            <p>
+                <span style={{color: "green"}}>
+                    <i className="fas fa-check-circle"/> Passed : {reportHelper.getTestSummary(report.result).passed}
+                </span>
+            </p>
+            {reportHelper.getTestSummary(report.result).failed > 0 
+                ? <p>
+                    <span style={{color: "red"}}>
+                        <i className="fas fa-times-circle"/> Failed : {reportHelper.getTestSummary(report.result).failed}
+                    </span>
+                </p>
                 : null
             }
             <p><span>Success Rate: {reportHelper.getTestSummary(report.result).rate}%</span></p>
         </td>
-        <td><Link to={{pathname: "/tests/report/"+report.testId+"/"+report.reportId, state: { fromDashboard: true }}}>Check Report</Link></td>
+        <td>
+            <Link to={{pathname: "/tests/report/"+report.testId+"/"+report.reportId, state: { fromDashboard: true }}}>
+            Check Report
+            </Link>
+        </td>
     </tr>
 );
 
@@ -120,7 +131,6 @@ class TestHistoryView extends React.Component{
     }
 
     runTest(testPlan){
-        //console.log(testPlan);
         client.runTestPlan(testPlan).then((response) => {
             this.props.dispatch(updateReport(response.data));
             this.props.history.push("/tests/report/"+response.data.testId+"/"+response.data.reportId);
@@ -148,7 +158,7 @@ class TestHistoryView extends React.Component{
                         </Row>
                     </div>
                     <div className="testplan-wrapper">
-                        {Object.values(this.props.testplans).map((plan) => 
+                        {Object.values(this.props.testplans).map((plan) =>
                             <TestPlanView plan={plan} specifications={this.props.specifications} runTest={this.runTest}/>
                         )}
                     </div>
