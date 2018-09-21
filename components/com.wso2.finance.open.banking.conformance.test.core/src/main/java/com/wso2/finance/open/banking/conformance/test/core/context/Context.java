@@ -17,14 +17,10 @@
  * under the License.
  */
 
-package com.wso2.finance.open.banking.conformance.test.core;
+package com.wso2.finance.open.banking.conformance.test.core.context;
 
-import com.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.*;
 import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerInstance;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.UUID;

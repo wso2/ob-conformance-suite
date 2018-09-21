@@ -20,7 +20,7 @@ package com.wso2.finance.open.banking.conformance.test.core.steps.v1_0_0;
 import com.wso2.finance.open.banking.conformance.mgt.models.Attribute;
 import com.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;
 import com.wso2.finance.open.banking.conformance.mgt.models.Report;
-import com.wso2.finance.open.banking.conformance.test.core.Context;
+import com.wso2.finance.open.banking.conformance.test.core.context.Context;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Utils;
 import cucumber.api.java.en.Given;
