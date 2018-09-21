@@ -20,7 +20,8 @@ package com.wso2.finance.open.banking.conformance.test.core.utilities;
 
 public class Utils {
 
-    public static String formatError(String error){
+    public static String formatError(String error) {
+
         return "StartError " + error + "EndError";
     }
 
