@@ -16,8 +16,11 @@
  * under the License.
  */
 
-package com.wso2.finance.open.banking.conformance.test.core.utilities;
+package com.wso2.finance.open.banking.conformance.test.core.constants;
 
+/**
+ * Constants used by the application
+ */
 public class Constants {
 
     //End Point names

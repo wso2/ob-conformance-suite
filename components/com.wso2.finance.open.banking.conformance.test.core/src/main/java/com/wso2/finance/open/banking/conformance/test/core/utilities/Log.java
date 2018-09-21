@@ -21,36 +21,58 @@ package com.wso2.finance.open.banking.conformance.test.core.utilities;
 
 import org.apache.log4j.Logger;
 
+/**
+ * Class that provides logging methods
+ */
 public class Log {
 
-    //Initialize Log4j instance
     private static Logger Log = Logger.getLogger(Log.class.getName());
 
-    //Info Level Logs
+    /**
+     * Log Info messages
+     *
+     * @param message
+     */
     public static void info(String message) {
 
         Log.info(message);
     }
 
-    //Warn Level Logs
+    /**
+     * Log Warning messages
+     *
+     * @param message
+     */
     public static void warn(String message) {
 
         Log.warn(message);
     }
 
-    //Error Level Logs
+    /**
+     * Log Error messages
+     *
+     * @param message
+     */
     public static void error(String message) {
 
         Log.error(message);
     }
 
-    //Fatal Level Logs
+    /**
+     * Log Fatal Error messages
+     *
+     * @param message
+     */
     public static void fatal(String message) {
 
         Log.fatal(message);
     }
 
-    //Debug Level Logs
+    /**
+     * Log debug messages
+     *
+     * @param message
+     */
     public static void debug(String message) {
 
         Log.debug(message);

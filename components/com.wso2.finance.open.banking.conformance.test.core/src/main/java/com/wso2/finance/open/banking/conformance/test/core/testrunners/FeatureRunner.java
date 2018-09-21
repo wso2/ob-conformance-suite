@@ -30,6 +30,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
+/**
+ * Run Feature
+ */
 public class FeatureRunner {
 
     private Feature feature;
@@ -43,17 +46,19 @@ public class FeatureRunner {
     }
 
     /**
+     * Run each Scenario in a feature
+     * Cucumber test runner is used in this method to run the scenarios
+     *
      * @return
      */
     public JsonObject runFeature() {
 
         Log.info("Start Running Feature: " + feature.getTitle());
 
-        //set feature context
         Context.getInstance().setFeatureContext(feature.getTitle(), feature.getUri());
         File resultFile = new File("target/cucumber-report/cucumber.json");
 
-        //run feature
+        //set cucumber options
         String[] argv = new String[]
                 {"-p", "json:" + resultFile.getPath(), "-g",
                         "classpath:com.wso2.finance.open.banking.conformance.test.core.steps",
@@ -67,12 +72,10 @@ public class FeatureRunner {
             throwable.printStackTrace();
         }
 
-        //clear feature context
         Context.getInstance().clearFeatureContext();
 
         Log.info("End Running Feature: " + feature.getTitle());
 
-        //publish results
         try {
             return this.readJson(resultFile);
         } catch (FileNotFoundException e) {

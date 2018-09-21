@@ -19,13 +19,10 @@
 package com.wso2.finance.open.banking.conformance.test.core.oidc;
 
 import com.google.gson.Gson;
-import com.wso2.finance.open.banking.conformance.test.core.Context;
 import com.wso2.finance.open.banking.conformance.test.core.request.RequestGenerator;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 import io.restassured.specification.RequestSpecification;
-
 import io.restassured.response.Response;
-import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 
 
 public class OIDCHandler {

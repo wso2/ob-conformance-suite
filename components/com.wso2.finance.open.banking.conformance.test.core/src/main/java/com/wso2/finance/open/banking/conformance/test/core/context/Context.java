@@ -21,10 +21,12 @@ package com.wso2.finance.open.banking.conformance.test.core.context;
 
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.*;
 import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerInstance;
+
 import java.util.Map;
 import java.util.HashMap;
 import java.util.UUID;
-import com.wso2.finance.open.banking.conformance.test.core.utilities.Constants;
+
+import com.wso2.finance.open.banking.conformance.test.core.constants.Constants;
 
 public class Context {
 
@@ -47,61 +49,65 @@ public class Context {
 
     private Map<String, String> tempAttributeMap = new HashMap<>();
 
-    private Map<String,String> swaggerJsonFileMap = new HashMap<String,String>(); //specname+version -> swaggerJsonFile
+    private Map<String, String> swaggerJsonFileMap = new HashMap<String, String>(); //specname+version -> swaggerJsonFile
 
     private TestPlanRunnerInstance runnerInstance;
 
-    private Context(){}
+    private Context() {
 
-    public static Context getInstance(){
+    }
+
+    public static Context getInstance() {
+
         return contextInstance;
     }
 
+    public void init(TestPlan testPlan) {
 
-    public void init(TestPlan testPlan){
         this.testPlan = testPlan;
-        swaggerJsonFileMap.put(Constants.OPEN_DATA_API_SPEC+"v1.0","schema/v1_0_0/open_data.json");
+        swaggerJsonFileMap.put(Constants.OPEN_DATA_API_SPEC + "v1.0", "schema/v1_0_0/open_data.json");
         //swaggerJsonFileMap.put(Constants.EXAMPLE_2_API_SPEC+"v2.0","schema/v1_0_0/open_data.json");
-        swaggerJsonFileMap.put(Constants.ACCOUNTS_INFORMATION_API_SPEC+"v2.0.0","schema/v2_0_0/accounts_information.json");
-        swaggerJsonFileMap.put(Constants.AUTH_API_SPEC+"1.0.0","schema/v1_0_0/authorize.json");
-        swaggerJsonFileMap.put(Constants.TOKEN_API_SPEC+"v1.0.0","schema/v1_0_0/token.json");
+        swaggerJsonFileMap.put(Constants.ACCOUNTS_INFORMATION_API_SPEC + "v2.0.0", "schema/v2_0_0/accounts_information.json");
+        swaggerJsonFileMap.put(Constants.AUTH_API_SPEC + "1.0.0", "schema/v1_0_0/authorize.json");
+        swaggerJsonFileMap.put(Constants.TOKEN_API_SPEC + "v1.0.0", "schema/v1_0_0/token.json");
     }
 
     public String getCurrentSwaggerJsonFile() {
-        return swaggerJsonFileMap.get(currentSpec+currentSpceVersion);
+
+        return swaggerJsonFileMap.get(currentSpec + currentSpceVersion);
     }
 
     public String getSwaggerJsonFile(String name) {
+
         return swaggerJsonFileMap.get(name);
     }
 
-    public void setSpecContext(String spec, String specVersion)
-    {
+    public void setSpecContext(String spec, String specVersion) {
+
         currentSpec = spec;
         currentSpceVersion = specVersion;
     }
 
+    public void clearSpecContext() {
 
-    public void clearSpecContext()
-    {
         currentSpec = "";
         currentSpceVersion = "";
     }
 
     public void setFeatureContext(String featureTitle, String featureUri) {
+
         currentFeatureTitle = featureTitle;
         currentFeatureUri = featureUri;
     }
 
-    public void clearFeatureContext()
-    {
+    public void clearFeatureContext() {
+
         currentFeatureTitle = "";
         currentFeatureUri = "";
         accessToken = "";
     }
 
     /**
-     *
      * @param specName
      * @param specVersion
      * @param featureUri
@@ -110,14 +116,13 @@ public class Context {
      * @return
      */
     public String getFeatureAttribute(String specName, String specVersion, String featureUri,
-                                         String attribGroupName, String attribName){
+                                      String attribGroupName, String attribName) {
 
-        return testPlan.getSpecification(specName).getFeature(featureUri).getAttribute(attribGroupName,attribName);
+        return testPlan.getSpecification(specName).getFeature(featureUri).getAttribute(attribGroupName, attribName);
 
     }
 
     /**
-     *
      * @param specName
      * @param specVersion
      * @param attribGroupName
@@ -125,22 +130,22 @@ public class Context {
      * @return
      */
     public String getSpecAttribute(String specName, String specVersion,
-                                      String attribGroupName, String attribName){
+                                   String attribGroupName, String attribName) {
 
         String attrib;
-        attrib = testPlan.getSpecification(specName).getAttribute(attribGroupName,attribName);
+        attrib = testPlan.getSpecification(specName).getAttribute(attribGroupName, attribName);
 
         return attrib;
     }
 
-    public String getCurrentSpecAttribute(String attribGroupName, String attribName)
-    {
-        return getSpecAttribute(currentSpec,currentSpceVersion,attribGroupName,attribName);
+    public String getCurrentSpecAttribute(String attribGroupName, String attribName) {
+
+        return getSpecAttribute(currentSpec, currentSpceVersion, attribGroupName, attribName);
     }
 
-    public String getCurrentFeatureAttribute(String attribGroupName, String attribName)
-    {
-        return getFeatureAttribute(currentSpec,currentSpceVersion,currentFeatureUri,attribGroupName,attribName);
+    public String getCurrentFeatureAttribute(String attribGroupName, String attribName) {
+
+        return getFeatureAttribute(currentSpec, currentSpceVersion, currentFeatureUri, attribGroupName, attribName);
     }
 
     public String getTest_id() {
@@ -148,24 +153,28 @@ public class Context {
         return test_id;
     }
 
-    public void setAccessToken(String token){
+    public void setAccessToken(String token) {
+
         this.accessToken = token;
     }
 
-    public String getAccessToken(){
+    public String getAccessToken() {
+
         return accessToken;
     }
 
-    public void setAttributesToTempMap(String key, String value){
-        tempAttributeMap.put(key,value);
+    public void setAttributesToTempMap(String key, String value) {
+
+        tempAttributeMap.put(key, value);
     }
 
-    public String getAttributesFromTempMap(String key)
-    {
+    public String getAttributesFromTempMap(String key) {
+
         return tempAttributeMap.get(key);
     }
 
     public void setRunnerInstance(TestPlanRunnerInstance testPlanRunnerInstance) {
+
         this.runnerInstance = testPlanRunnerInstance;
     }
 

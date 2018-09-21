@@ -27,6 +27,9 @@ import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Run Spec
+ */
 public class SpecRunner {
 
     private Specification specification;
@@ -40,6 +43,8 @@ public class SpecRunner {
     }
 
     /**
+     * Run each feature in the spec
+     *
      * @return
      */
     public List<JsonObject> runSpecification() {
@@ -48,19 +53,16 @@ public class SpecRunner {
 
         List<JsonObject> results = new ArrayList();
 
-        //set spec context
         Context.getInstance().setSpecContext(specification.getName(), specification.getVersion());
 
-        //run spec
         for (Feature feature : specification.getFeatures()) {
             FeatureRunner featureRunner = new FeatureRunner(feature);
             results.add(featureRunner.runFeature());
         }
-        //clear spec context
+
         Context.getInstance().clearSpecContext();
         Log.info("End Running TestSpec " + specification.getName() + " version:" + specification.getVersion());
 
-        //publish results
         return results;
 
     }
