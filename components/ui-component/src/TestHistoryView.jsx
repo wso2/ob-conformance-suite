@@ -40,7 +40,7 @@ const TestPlanRow = ({report}) => (
                     <i className="fas fa-check-circle"/> Passed : {reportHelper.getTestSummary(report.result).passed}
                 </span>
             </p>
-            {reportHelper.getTestSummary(report.result).failed > 0 
+            {reportHelper.getTestSummary(report.result).failed > 0
                 ? <p>
                     <span style={{color: "red"}}>
                         <i className="fas fa-times-circle"/> Failed : {reportHelper.getTestSummary(report.result).failed}
@@ -161,6 +161,11 @@ class TestHistoryView extends React.Component{
                         {Object.values(this.props.testplans).map((plan) =>
                             <TestPlanView plan={plan} specifications={this.props.specifications} runTest={this.runTest}/>
                         )}
+                    </div>
+                    <div className="testplan-wrapper" hidden={Object.values(this.props.testplans).length !== 0}>
+                        <div className="well text-center text-muted">
+                            <h3>No Test Plans Added Yet</h3>
+                        </div>
                     </div>
                 </div>
             </div>
