@@ -16,32 +16,32 @@
  * under the License.
  */
 
-import React from 'react'
-import {Switch, Route} from 'react-router-dom';
-import SpecificationSelectView from "./SpecificationSelectView";
-import TestConfigurationView from "./TestConfigurationView";
-import TestHistoryView from "./TestHistoryView";
-import TestReportView from "./TestReportView";
-import LoginView from "./LoginView";
-import {createStore} from 'redux'
-import {Provider} from 'react-redux'
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import SpecificationSelectView from './SpecificationSelectView';
+import TestConfigurationView from './TestConfigurationView';
+import TestHistoryView from './TestHistoryView';
+import TestReportView from './TestReportView';
+import LoginView from './LoginView';
 import rootReducer from './reducers';
 import CommonDataLoader from './components/CommonDataLoader';
 
 const store = createStore(rootReducer);
 
 const App = () => (
-    <Provider store={store}>
-        <CommonDataLoader>
-            <Switch>
-                <Route exact path='/' component={LoginView}/>
-                <Route exact path='/dashboard' component={TestHistoryView}/>
-                <Route exact path='/tests/new' component={SpecificationSelectView}/>
-                <Route exact path='/tests/new/configure' component={TestConfigurationView}/>
-                <Route exact path='/tests/report/:uuid/:revision' component={TestReportView}/>
-            </Switch>
-        </CommonDataLoader>
-    </Provider>
+  <Provider store={store}>
+    <CommonDataLoader>
+      <Switch>
+        <Route exact path="/" component={LoginView} />
+        <Route exact path="/dashboard" component={TestHistoryView} />
+        <Route exact path="/tests/new" component={SpecificationSelectView} />
+        <Route exact path="/tests/new/configure" component={TestConfigurationView} />
+        <Route exact path="/tests/report/:uuid/:revision" component={TestReportView} />
+      </Switch>
+    </CommonDataLoader>
+  </Provider>
 );
 
 export default App;

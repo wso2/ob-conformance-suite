@@ -17,77 +17,76 @@
  */
 
 import React from 'react';
-import {Button, Form, FormGroup, FormControl, Col, ControlLabel, Checkbox, Jumbotron, Row} from 'react-bootstrap';
+import {
+  Button, Form, FormGroup, FormControl, Col, ControlLabel, Checkbox, Jumbotron, Row,
+} from 'react-bootstrap';
 import '../public/css/report-style.scss';
+import PropTypes from 'prop-types';
 
-class LoginView extends React.Component{
+/**
+ * LoginView
+ */
+class LoginView extends React.Component {
+  constructor(props) {
+    super(props);
+    this.history = props.history;
+  }
 
-    constructor(props){
-        super(props);
-        this.state={
-            isHidden:false
-        }
+  validateUser() {
+    if (this.username.value === 'nab' && this.password.value === 'nab') {
+      this.history.push('/dashboard');
     }
+  }
 
-    validateUser(){
-        console.log(this.username.value);
-        console.log(this.password.value);
-        if(this.username.value == "nab" && this.password.value == "nab"){
-            // this.setState({isHidden: false})
-            this.props.history.push("/dashboard");
-        }
-        else{
-            this.setState({isHidden: true})
-            // this.props.history.push("/");
-        }
-    }
-
-    render(){
-        return(
-            <div>
-                <Row>
-                    <Col xs={4}></Col>
-                    <Col xs={4}>
-                        <Jumbotron className="login-jumbotron">
-                            <img src="/images/WSO2logo.svg" alt="wso2" title="wso2" className="logo login-logo"/>
-                            <p className="login-P"><span><b>Open Banking Conformance Suite</b></span></p>
-                            <h4 className="login-head">Login</h4>
-                            <Form horizontal className="login-form">
-                                <FormGroup controlId="formHorizontalEmail">
-                                    <Col componentClass={ControlLabel}>
+  render() {
+    return (
+      <div>
+        <Row>
+          <Col xs={4} />
+          <Col xs={4}>
+            <Jumbotron className="login-jumbotron">
+              <img src="/images/WSO2logo.svg" alt="wso2" title="wso2" className="logo login-logo" />
+              <p className="login-P"><span><b>Open Banking Conformance Suite</b></span></p>
+              <h4 className="login-head">Login</h4>
+              <Form horizontal className="login-form">
+                <FormGroup controlId="formHorizontalEmail">
+                  <Col componentClass={ControlLabel}>
                                     Username
-                                    </Col>
-                                    <Col>
-                                    <FormControl type="text" placeholder="Enter Username" inputRef={(ref) => {this.username = ref}}/>
-                                    </Col>
-                                </FormGroup>
-
-                                <FormGroup controlId="formHorizontalPassword">
-                                    <Col componentClass={ControlLabel}>
+                  </Col>
+                  <Col>
+                    <FormControl type="text" placeholder="Enter Username" inputRef={(ref) => { this.username = ref; }} />
+                  </Col>
+                </FormGroup>
+                <FormGroup controlId="formHorizontalPassword">
+                  <Col componentClass={ControlLabel}>
                                     Password
-                                    </Col>
-                                    <Col>
-                                    <FormControl type="password" placeholder="Enter Password" inputRef={(ref) => {this.password = ref}}/>
-                                    </Col>
-                                </FormGroup>
-                                
-                                <FormGroup>
-                                    <Col>
-                                    <Checkbox>Remember me</Checkbox>
-                                    </Col>
-                                </FormGroup>
+                  </Col>
+                  <Col>
+                    <FormControl type="password" placeholder="Enter Password" inputRef={(ref) => { this.password = ref; }} />
+                  </Col>
+                </FormGroup>
 
-                                <FormGroup className="center-form">
-                                    <Button className="login-btn" type="submit" onClick={()=>this.validateUser()}>Login</Button>
-                                </FormGroup>
-                            </Form>
-                        </Jumbotron>
-                    </Col>
-                    <Col xs={4}></Col>
-                </Row>
-            </div>
-        )
-    }
+                <FormGroup>
+                  <Col>
+                    <Checkbox>Remember me</Checkbox>
+                  </Col>
+                </FormGroup>
+
+                <FormGroup className="center-form">
+                  <Button className="login-btn" type="submit" onClick={() => this.validateUser()}>Login</Button>
+                </FormGroup>
+              </Form>
+            </Jumbotron>
+          </Col>
+          <Col xs={4} />
+        </Row>
+      </div>
+    );
+  }
 }
+
+LoginView.propTypes = {
+  history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
+};
 
 export default LoginView;
