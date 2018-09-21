@@ -80,8 +80,8 @@ class SpecificationSelectView extends React.Component {
     renderMain() {
         return (
             <div className={"test-configuration-view"}>
-                <ul class="nav nav-wizard nav-justified nav-margin"> 
-                    <li role="presentation" class="active"> 
+                <ul class="nav nav-wizard nav-justified nav-margin">
+                    <li role="presentation" class="active">
                         <Link to={"/tests/new"}>
                             <span class="step-number">01</span>
                             <span class="step-desc">
@@ -123,7 +123,7 @@ class SpecificationSelectView extends React.Component {
                 </p>
                 <Link to={"/tests/new/configure"}>
                     <Button bsStyle={"primary"} bsSize={"lg"} disabled={this.isEmptySelection()}>
-                        sConfigure 
+                        Configure
                         <i className="fas fa-chevron-right"></i>
                     </Button>
                 </Link>
