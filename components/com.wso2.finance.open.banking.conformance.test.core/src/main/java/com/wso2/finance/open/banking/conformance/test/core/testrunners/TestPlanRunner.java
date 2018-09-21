@@ -30,28 +30,32 @@ import java.util.Map;
 
 public class TestPlanRunner {
 
-   private TestPlan testPlan;
+    private TestPlan testPlan;
 
-   public TestPlanRunner(TestPlan plan)
-   {
-       this.testPlan = plan;
-   }
+    /**
+     * @param plan
+     */
+    public TestPlanRunner(TestPlan plan) {
 
-   public Map<String,List<JsonObject>> runTestPlan(){
+        this.testPlan = plan;
+    }
 
-      Map<String,List<JsonObject>> results = new HashMap();
-      Gson gson = new Gson();
+    /**
+     * @return
+     */
+    public Map<String, List<JsonObject>> runTestPlan() {
 
-      for(Specification spec : testPlan.getSpecifications())
-      {
-         Log.info("Start Running TestPlan");
-         //set current spec and version to the context if necessary
-         SpecRunner specRunner = new SpecRunner(spec);
-         results.put(spec.getName(),specRunner.runSpecification());
-         //clear context
-         Log.info("End Running TestPlan");
-      }
-      return results;
-   }
+        Map<String, List<JsonObject>> results = new HashMap();
+
+        for (Specification spec : testPlan.getSpecifications()) {
+            Log.info("Start Running TestPlan: " + testPlan.getName());
+
+            SpecRunner specRunner = new SpecRunner(spec);
+            results.put(spec.getName(), specRunner.runSpecification());
+
+            Log.info("End Running TestPlan: " + testPlan.getName());
+        }
+        return results;
+    }
 
 }
