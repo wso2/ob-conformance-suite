@@ -26,6 +26,7 @@ import RequestBuilder from './utils/RequestBuilder';
 import TestReportHelper from './utils/TestReportHelper';
 import AttributeGroup from "./components/AttributeGroup";
 import LoaderComponent from "./components/LoaderComponent"
+import { updateReport } from './actions';
 
 const client = new RequestBuilder();
 const reportHelper = new TestReportHelper();
@@ -216,8 +217,12 @@ class TestReportView extends React.Component {
     appendResults(){
         client.pollResultsForTestPlan(this.state.uuid).then((response)=>{
             response.data.forEach((result) => {
+                //TODO: hot fix
                 if(result.runnerState==="DONE"){
-                    this.setState({
+                    client.getResultsForTestPlan(this.state.uuid, this.state.revision).then((response) => {
+                      this.props.dispatch(updateReport(response.data.report));
+                    });
+                  this.setState({
                         testRunning : false
                     });
                 }
@@ -285,8 +290,8 @@ class TestReportView extends React.Component {
                         <div className="pull-right">
                             { this.state.testRunning
                                 ? <LoaderComponent/>
-                                : this.state.failed>0 
-                                    ? <Badge className="test-complete-withfail-badge">Completed</Badge> 
+                                : this.state.failed>0
+                                    ? <Badge className="test-complete-withfail-badge">Completed</Badge>
                                     : <Badge className="test-complete-badge">Completed</Badge>
                             }
                         </div>
@@ -311,7 +316,7 @@ class TestReportView extends React.Component {
                                     : <ProgressBar className="pass-rate-progress fadeout" striped bsStyle="" now="100" />
                                 }
                             </div>
-                            
+
                         </div>
                     </Col>
                 </Row>
@@ -328,4 +333,4 @@ class TestReportView extends React.Component {
     }
 }
 
-export default TestReportView;
+export default connect()(TestReportView);
