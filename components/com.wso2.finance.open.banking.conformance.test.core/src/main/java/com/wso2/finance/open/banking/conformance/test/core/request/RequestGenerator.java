@@ -19,7 +19,7 @@
 
 package com.wso2.finance.open.banking.conformance.test.core.request;
 
-import com.wso2.finance.open.banking.conformance.test.core.Context;
+import com.wso2.finance.open.banking.conformance.test.core.context.Context;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Constants;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 import io.restassured.RestAssured;

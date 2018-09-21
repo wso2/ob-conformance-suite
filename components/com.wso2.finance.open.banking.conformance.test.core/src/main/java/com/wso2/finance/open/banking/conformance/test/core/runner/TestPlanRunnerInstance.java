@@ -24,7 +24,7 @@ import com.wso2.finance.open.banking.conformance.mgt.models.Report;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.Feature;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.Specification;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
-import com.wso2.finance.open.banking.conformance.test.core.Context;
+import com.wso2.finance.open.banking.conformance.test.core.context.Context;
 import com.wso2.finance.open.banking.conformance.test.core.testrunners.FeatureRunner;
 
 import java.util.ArrayList;
