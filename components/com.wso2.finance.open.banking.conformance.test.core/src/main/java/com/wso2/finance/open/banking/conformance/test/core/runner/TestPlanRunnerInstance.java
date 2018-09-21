@@ -78,6 +78,7 @@ public class TestPlanRunnerInstance extends Thread{
 
     private void processSpec(Specification specification){
         List<JsonObject> featureResults = new ArrayList();
+        formattedResult.put(specification.getName(),featureResults);
         Context.getInstance().setSpecContext(specification.getName(), specification.getVersion());
         Context.getInstance().setRunnerInstance(this);
         for(Feature feature : specification.getFeatures()){
@@ -85,8 +86,8 @@ public class TestPlanRunnerInstance extends Thread{
             JsonObject featureResult = featureRunner.runFeature();
             featureResults.add(featureResult);
             this.queueResult(featureResult,specification);
+            this.managerCallbacks.updateResult(this.buildReport());
         }
-        formattedResult.put(specification.getName(),featureResults);
         Context.getInstance().clearSpecContext();
     }
 
@@ -102,14 +103,11 @@ public class TestPlanRunnerInstance extends Thread{
 
     public void run(){
         this.status = Report.RUNNER_STATE.RUNNING;
-        //this.reportId = this.managerCallbacks.addResult(this.buildReport()).reportId;
         for(Specification specification : this.testPlan.getSpecifications()){
             this.processSpec(specification);
-            this.managerCallbacks.updateResult(this.buildReport());
         }
         this.status = Report.RUNNER_STATE.DONE;
         this.testPlan.setLastRun(new Date());
-        this.managerCallbacks.updateResult(this.buildReport());
         queueStopMessege();
         this.interrupt();
     }
