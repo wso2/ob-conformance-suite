@@ -54,7 +54,6 @@ public class TestPlanRunnerInstance extends Thread {
     public TestPlanRunnerInstance(TestPlan testPlan, BlockingQueue<TestPlanFeatureResult> resultQueue, RunnerManagerCallback managerCallbacks) {
 
         super();
-        Context.getInstance().init(testPlan);
         this.testPlan = testPlan;
         this.resultsQueue = resultQueue;
         this.status = Report.RUNNER_STATE.NOT_STARTED;
@@ -140,6 +139,7 @@ public class TestPlanRunnerInstance extends Thread {
      */
     public void run() {
 
+        Context.getInstance().init(testPlan);
         this.status = Report.RUNNER_STATE.RUNNING;
         for (Specification specification : this.testPlan.getSpecifications()) {
             this.processSpec(specification);

@@ -30,7 +30,7 @@ import com.wso2.finance.open.banking.conformance.test.core.constants.Constants;
 
 public class Context {
 
-    private static final Context contextInstance = new Context();
+    private static ThreadLocal<Context> threadLocalContext = ThreadLocal.withInitial(Context::new);
 
     private TestPlan testPlan;
 
@@ -59,7 +59,7 @@ public class Context {
 
     public static Context getInstance() {
 
-        return contextInstance;
+        return threadLocalContext.get();
     }
 
     public void init(TestPlan testPlan) {
@@ -138,46 +138,79 @@ public class Context {
         return attrib;
     }
 
+    /**
+     * @param attribGroupName
+     * @param attribName
+     * @return
+     */
     public String getCurrentSpecAttribute(String attribGroupName, String attribName) {
 
         return getSpecAttribute(currentSpec, currentSpceVersion, attribGroupName, attribName);
     }
 
+    /**
+     * @param attribGroupName
+     * @param attribName
+     * @return
+     */
     public String getCurrentFeatureAttribute(String attribGroupName, String attribName) {
 
         return getFeatureAttribute(currentSpec, currentSpceVersion, currentFeatureUri, attribGroupName, attribName);
     }
 
+    /**
+     * @return
+     */
     public String getTest_id() {
 
         return test_id;
     }
 
+    /**
+     * @param token
+     */
     public void setAccessToken(String token) {
 
         this.accessToken = token;
     }
 
+    /**
+     * @return
+     */
     public String getAccessToken() {
 
         return accessToken;
     }
 
+    /**
+     * @param key
+     * @param value
+     */
     public void setAttributesToTempMap(String key, String value) {
 
         tempAttributeMap.put(key, value);
     }
 
+    /**
+     * @param key
+     * @return
+     */
     public String getAttributesFromTempMap(String key) {
 
         return tempAttributeMap.get(key);
     }
 
+    /**
+     * @param testPlanRunnerInstance
+     */
     public void setRunnerInstance(TestPlanRunnerInstance testPlanRunnerInstance) {
 
         this.runnerInstance = testPlanRunnerInstance;
     }
 
+    /**
+     * @return
+     */
     public TestPlanRunnerInstance getRunnerInstance() {
 
         return runnerInstance;
