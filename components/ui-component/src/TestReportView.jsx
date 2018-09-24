@@ -199,10 +199,12 @@ class TestReportView extends React.Component {
                 data: report,
                 passed: results.passed,
                 failed: results.failed,
+                completedFeatures: results.passed + results.failed,
                 rate: results.rate,
                 featureCount: (reportHelper.getFeatureCount(response.data.testPlan)),
                 testName: response.data.testPlan.name,
-                newTest: results.rate === 0
+                newTest: (results.passed+results.failed) < (reportHelper.getFeatureCount(response.data.testPlan)),
+                progress: ((results.passed+results.failed)/(reportHelper.getFeatureCount(response.data.testPlan)))*100,
             });
 
             var lastFeatureIdSet = {};
@@ -264,7 +266,8 @@ class TestReportView extends React.Component {
                                 +(this.state.failed + featureResult.failed)))*100).toFixed(2),
                             completedFeatures: this.state.completedFeatures + 1,
                             progress: ((this.state.completedFeatures +1)/this.state.featureCount)*100
-                        })
+                        });
+                    //console.log(this.state.progress, this.state.passed, this.state.failed, this.state.featureCount);
                 }else if(result.attributeGroup){
                     this.setState({
                         attributes : result.attributeGroup,
