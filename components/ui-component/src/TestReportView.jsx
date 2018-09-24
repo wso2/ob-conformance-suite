@@ -16,17 +16,17 @@
  * under the License.
  */
 
-import React from 'react';
+import React from "react";
 import AppHeader from "./partials/AppHeader";
 import {ListGroup, ListGroupItem, Button, Modal, Grid, Row, Col, Panel, Badge, ProgressBar, Well} from 'react-bootstrap';
 import AppBreadcrumbs from "./partials/AppBreadcrumbs";
-import '../public/css/report-style.scss'
-import {connect} from 'react-redux'
-import RequestBuilder from './utils/RequestBuilder';
-import TestReportHelper from './utils/TestReportHelper';
+import "../public/css/report-style.scss"
+import {connect} from "react-redux"
+import RequestBuilder from "./utils/RequestBuilder";
+import TestReportHelper from "./utils/TestReportHelper";
 import AttributeGroup from "./components/AttributeGroup";
 import LoaderComponent from "./components/LoaderComponent"
-import { updateReport } from './actions';
+import { updateReport } from "./actions";
 
 const client = new RequestBuilder();
 const reportHelper = new TestReportHelper();
@@ -178,7 +178,8 @@ class TestReportView extends React.Component {
             testRunning: false,
             progress: 0,
             completedFeatures: 0,
-            featureCount: 0
+            featureCount: 0,
+            lastFeatureIds:{}
         };
 
         this.interval = null;
@@ -203,6 +204,16 @@ class TestReportView extends React.Component {
                 testName: response.data.testPlan.name,
                 newTest: results.rate === 0
             });
+
+            var lastFeatureIdSet = {};
+            for (var api in response.data.report.result) {
+                var lastIndex = response.data.report.result[api].length - 1;
+                if(typeof (response.data.report.result[api][lastIndex]) !== "undefined") {
+                    lastFeatureIdSet[api] = response.data.report.result[api][lastIndex].id;
+                    this.setState({lastFeatureIds: lastFeatureIdSet});
+                    //console.log(this.state.lastFeatureIds);
+                }
+            }
             if(response.data.report.state === "RUNNING"){
                 this.setState({testRunning: true});
                 this.interval = setInterval(() => this.appendResults(), 2000);
@@ -216,8 +227,15 @@ class TestReportView extends React.Component {
 
     appendResults(){
         client.pollResultsForTestPlan(this.state.uuid).then((response)=>{
-            response.data.forEach((result) => {
-                //TODO: hot fix
+            for (var i = 0, len = response.data.length; i < len; i++) {
+                var result = response.data[i];
+
+                if(this.state.lastFeatureIds.hasOwnProperty(result.specName)){
+                    if(this.state.lastFeatureIds[result.specName] === result.featureResult.id){
+                        continue;
+                        //console.log(result.specName +" "+result.featureResult.id);
+                    }
+                }
                 if(result.runnerState==="DONE"){
                     client.getResultsForTestPlan(this.state.uuid, this.state.revision).then((response) => {
                       this.props.dispatch(updateReport(response.data.report));
@@ -253,7 +271,7 @@ class TestReportView extends React.Component {
                         showInteractionModel : true
                     })
                 }
-            });
+            }
         });
     }
 
