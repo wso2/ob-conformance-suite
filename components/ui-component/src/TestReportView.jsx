@@ -179,7 +179,7 @@ class TestReportView extends React.Component {
             progress: 0,
             completedFeatures: 0,
             featureCount: 0,
-            lastFeatureIds:{}
+            finishedFeatureIds:{}
         };
 
         this.interval = null;
@@ -207,15 +207,22 @@ class TestReportView extends React.Component {
                 progress: ((results.passed+results.failed)/(reportHelper.getFeatureCount(response.data.testPlan)))*100,
             });
 
-            var lastFeatureIdSet = {};
+
+            /*
+             *Add Ids of loaded results to the state.
+             */
+            let finishedFeatureIdSet = this.state.finishedFeatureIds;
             for (var api in response.data.report.result) {
-                var lastIndex = response.data.report.result[api].length - 1;
-                if(typeof (response.data.report.result[api][lastIndex]) !== "undefined") {
-                    lastFeatureIdSet[api] = response.data.report.result[api][lastIndex].id;
-                    this.setState({lastFeatureIds: lastFeatureIdSet});
-                    //console.log(this.state.lastFeatureIds);
+                finishedFeatureIdSet[api]=[];
+                if (typeof (response.data.report.result[api][0]) !== "undefined") {
+                    response.data.report.result[api].forEach(function (feature) {
+                        finishedFeatureIdSet[api].push(feature.id);
+                    });
                 }
+                this.setState({finishedFeatureIds: finishedFeatureIdSet});
+                //console.log(this.state.finishedFeatureIds);
             }
+
             if(response.data.report.state === "RUNNING"){
                 this.setState({testRunning: true});
                 this.interval = setInterval(() => this.appendResults(), 2000);
@@ -232,12 +239,16 @@ class TestReportView extends React.Component {
             for (var i = 0, len = response.data.length; i < len; i++) {
                 var result = response.data[i];
 
-                if(this.state.lastFeatureIds.hasOwnProperty(result.specName)){
-                    if(this.state.lastFeatureIds[result.specName] === result.featureResult.id){
-                        continue;
+                /*
+                 *Check for already loaded results asn skip appending.
+                 */
+                if(this.state.finishedFeatureIds.hasOwnProperty(result.specName)){
+                    if(this.state.finishedFeatureIds[result.specName].includes(result.featureResult.id)){
                         //console.log(result.specName +" "+result.featureResult.id);
+                        continue;
                     }
                 }
+
                 if(result.runnerState==="DONE"){
                     client.getResultsForTestPlan(this.state.uuid, this.state.revision).then((response) => {
                       this.props.dispatch(updateReport(response.data.report));
