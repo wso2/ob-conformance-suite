@@ -23,7 +23,6 @@ import {withRouter, Link} from 'react-router-dom'
 import { Grid, Row, Col, Button, ListGroup, Panel} from 'react-bootstrap';
 import {updateSpecification,addSpecificationToTestValues,
     addTestPlan,clearTestValues,clearSelectedSpecifications,updateReport} from "./actions";
-import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import {connect} from 'react-redux'
 import TestPlanReduxHelper from './utils/TestPlanReduxHelper'
 import axios from 'axios';

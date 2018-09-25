@@ -98,7 +98,7 @@ const stepStatus = (steps) => {
             </div>
         );
     }
-}
+};
 
 const FeatureElement = ({element}) => (
     <ListGroupItem>
@@ -113,11 +113,6 @@ const FeatureElement = ({element}) => (
         {stepStatus(element.steps)}
     </ListGroupItem>
 );
-
-const ElementStep = ({step}) => (
-    step.result.status
-);
-
 
 const ReportFeature = ({feature}) => (
     <ListGroupItem className="list-item-feature">
@@ -150,14 +145,6 @@ const ReportSpec = connect((state) => ({specifications: state.specifications,}))
         <ListGroup>{spec.map(featurex => <ReportFeature feature={featurex}/>)}</ListGroup>
     </Panel>
 ));
-
-const TestProgressBar = (testRunning, progress) => {
-    if(testRunning){
-        return <ProgressBar className="pass-rate-progress" active striped bsStyle="" now={progress} />;
-    }else{
-        return <ProgressBar className="pass-rate-progress fadeout" striped bsStyle="" now="100" />;
-    }
-};
 
 class TestReportView extends React.Component {
 
