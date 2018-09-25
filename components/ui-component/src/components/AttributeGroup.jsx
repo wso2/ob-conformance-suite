@@ -139,7 +139,7 @@ class AttributeGroup extends React.Component {
             case "TextLabel":
                 return <TextLabelAttribute attribute={attribute} key={attribute.name}/>
             case "LinkButton":
-                return <LinkButtonAttribute attribute={attribute} key={attribute.name}/>
+                return <LinkButtonAttribute attribute={attribute} key={attribute.name}/>;
             default:
                 return <p>Not A Valid Field Type</p>
         }
