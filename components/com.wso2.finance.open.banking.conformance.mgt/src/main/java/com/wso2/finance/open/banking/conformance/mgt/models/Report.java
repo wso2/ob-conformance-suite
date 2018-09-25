@@ -24,6 +24,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Model class representing the Report of a TestPlan.
+ */
 public class Report {
 
     public String testId;

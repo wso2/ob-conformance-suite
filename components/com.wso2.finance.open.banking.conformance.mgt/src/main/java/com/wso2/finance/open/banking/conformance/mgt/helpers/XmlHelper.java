@@ -19,11 +19,9 @@
 package com.wso2.finance.open.banking.conformance.mgt.helpers;
 
 import com.wso2.finance.open.banking.conformance.mgt.models.Specification;
-import com.wso2.finance.open.banking.conformance.mgt.models.TestPlan;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.OutputStream;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -31,10 +29,24 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 /**
- * Helper class for marshalling and unmarshalling XML documents
+ * Helper class for marshalling and unmarshalling XML documents.
  */
 public class XmlHelper {
 
+    /**
+     * No arg private constructor for helper util.
+     */
+    private XmlHelper() {
+
+    }
+
+    /**
+     * Marshall Specification object to XML document.
+     *
+     * @param specification
+     * @param outStream
+     * @throws JAXBException
+     */
     public static void marshallSpecification(Specification specification, OutputStream outStream) throws JAXBException {
 
         JAXBContext context = JAXBContext.newInstance(Specification.class);
@@ -43,26 +55,18 @@ public class XmlHelper {
         marshaller.marshal(specification, outStream);
     }
 
-    public static  void marshallTestPlan(TestPlan testPlan, OutputStream outStream) throws JAXBException {
-        JAXBContext context = JAXBContext.newInstance(TestPlan.class);
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        marshaller.marshal(testPlan, outStream);
-    }
-
-    public static Specification unmarshallSepcificationXML(File xmlDocument) throws JAXBException,
-            FileNotFoundException {
+    /**
+     * Un marshall Specification from XML document to object.
+     *
+     * @param xmlDocument
+     * @return
+     * @throws JAXBException
+     * @throws FileNotFoundException
+     */
+    public static Specification unmarshallSepcificationXML(File xmlDocument) throws JAXBException {
 
         JAXBContext context = JAXBContext.newInstance(Specification.class);
         Unmarshaller unmarshaller = context.createUnmarshaller();
-        return (Specification) unmarshaller.unmarshal(new FileReader(xmlDocument));
-    }
-
-    public static TestPlan unmarshallTestPlanXML(File xmlDocument) throws JAXBException,
-            FileNotFoundException {
-
-        JAXBContext context = JAXBContext.newInstance(TestPlan.class);
-        Unmarshaller unmarshaller = context.createUnmarshaller();
-        return (TestPlan) unmarshaller.unmarshal(new FileReader(xmlDocument));
+        return (Specification) unmarshaller.unmarshal(xmlDocument);
     }
 }
