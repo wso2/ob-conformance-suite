@@ -18,13 +18,11 @@
 
 import React from 'react';
 import AppHeader from "./partials/AppHeader";
-import AppBreadcrumbs from "./partials/AppBreadcrumbs";
-import {ListGroup, ListGroupItem, Button, FormControl, Panel} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Button, FormControl} from 'react-bootstrap';
 import {connect} from 'react-redux'
 import {
     setTestName,
     toggleSpecification,
-    clearSpecifications,
     clearTestValues,
     clearSelectedSpecifications
 } from "./actions";
