@@ -55,7 +55,8 @@ public class Feature {
      * @param uri
      * @param attributeGroups
      */
-    public Feature(String title, String description, File uri, List<AttributeGroup> attributeGroups, List<Scenario> scenarios) {
+    public Feature(String title, String description, File uri, List<AttributeGroup> attributeGroups,
+                   List<Scenario> scenarios) {
 
         this.title = title;
         this.description = description;
@@ -105,7 +106,7 @@ public class Feature {
     }
 
     /**
-     * Get specific AttributeGroup by name
+     * Get specific AttributeGroup by name.
      *
      * @param groupName
      * @return

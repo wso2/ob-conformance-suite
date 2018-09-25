@@ -24,6 +24,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * DTO representing the front end TestPlan object.
+ */
 public class TestPlan {
 
     private Map<String, Specification> specifications;

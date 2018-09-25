@@ -20,6 +20,9 @@ package com.wso2.finance.open.banking.conformance.mgt.testconfig;
 
 import java.util.Map;
 
+/**
+ * DTO representing the front end Feature object.
+ */
 public class Feature {
 
     private String title;

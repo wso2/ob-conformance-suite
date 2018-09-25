@@ -43,7 +43,7 @@ public class TestPlanRunnerInstance extends Thread {
     private volatile Integer reportId;
     private BlockingQueue<TestPlanFeatureResult> resultsQueue;
     private volatile Map<String, List<JsonObject>> formattedResult = new HashMap();
-    private volatile Report.RUNNER_STATE status;
+    private volatile Report.RunnerState status;
     private RunnerManagerCallback runnerManagerCallback;
 
     /**
@@ -56,7 +56,7 @@ public class TestPlanRunnerInstance extends Thread {
         super();
         this.testPlan = testPlan;
         this.resultsQueue = resultQueue;
-        this.status = Report.RUNNER_STATE.NOT_STARTED;
+        this.status = Report.RunnerState.NOT_STARTED;
         this.runnerManagerCallback = managerCallbacks;
         //Initialize Specs in Data Structure
         for (Specification spec : this.testPlan.getSpecifications()) {
@@ -140,11 +140,11 @@ public class TestPlanRunnerInstance extends Thread {
     public void run() {
 
         Context.getInstance().init(testPlan);
-        this.status = Report.RUNNER_STATE.RUNNING;
+        this.status = Report.RunnerState.RUNNING;
         for (Specification specification : this.testPlan.getSpecifications()) {
             this.processSpec(specification);
         }
-        this.status = Report.RUNNER_STATE.DONE;
+        this.status = Report.RunnerState.DONE;
         this.testPlan.setLastRun(new Date());
         this.runnerManagerCallback.onUpdateResult(this.buildReport());
         queueStopMessege();
@@ -154,7 +154,7 @@ public class TestPlanRunnerInstance extends Thread {
     /**
      * @return
      */
-    public Report.RUNNER_STATE getStatus() {
+    public Report.RunnerState getStatus() {
 
         return status;
     }
@@ -170,7 +170,7 @@ public class TestPlanRunnerInstance extends Thread {
     /**
      * @param status
      */
-    public void setStatus(Report.RUNNER_STATE status) {
+    public void setStatus(Report.RunnerState status) {
 
         this.status = status;
     }

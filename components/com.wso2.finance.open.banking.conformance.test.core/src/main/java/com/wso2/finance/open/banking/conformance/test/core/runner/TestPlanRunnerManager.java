@@ -73,7 +73,7 @@ public class TestPlanRunnerManager implements RunnerManagerCallback {
      * @param uuid
      * @return
      */
-    public Report.RUNNER_STATE getStatus(String uuid) {
+    public Report.RunnerState getStatus(String uuid) {
 
         return this.runnerInstanceMap.get(uuid).getStatus();
     }
@@ -91,7 +91,7 @@ public class TestPlanRunnerManager implements RunnerManagerCallback {
                 new TestPlanRunnerInstance(runnerInstance.getTestPlan(), this.resultQueueMap.get(uuid), this));
         Report report = this.runnerInstanceMap.get(uuid).buildReport();
         report = this.onAddResult(report);
-        report.state = Report.RUNNER_STATE.RUNNING;
+        report.state = Report.RunnerState.RUNNING;
         this.runnerInstanceMap.get(uuid).setReportId(report.reportId);
         this.runnerInstanceMap.get(uuid).start();
         return report;
@@ -123,7 +123,7 @@ public class TestPlanRunnerManager implements RunnerManagerCallback {
     public void setContextAttribute(String key, String value) {
 
         for (TestPlanRunnerInstance instance : this.runnerInstanceMap.values()) {
-            if (instance.getStatus() == Report.RUNNER_STATE.WAITING) {
+            if (instance.getStatus() == Report.RunnerState.WAITING) {
                 instance.setContextAttributes(key, value);
             }
         }
