@@ -157,7 +157,7 @@ class TestHistoryView extends React.Component{
                         </Row>
                     </div>
                     <div className="testplan-wrapper">
-                        {Object.values(this.props.testplans).map((plan) => 
+                        {Object.values(this.props.testplans).map((plan) =>
                             <TestPlanView plan={plan} specifications={this.props.specifications} runTest={this.runTest}/>
                         )}
                     </div>
