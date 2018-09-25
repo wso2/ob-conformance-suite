@@ -19,9 +19,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  ListGroup, ListGroupItem, Button, Modal, Grid, Row, Col, Panel, Badge, ProgressBar, Well,
-} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Button, Modal, Grid, Row, Col, Panel, Badge, ProgressBar, Well,} from 'react-bootstrap';
 import AppHeader from './partials/AppHeader';
 import '../public/css/report-style.scss';
 import RequestBuilder from './utils/RequestBuilder';
@@ -33,6 +31,85 @@ import { updateReport } from './actions';
 const client = new RequestBuilder();
 const reportHelper = new TestReportHelper();
 
+/*
+ *Panels with API names
+ */
+const ReportSpec = connect(state => ({ specifications: state.specifications }))(({ spec, specName, specifications }) => (
+  <Panel>
+    <Panel.Heading className="spec-heading">
+      <h2>
+        {specifications.specs[specName].title}
+        {' '}
+        <small>
+          {specifications.specs[specName].version}
+          {' '}
+        </small>
+      </h2>
+      <p className="text-muted">{specifications.specs[specName].description}</p>
+    </Panel.Heading>
+    <ListGroup>{spec.map(featurex => <ReportFeature feature={featurex} />)}</ListGroup>
+  </Panel>
+));
+
+/*
+ *Features
+ */
+const ReportFeature = ({ feature }) => (
+  <ListGroupItem className="list-item-feature" key={feature.id}>
+    <Panel className="feature-item-panel" defaultExpanded={reportHelper.getFeatureResultStatus(feature, reportHelper).status === 'Failed'}>
+      <Panel.Heading>
+        <div className="pull-right feature-result">
+          <span className={reportHelper.getFeatureResultStatus(feature, reportHelper).class}>
+            <i className={reportHelper.getFeatureResultStatus(feature, reportHelper).status === 'Passed'
+              ? 'fas fa-check-circle' : 'fas fa-times-circle'}
+            />
+            {reportHelper.getFeatureResultStatus(feature, reportHelper).status}
+          </span>
+        </div>
+        <Panel.Title>
+          <h4 className="feature-title">
+            <b>Feature:</b>
+            {' '}
+            {feature.name}
+          </h4>
+        </Panel.Title>
+        <Panel.Toggle componentClass="a">View Scenarios</Panel.Toggle>
+      </Panel.Heading>
+      <Panel.Collapse>
+        <Panel.Body>
+          {feature.elements.map(element => <FeatureElement element={element} />)}
+        </Panel.Body>
+      </Panel.Collapse>
+    </Panel>
+  </ListGroupItem>
+);
+
+/*
+ *Scenarios of feature
+ */
+const FeatureElement = ({ element }) => (
+  <ListGroupItem key={element.id}>
+    <h4 className="scenario-title">{element.name}</h4>
+    <p>
+      <span className="text-muted">Checking Compliance for </span>
+      <span className="scenario-spec-details">
+        <b>
+          {element.tags[0].name.slice(1)}
+          {' '}
+            &nbsp;
+        </b>
+        <Badge className="spec-badge">
+          {element.tags[1].name.slice(1)}
+        </Badge>
+      </span>
+    </p>
+    {stepStatus(element.steps)}
+  </ListGroupItem>
+);
+
+/*
+ *Steps of scenario
+ */
 const stepStatus = (steps) => {
   let status = true;
   let errorStep;
@@ -59,12 +136,12 @@ const stepStatus = (steps) => {
             </span>
           )
           : null
-        }
+                }
 
         { step.result.status === 'skipped'
           ? <span className="pull-right">skipped</span>
           : <i className={faIconClass} />
-        }
+                }
 
         { step.result.status === 'failed'
           ? (
@@ -117,74 +194,6 @@ const stepStatus = (steps) => {
   );
 };
 
-const FeatureElement = ({ element }) => (
-  <ListGroupItem>
-    <h4 className="scenario-title">{element.name}</h4>
-    <p>
-      <span className="text-muted">Checking Compliance for </span>
-      <span className="scenario-spec-details">
-        <b>
-          {element.tags[0].name.slice(1)}
-          {' '}
-          &nbsp;
-        </b>
-        <Badge className="spec-badge">
-          {element.tags[1].name.slice(1)}
-        </Badge>
-      </span>
-    </p>
-    {stepStatus(element.steps)}
-  </ListGroupItem>
-);
-
-const ReportFeature = ({ feature }) => (
-  <ListGroupItem className="list-item-feature">
-    <Panel className="feature-item-panel" defaultExpanded={reportHelper.getFeatureResultStatus(feature, reportHelper).status === 'Failed'}>
-      <Panel.Heading>
-        <div className="pull-right feature-result">
-          <span className={reportHelper.getFeatureResultStatus(feature, reportHelper).class}>
-            <i className={reportHelper.getFeatureResultStatus(feature, reportHelper).status === 'Passed'
-              ? 'fas fa-check-circle' : 'fas fa-times-circle'}
-            />
-            {reportHelper.getFeatureResultStatus(feature, reportHelper).status}
-          </span>
-        </div>
-        <Panel.Title>
-          <h4 className="feature-title">
-            <b>Feature:</b>
-            {' '}
-            {feature.name}
-          </h4>
-        </Panel.Title>
-        <Panel.Toggle componentClass="a">View Scenarios</Panel.Toggle>
-      </Panel.Heading>
-      <Panel.Collapse>
-        <Panel.Body>
-          {feature.elements.map(element => <FeatureElement element={element} />)}
-        </Panel.Body>
-      </Panel.Collapse>
-    </Panel>
-  </ListGroupItem>
-);
-
-const ReportSpec = connect(state => ({
-  specifications: state.specifications }))(({ spec, specName, specifications }) => (
-    <Panel>
-      <Panel.Heading className="spec-heading">
-        <h2>
-          {specifications.specs[specName].title}
-          {' '}
-          <small>
-            {specifications.specs[specName].version}
-            {' '}
-          </small>
-        </h2>
-        <p className="text-muted">{specifications.specs[specName].description}</p>
-      </Panel.Heading>
-      <ListGroup>{spec.map(featurex => <ReportFeature feature={featurex} />)}</ListGroup>
-    </Panel>
-));
-
 class TestReportView extends React.Component {
   constructor(props) {
     super(props);
@@ -211,10 +220,8 @@ class TestReportView extends React.Component {
 
 
   componentDidMount() {
-    // var currentRoute = this.props.location.pathname;
     client.getResultsForTestPlan(this.state.uuid, this.state.revision).then((response) => {
       const report = response.data.report.result;
-      // console.log(response.data);
       const results = reportHelper.getTestSummary(report);
       this.setState({
         loading: false,
@@ -225,14 +232,12 @@ class TestReportView extends React.Component {
         featureCount: (reportHelper.getFeatureCount(response.data.testPlan)),
         testName: response.data.testPlan.name,
         newTest: (results.passed + results.failed) < (
-          reportHelper.getFeatureCount(response.data.testPlan)),
+          reportHelper.getFeatureCount(response.data.testPlan)), // to check if the report is for a finished test
         progress: ((results.passed + results.failed) / (
           reportHelper.getFeatureCount(response.data.testPlan))) * 100,
       });
 
-      /*
-       *Add Ids of loaded results to the state.
-       */
+      /* Add Ids of loaded results to the state. */
       const finishedFeatureIdSet = this.state.finishedFeatureIds;
       for (var api in response.data.report.result) {
         finishedFeatureIdSet[api] = [];
@@ -244,6 +249,7 @@ class TestReportView extends React.Component {
         this.setState({ finishedFeatureIds: finishedFeatureIdSet });
       }
 
+      /* If the test is still running, start appending results to the report */
       if (response.data.report.state === 'RUNNING') {
         this.setState({ testRunning: true });
         this.interval = setInterval(() => this.appendResults(), 2000);
@@ -255,19 +261,22 @@ class TestReportView extends React.Component {
     clearInterval(this.interval);
   }
 
+  /*
+   *Function to load results to the report while polling
+   */
   appendResults() {
     client.pollResultsForTestPlan(this.state.uuid).then((response) => {
       for (let i = 0, len = response.data.length; i < len; i++) {
         const result = response.data[i];
 
-        /*
-         *Check for already loaded results asn skip appending.
-         */
+        /* Check for already loaded results and skip appending. */
         if (this.state.finishedFeatureIds.hasOwnProperty(result.specName)) {
           if (this.state.finishedFeatureIds[result.specName].includes(result.featureResult.id)) {
             continue;
           }
         }
+
+        /* update state when the test is finished */
         if (result.runnerState === 'DONE') {
           client.getResultsForTestPlan(this.state.uuid, this.state.revision).then((response) => {
             this.props.dispatch(updateReport(response.data.report));
@@ -276,9 +285,11 @@ class TestReportView extends React.Component {
             testRunning: false,
           });
         }
+
         this.setState({
           showInteractionModel: false,
         });
+
         let resultObject = this.state.data;
         if (result.featureResult) {
           const featureResult = reportHelper.getFeatureResult(result.featureResult, reportHelper);
@@ -289,9 +300,9 @@ class TestReportView extends React.Component {
           this.setState({
             data: resultObject,
             passed: this.state.passed
-                + (featureResult.failed === 0) * 1, // all scenarios of feature passed
+                            + (featureResult.failed === 0) * 1, // all scenarios of feature passed
             failed: this.state.failed
-                + (featureResult.failed > 0) * 1, // any scenario of feature failed
+                            + (featureResult.failed > 0) * 1, // any scenario of feature failed
             completedFeatures: this.state.completedFeatures + 1,
             progress: ((this.state.completedFeatures + 1) / this.state.featureCount) * 100,
           });
@@ -316,14 +327,17 @@ class TestReportView extends React.Component {
           </Modal.Header>
           <Modal.Body>
             {this.state.attributes
-              ? <AttributeGroup group={this.state.attributes}
-                key={this.state.attributes.groupName}
+              ? (
+                <AttributeGroup
+                  group={this.state.attributes}
+                  key={this.state.attributes.groupName}
                 />
+              )
               : []}
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() =>
-            {this.setState({ showInteractionModel: false });}}>Close
+            <Button onClick={() => { this.setState({ showInteractionModel: false }); }}>
+              Close
             </Button>
           </Modal.Footer>
         </Modal>
@@ -335,7 +349,7 @@ class TestReportView extends React.Component {
                 : this.state.failed > 0
                   ? <Badge className="test-complete-withfail-badge">Completed</Badge>
                   : <Badge className="test-complete-badge">Completed</Badge>
-              }
+                            }
             </div>
             <div>
               <h1 className="report-title">
@@ -349,26 +363,28 @@ class TestReportView extends React.Component {
               {this.state.passed > 0
                 ? (
                   <p>
-                    <span className="passed-summary">Passed: </span>{this.state.passed}
+                    <span className="passed-summary">Passed: </span>
+                    {this.state.passed}
                   </p>
                 )
                 : null
-              }
+                            }
 
               {this.state.failed > 0
                 ? (
                   <p>
-                    <span className="failed-summary">Failed: </span>{this.state.failed}
+                    <span className="failed-summary">Failed: </span>
+                    {this.state.failed}
                   </p>
                 )
                 : null
-              }
+                            }
 
               <div hidden={!this.state.newTest}>
                 { this.state.progress !== 100
                   ? <ProgressBar className="pass-rate-progress" active striped bsStyle="" now={this.state.progress} />
                   : <ProgressBar className="pass-rate-progress fadeout" striped bsStyle="" now="100" />
-                }
+                                }
               </div>
 
             </div>
@@ -379,7 +395,8 @@ class TestReportView extends React.Component {
             <br />
             <div>
               {Object.keys(this.state.data).map(
-                key => <ReportSpec spec={this.state.data[key]} specName={key} />)}
+                key => <ReportSpec spec={this.state.data[key]} specName={key} />,
+              )}
             </div>
           </Col>
         </Row>

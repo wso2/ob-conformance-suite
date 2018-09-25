@@ -18,7 +18,6 @@
 
 import React from 'react';
 import AppHeader from "./partials/AppHeader";
-import AppBreadcrumbs from "./partials/AppBreadcrumbs";
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import {Table, Row, Col, Button, Panel, ButtonToolbar} from 'react-bootstrap';

@@ -18,7 +18,6 @@
 
 package com.wso2.finance.open.banking.conformance.test.core.testrunners;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.Specification;
@@ -28,30 +27,39 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Run Test Plan
+ */
 public class TestPlanRunner {
 
-   private TestPlan testPlan;
+    private TestPlan testPlan;
 
-   public TestPlanRunner(TestPlan plan)
-   {
-       this.testPlan = plan;
-   }
+    /**
+     * @param plan
+     */
+    public TestPlanRunner(TestPlan plan) {
 
-   public Map<String,List<JsonObject>> runTestPlan(){
+        this.testPlan = plan;
+    }
 
-      Map<String,List<JsonObject>> results = new HashMap();
-      Gson gson = new Gson();
+    /**
+     * Run each Spec in the testplan
+     *
+     * @return
+     */
+    public Map<String, List<JsonObject>> runTestPlan() {
 
-      for(Specification spec : testPlan.getSpecifications())
-      {
-         Log.info("Start Running TestPlan");
-         //set current spec and version to the context if necessary
-         SpecRunner specRunner = new SpecRunner(spec);
-         results.put(spec.getName(),specRunner.runSpecification());
-         //clear context
-         Log.info("End Running TestPlan");
-      }
-      return results;
-   }
+        Map<String, List<JsonObject>> results = new HashMap();
+
+        for (Specification spec : testPlan.getSpecifications()) {
+            Log.info("Start Running TestPlan: " + testPlan.getName());
+
+            SpecRunner specRunner = new SpecRunner(spec);
+            results.put(spec.getName(), specRunner.runSpecification());
+
+            Log.info("End Running TestPlan: " + testPlan.getName());
+        }
+        return results;
+    }
 
 }

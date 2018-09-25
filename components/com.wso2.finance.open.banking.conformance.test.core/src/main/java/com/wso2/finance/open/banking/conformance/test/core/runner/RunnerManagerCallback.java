@@ -20,8 +20,12 @@ package com.wso2.finance.open.banking.conformance.test.core.runner;
 
 import com.wso2.finance.open.banking.conformance.mgt.models.Report;
 
-public interface RunnerManagerCallbacks {
-    void cleanup(String uuid);
-    Report addResult(Report report);
-    void updateResult(Report report);
+/**
+ * CallBack Interface used to Receive updates from TestRunner Instance
+ */
+public interface RunnerManagerCallback {
+
+    Report onAddResult(Report report);
+
+    void onUpdateResult(Report report);
 }
