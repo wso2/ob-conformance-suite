@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * DTO for getting information on Specifications
+ * DTO for getting information on Specifications.
  */
 public class SpecificationDAO {
 

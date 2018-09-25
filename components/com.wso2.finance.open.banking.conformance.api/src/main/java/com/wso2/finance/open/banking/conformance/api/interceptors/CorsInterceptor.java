@@ -22,18 +22,24 @@ import org.wso2.msf4j.Request;
 import org.wso2.msf4j.Response;
 import org.wso2.msf4j.interceptor.ResponseInterceptor;
 
+/**
+ * MSF4J Response Interceptor to append CORS Headers.
+ */
 public class CorsInterceptor implements ResponseInterceptor {
+
+    private static String headerName = "Origin";
 
     @Override
     public boolean interceptResponse(Request request, Response response) throws Exception {
+
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
 
-        if (request.getHeader("Origin") != null && !request.getHeader("Origin").isEmpty()) {
-            response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+        if (request.getHeader(headerName) != null && !request.getHeader(headerName).isEmpty()) {
+            response.setHeader("Access-Control-Allow-Origin", request.getHeader(headerName));
         }
         return true;
     }

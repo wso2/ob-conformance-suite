@@ -16,38 +16,39 @@
 
 package com.wso2.finance.open.banking.conformance.api;
 
-import com.google.gson.Gson;
 import com.wso2.finance.open.banking.conformance.api.dao.SpecificationDAO;
+import com.wso2.finance.open.banking.conformance.api.dto.BasicSpecificationDTO;
+import com.wso2.finance.open.banking.conformance.mgt.models.Specification;
 
-import javax.ws.rs.DELETE;
+import java.util.List;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 
 /**
- * This is the Microservice resource class.
- * See <a href="https://github.com/wso2/msf4j#getting-started">https://github.com/wso2/msf4j#getting-started</a>
- * for the usage of annotations.
+ * Microservice for managing Specifications.
  *
  * @since 1.0.0-SNAPSHOT
  */
 @Path("/specifications")
 public class ConformanceSuiteAPI {
 
-    private Gson gson = new Gson();
-    private SpecificationDAO  specificationDAO = new SpecificationDAO();
+    private SpecificationDAO specificationDAO = new SpecificationDAO();
 
     @GET
     @Path("/all")
-    public String get() {
-        return gson.toJson(specificationDAO.getBasicSpecifications());
+    @Produces("application/json")
+    public List<BasicSpecificationDTO> get() {
+
+        return specificationDAO.getBasicSpecifications();
     }
 
     @GET
     @Path("/single/{name}")
-    public String getSpecification(@PathParam("name") String name) {
-        return gson.toJson(specificationDAO.getSpecification(name));
+    @Produces("application/json")
+    public Specification getSpecification(@PathParam("name") String name) {
+
+        return specificationDAO.getSpecification(name);
     }
 }
