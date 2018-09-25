@@ -30,5 +30,5 @@ public class TestPlanFeatureResult {
     public JsonObject featureResult;
     public AttributeGroup attributeGroup;
     public String specName;
-    public Report.RUNNER_STATE runnerState;
+    public Report.RunnerState runnerState;
 }

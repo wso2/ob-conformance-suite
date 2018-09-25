@@ -19,9 +19,12 @@
 package com.wso2.finance.open.banking.conformance.mgt.testconfig;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
+/**
+ * DTO representing the front end Specification object.
+ */
 public class Specification {
 
     private String name;

@@ -23,7 +23,6 @@ import com.wso2.finance.open.banking.conformance.mgt.models.Report;
 import com.wso2.finance.open.banking.conformance.test.core.context.Context;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Utils;
-import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import com.wso2.finance.open.banking.conformance.test.core.oidc.OIDCHandler;
@@ -73,7 +72,7 @@ public class OIDCSteps {
             }
             i++;
         }
-        Context.getInstance().getRunnerInstance().setStatus(Report.RUNNER_STATE.RUNNING);
+        Context.getInstance().getRunnerInstance().setStatus(Report.RunnerState.RUNNING);
         oidcHandler.setAuthCode(authCode);
         Log.info("Received Auth Code: " + authCode);
         assertTrue(Utils.formatError("Authorization Code not received from authorization endpoint"), authCode != null);
@@ -91,7 +90,7 @@ public class OIDCSteps {
 
     private void setBrowserInteractionURLtoContext(String url) {
 
-        Attribute atr = new Attribute("consentUrl", "Get Consent", Attribute.ATTRIBUTE_TYPE.LinkButton, url, url, "Get Consent");
+        Attribute atr = new Attribute("consentUrl", "Get Consent", Attribute.AttributeType.LinkButton, url, url, "Get Consent");
         List<Attribute> atrList = new ArrayList();
         atrList.add(atr);
 
@@ -99,6 +98,6 @@ public class OIDCSteps {
         List<AttributeGroup> atrGrpList = new ArrayList();
         atrGrpList.add(atrGrp);
         Context.getInstance().getRunnerInstance().queueBrowserInteractionAttributes(atrGrp);
-        Context.getInstance().getRunnerInstance().setStatus(Report.RUNNER_STATE.WAITING);
+        Context.getInstance().getRunnerInstance().setStatus(Report.RunnerState.WAITING);
     }
 }

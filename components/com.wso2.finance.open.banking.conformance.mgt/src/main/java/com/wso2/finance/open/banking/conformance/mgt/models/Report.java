@@ -32,10 +32,13 @@ public class Report {
     public String testId;
     public Integer reportId;
     public Map<String, List<JsonObject>> result;
-    public RUNNER_STATE state;
+    public RunnerState state;
     public Date executed;
 
-    public enum RUNNER_STATE {
+    /**
+     * Enum representing the state of the Report.
+     */
+    public enum RunnerState {
         RUNNING, DONE, NOT_STARTED, WAITING
     }
 }

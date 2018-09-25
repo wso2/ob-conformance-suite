@@ -20,7 +20,6 @@ package com.wso2.finance.open.banking.conformance.mgt.models;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -65,7 +64,8 @@ public class TestPlan {
 
         int len = specifications.size();
         for (int i = 0; i < len; i++) {
-            if (specifications.get(i).getName().equals(specName) && specifications.get(i).getVersion().equals(specVersion)) {
+            if (specifications.get(i).getName().equals(specName) &&
+                    specifications.get(i).getVersion().equals(specVersion)) {
                 return specifications.get(i);
             }
         }

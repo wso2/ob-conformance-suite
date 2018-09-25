@@ -21,7 +21,6 @@ package com.wso2.finance.open.banking.conformance.mgt.helpers;
 import com.wso2.finance.open.banking.conformance.mgt.models.Specification;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.OutputStream;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -61,7 +60,6 @@ public class XmlHelper {
      * @param xmlDocument
      * @return
      * @throws JAXBException
-     * @throws FileNotFoundException
      */
     public static Specification unmarshallSepcificationXML(File xmlDocument) throws JAXBException {
 

@@ -33,7 +33,7 @@ public class Attribute {
     @XmlElement
     String label;
     @XmlElement
-    ATTRIBUTE_TYPE attributeType;
+    AttributeType attributeType;
     @XmlElement
     String defaultValue;
     @XmlElement
@@ -43,7 +43,10 @@ public class Attribute {
     @XmlElement
     String validationRegex;
 
-    public enum ATTRIBUTE_TYPE {
+    /**
+     * Enum representing the type of the Attribute.
+     */
+    public enum AttributeType {
         String, TextLabel, LinkButton
     }
 
@@ -58,7 +61,8 @@ public class Attribute {
      * @param defaultValue
      * @param helpText
      */
-    public Attribute(String name, String label, ATTRIBUTE_TYPE attributeType, String defaultValue, String value, String helpText) {
+    public Attribute(String name, String label, AttributeType attributeType, String defaultValue,
+                     String value, String helpText) {
 
         this.name = name;
         this.label = label;
@@ -87,7 +91,7 @@ public class Attribute {
     /**
      * @return
      */
-    public ATTRIBUTE_TYPE getAttributeType() {
+    public AttributeType getAttributeType() {
 
         return attributeType;
     }
