@@ -114,7 +114,7 @@ const stepStatus = (steps) => {
     let errorClass;
     let faIconClass = '';
     const errorDisplayList = [];
-
+    
     steps.forEach((step) => {
         status = status && (step.result.status === 'passed');
         errorClass = step.result.status;
