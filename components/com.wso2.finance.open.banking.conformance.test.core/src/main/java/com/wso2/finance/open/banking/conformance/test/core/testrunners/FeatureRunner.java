@@ -22,7 +22,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.Feature;
-import com.wso2.finance.open.banking.conformance.test.core.Context;
+import com.wso2.finance.open.banking.conformance.test.core.context.Context;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 import cucumber.api.cli.Main;
 
@@ -30,25 +30,40 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
+/**
+ * Run Feature
+ */
 public class FeatureRunner {
+
     private Feature feature;
 
-    public FeatureRunner(Feature feature){
+    /**
+     * @param feature
+     */
+    public FeatureRunner(Feature feature) {
+
         this.feature = feature;
     }
 
-    public JsonObject runFeature(){
+    /**
+     * Run each Scenario in a feature
+     * Cucumber test runner is used in this method to run the scenarios
+     *
+     * @return
+     */
+    public JsonObject runFeature() {
+
         Log.info("Start Running Feature: " + feature.getTitle());
-        //set feature context
+
         Context.getInstance().setFeatureContext(feature.getTitle(), feature.getUri());
         File resultFile = new File("target/cucumber-report/cucumber.json");
 
+        //set cucumber options
         String[] argv = new String[]
-                            {"-p","json:"+resultFile.getPath(), "-g",
-                              "classpath:com.wso2.finance.open.banking.conformance.test.core.steps",
-                              feature.getUri()
-                             };
-
+                {"-p", "json:" + resultFile.getPath(), "-g",
+                        "classpath:com.wso2.finance.open.banking.conformance.test.core.steps",
+                        feature.getUri()
+                };
 
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         try {
@@ -57,17 +72,25 @@ public class FeatureRunner {
             throwable.printStackTrace();
         }
 
-        //clear feature context
         Context.getInstance().clearFeatureContext();
+
         Log.info("End Running Feature: " + feature.getTitle());
-        try{
+
+        try {
             return this.readJson(resultFile);
-        }catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
+            Log.error("Feature Result File Not Found");
             return null;
         }
     }
 
+    /**
+     * @param url
+     * @return
+     * @throws FileNotFoundException
+     */
     private JsonObject readJson(File url) throws FileNotFoundException {
+
         JsonParser parser = new JsonParser();
         JsonElement jsonElement = parser.parse(new FileReader(url));
         return jsonElement.getAsJsonArray().get(0).getAsJsonObject();

@@ -18,9 +18,21 @@
 
 package com.wso2.finance.open.banking.conformance.test.core.utilities;
 
+/**
+ * Class that provides utility functions
+ */
 public class Utils {
 
-    public static String formatError(String error){
+    /**
+     * This method appends a prefix and suffix to the error msg
+     * prefix and suffix is used in front end to capture the error
+     * from the assertion which contains the error
+     *
+     * @param error
+     * @return
+     */
+    public static String formatError(String error) {
+
         return "StartError " + error + "EndError";
     }
 

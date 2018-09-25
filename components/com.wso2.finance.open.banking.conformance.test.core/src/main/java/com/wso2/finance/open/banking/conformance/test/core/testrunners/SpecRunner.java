@@ -21,31 +21,48 @@ package com.wso2.finance.open.banking.conformance.test.core.testrunners;
 import com.google.gson.JsonObject;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.Feature;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.Specification;
-import com.wso2.finance.open.banking.conformance.test.core.Context;
+import com.wso2.finance.open.banking.conformance.test.core.context.Context;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Run Spec
+ */
 public class SpecRunner {
+
     private Specification specification;
 
+    /**
+     * @param specification
+     */
     public SpecRunner(Specification specification) {
+
         this.specification = specification;
     }
 
-    public List<JsonObject> runSpecification(){
+    /**
+     * Run each feature in the spec
+     *
+     * @return
+     */
+    public List<JsonObject> runSpecification() {
+
         Log.info("Start Running TestSpec " + specification.getName() + " version:" + specification.getVersion());
+
         List<JsonObject> results = new ArrayList();
-        //set spec context
+
         Context.getInstance().setSpecContext(specification.getName(), specification.getVersion());
-        for(Feature feature : specification.getFeatures()){
+
+        for (Feature feature : specification.getFeatures()) {
             FeatureRunner featureRunner = new FeatureRunner(feature);
             results.add(featureRunner.runFeature());
         }
-        //clear spec context
+
         Context.getInstance().clearSpecContext();
         Log.info("End Running TestSpec " + specification.getName() + " version:" + specification.getVersion());
+
         return results;
 
     }
