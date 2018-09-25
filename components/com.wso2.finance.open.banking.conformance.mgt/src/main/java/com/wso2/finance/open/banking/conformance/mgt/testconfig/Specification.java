@@ -18,7 +18,6 @@
 
 package com.wso2.finance.open.banking.conformance.mgt.testconfig;
 
-
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
@@ -28,13 +27,16 @@ public class Specification {
     private String name;
     private String version;
     private Map<String, Feature> features;  //uri->feature
-    private Map<String, Map<String,String>> attributeGroups;
+    private Map<String, Map<String, String>> attributeGroups;
     private List<String> testingVectors;
 
-    public Specification(){}
+    public Specification() {
+
+    }
 
     public Specification(String name, String version, Map<String, Feature> features,
-                         Map<String, Map<String,String>> attributeGroups,  List<String> testingVectors){
+                         Map<String, Map<String, String>> attributeGroups, List<String> testingVectors) {
+
         this.name = name;
         this.version = version;
         this.features = features;
@@ -42,19 +44,28 @@ public class Specification {
         this.testingVectors = testingVectors;
     }
 
-    public String getName(){return name;}
+    public String getName() {
 
-    public String getVersion(){return version;}
+        return name;
+    }
 
-    public List<Feature> getFeatures(){
+    public String getVersion() {
+
+        return version;
+    }
+
+    public List<Feature> getFeatures() {
+
         return new ArrayList(features.values());
     }
 
-    public String getAttribute(String attributeGroup, String attributeName){
+    public String getAttribute(String attributeGroup, String attributeName) {
+
         return attributeGroups.get(attributeGroup).get(attributeName);
     }
 
-    public Feature getFeature(String key){
+    public Feature getFeature(String key) {
+
         return features.get(key);
     }
 }

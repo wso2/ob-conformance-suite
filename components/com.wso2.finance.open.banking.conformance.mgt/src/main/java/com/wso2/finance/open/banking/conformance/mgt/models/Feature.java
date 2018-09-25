@@ -105,15 +105,17 @@ public class Feature {
     }
 
     /**
+     * Get specific AttributeGroup by name
      *
      * @param groupName
      * @return
      * @throws NoSuchElementException
      */
     public AttributeGroup getAttributeGroup(String groupName) throws NoSuchElementException {
-        int len=attributeGroups.size();
-        for(int i=0; i<len; i++) {
-            if (attributeGroups.get(i).getGroupName().equals(groupName)){
+
+        int len = attributeGroups.size();
+        for (int i = 0; i < len; i++) {
+            if (attributeGroups.get(i).getGroupName().equals(groupName)) {
                 return attributeGroups.get(i);
             }
         }

@@ -24,20 +24,30 @@ public class Feature {
 
     private String title;
     private String uri;
-    private Map<String, Map<String,String>> attributeGroups;
+    private Map<String, Map<String, String>> attributeGroups;
 
-    public Feature(){}
+    public Feature() {
 
-    public Feature(String title, Map<String,Map<String,String>> attributeGroups){
+    }
+
+    public Feature(String title, Map<String, Map<String, String>> attributeGroups) {
+
         this.title = title;
         this.attributeGroups = attributeGroups;
     }
 
-    public String getTitle(){return title;}
+    public String getTitle() {
 
-    public String getUri(){return uri;}
+        return title;
+    }
 
-    public String getAttribute(String attributeGroup, String attributeName){
+    public String getUri() {
+
+        return uri;
+    }
+
+    public String getAttribute(String attributeGroup, String attributeName) {
+
         return attributeGroups.get(attributeGroup).get(attributeName);
     }
 }

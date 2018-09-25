@@ -21,6 +21,9 @@ package com.wso2.finance.open.banking.conformance.mgt.models;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * Model Class representing a Scenario in an Feature.
+ */
 @XmlRootElement(name = "Scenario")
 public class Scenario {
 
@@ -30,7 +33,6 @@ public class Scenario {
     private String specName;
     @XmlAttribute
     private String specSection;
-
 
     public Scenario() {
 
@@ -70,6 +72,5 @@ public class Scenario {
 
         return specSection;
     }
-
 
 }
