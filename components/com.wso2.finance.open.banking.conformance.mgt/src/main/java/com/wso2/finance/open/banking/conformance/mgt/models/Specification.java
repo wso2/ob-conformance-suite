@@ -143,15 +143,15 @@ public class Specification {
     }
 
     /**
-     *
      * @param tag
      * @return
      * @throws NoSuchElementException
      */
     public Vector getVector(String tag) throws NoSuchElementException {
-        int len=testingVectors.size();
-        for(int i=0; i<len; i++) {
-            if (testingVectors.get(i).getTag().equals(tag)){
+
+        int len = testingVectors.size();
+        for (int i = 0; i < len; i++) {
+            if (testingVectors.get(i).getTag().equals(tag)) {
                 return testingVectors.get(i);
             }
         }
@@ -159,15 +159,17 @@ public class Specification {
     }
 
     /**
+     * Get specific Feature by Feature Title.
      *
      * @param title
      * @return
      * @throws NoSuchElementException
      */
     public Feature getFeature(String title) throws NoSuchElementException {
-        int len=features.size();
-        for(int i=0; i<len; i++) {
-            if (features.get(i).getTitle().equals(title)){
+
+        int len = features.size();
+        for (int i = 0; i < len; i++) {
+            if (features.get(i).getTitle().equals(title)) {
                 return features.get(i);
             }
         }
@@ -175,15 +177,17 @@ public class Specification {
     }
 
     /**
+     * Get specific AttributeGroup by groupName.
      *
      * @param groupName
      * @return
      * @throws NoSuchElementException
      */
     public AttributeGroup getAttributeGroup(String groupName) throws NoSuchElementException {
-        int len=attributeGroups.size();
-        for(int i=0; i<len; i++) {
-            if (attributeGroups.get(i).getGroupName().equals(groupName)){
+
+        int len = attributeGroups.size();
+        for (int i = 0; i < len; i++) {
+            if (attributeGroups.get(i).getGroupName().equals(groupName)) {
                 return attributeGroups.get(i);
             }
         }

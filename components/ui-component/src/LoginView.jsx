@@ -31,7 +31,7 @@ class LoginView extends React.Component {
     super(props);
     this.history = props.history;
   }
-
+  
   validateUser() {
     if (this.username.value === 'nab' && this.password.value === 'nab') {
       this.history.push('/dashboard');
@@ -51,16 +51,15 @@ class LoginView extends React.Component {
               <Form horizontal className="login-form">
                 <FormGroup controlId="formHorizontalEmail">
                   <Col componentClass={ControlLabel}>
-                    Username
+                                    Username
                   </Col>
                   <Col>
-                    <FormControl type="text" placeholder="Enter Username" inputRef={(ref) => {this.username = ref}}/>
+                    <FormControl type="text" placeholder="Enter Username" inputRef={(ref) => { this.username = ref; }} />
                   </Col>
                 </FormGroup>
-
                 <FormGroup controlId="formHorizontalPassword">
                   <Col componentClass={ControlLabel}>
-                    Password
+                                    Password
                   </Col>
                   <Col>
                     <FormControl type="password" placeholder="Enter Password" inputRef={(ref) => { this.password = ref; }} />
@@ -72,7 +71,6 @@ class LoginView extends React.Component {
                     <Checkbox>Remember me</Checkbox>
                   </Col>
                 </FormGroup>
-
                 <FormGroup className="center-form">
                   <Button className="login-btn" type="submit" onClick={() => this.validateUser()}>Login</Button>
                 </FormGroup>

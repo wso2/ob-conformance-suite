@@ -27,7 +27,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Model class representing the test plan.
  */
-
 @XmlRootElement(name = "TestPlan")
 public class TestPlan {
 
@@ -41,8 +40,8 @@ public class TestPlan {
     /**
      * @param specifications
      */
-    public  TestPlan(List<Specification> specifications)
-    {
+    public TestPlan(List<Specification> specifications) {
+
         this.specifications = specifications;
     }
 
@@ -55,6 +54,7 @@ public class TestPlan {
     }
 
     /**
+     * Get specific Specification by specification name and version.
      *
      * @param specName
      * @param specVersion
@@ -62,9 +62,10 @@ public class TestPlan {
      * @throws NoSuchElementException
      */
     public Specification getSpecification(String specName, String specVersion) throws NoSuchElementException {
-        int len=specifications.size();
-        for(int i=0; i<len; i++) {
-            if (specifications.get(i).getName().equals(specName) && specifications.get(i).getVersion().equals(specVersion)){
+
+        int len = specifications.size();
+        for (int i = 0; i < len; i++) {
+            if (specifications.get(i).getName().equals(specName) && specifications.get(i).getVersion().equals(specVersion)) {
                 return specifications.get(i);
             }
         }

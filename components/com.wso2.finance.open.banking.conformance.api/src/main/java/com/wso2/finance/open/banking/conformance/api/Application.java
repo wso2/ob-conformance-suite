@@ -55,8 +55,6 @@ public class Application {
 
         } catch (JAXBException e) {
             e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
     }
 

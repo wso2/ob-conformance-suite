@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Groups Attributes Logically.
+ * Model representing a Groups of Attributes.
  */
 @XmlRootElement(name = "AttributeGroup")
 public class AttributeGroup {
@@ -90,15 +90,17 @@ public class AttributeGroup {
     }
 
     /**
+     * Get specific Attribute by attribute name.
      *
      * @param name
      * @return
      * @throws NoSuchElementException
      */
     public Attribute getAttribute(String name) throws NoSuchElementException {
-        int len=attributes.size();
-        for(int i=0; i<len; i++) {
-            if (attributes.get(i).getName().equals(name)){
+
+        int len = attributes.size();
+        for (int i = 0; i < len; i++) {
+            if (attributes.get(i).getName().equals(name)) {
                 return attributes.get(i);
             }
         }
