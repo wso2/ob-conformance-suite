@@ -146,7 +146,7 @@ public class TestPlanRunnerInstance extends Thread {
         }
         this.status = Report.RUNNER_STATE.DONE;
         this.testPlan.setLastRun(new Date());
-        this.managerCallbacks.updateResult(this.buildReport());
+        this.runnerManagerCallback.onUpdateResult(this.buildReport());
         queueStopMessege();
         this.interrupt();
     }
