@@ -108,25 +108,32 @@ const FeatureElement = ({element}) => (
  *Steps of scenario
  */
 const stepStatus = (steps) => {
-    let status = true;
-    let errorStep;
-    let errorDescription;
-    let errorClass;
-    let faIconClass = '';
-    const errorDisplayList = [];
-    
-    steps.forEach((step) => {
-        status = status && (step.result.status === 'passed');
-        errorClass = step.result.status;
-        errorDescription = step.result.error_message;
-        errorStep = (`${step.keyword} | ${step.name}`);
-        step.result.status === 'passed' ? faIconClass = '' : faIconClass = '';
+  let status = true;
+  let errorStep;
+  let errorDescription;
+  let errorClass;
+  let faIconClass = '';
+  const errorDisplayList = [];
 
-        errorDisplayList.push(
-            <ListGroupItem className={errorClass} key={step.name}>
-                {step.result.status !== 'failed'
-                    ? (<span><b>{errorStep.split(' ')[0]}</b>{' '}{errorStep.split(' ').slice(1).join(' ')}</span>)
-                    : null
+  steps.forEach((step) => {
+    status = status && (step.result.status === 'passed');
+    errorClass = step.result.status;
+    errorDescription = step.result.error_message;
+    errorStep = (`${step.keyword} | ${step.name}`);
+    step.result.status === 'passed' ? faIconClass = '' : faIconClass = '';
+
+    errorDisplayList.push(
+      <ListGroupItem  className={errorClass} key={step.name}>
+        { step.result.status !== 'failed'
+          ? (
+            <span>
+              <b>{errorStep.split(' ')[0]}</b>
+              {' '}
+              {errorStep.split(' ').slice(1).join(' ')}
+
+            </span>
+          )
+          : null
                 }
 
                 {step.result.status === 'skipped'
