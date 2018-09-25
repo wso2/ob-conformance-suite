@@ -126,6 +126,7 @@ const stepStatus = (steps) => {
     errorStep = (`${step.keyword} | ${step.name}`);
     step.result.status === 'passed' ? faIconClass = '' : faIconClass = '';
 
+
     errorDisplayList.push(
       <ListGroupItem  className={errorClass} >
         { step.result.status !== 'failed'
