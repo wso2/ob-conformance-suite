@@ -124,4 +124,4 @@ export const SpecificationEditor = ({spec}) => (
         <br/>
         {spec.features.map((feature) => <Feature key={feature.uri.path} feature={feature} specName={spec.name}/>)}
     </div>
-)
+);

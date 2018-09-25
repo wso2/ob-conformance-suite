@@ -46,7 +46,7 @@ const stepStatus = (steps) => {
         step.result.status === "passed" ? faIconClass = "" : faIconClass = "";
 
         errorDisplayList.push(
-            <ListGroupItem bsStyle="" className = {errorClass}>
+            <ListGroupItem key={step.name} className = {errorClass}>
                 { step.result.status !== "failed"
                     ? <span><b>{errorStep.split(" ")[0]}</b> {errorStep.split(' ').slice(1).join(' ')}</span>
                     : null
@@ -101,7 +101,7 @@ const stepStatus = (steps) => {
 };
 
 const FeatureElement = ({element}) => (
-    <ListGroupItem>
+    <ListGroupItem key={element.name}>
         <h4 className="scenario-title">{element.name}</h4>
         <p>
             <span className="text-muted">Checking Compliance for </span>
@@ -115,7 +115,7 @@ const FeatureElement = ({element}) => (
 );
 
 const ReportFeature = ({feature}) => (
-    <ListGroupItem className="list-item-feature">
+    <ListGroupItem key={feature.name} className="list-item-feature">
         <Panel className="feature-item-panel" defaultExpanded={reportHelper.getFeatureResultStatus(feature, reportHelper).status === "Failed"}>
             <Panel.Heading>
                 <div className="pull-right feature-result">
@@ -129,7 +129,7 @@ const ReportFeature = ({feature}) => (
             </Panel.Heading>
             <Panel.Collapse>
                 <Panel.Body>
-                    {feature.elements.map(element => <FeatureElement element={element}/>)}
+                    {feature.elements.map(element => <FeatureElement key={element.name} element={element}/>)}
                 </Panel.Body>
             </Panel.Collapse>
         </Panel>
@@ -298,8 +298,8 @@ class TestReportView extends React.Component {
 
                             <div hidden={!this.state.newTest}>
                                 { this.state.progress !== 100
-                                    ? <ProgressBar className="pass-rate-progress" active striped bsStyle="" now={this.state.progress} />
-                                    : <ProgressBar className="pass-rate-progress fadeout" striped bsStyle="" now="100" />
+                                    ? <ProgressBar className="pass-rate-progress" active striped now={this.state.progress} />
+                                    : <ProgressBar className="pass-rate-progress fadeout" striped now="100" />
                                 }
                             </div>
 
@@ -310,7 +310,7 @@ class TestReportView extends React.Component {
                     <Col md={12}>
                         <br/>
                         <div>
-                            {Object.keys(this.state.data).map((key) => <ReportSpec spec={this.state.data[key]} specName={key}/>)}
+                            {Object.keys(this.state.data).map((key) => <ReportSpec spec={this.state.data[key]} key={key} specName={key}/>)}
                         </div>
                     </Col>
                 </Row>
