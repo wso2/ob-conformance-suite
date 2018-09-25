@@ -26,7 +26,6 @@ import RequestBuilder from './utils/RequestBuilder';
 import TestReportHelper from './utils/TestReportHelper';
 import AttributeGroup from "./components/AttributeGroup";
 import LoaderComponent from "./components/LoaderComponent"
-
 import { updateReport } from './actions';
 
 const client = new RequestBuilder();
@@ -125,7 +124,6 @@ const stepStatus = (steps) => {
     errorDescription = step.result.error_message;
     errorStep = (`${step.keyword} | ${step.name}`);
     step.result.status === 'passed' ? faIconClass = '' : faIconClass = '';
-
 
     errorDisplayList.push(
       <ListGroupItem  className={errorClass} >
@@ -370,8 +368,7 @@ class TestReportView extends React.Component {
                 { this.state.progress !== 100
                   ? <ProgressBar className="pass-rate-progress" active striped now={this.state.progress} />
                   : <ProgressBar className="pass-rate-progress fadeout" striped now="100" />
-
-                                }
+                }
               </div>
 
             </div>
