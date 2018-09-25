@@ -125,6 +125,7 @@ const stepStatus = (steps) => {
     errorStep = (`${step.keyword} | ${step.name}`);
     step.result.status === 'passed' ? faIconClass = '' : faIconClass = '';
 
+
     errorDisplayList.push(
       <ListGroupItem bsStyle="" className={errorClass}>
         { step.result.status !== 'failed'
@@ -176,22 +177,6 @@ const stepStatus = (steps) => {
   if (status) {
     return (<p className="passedTag status-badge"><i className="fas fa-check-circle" /></p>);
   }
-
-  return (
-    <div>
-      <p className="failedTag status-badge"><i className="fas fa-times-circle" /></p>
-      <Panel className="error-panel" defaultExpanded>
-        <Panel.Collapse>
-          <p className="top-left-padding"><b>Failure details :</b></p>
-          <ListGroup>
-            <Well bsSize="small">
-              {errorDisplayList}
-            </Well>
-          </ListGroup>
-        </Panel.Collapse>
-      </Panel>
-    </div>
-  );
 };
 
 class TestReportView extends React.Component {
