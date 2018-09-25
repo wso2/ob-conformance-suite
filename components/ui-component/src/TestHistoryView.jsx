@@ -66,6 +66,10 @@ class TestPlanView extends React.Component {
         }
     }
 
+    togglePlan(){
+        console.log("Toggled");
+    }
+
     render(){
         return (
             <Panel defaultExpanded={false} expanded={this.state.open}>
@@ -73,13 +77,13 @@ class TestPlanView extends React.Component {
                     <Panel.Title>
                         <Row className={"history-view-row"}>
                             <Col xs={6}>
-                                <p>{this.props.plan.testPlan.name}
+                                <div>{this.props.plan.testPlan.name}
                                     <small>
                                         <p className={"text-muted"}><span className={"history-view-inline-specs"}>
-                                                            {Object.keys(this.props.plan.testPlan.specifications).map((key) => <span>{this.props.specifications[key].title} {this.props.specifications[key].version}</span>)}
+                                                            {Object.keys(this.props.plan.testPlan.specifications).map((key) => <span key={this.props.specifications[key].title}>{this.props.specifications[key].title} {this.props.specifications[key].version}</span>)}
                                                             </span></p>
                                     </small>
-                                </p>
+                                </div>
                             </Col>
                             <Col xs={5}>
                                 <ButtonToolbar className="pull-right">
@@ -109,7 +113,7 @@ class TestPlanView extends React.Component {
                             </tr>
                             </thead>
                             <tbody className={"text-center"}>
-                            {Object.values(this.props.plan.reports).map((report) => <TestPlanRow report={report}/>)}
+                            {Object.values(this.props.plan.reports).map((report) => <TestPlanRow key={report.reportId} report={report}/>)}
                             </tbody>
                         </Table>
                     </Panel.Body>
@@ -158,7 +162,7 @@ class TestHistoryView extends React.Component{
                     </div>
                     <div className="testplan-wrapper">
                         {Object.values(this.props.testplans).map((plan) =>
-                            <TestPlanView plan={plan} specifications={this.props.specifications} runTest={this.runTest}/>
+                            <TestPlanView plan={plan} key={plan.testId} specifications={this.props.specifications} runTest={this.runTest}/>
                         )}
                     </div>
                     <div className="testplan-wrapper" hidden={Object.values(this.props.testplans).length !== 0}>

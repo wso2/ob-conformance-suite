@@ -125,7 +125,6 @@ const stepStatus = (steps) => {
     errorStep = (`${step.keyword} | ${step.name}`);
     step.result.status === 'passed' ? faIconClass = '' : faIconClass = '';
 
-
     errorDisplayList.push(
       <ListGroupItem bsStyle="" className={errorClass}>
         { step.result.status !== 'failed'
@@ -134,6 +133,7 @@ const stepStatus = (steps) => {
               <b>{errorStep.split(' ')[0]}</b>
               {' '}
               {errorStep.split(' ').slice(1).join(' ')}
+
             </span>
           )
           : null
@@ -164,6 +164,7 @@ const stepStatus = (steps) => {
                       : errorDescription
                     }
                   </i>
+
                 </Panel.Body>
               </Panel.Collapse>
             </Panel>
@@ -364,11 +365,11 @@ class TestReportView extends React.Component {
                 )
                 : null
                             }
-
               <div hidden={!this.state.newTest}>
                 { this.state.progress !== 100
                   ? <ProgressBar className="pass-rate-progress" active striped bsStyle="" now={this.state.progress} />
                   : <ProgressBar className="pass-rate-progress fadeout" striped bsStyle="" now="100" />
+
                                 }
               </div>
 
@@ -398,6 +399,7 @@ class TestReportView extends React.Component {
       </div>
     );
   }
+
 }
 
 export default connect()(TestReportView);
