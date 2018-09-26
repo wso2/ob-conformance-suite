@@ -27,7 +27,7 @@ import org.wso2.msf4j.interceptor.ResponseInterceptor;
  */
 public class CorsInterceptor implements ResponseInterceptor {
 
-    private static String headerName = "Origin";
+    private String headerName = "Origin";
 
     @Override
     public boolean interceptResponse(Request request, Response response) throws Exception {

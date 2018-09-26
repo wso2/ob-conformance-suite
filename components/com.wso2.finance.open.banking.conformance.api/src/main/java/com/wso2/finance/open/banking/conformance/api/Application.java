@@ -55,7 +55,7 @@ public class Application {
             ApplicationDataHolder.getInstance().setSpecifications(specifications);
 
         } catch (JAXBException e) {
-            log.trace(e);
+            log.error("Unable to load XML Resources", e);
         }
     }
 
