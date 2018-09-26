@@ -75,7 +75,8 @@ class TestConfigurationView extends React.Component {
         return TestPlanReduxHelper.getSelectedSpecsFromState(this.props.specifications,this.props.specifications.selected)
             .map(spec => {
                 return (
-                    <Specification selected={spec.name == this.state.selectedSpec} key={spec.name} spec={spec} selectElement={this.selectSpec}/>
+                    <Specification selected={spec.name == this.state.selectedSpec} key={spec.name} spec={spec}
+                                   selectElement={this.selectSpec}/>
                 );
         });
     }
