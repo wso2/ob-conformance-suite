@@ -18,21 +18,24 @@
 
 package com.wso2.finance.open.banking.conformance.api.dto;
 
-import com.wso2.finance.open.banking.conformance.mgt.models.Report;
-import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
+        import com.wso2.finance.open.banking.conformance.mgt.models.Report;
+        import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 
-import java.util.List;
+        import java.util.List;
 
-public class TestPlanDTO {
+/**
+ * DTO for TestPlan.
+ */
+        public class TestPlanDTO {
 
-    String testId;
-    TestPlan testPlan;
-    List<Report> reports;
+        String testId;
+        TestPlan testPlan;
+        List<Report> reports;
 
-    public TestPlanDTO(String testId, TestPlan testPlan, List<Report> reports) {
+        public TestPlanDTO(String testId, TestPlan testPlan, List<Report> reports) {
 
         this.testId = testId;
         this.testPlan = testPlan;
         this.reports = reports;
-    }
-}
+        }
+        }

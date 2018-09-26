@@ -20,8 +20,27 @@ package com.wso2.finance.open.banking.conformance.api.dto;
 
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 
+/**
+ * DTO for TestPlan.
+ */
 public class AddTestPlanDTO {
 
-    public TestPlan testPlan;
-    public boolean runNow;
+    private TestPlan testPlan;
+    private boolean runNow;
+
+    /**
+     * @return
+     */
+    public TestPlan getTestPlan() {
+
+        return testPlan;
+    }
+
+    /**
+     * @return
+     */
+    public boolean isRunNow() {
+
+        return runNow;
+    }
 }

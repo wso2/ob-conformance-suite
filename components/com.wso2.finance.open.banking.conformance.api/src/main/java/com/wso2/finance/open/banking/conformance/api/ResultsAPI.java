@@ -29,9 +29,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 /**
- * This is the Microservice resource class.
- * See <a href="https://github.com/wso2/msf4j#getting-started">https://github.com/wso2/msf4j#getting-started</a>
- * for the usage of annotations.
+ * Microservice for Managing Results.
  *
  * @since 1.0.0-SNAPSHOT
  */

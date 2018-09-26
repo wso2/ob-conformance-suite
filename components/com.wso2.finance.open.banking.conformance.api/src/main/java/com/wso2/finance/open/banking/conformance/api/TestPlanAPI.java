@@ -18,34 +18,28 @@
 
 package com.wso2.finance.open.banking.conformance.api;
 
+import com.wso2.finance.open.banking.conformance.api.dto.AddTestPlanDTO;
+import com.wso2.finance.open.banking.conformance.api.dto.TestPlanAddConfirmationDTO;
+import com.wso2.finance.open.banking.conformance.api.dto.TestPlanDTO;
+import com.wso2.finance.open.banking.conformance.mgt.models.Report;
+import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerManager;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.google.gson.JsonObject;
-import com.wso2.finance.open.banking.conformance.api.dto.AddTestPlanDTO;
-import com.wso2.finance.open.banking.conformance.api.dto.TestPlanAddConfirmationDTO;
-import com.wso2.finance.open.banking.conformance.api.dto.TestPlanDTO;
-import com.wso2.finance.open.banking.conformance.mgt.models.Report;
-import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
-import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanFeatureResult;
-import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerManager;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
- * This is the Microservice resource class.
- * See <a href="https://github.com/wso2/msf4j#getting-started">https://github.com/wso2/msf4j#getting-started</a>
- * for the usage of annotations.
+ * Microservice for managing TestPlans.
  *
  * @since 1.0.0-SNAPSHOT
  */
@@ -60,13 +54,13 @@ public class TestPlanAPI {
     @Produces("application/json")
     public TestPlanAddConfirmationDTO addTestPlan(AddTestPlanDTO plan) {
 
-        String testId = this.runnerManager.addPlan(plan.testPlan);
+        String testId = this.runnerManager.addPlan(plan.getTestPlan());
         Report report = null;
-        if(plan.runNow){
+        if (plan.isRunNow()) {
             report = this.runnerManager.start(testId);
         }
 
-        return new TestPlanAddConfirmationDTO(testId,report);
+        return new TestPlanAddConfirmationDTO(testId, report);
     }
 
     @OPTIONS
@@ -79,7 +73,8 @@ public class TestPlanAPI {
     @GET
     @Path("/run/{uuid}")
     @Produces("application/json")
-    public Report startTestPlan(@PathParam("uuid") String uuid){
+    public Report startTestPlan(@PathParam("uuid") String uuid) {
+
         return this.runnerManager.start(uuid);
     }
 

@@ -21,9 +21,11 @@ package com.wso2.finance.open.banking.conformance.api.dto;
 import com.wso2.finance.open.banking.conformance.mgt.models.Report;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 
-import java.util.Map;
-
+/**
+ * DTO for Result.
+ */
 public class TestResultDTO {
+
     TestPlan testPlan;
     Report report;
 
