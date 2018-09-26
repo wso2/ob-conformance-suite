@@ -19,7 +19,6 @@
 
 package com.wso2.finance.open.banking.conformance.test.core.steps.v1_0_0;
 
-import com.wso2.finance.open.banking.conformance.test.core.constants.Constants;
 import com.wso2.finance.open.banking.conformance.test.core.context.Context;
 import com.wso2.finance.open.banking.conformance.test.core.request.RequestGenerator;
 import com.wso2.finance.open.banking.conformance.test.core.response.ResponseValidator;
@@ -27,13 +26,13 @@ import com.wso2.finance.open.banking.conformance.test.core.utilities.Utils;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
-import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.apache.log4j.Logger;
 
+import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
+
 
 /**
  * Steps used by open data tests.
@@ -41,7 +40,7 @@ import static org.junit.Assert.assertEquals;
 public class OpenDataSteps {
 
     private RequestGenerator requestGenerator = new RequestGenerator();
-    private ResponseValidator responseValidator = new ResponseValidator();
+    private ResponseValidator responseValidator;
     private RequestSpecification httpRequest;
     private Response response;
 
@@ -56,13 +55,14 @@ public class OpenDataSteps {
 
         endpointGetAtmsByBankId = "/v1.0.0/banks/" + Context.getInstance()
                 .getCurrentFeatureAttribute("uri", "bank_id") + "/atms";
-        httpRequest = requestGenerator.createRequest(Constants.ATM_END_POINT);
+        httpRequest = requestGenerator.generate();
     }
 
     @When("a user retrieves the atm details")
     public void getAtmDetails() {
 
-        response = httpRequest.request(Method.GET, endpointGetAtmsByBankId);
+        response = given().spec(httpRequest).when().get(endpointGetAtmsByBankId);
+        responseValidator = new ResponseValidator(response);
         log.info("response: " + response.getBody().asString());
     }
 
@@ -77,13 +77,13 @@ public class OpenDataSteps {
 
         endpointGetBranchesByBankId = "/v1.0.0/banks/" + Context.getInstance()
                 .getCurrentFeatureAttribute("uri", "bank_id") + "/branches";
-        httpRequest = requestGenerator.createRequest(Constants.BRANCH_END_POINT);
+        httpRequest = requestGenerator.generate();
     }
 
     @When("a user retrieves the branch details")
     public void getBranchDetails() {
 
-        response = httpRequest.request(Method.GET, endpointGetBranchesByBankId);
+        response = given().spec(httpRequest).when().get(endpointGetBranchesByBankId);
         log.info("response: " + response.getBody().asString());
     }
 
@@ -92,13 +92,13 @@ public class OpenDataSteps {
 
         endpointGetProductsByBankId = "/v1.0.0/banks/" + Context.getInstance()
                 .getCurrentFeatureAttribute("uri", "bank_id") + "/products";
-        httpRequest = requestGenerator.createRequest(Constants.PRODUCT_END_POINT);
+        httpRequest = requestGenerator.generate();
     }
 
     @When("a user retrieves the product details")
     public void getProductDetails() {
 
-        response = httpRequest.request(Method.GET, endpointGetProductsByBankId);
+        response = given().spec(httpRequest).when().get(endpointGetProductsByBankId);
         log.info("response: " + response.getBody().asString());
     }
 

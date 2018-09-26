@@ -74,6 +74,7 @@ public class OIDCSteps {
             }
             i++;
         }
+
         Context.getInstance().getRunnerInstance().setStatus(Report.RunnerState.RUNNING);
         oidcHandler.setAuthCode(authCode);
         log.info("Received Auth Code: " + authCode);
@@ -102,6 +103,7 @@ public class OIDCSteps {
                 "Get Consent through browser interaction", atrList);
         List<AttributeGroup> atrGrpList = new ArrayList();
         atrGrpList.add(atrGrp);
+
         Context.getInstance().getRunnerInstance().queueBrowserInteractionAttributes(atrGrp);
         Context.getInstance().getRunnerInstance().setStatus(Report.RunnerState.WAITING);
     }

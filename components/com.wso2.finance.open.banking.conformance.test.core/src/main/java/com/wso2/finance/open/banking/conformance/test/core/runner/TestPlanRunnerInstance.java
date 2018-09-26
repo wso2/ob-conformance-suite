@@ -45,13 +45,15 @@ public class TestPlanRunnerInstance extends Thread {
     private volatile Map<String, List<JsonObject>> formattedResult = new HashMap();
     private volatile Report.RunnerState status;
     private RunnerManagerCallback runnerManagerCallback;
+    private Context context;
 
     /**
      * @param testPlan
      * @param resultQueue
      * @param managerCallbacks
      */
-    public TestPlanRunnerInstance(TestPlan testPlan, BlockingQueue<TestPlanFeatureResult> resultQueue, RunnerManagerCallback managerCallbacks) {
+    public TestPlanRunnerInstance(TestPlan testPlan, BlockingQueue<TestPlanFeatureResult> resultQueue,
+                                  RunnerManagerCallback managerCallbacks) {
 
         super();
         this.testPlan = testPlan;
@@ -78,7 +80,7 @@ public class TestPlanRunnerInstance extends Thread {
     }
 
     /**
-     * add last result to the queue
+     * add last result to the queue.
      */
     private void queueStopMessege() {
 
@@ -135,11 +137,12 @@ public class TestPlanRunnerInstance extends Thread {
     }
 
     /**
-     * Start running tests
+     * Start running tests.
      */
     public void run() {
 
-        Context.getInstance().init(testPlan);
+        context = Context.getInstance();
+        context.init(testPlan);
         this.status = Report.RunnerState.RUNNING;
         for (Specification specification : this.testPlan.getSpecifications()) {
             this.processSpec(specification);
@@ -181,7 +184,7 @@ public class TestPlanRunnerInstance extends Thread {
      */
     public void setContextAttributes(String key, String value) {
 
-        Context.getInstance().setAttributesToTempMap(key, value);
+        context.setAttributesToTempMap(key, value);
     }
 
     /**
