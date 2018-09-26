@@ -26,7 +26,6 @@ import RequestBuilder from './utils/RequestBuilder';
 import TestReportHelper from './utils/TestReportHelper';
 import AttributeGroup from "./components/AttributeGroup";
 import LoaderComponent from "./components/LoaderComponent"
-
 import { updateReport } from './actions';
 
 const client = new RequestBuilder();
@@ -35,20 +34,20 @@ const reportHelper = new TestReportHelper();
 /*
  *Panels with API names
  */
-const ReportSpec = connect(state => ({ specifications: state.specifications }))(({ spec, specName, specifications }) => (
+const ReportAPI = connect(state => ({ specifications: state.specifications }))(({ api, apiName, specifications }) => (
   <Panel>
-    <Panel.Heading className="spec-heading">
+    <Panel.Heading className="api-heading">
       <h2>
-        {specifications.specs[specName].title}
+        {specifications.specs[apiName].title}
         {' '}
         <small>
-          {specifications.specs[specName].version}
+          {specifications.specs[apiName].version}
           {' '}
         </small>
       </h2>
-      <p className="text-muted">{specifications.specs[specName].description}</p>
+      <p className="text-muted">{specifications.specs[apiName].description}</p>
     </Panel.Heading>
-    <ListGroup>{spec.map(featurex => <ReportFeature feature={featurex} key={featurex.id} />)}</ListGroup>
+    <ListGroup>{api.map(feature => <ReportFeature feature={feature} key={feature.id} />)}</ListGroup>
   </Panel>
 ));
 
@@ -127,7 +126,7 @@ const stepStatus = (steps) => {
     step.result.status === 'passed' ? faIconClass = '' : faIconClass = '';
 
     errorDisplayList.push(
-      <ListGroupItem  className={errorClass} >
+      <ListGroupItem  className={errorClass} key={step.name}>
         { step.result.status !== 'failed'
           ? (
             <span>
@@ -177,6 +176,22 @@ const stepStatus = (steps) => {
 
   if (status) {
     return (<p className="passedTag status-badge"><i className="fas fa-check-circle" /></p>);
+  } else {
+    return (
+      <div>
+        <p className="failedTag status-badge"><i className="fas fa-times-circle" /></p>
+        <Panel className="error-panel" defaultExpanded>
+          <Panel.Collapse>
+            <p className="top-left-padding"><b>Failure details :</b></p>
+            <ListGroup>
+              <Well bsSize="small">
+                {errorDisplayList}
+              </Well>
+            </ListGroup>
+          </Panel.Collapse>
+        </Panel>
+      </div>
+    );
   }
 };
 
@@ -308,7 +323,7 @@ class TestReportView extends React.Component {
         <Modal show={this.state.showInteractionModel} onHide={() => { this.setState({ showInteractionModel: false }); }} container={this}>
           <Modal.Header closeButton>
             <Modal.Title>
-                            Browser Interaction
+              Browser Interaction
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -354,7 +369,7 @@ class TestReportView extends React.Component {
                   </p>
                 )
                 : null
-                            }
+              }
 
               {this.state.failed > 0
                 ? (
@@ -364,13 +379,12 @@ class TestReportView extends React.Component {
                   </p>
                 )
                 : null
-                            }
+              }
               <div hidden={!this.state.newTest}>
                 { this.state.progress !== 100
                   ? <ProgressBar className="pass-rate-progress" active striped now={this.state.progress} />
-                  : <ProgressBar className="pass-rate-progress fadeout" striped now="100" />
-
-                                }
+                  : <ProgressBar className="pass-rate-progress fadeout" striped now={100} />
+                }
               </div>
 
             </div>
@@ -381,7 +395,7 @@ class TestReportView extends React.Component {
             <br />
             <div>
               {Object.keys(this.state.data).map(
-                key => <ReportSpec spec={this.state.data[key]} key={key} specName={key} />,
+                key => <ReportAPI api={this.state.data[key]} key={key} apiName={key} />,
               )}
             </div>
           </Col>
