@@ -19,7 +19,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import {ListGroup, ListGroupItem, Button, Modal, Grid, Row, Col, Panel, Badge, ProgressBar, Well,} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Button, Modal, Grid, Row, Col, Panel, Badge, ProgressBar, Well} from 'react-bootstrap';
 import AppHeader from './partials/AppHeader';
 import '../public/css/report-style.scss';
 import RequestBuilder from './utils/RequestBuilder';
@@ -175,7 +175,21 @@ const stepStatus = (steps) => {
   });
 
   if (status) {
-    return (<p className="passedTag status-badge"><i className="fas fa-check-circle" /></p>);
+      return (
+          <div>
+              <p className="failedTag status-badge"><i className="fas fa-times-circle" /></p>
+              <Panel className="error-panel" defaultExpanded>
+                  <Panel.Collapse>
+                      <p className="top-left-padding"><b>Failure details :</b></p>
+                      <ListGroup>
+                          <Well bsSize="small">
+                              {errorDisplayList}
+                          </Well>
+                      </ListGroup>
+                  </Panel.Collapse>
+              </Panel>
+          </div>
+      );
   }
 };
 
@@ -224,7 +238,7 @@ class TestReportView extends React.Component {
 
       /* Add Ids of loaded results to the state. */
       const finishedFeatureIdSet = this.state.finishedFeatureIds;
-      for (var api in response.data.report.result) {
+      for (let api in response.data.report.result) {
         finishedFeatureIdSet[api] = [];
         if (typeof (response.data.report.result[api][0]) !== 'undefined') {
           response.data.report.result[api].forEach((feature) => {
