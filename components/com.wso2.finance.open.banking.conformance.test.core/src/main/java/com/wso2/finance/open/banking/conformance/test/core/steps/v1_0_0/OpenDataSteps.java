@@ -19,7 +19,6 @@
 
 package com.wso2.finance.open.banking.conformance.test.core.steps.v1_0_0;
 
-import com.wso2.finance.open.banking.conformance.test.core.constants.Constants;
 import com.wso2.finance.open.banking.conformance.test.core.context.Context;
 import com.wso2.finance.open.banking.conformance.test.core.request.RequestGenerator;
 import com.wso2.finance.open.banking.conformance.test.core.response.ResponseValidator;
@@ -27,14 +26,13 @@ import com.wso2.finance.open.banking.conformance.test.core.utilities.Utils;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
-import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import static io.restassured.RestAssured.given;
 import org.apache.log4j.Logger;
 
+import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
+
 
 /**
  * Steps used by open data tests.

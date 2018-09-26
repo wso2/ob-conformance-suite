@@ -52,7 +52,8 @@ public class TestPlanRunnerInstance extends Thread {
      * @param resultQueue
      * @param managerCallbacks
      */
-    public TestPlanRunnerInstance(TestPlan testPlan, BlockingQueue<TestPlanFeatureResult> resultQueue, RunnerManagerCallback managerCallbacks) {
+    public TestPlanRunnerInstance(TestPlan testPlan, BlockingQueue<TestPlanFeatureResult> resultQueue,
+                                  RunnerManagerCallback managerCallbacks) {
 
         super();
         this.testPlan = testPlan;
@@ -79,7 +80,7 @@ public class TestPlanRunnerInstance extends Thread {
     }
 
     /**
-     * add last result to the queue
+     * add last result to the queue.
      */
     private void queueStopMessege() {
 
@@ -136,7 +137,7 @@ public class TestPlanRunnerInstance extends Thread {
     }
 
     /**
-     * Start running tests
+     * Start running tests.
      */
     public void run() {
 

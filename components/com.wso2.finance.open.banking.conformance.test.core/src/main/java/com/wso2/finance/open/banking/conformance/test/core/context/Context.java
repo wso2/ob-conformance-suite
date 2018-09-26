@@ -30,7 +30,7 @@ import java.util.UUID;
 
 
 /**
- * hreadLocal Context for managing test runner data
+ * ThreadLocal Context for managing test runner data.
  */
 public class Context {
 

@@ -22,9 +22,9 @@ package com.wso2.finance.open.banking.conformance.test.core.request;
 import com.atlassian.oai.validator.restassured.SwaggerValidationFilter;
 import com.wso2.finance.open.banking.conformance.test.core.context.Context;
 import io.restassured.authentication.AuthenticationScheme;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.Filter;
 import io.restassured.specification.RequestSpecification;
-import io.restassured.builder.RequestSpecBuilder;
 
 
 /**

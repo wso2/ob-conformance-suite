@@ -21,17 +21,17 @@ package com.wso2.finance.open.banking.conformance.test.core.response;
 
 import io.restassured.response.Response;
 
-
 /**
  * Helper for Validating Responses.
  */
 public class ResponseValidator {
 
-   Response reponse;
+    Response reponse;
 
-   public ResponseValidator(Response reponse){
-       this.reponse = reponse;
-   }
+    public ResponseValidator(Response reponse) {
+
+        this.reponse = reponse;
+    }
 
     public void validateResponse() {
 

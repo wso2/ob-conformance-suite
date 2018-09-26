@@ -74,7 +74,7 @@ public class OIDCSteps {
             }
             i++;
         }
-        
+
         Context.getInstance().getRunnerInstance().setStatus(Report.RunnerState.RUNNING);
         oidcHandler.setAuthCode(authCode);
         log.info("Received Auth Code: " + authCode);

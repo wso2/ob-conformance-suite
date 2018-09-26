@@ -25,13 +25,13 @@ import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 import io.restassured.specification.RequestSpecification;
 
 /**
- * Helper class for generating api request to ATM endpoint
+ * Helper class for generating api request to ATM endpoint.
  */
 public class TokenEndPointRequestGenerator extends  RequestGenerator {
 
 
     @Override
-    public RequestSpecification generate(){
+    public RequestSpecification generate() {
 
         String baseUri = "https://api-openbanking.wso2.com/TokenAPI/v1.0.0/";
 
