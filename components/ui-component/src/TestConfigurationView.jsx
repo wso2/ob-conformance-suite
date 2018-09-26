@@ -28,6 +28,11 @@ import TestPlanReduxHelper from './utils/TestPlanReduxHelper'
 import axios from 'axios';
 import {Specification, SpecificationEditor} from "./components/TestPlanComponents";
 import { bootstrapUtils } from 'react-bootstrap/lib/utils';
+<<<<<<< HEAD
+=======
+
+bootstrapUtils.addStyle(Button, 'secondary');
+>>>>>>> 01a4ff02f81afe9abfc47e8e17652cc4f1ca85c4
 
 bootstrapUtils.addStyle(Button, 'secondary');
 
