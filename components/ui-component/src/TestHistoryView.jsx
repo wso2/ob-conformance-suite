@@ -29,6 +29,9 @@ import {updateReport} from "./actions";
 const client = new RequestBuilder();
 const reportHelper = new TestReportHelper();
 
+/*
+ * Row of the test plan table
+ */
 const TestPlanRow = ({report}) => (
     <tr align="left">
         <td>{report.executed}</td>
@@ -57,6 +60,9 @@ const TestPlanRow = ({report}) => (
     </tr>
 );
 
+/*
+ * Test plan panel
+ */
 class TestPlanView extends React.Component {
 
     constructor(props){
@@ -66,6 +72,9 @@ class TestPlanView extends React.Component {
         }
     }
 
+    /*
+     *Funtion fires when panel toggles
+     */
     togglePlan(){
         console.log("Toggled");
     }
@@ -135,6 +144,9 @@ class TestHistoryView extends React.Component{
         }
     }
 
+    /*
+     *Function to run the test plan
+     */
     runTest(testPlan){
         client.runTestPlan(testPlan).then((response) => {
             this.props.dispatch(updateReport(response.data));

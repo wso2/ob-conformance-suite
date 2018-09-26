@@ -97,7 +97,7 @@ class TestConfigurationView extends React.Component {
             testPlan : testPlan,
             runNow : runNow
         }).then((response) => {
-            var reports = runNow ? [response.data.report] : [];
+            let reports = runNow ? [response.data.report] : [];
             this.props.dispatch(addTestPlan(response.data.testId,testPlan,reports));
             if (runNow){
                 this.props.history.push({
