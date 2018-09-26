@@ -48,7 +48,7 @@ export class StringAttribute extends React.Component {
             });
         }
     }
-    
+
     getDefaultValue() {
         const testStateValue = this.props.getValue(this.props.attribute.name);
         return testStateValue || this.props.attribute.defaultValue;
