@@ -62,7 +62,7 @@ export class StringAttribute extends React.Component {
 
     getValidationStatus(){
         if(this.props.attribute.validationRegex){
-            var isValid = this.state.value.match(RegExp(this.props.attribute.validationRegex));
+            let isValid = this.state.value.match(RegExp(this.props.attribute.validationRegex));
             return isValid ? null : "error"
         }else{
             return null;
@@ -140,7 +140,7 @@ class AttributeGroup extends React.Component {
                 return <StringAttribute attribute={attribute} key={attribute.name} updateChange={this.updateChange} 
                     getValue={this.getValue} specName={this.props.specName}/>;
             case "TextLabel":
-                return <TextLabelAttribute attribute={attribute} key={attribute.name}/>
+                return <TextLabelAttribute attribute={attribute} key={attribute.name}/>;
             case "LinkButton":
                 return <LinkButtonAttribute attribute={attribute} key={attribute.name}/>;
             default:
