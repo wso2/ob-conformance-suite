@@ -18,75 +18,74 @@
 
 
 export default class TestReportHelper {
-
-  /* Pass/Fail count of the whole test plan */
-  getTestSummary(testData) {
-    const results = { passed: 0, failed: 0, rate: 0 };
-    let curResult;
-    for (const spec in testData) {
-      curResult = this.getAPIResult(testData[spec], this);
-      results.passed += curResult.passed;
-      results.failed += curResult.failed;
+    /* Pass/Fail count of the whole test plan */
+    getTestSummary(testData) {
+        const results = { passed: 0, failed: 0, rate: 0 };
+        let curResult;
+        for (const spec in testData) {
+            curResult = this.getAPIResult(testData[spec], this);
+            results.passed += curResult.passed;
+            results.failed += curResult.failed;
+        }
+        if (results.passed + results.failed === 0) {
+            results.rate = 0;
+        } else {
+            results.rate = (100 * (results.passed / (results.passed + results.failed))).toFixed(2);
+        }
+        return results;
     }
-    if (results.passed + results.failed === 0) {
-      results.rate = 0;
-    } else {
-      results.rate = (100 * (results.passed / (results.passed + results.failed))).toFixed(2);
+
+    /* Pass/Fail feature count of the API */
+    getAPIResult(api, thisClass) {
+        const results = { passed: 0, failed: 0 };
+        let curResult;
+        api.forEach((feature) => {
+            curResult = thisClass.getFeatureResult(feature, thisClass);
+            results.passed += (curResult.failed === 0) * 1;
+            results.failed += (curResult.failed > 0) * 1;
+        });
+        return results;
     }
-    return results;
-  }
 
-  /* Pass/Fail feature count of the API */
-  getAPIResult(api, thisClass) {
-    const results = { passed: 0, failed: 0};
-    let curResult;
-    api.forEach((feature) => {
-      curResult = thisClass.getFeatureResult(feature, thisClass);
-      results.passed += (curResult.failed === 0) * 1;
-      results.failed += (curResult.failed > 0) * 1;
-    });
-    return results;
-  }
-
-  /* Pass/Fail scenario count of the feature */
-  getFeatureResult(feature, thisClass) {
-    const results = { passed: 0, failed: 0 };
-    feature.elements.forEach((scenario) => {
-      thisClass.getScenarioResult(scenario, thisClass) === true ? results.passed += 1 : results.failed += 1;
-    });
-    return results;
-  }
-
-  /* Pass/Fail status of the scenario (based on step results) */
-  getScenarioResult(scenario, thisClass) {
-    let status = true;
-    scenario.steps.forEach((step) => {
-      status = status && (thisClass.getStepResult(step) === 'passed');
-    });
-    return status;
-  }
-
-  getStepResult(step) {
-    return step.result.status;
-  }
-
-  /* Pass/Fail status of the whole feature (based on scenario results) */
-  getFeatureResultStatus(feature, thisClass) {
-    const result = thisClass.getFeatureResult(feature, thisClass);
-    if (result.failed === 0) {
-      return { class: 'passed-feature', status: 'Passed' };
+    /* Pass/Fail scenario count of the feature */
+    getFeatureResult(feature, thisClass) {
+        const results = { passed: 0, failed: 0 };
+        feature.elements.forEach((scenario) => {
+            thisClass.getScenarioResult(scenario, thisClass) === true ? results.passed += 1 : results.failed += 1;
+        });
+        return results;
     }
-    return { class: 'failed-feature', status: 'Failed' };
-  }
 
-  /* Number of features to be tested in the test plan */
-  getFeatureCount(testPlan) {
-    let count = 0;
-    for (const api in testPlan.specifications) {
-      for (const scenario in testPlan.specifications[api].features) {
-        count += 1;
-      }
+    /* Pass/Fail status of the scenario (based on step results) */
+    getScenarioResult(scenario, thisClass) {
+        let status = true;
+        scenario.steps.forEach((step) => {
+            status = status && (thisClass.getStepResult(step) === 'passed');
+        });
+        return status;
     }
-    return count;
-  }
+
+    getStepResult(step) {
+        return step.result.status;
+    }
+
+    /* Pass/Fail status of the whole feature (based on scenario results) */
+    getFeatureResultStatus(feature, thisClass) {
+        const result = thisClass.getFeatureResult(feature, thisClass);
+        if (result.failed === 0) {
+            return { class: 'passed-feature', status: 'Passed' };
+        }
+        return { class: 'failed-feature', status: 'Failed' };
+    }
+
+    /* Number of features to be tested in the test plan */
+    getFeatureCount(testPlan) {
+        let count = 0;
+        for (const api in testPlan.specifications) {
+            for (const scenario in testPlan.specifications[api].features) {
+                count += 1;
+            }
+        }
+        return count;
+    }
 }
