@@ -48,7 +48,7 @@ const ReportSpec = connect(state => ({ specifications: state.specifications }))(
       </h2>
       <p className="text-muted">{specifications.specs[specName].description}</p>
     </Panel.Heading>
-    <ListGroup>{spec.map(featurex => <ReportFeature feature={featurex} />)}</ListGroup>
+    <ListGroup>{spec.map(featurex => <ReportFeature feature={featurex} key={featurex.id} />)}</ListGroup>
   </Panel>
 ));
 
@@ -78,7 +78,7 @@ const ReportFeature = ({ feature }) => (
       </Panel.Heading>
       <Panel.Collapse>
         <Panel.Body>
-          {feature.elements.map(element => <FeatureElement element={element} />)}
+          {feature.elements.map(element => <FeatureElement key={element.id} element={element} />)}
         </Panel.Body>
       </Panel.Collapse>
     </Panel>
@@ -127,13 +127,14 @@ const stepStatus = (steps) => {
     step.result.status === 'passed' ? faIconClass = '' : faIconClass = '';
 
     errorDisplayList.push(
-      <ListGroupItem bsStyle="" className={errorClass}>
+      <ListGroupItem  className={errorClass} >
         { step.result.status !== 'failed'
           ? (
             <span>
               <b>{errorStep.split(' ')[0]}</b>
               {' '}
               {errorStep.split(' ').slice(1).join(' ')}
+
             </span>
           )
           : null
@@ -163,6 +164,7 @@ const stepStatus = (steps) => {
                       : errorDescription
                     }
                   </i>
+
                 </Panel.Body>
               </Panel.Collapse>
             </Panel>
@@ -176,22 +178,6 @@ const stepStatus = (steps) => {
   if (status) {
     return (<p className="passedTag status-badge"><i className="fas fa-check-circle" /></p>);
   }
-
-  return (
-    <div>
-      <p className="failedTag status-badge"><i className="fas fa-times-circle" /></p>
-      <Panel className="error-panel" defaultExpanded>
-        <Panel.Collapse>
-          <p className="top-left-padding"><b>Failure details :</b></p>
-          <ListGroup>
-            <Well bsSize="small">
-              {errorDisplayList}
-            </Well>
-          </ListGroup>
-        </Panel.Collapse>
-      </Panel>
-    </div>
-  );
 };
 
 class TestReportView extends React.Component {
@@ -379,11 +365,11 @@ class TestReportView extends React.Component {
                 )
                 : null
                             }
-
               <div hidden={!this.state.newTest}>
                 { this.state.progress !== 100
-                  ? <ProgressBar className="pass-rate-progress" active striped bsStyle="" now={this.state.progress} />
-                  : <ProgressBar className="pass-rate-progress fadeout" striped bsStyle="" now="100" />
+                  ? <ProgressBar className="pass-rate-progress" active striped now={this.state.progress} />
+                  : <ProgressBar className="pass-rate-progress fadeout" striped now="100" />
+
                                 }
               </div>
 
@@ -395,7 +381,7 @@ class TestReportView extends React.Component {
             <br />
             <div>
               {Object.keys(this.state.data).map(
-                key => <ReportSpec spec={this.state.data[key]} specName={key} />,
+                key => <ReportSpec spec={this.state.data[key]} key={key} specName={key} />,
               )}
             </div>
           </Col>
@@ -413,6 +399,7 @@ class TestReportView extends React.Component {
       </div>
     );
   }
+
 }
 
 export default connect()(TestReportView);

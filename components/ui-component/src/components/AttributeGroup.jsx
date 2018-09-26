@@ -20,6 +20,9 @@ import React from "react";
 import {FormGroup, ControlLabel, FormControl, HelpBlock, Button} from 'react-bootstrap';
 import {connect} from "react-redux";
 import {setSpecValue, setFeatureValue} from "../actions";
+import { bootstrapUtils } from 'react-bootstrap/lib/utils';
+
+bootstrapUtils.addStyle(Button, 'secondary');
 
 
 export class StringAttribute extends React.Component {
