@@ -20,10 +20,11 @@ package com.wso2.finance.open.banking.conformance.test.core.oidc;
 
 import com.google.gson.Gson;
 import com.wso2.finance.open.banking.conformance.test.core.request.RequestGenerator;
+import com.wso2.finance.open.banking.conformance.test.core.request.TokenEndPointRequestGenerator;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-
+import static io.restassured.RestAssured.given;
 /**
  * Helper for Handling OIDC flow.
  */
@@ -50,6 +51,14 @@ public class OIDCHandler {
     private String tokenEnd = "";       //eg: https://api-openbanking.wso2.com/TokenAPI/v1.0.0/
     private String authCode = "";       //Authorization code received from authorization endpoint
 
+    /**
+     *
+     * @param clientID
+     * @param clientSecret
+     * @param authEnd
+     * @param callbackURL
+     * @param tokenEnd
+     */
     public OIDCHandler(String clientID, String clientSecret, String authEnd, String callbackURL, String tokenEnd) {
 
         this.clientID = clientID;
@@ -59,9 +68,10 @@ public class OIDCHandler {
         this.tokenEnd = tokenEnd;
     }
 
-    /*
-     eg: https://api-openbanking.wso2.com/AuthorizeAPI/v1.0.0/?response_type=code&scope=accounts payments&state=YWlzcDozMTQ2&client_id
-     =MGw0ych4DOR9Fz_m6xwEWLdIMjQa&redirect_uri=https://openbanking.wso2.com/authenticationendpoint/authorize_callback.do
+    /**
+     *
+     * @param state
+     * @return
      */
     public String createAuthUrlForUserContent(String state) {
 
@@ -70,19 +80,18 @@ public class OIDCHandler {
         return url;
     }
 
-    /*
-    eg:
-    curl -v -X POST --basic -u MGw0ych4DOR9Fz_m6xwEWLdIMjQa:1ZFZuUU9xBFr7MxaP5V0XutuTRga -H "Content-Type: application/x-www-form-urlencoded;charset=UTF-8"
-    -k -d "client_id=MGw0ych4DOR9Fz_m6xwEWLdIMjQa&grant_type=authorization_code&code=YOUR_AUTHORIZATION_CODE&scope=accounts payments&redirect_uri
-    =https://openbanking.wso2.com/authenticationendpoint/authorize_callback.do" https://api-openbanking.wso2.com/TokenAPI/v1.0.0/
+    /**
+     *
+     * @return
      */
     public String getAccessTokenByAuthorizationCode() {
 
-        RequestGenerator reqGen = new RequestGenerator();
-        RequestSpecification req = reqGen.createRequestForTokenEndPoint("https://api-openbanking.wso2.com/TokenAPI/v1.0.0/");
+        RequestGenerator reqGenerator = new TokenEndPointRequestGenerator();
+        RequestSpecification req = reqGenerator.generate();
 
         Log.info("Token EndPoint Request: " + req.toString());
-        Response response = req.post();
+
+        Response response = given().spec(req).when().post();
 
         Log.info("Token EndPoint Response: " + response.getBody().asString());
 
@@ -91,14 +100,23 @@ public class OIDCHandler {
 
     }
 
-    public String getAccessTokenByClientCredintials() {
 
+    /**
+     *
+     * @return
+     */
+    public String getAccessTokenByClientCredintials()
+    {
         return "";
 
     }
 
-    public void setAuthCode(String authCode) {
 
+    /**
+     *
+     * @param authCode
+     */
+    public void setAuthCode(String authCode){
         this.authCode = authCode;
     }
 }

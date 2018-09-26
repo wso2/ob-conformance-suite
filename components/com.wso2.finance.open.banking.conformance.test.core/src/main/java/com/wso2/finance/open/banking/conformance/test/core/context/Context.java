@@ -28,8 +28,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+
 /**
- * ThreadLocal Context for managing test runner data.
+ * hreadLocal Context for managing test runner data
  */
 public class Context {
 
@@ -54,15 +55,26 @@ public class Context {
 
     private TestPlanRunnerInstance runnerInstance;
 
+    /**
+     *
+     */
     private Context() {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public static Context getInstance() {
 
         return threadLocalContext.get();
     }
 
+    /**
+     *
+     * @param testPlan
+     */
     public void init(TestPlan testPlan) {
 
         this.testPlan = testPlan;
@@ -72,31 +84,55 @@ public class Context {
         swaggerJsonFileMap.put(Constants.TOKEN_API_SPEC, "schema/v1_0_0/token.json");
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCurrentSwaggerJsonFile() {
 
         return swaggerJsonFileMap.get(currentSpec);
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     public String getSwaggerJsonFile(String name) {
 
         return swaggerJsonFileMap.get(name);
     }
 
+    /**
+     *
+     * @param spec
+     * @param specVersion
+     */
     public void setSpecContext(String spec, String specVersion) {
 
         currentSpec = spec;
     }
 
+    /**
+     *
+     */
     public void clearSpecContext() {
 
         currentSpec = "";
     }
 
+    /**
+     *
+     * @param featureUri
+     */
     public void setFeatureContext(String featureUri) {
 
         currentFeatureUri = featureUri;
     }
 
+    /**
+     *
+     */
     public void clearFeatureContext() {
 
         currentFeatureUri = "";
