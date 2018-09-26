@@ -20,24 +20,27 @@ package com.wso2.finance.open.banking.conformance.test.core.steps.v2_0_0;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 
 /**
- * Steps used in accessing AccountsInformation steps
+ * Steps used in accessing AccountsInformation steps.
  */
 public class AccountsInformationSteps {
+
     @Given("TPP wants to access beneficiary details of an account")
-    public void setup(){
+    public void setup() {
+
         return;
     }
 
     @Then("TPP initiates a request to Beneficiaries endpoint")
-    public void initiateRequestToBeneficiariesEnd(){
-            return;
+    public void initiateRequestToBeneficiariesEnd() {
+
+        return;
     }
 
     @Then("TPP receives the beneficiary details of the given account")
-    public void getBeneficiaryDetails(){
+    public void getBeneficiaryDetails() {
+
         return;
     }
 }

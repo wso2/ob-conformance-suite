@@ -21,11 +21,20 @@ package com.wso2.finance.open.banking.conformance.test.core.runner;
 import com.wso2.finance.open.banking.conformance.mgt.models.Report;
 
 /**
- * CallBack Interface used to Receive updates from TestRunner Instance
+ * CallBack Interface used to Receive updates from TestRunner Instance.
  */
 public interface RunnerManagerCallback {
 
+    /**
+     * Processed Feature will be passed to the UI through this callback.
+     * @param report
+     * @return
+     */
     Report onAddResult(Report report);
 
+    /**
+     * Overall Report update will be reflected on the UI through this callback.
+     * @param report
+     */
     void onUpdateResult(Report report);
 }

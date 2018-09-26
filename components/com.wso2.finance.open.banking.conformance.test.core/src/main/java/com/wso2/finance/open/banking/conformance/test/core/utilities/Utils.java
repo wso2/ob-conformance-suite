@@ -19,14 +19,12 @@
 package com.wso2.finance.open.banking.conformance.test.core.utilities;
 
 /**
- * Class that provides utility functions
+ * Class that provides utility functions.
  */
 public class Utils {
 
     /**
-     * This method appends a prefix and suffix to the error msg
-     * prefix and suffix is used in front end to capture the error
-     * from the assertion which contains the error
+     * This method appends a prefix and suffix to the error msg.
      *
      * @param error
      * @return

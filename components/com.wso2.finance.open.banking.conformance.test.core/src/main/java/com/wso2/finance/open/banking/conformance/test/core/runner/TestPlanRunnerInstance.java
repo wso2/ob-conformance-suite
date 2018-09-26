@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
 /**
- * Class that runs a TestPlan
+ * Executes and holds results of a TestPlan.
  */
 public class TestPlanRunnerInstance extends Thread {
 

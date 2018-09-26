@@ -19,15 +19,18 @@
 
 package com.wso2.finance.open.banking.conformance.test.core.context;
 
-import com.wso2.finance.open.banking.conformance.mgt.testconfig.*;
-import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerInstance;
-
-import java.util.Map;
-import java.util.HashMap;
-import java.util.UUID;
-
+import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 import com.wso2.finance.open.banking.conformance.test.core.constants.Constants;
 
+import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerInstance;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+/**
+ * ThreadLocal Context for managing test runner data.
+ */
 public class Context {
 
     private static ThreadLocal<Context> threadLocalContext = ThreadLocal.withInitial(Context::new);
@@ -36,20 +39,18 @@ public class Context {
 
     //current API Spec Context
     private String currentSpec = "";
-    private String currentSpceVersion = "";
 
     //current Feature context
-    private String currentFeatureTitle = "";
     private String currentFeatureUri = "";
 
     //security context
     private String accessToken = "";
 
-    private String test_id = UUID.randomUUID().toString();
+    private String testId = UUID.randomUUID().toString();
 
     private Map<String, String> tempAttributeMap = new HashMap<>();
 
-    private Map<String, String> swaggerJsonFileMap = new HashMap<String, String>(); //specname+version -> swaggerJsonFile
+    private Map<String, String> swaggerJsonFileMap = new HashMap<>();
 
     private TestPlanRunnerInstance runnerInstance;
 
@@ -65,16 +66,15 @@ public class Context {
     public void init(TestPlan testPlan) {
 
         this.testPlan = testPlan;
-        swaggerJsonFileMap.put(Constants.OPEN_DATA_API_SPEC + "v1.0", "schema/v1_0_0/open_data.json");
-        //swaggerJsonFileMap.put(Constants.EXAMPLE_2_API_SPEC+"v2.0","schema/v1_0_0/open_data.json");
-        swaggerJsonFileMap.put(Constants.ACCOUNTS_INFORMATION_API_SPEC + "v2.0.0", "schema/v2_0_0/accounts_information.json");
-        swaggerJsonFileMap.put(Constants.AUTH_API_SPEC + "1.0.0", "schema/v1_0_0/authorize.json");
-        swaggerJsonFileMap.put(Constants.TOKEN_API_SPEC + "v1.0.0", "schema/v1_0_0/token.json");
+        swaggerJsonFileMap.put(Constants.OPEN_DATA_API_SPEC, "schema/v1_0_0/open_data.json");
+        swaggerJsonFileMap.put(Constants.ACCOUNTS_INFORMATION_API_SPEC, "schema/v2_0_0/accounts_information.json");
+        swaggerJsonFileMap.put(Constants.AUTH_API_SPEC, "schema/v1_0_0/authorize.json");
+        swaggerJsonFileMap.put(Constants.TOKEN_API_SPEC, "schema/v1_0_0/token.json");
     }
 
     public String getCurrentSwaggerJsonFile() {
 
-        return swaggerJsonFileMap.get(currentSpec + currentSpceVersion);
+        return swaggerJsonFileMap.get(currentSpec);
     }
 
     public String getSwaggerJsonFile(String name) {
@@ -85,38 +85,31 @@ public class Context {
     public void setSpecContext(String spec, String specVersion) {
 
         currentSpec = spec;
-        currentSpceVersion = specVersion;
     }
 
     public void clearSpecContext() {
 
         currentSpec = "";
-        currentSpceVersion = "";
     }
 
-    public void setFeatureContext(String featureTitle, String featureUri) {
+    public void setFeatureContext(String featureUri) {
 
-        currentFeatureTitle = featureTitle;
         currentFeatureUri = featureUri;
     }
 
     public void clearFeatureContext() {
 
-        currentFeatureTitle = "";
         currentFeatureUri = "";
         accessToken = "";
     }
 
     /**
-     * @param specName
-     * @param specVersion
-     * @param featureUri
+     * @param specName        ]     * @param featureUri
      * @param attribGroupName
      * @param attribName
      * @return
      */
-    public String getFeatureAttribute(String specName, String specVersion, String featureUri,
-                                      String attribGroupName, String attribName) {
+    public String getFeatureAttribute(String specName, String featureUri, String attribGroupName, String attribName) {
 
         return testPlan.getSpecification(specName).getFeature(featureUri).getAttribute(attribGroupName, attribName);
 
@@ -124,13 +117,11 @@ public class Context {
 
     /**
      * @param specName
-     * @param specVersion
      * @param attribGroupName
      * @param attribName
      * @return
      */
-    public String getSpecAttribute(String specName, String specVersion,
-                                   String attribGroupName, String attribName) {
+    public String getSpecAttribute(String specName, String attribGroupName, String attribName) {
 
         String attrib;
         attrib = testPlan.getSpecification(specName).getAttribute(attribGroupName, attribName);
@@ -145,7 +136,7 @@ public class Context {
      */
     public String getCurrentSpecAttribute(String attribGroupName, String attribName) {
 
-        return getSpecAttribute(currentSpec, currentSpceVersion, attribGroupName, attribName);
+        return getSpecAttribute(currentSpec, attribGroupName, attribName);
     }
 
     /**
@@ -155,15 +146,15 @@ public class Context {
      */
     public String getCurrentFeatureAttribute(String attribGroupName, String attribName) {
 
-        return getFeatureAttribute(currentSpec, currentSpceVersion, currentFeatureUri, attribGroupName, attribName);
+        return getFeatureAttribute(currentSpec, currentFeatureUri, attribGroupName, attribName);
     }
 
     /**
      * @return
      */
-    public String getTest_id() {
+    public String getTestId() {
 
-        return test_id;
+        return testId;
     }
 
     /**
