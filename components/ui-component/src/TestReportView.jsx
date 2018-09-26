@@ -368,7 +368,7 @@ class TestReportView extends React.Component {
               <div hidden={!this.state.newTest}>
                 { this.state.progress !== 100
                   ? <ProgressBar className="pass-rate-progress" active striped now={this.state.progress} />
-                  : <ProgressBar className="pass-rate-progress fadeout" striped now="100" />
+                  : <ProgressBar className="pass-rate-progress fadeout" striped now={100} />
 
                                 }
               </div>
