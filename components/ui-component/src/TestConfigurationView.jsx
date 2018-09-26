@@ -27,8 +27,9 @@ import {connect} from 'react-redux'
 import TestPlanReduxHelper from './utils/TestPlanReduxHelper'
 import axios from 'axios';
 import {Specification, SpecificationEditor} from "./components/TestPlanComponents";
+import { bootstrapUtils } from 'react-bootstrap/lib/utils';
 
-
+bootstrapUtils.addStyle(Button, 'secondary');
 
 const client = new RequestBuilder();
 
