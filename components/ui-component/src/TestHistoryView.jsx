@@ -72,7 +72,7 @@ class TestPlanView extends React.Component {
 
     render(){
         return (
-            <Panel defaultExpanded={false} expanded={this.state.open}>
+            <Panel defaultExpanded={false} expanded={this.state.open} onToggle={() => this.togglePlan()}>
                 <Panel.Heading>
                     <Panel.Title>
                         <Row className={"history-view-row"}>
