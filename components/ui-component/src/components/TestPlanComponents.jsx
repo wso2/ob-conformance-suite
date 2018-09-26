@@ -33,7 +33,8 @@ const ScenariodataRow = connect((state) => ({specifications: state.specification
 
 export const Feature = connect((state) => ({testvalues: state.testvalues}))(({feature, specName, dispatch, testvalues}) => (
     <div className="tc-feature-panel">
-        <Panel expanded={TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path)}>
+        <Panel expanded={TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path)}
+               onToggle={() => {dispatch(toggleFeature(specName, feature.uri.path))}}>
             <Panel.Heading onClick={() => {dispatch(toggleFeature(specName, feature.uri.path))}}>
                 <div className="pull-right tc-checkbox">
                     <i className={"fas fa-" + (TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName)
@@ -65,7 +66,7 @@ export const Feature = connect((state) => ({testvalues: state.testvalues}))(({fe
                                         </thead>
                                         <tbody className={"text-center"}>
                                             {feature.scenarios.map((scenario) => 
-                                                <ScenariodataRow key={feature.uri.path} scenario={scenario}/>)}
+                                                <ScenariodataRow key={scenario.scenarioName} scenario={scenario}/>)}
                                         </tbody>
                                     </Table>
                                 </Panel.Body>
