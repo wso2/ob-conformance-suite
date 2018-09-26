@@ -19,11 +19,9 @@
 
 package com.wso2.finance.open.banking.conformance.test.core.response;
 
+import com.atlassian.oai.validator.restassured.SwaggerValidationFilter;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 
-import io.restassured.response.Response;
-
-import com.atlassian.oai.validator.restassured.SwaggerValidationFilter;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
@@ -31,6 +29,9 @@ import org.junit.runner.notification.Failure;
 
 import static io.restassured.RestAssured.given;
 
+/**
+ * Helper for Validating Responses.
+ */
 public class ResponseValidator {
 
     private static final String SWAGGER_JSON_URL = "schema/v1_0_0/open_data.json";
@@ -41,28 +42,30 @@ public class ResponseValidator {
 
     @Test
     public void testGetBranches() {
+
         given().
                 filter(validationFilter).
                 baseUri("https://api-openbanking.wso2.com/OpenBankAPI/v1.0.0").
                 header("content-type", "application/json").
                 pathParam("path", path).
                 urlEncodingEnabled(false).
-        when().
+                when().
                 get("{path}").
-        then().
+                then().
                 assertThat().
                 statusCode(200);
     }
 
     @Test
     public void testGetAtms() {
+
         given().
                 filter(validationFilter).
                 baseUri("https://api-openbanking.wso2.com/OpenBankAPI/v1.0.0/").
                 header("content-type", "application/json").
-        when().
+                when().
                 get("banks/bank-4020-01/atms").
-        then().
+                then().
                 assertThat().
                 statusCode(200);
     }
@@ -78,13 +81,12 @@ public class ResponseValidator {
 //                statusCode(200);
 //    }
 
-    public ResponseValidator(){
-      //  SWAGGER_JSON_PATH = "resources/schema/open_data.json";
-      //  validationFilter = new SwaggerValidationFilter(SWAGGER_JSON_PATH);
+    public ResponseValidator() {
+        //  SWAGGER_JSON_PATH = "resources/schema/open_data.json";
+        //  validationFilter = new SwaggerValidationFilter(SWAGGER_JSON_PATH);
     }
 
-    public void validateResponse()
-    {
+    public void validateResponse() {
 
         Log.info("validating response");
 

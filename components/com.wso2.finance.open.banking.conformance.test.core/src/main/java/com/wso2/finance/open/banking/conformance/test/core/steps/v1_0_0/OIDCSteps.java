@@ -21,39 +21,41 @@ import com.wso2.finance.open.banking.conformance.mgt.models.Attribute;
 import com.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;
 import com.wso2.finance.open.banking.conformance.mgt.models.Report;
 import com.wso2.finance.open.banking.conformance.test.core.context.Context;
-import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
+import com.wso2.finance.open.banking.conformance.test.core.oidc.OIDCHandler;
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Utils;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import com.wso2.finance.open.banking.conformance.test.core.oidc.OIDCHandler;
+import org.apache.log4j.Logger;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
 /**
- * Steps used in OIDC flow
+ * Steps used in OIDC flow.
  */
 public class OIDCSteps {
 
     private OIDCHandler oidcHandler;
 
-    private String AUTH_END_POINT;
-    private String CALLBACK_URL;
-    private String TOKEN_END_POINT;
+    private String authEndPoint;
+    private String callbackUrl;
+    private String tokenEndPoint;
     private String clientID;
     private String clientSecret;
+
+    private Logger log = Logger.getLogger(OIDCSteps.class);
 
     @When("user provides his consent by clicking on redirect url")
     public void directUserToGetTheConcent() {
 
         clientID = Context.getInstance().getCurrentSpecAttribute("client", "consumer key");
         clientSecret = Context.getInstance().getCurrentSpecAttribute("client", "consumer secret");
-        AUTH_END_POINT = "https://api-openbanking.wso2.com/AuthorizeAPI/v1.0.0/";
-        CALLBACK_URL = Context.getInstance().getCurrentSpecAttribute("oauth", "callback_url");
-        TOKEN_END_POINT = "https://api-openbanking.wso2.com/TokenAPI/v1.0.0/";
-        oidcHandler = new OIDCHandler(clientID, clientSecret, AUTH_END_POINT, CALLBACK_URL, TOKEN_END_POINT);
+        authEndPoint = "https://api-openbanking.wso2.com/AuthorizeAPI/v1.0.0/";
+        callbackUrl = Context.getInstance().getCurrentSpecAttribute("oauth", "callback_url");
+        tokenEndPoint = "https://api-openbanking.wso2.com/TokenAPI/v1.0.0/";
+        oidcHandler = new OIDCHandler(clientID, clientSecret, authEndPoint, callbackUrl, tokenEndPoint);
         String url = oidcHandler.createAuthUrlForUserContent("YWlzcDozMTQ2");
         setBrowserInteractionURLtoContext(url);
     }
@@ -68,14 +70,15 @@ public class OIDCSteps {
                 Thread.sleep(1000);
                 authCode = Context.getInstance().getAttributesFromTempMap("auth_code");
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.warn("Receive authorization code timeout", e);
             }
             i++;
         }
         Context.getInstance().getRunnerInstance().setStatus(Report.RunnerState.RUNNING);
         oidcHandler.setAuthCode(authCode);
-        Log.info("Received Auth Code: " + authCode);
-        assertTrue(Utils.formatError("Authorization Code not received from authorization endpoint"), authCode != null);
+        log.info("Received Auth Code: " + authCode);
+        assertTrue(Utils.formatError("Authorization Code not received from authorization endpoint"),
+                authCode != null);
 
     }
 
@@ -85,16 +88,18 @@ public class OIDCSteps {
         String accessToken = oidcHandler.getAccessTokenByAuthorizationCode();
 
         Context.getInstance().setAccessToken(accessToken);
-        Log.info("Received Access Token: " + accessToken);
+        log.info("Received Access Token: " + accessToken);
     }
 
     private void setBrowserInteractionURLtoContext(String url) {
 
-        Attribute atr = new Attribute("consentUrl", "Get Consent", Attribute.AttributeType.LinkButton, url, url, "Get Consent");
+        Attribute atr = new Attribute("consentUrl",
+                "Get Consent", Attribute.AttributeType.LinkButton, url, url, "Get Consent");
         List<Attribute> atrList = new ArrayList();
         atrList.add(atr);
 
-        AttributeGroup atrGrp = new AttributeGroup("browser", "Get Consent", "Get Consent through browser interaction", atrList);
+        AttributeGroup atrGrp = new AttributeGroup("browser", "Get Consent",
+                "Get Consent through browser interaction", atrList);
         List<AttributeGroup> atrGrpList = new ArrayList();
         atrGrpList.add(atrGrp);
         Context.getInstance().getRunnerInstance().queueBrowserInteractionAttributes(atrGrp);

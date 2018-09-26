@@ -19,14 +19,12 @@
 package com.wso2.finance.open.banking.conformance.test.core.constants;
 
 /**
- * Constants used by the application
+ * Constants used by the application.
  */
 public class Constants {
 
     //End Point names
     public static final String ATM_END_POINT = "Atm";
-    public static final String AUTH_END_POINT = "Auth";
-    public static final String TOKEN_END_POINT = "Token";
     public static final String BRANCH_END_POINT = "Branch";
     public static final String PRODUCT_END_POINT = "Product";
 
@@ -35,7 +33,5 @@ public class Constants {
     public static final String TOKEN_API_SPEC = "Token";
     public static final String ACCOUNTS_INFORMATION_API_SPEC = "AccountsInformation";
     public static final String OPEN_DATA_API_SPEC = "OpenData";
-    public static final String EXAMPLE_API_SPEC = "specExample";
-    public static final String EXAMPLE_2_API_SPEC = "specExample-2";
 
 }

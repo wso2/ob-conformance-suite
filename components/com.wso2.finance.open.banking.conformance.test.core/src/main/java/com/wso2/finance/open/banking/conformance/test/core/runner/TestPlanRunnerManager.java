@@ -31,8 +31,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Entry Point to the Test Core
- * An instance of this class will be used by the api to invoke the tests
+ * Entry Point to the Test Core, Manages TestRunnerInstances.
  */
 public class TestPlanRunnerManager implements RunnerManagerCallback {
 
@@ -130,7 +129,7 @@ public class TestPlanRunnerManager implements RunnerManagerCallback {
     }
 
     /**
-     * RunnerManagerCallback
+     * RunnerManagerCallback.
      *
      * @param report
      * @return

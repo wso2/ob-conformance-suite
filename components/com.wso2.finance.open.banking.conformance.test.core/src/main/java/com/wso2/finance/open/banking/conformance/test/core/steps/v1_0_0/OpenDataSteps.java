@@ -19,23 +19,24 @@
 
 package com.wso2.finance.open.banking.conformance.test.core.steps.v1_0_0;
 
-import static org.junit.Assert.*;
-
 import com.wso2.finance.open.banking.conformance.test.core.constants.Constants;
 import com.wso2.finance.open.banking.conformance.test.core.context.Context;
-import com.wso2.finance.open.banking.conformance.test.core.utilities.*;
+import com.wso2.finance.open.banking.conformance.test.core.request.RequestGenerator;
+import com.wso2.finance.open.banking.conformance.test.core.response.ResponseValidator;
+import com.wso2.finance.open.banking.conformance.test.core.utilities.Utils;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import com.wso2.finance.open.banking.conformance.test.core.response.ResponseValidator;
-import com.wso2.finance.open.banking.conformance.test.core.request.RequestGenerator;
 
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.apache.log4j.Logger;
+
+import static org.junit.Assert.assertEquals;
 
 /**
- * Steps used by open data tests
+ * Steps used by open data tests.
  */
 public class OpenDataSteps {
 
@@ -44,22 +45,25 @@ public class OpenDataSteps {
     private RequestSpecification httpRequest;
     private Response response;
 
-    private String ENDPOINT_GET_ATMS_BY_BANK_ID;
-    private String ENDPOINT_GET_BRANCHES_BY_BANK_ID;
-    private String ENDPOINT_GET_PRODUCTS_BY_BANK_ID;
+    private String endpointGetAtmsByBankId;
+    private String endpointGetBranchesByBankId;
+    private String endpointGetProductsByBankId;
+
+    private Logger log = Logger.getLogger(OpenDataSteps.class);
 
     @Given("a request is initiated to ATM endpoint")
     public void createRequestToAtmEndpoint() {
 
-        ENDPOINT_GET_ATMS_BY_BANK_ID = "/v1.0.0/banks/" + Context.getInstance().getCurrentFeatureAttribute("uri", "bank_id") + "/atms";
+        endpointGetAtmsByBankId = "/v1.0.0/banks/" + Context.getInstance()
+                .getCurrentFeatureAttribute("uri", "bank_id") + "/atms";
         httpRequest = requestGenerator.createRequest(Constants.ATM_END_POINT);
     }
 
     @When("a user retrieves the atm details")
     public void getAtmDetails() {
 
-        response = httpRequest.request(Method.GET, ENDPOINT_GET_ATMS_BY_BANK_ID);
-        Log.info("response: " + response.getBody().asString());
+        response = httpRequest.request(Method.GET, endpointGetAtmsByBankId);
+        log.info("response: " + response.getBody().asString());
     }
 
     @Then("response json data should be compliant to the standard")
@@ -71,29 +75,31 @@ public class OpenDataSteps {
     @Given("a request is initiated to BRANCH endpoint")
     public void createRequestToBranchEndpoint() {
 
-        ENDPOINT_GET_BRANCHES_BY_BANK_ID = "/v1.0.0/banks/" + Context.getInstance().getCurrentFeatureAttribute("uri", "bank_id") + "/branches";
+        endpointGetBranchesByBankId = "/v1.0.0/banks/" + Context.getInstance()
+                .getCurrentFeatureAttribute("uri", "bank_id") + "/branches";
         httpRequest = requestGenerator.createRequest(Constants.BRANCH_END_POINT);
     }
 
     @When("a user retrieves the branch details")
     public void getBranchDetails() {
 
-        response = httpRequest.request(Method.GET, ENDPOINT_GET_BRANCHES_BY_BANK_ID);
-        Log.info("response: " + response.getBody().asString());
+        response = httpRequest.request(Method.GET, endpointGetBranchesByBankId);
+        log.info("response: " + response.getBody().asString());
     }
 
     @Given("a request is initiated to PRODUCT endpoint")
     public void createRequestToProductEndpoint() {
 
-        ENDPOINT_GET_PRODUCTS_BY_BANK_ID = "/v1.0.0/banks/" + Context.getInstance().getCurrentFeatureAttribute("uri", "bank_id") + "/products";
+        endpointGetProductsByBankId = "/v1.0.0/banks/" + Context.getInstance()
+                .getCurrentFeatureAttribute("uri", "bank_id") + "/products";
         httpRequest = requestGenerator.createRequest(Constants.PRODUCT_END_POINT);
     }
 
     @When("a user retrieves the product details")
     public void getProductDetails() {
 
-        response = httpRequest.request(Method.GET, ENDPOINT_GET_PRODUCTS_BY_BANK_ID);
-        Log.info("response: " + response.getBody().asString());
+        response = httpRequest.request(Method.GET, endpointGetProductsByBankId);
+        log.info("response: " + response.getBody().asString());
     }
 
     @Then("response json data should contain geo-location of the branch")

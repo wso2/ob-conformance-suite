@@ -23,7 +23,7 @@ import com.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;
 import com.wso2.finance.open.banking.conformance.mgt.models.Report;
 
 /**
- * Class that holds results of a feature
+ * Class that holds results of a feature.
  */
 public class TestPlanFeatureResult {
 

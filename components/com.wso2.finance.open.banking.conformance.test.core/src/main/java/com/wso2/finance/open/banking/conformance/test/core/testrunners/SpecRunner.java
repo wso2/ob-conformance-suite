@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Run Spec
+ * Execute Features from a Specification.
  */
 public class SpecRunner {
 
@@ -43,7 +43,7 @@ public class SpecRunner {
     }
 
     /**
-     * Run each feature in the spec
+     * Run each feature in the spec.
      *
      * @return
      */
