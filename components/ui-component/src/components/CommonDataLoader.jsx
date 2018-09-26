@@ -38,7 +38,6 @@ class CommonDataLoader extends React.Component {
                 specs.data.forEach((spec) => {
                     this.props.dispatch(addSpecification(spec.name, spec));
                 });
-
                 const testplans = plans.data;
                 Object.keys(testplans).forEach(key => this.props.dispatch(addTestPlan(key, testplans[key].testPlan, testplans[key].reports))
                 );

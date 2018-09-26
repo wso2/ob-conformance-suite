@@ -48,7 +48,7 @@ export class StringAttribute extends React.Component {
             });
         }
     }
-
+    
     getDefaultValue() {
         const testStateValue = this.props.getValue(this.props.attribute.name);
         return testStateValue || this.props.attribute.defaultValue;
@@ -146,22 +146,15 @@ class AttributeGroup extends React.Component {
         }
     }
 
-    renderAttribute(attribute) {
-        switch (attribute.attributeType) {
-            case 'String':
-                return (
-                    <StringAttribute
-                        attribute={attribute}
-                        key={attribute.name}
-                        updateChange={this.updateChange}
-                        getValue={this.getValue}
-                        specName={this.props.specName}
-                    />
-                );
-            case 'TextLabel':
-                return <TextLabelAttribute attribute={attribute} key={attribute.name} />;
-            case 'LinkButton':
-                return <LinkButtonAttribute attribute={attribute} key={attribute.name} />;
+    renderAttribute(attribute){
+        switch (attribute.attributeType){
+            case "String":
+                return <StringAttribute attribute={attribute} key={attribute.name} updateChange={this.updateChange} 
+                    getValue={this.getValue} specName={this.props.specName}/>;
+            case "TextLabel":
+                return <TextLabelAttribute attribute={attribute} key={attribute.name}/>;
+            case "LinkButton":
+                return <LinkButtonAttribute attribute={attribute} key={attribute.name}/>;
             default:
                 return <p>Not A Valid Field Type</p>;
         }

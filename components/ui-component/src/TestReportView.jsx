@@ -18,8 +18,13 @@
  */
 
 import React from 'react';
+<<<<<<< HEAD
 import {connect} from 'react-redux';
 import {ListGroup, ListGroupItem, Button, Modal, Grid, Row, Col, Panel, Badge, ProgressBar, Well,} from 'react-bootstrap';
+=======
+import { connect } from 'react-redux';
+import {ListGroup, ListGroupItem, Button, Modal, Grid, Row, Col, Panel, Badge, ProgressBar, Well} from 'react-bootstrap';
+>>>>>>> Code refactor
 import AppHeader from './partials/AppHeader';
 import '../public/css/report-style.scss';
 import RequestBuilder from './utils/RequestBuilder';
@@ -232,6 +237,7 @@ class TestReportView extends React.Component {
                     reportHelper.getFeatureCount(response.data.testPlan))) * 100,
             });
 
+<<<<<<< HEAD
             /* Add Ids of loaded results to the state. */
             const finishedFeatureIdSet = this.state.finishedFeatureIds;
             for (var api in response.data.report.result) {
@@ -243,6 +249,19 @@ class TestReportView extends React.Component {
                 }
                 this.setState({finishedFeatureIds: finishedFeatureIdSet});
             }
+=======
+      /* Add Ids of loaded results to the state. */
+      const finishedFeatureIdSet = this.state.finishedFeatureIds;
+      for (let api in response.data.report.result) {
+        finishedFeatureIdSet[api] = [];
+        if (typeof (response.data.report.result[api][0]) !== 'undefined') {
+          response.data.report.result[api].forEach((feature) => {
+            finishedFeatureIdSet[api].push(feature.id);
+          });
+        }
+        this.setState({ finishedFeatureIds: finishedFeatureIdSet });
+      }
+>>>>>>> Code refactor
 
             /* If the test is still running, start appending results to the report */
             if (response.data.report.state === 'RUNNING') {
