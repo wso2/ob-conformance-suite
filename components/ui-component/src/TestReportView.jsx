@@ -177,6 +177,22 @@ const stepStatus = (steps) => {
 
   if (status) {
     return (<p className="passedTag status-badge"><i className="fas fa-check-circle" /></p>);
+  } else {
+    return (
+      <div>
+        <p className="failedTag status-badge"><i className="fas fa-times-circle" /></p>
+        <Panel className="error-panel" defaultExpanded>
+          <Panel.Collapse>
+            <p className="top-left-padding"><b>Failure details :</b></p>
+            <ListGroup>
+              <Well bsSize="small">
+                {errorDisplayList}
+              </Well>
+            </ListGroup>
+          </Panel.Collapse>
+        </Panel>
+      </div>
+    );
   }
 };
 
@@ -370,7 +386,7 @@ class TestReportView extends React.Component {
                   ? <ProgressBar className="pass-rate-progress" active striped now={this.state.progress} />
                   : <ProgressBar className="pass-rate-progress fadeout" striped now={100} />
 
-                                }
+                }
               </div>
 
             </div>
