@@ -16,68 +16,68 @@
  * under the License.
  */
 
-export const addSpecification = (name,spec) => ({
+export const addSpecification = (name, spec) => ({
     type: 'ADD_SPEC',
-    name: name,
-    specification: spec
+    name,
+    specification: spec,
 });
 
-export const updateSpecification = (name,spec) => ({
+export const updateSpecification = (name, spec) => ({
     type: 'UPDATE_SPEC',
-    name: name,
-    specification: spec
+    name,
+    specification: spec,
 });
 
 export const toggleSpecification = name => ({
     type: 'TOGGLE_SPEC',
-    name: name
+    name,
 });
 
 export const clearSelectedSpecifications = () => ({
-    type: 'CLEAR_SELECTED_SPECS'
+    type: 'CLEAR_SELECTED_SPECS',
 });
 
 export const clearSpecifications = () => ({
     type: 'CLEAR_SPECS',
 });
 
-export const addSpecificationToTestValues = (spec) => ({
+export const addSpecificationToTestValues = spec => ({
     type: 'ADD_SPEC_TO_TESTVALUES',
-    specification: spec
+    specification: spec,
 });
 
-export const toggleVector = (name,vector) => ({
+export const toggleVector = (name, vector) => ({
     type: 'TOGGLE_VECTOR',
-    name: name,
-    vector: vector
+    name,
+    vector,
 });
 
-export const toggleFeature = (name,feature) => ({
+export const toggleFeature = (name, feature) => ({
     type: 'TOGGLE_FEATURE',
-    name: name,
-    feature: feature
+    name,
+    feature,
 });
 
-export const setSpecValue = (specName,groupName,attributeName,value) => ({
+export const setSpecValue = (specName, groupName, attributeName, value) => ({
     type: 'SET_VALUE_SPEC',
-    specName: specName,
-    groupName: groupName,
-    attributeName: attributeName,
-    value: value
+    specName,
+    groupName,
+    attributeName,
+    value,
 });
 
-export const setFeatureValue = (specName,featureName,groupName,attributeName,value) => ({
+export const setFeatureValue = (specName, featureName, groupName, attributeName, value) => ({
     type: 'SET_VALUE_FEATURE',
-    specName: specName,
-    featureName: featureName,
-    groupName: groupName,
-    attributeName: attributeName,
-    value: value
+    specName,
+    featureName,
+    groupName,
+    attributeName,
+    value,
 });
 
-export const setTestName = (name) => ({
+export const setTestName = name => ({
     type: 'SET_NAME_TO_TESTVALUES',
-    name: name
+    name,
 });
 
 
@@ -85,18 +85,18 @@ export const clearTestValues = () => ({
     type: 'CLEAR_TESTVALUES',
 });
 
-export const addTestPlan = (id,testplan,reports) => ({
+export const addTestPlan = (id, testplan, reports) => ({
     type: 'ADD_TESTPLAN',
-    id: id,
-    testplan: testplan,
-    reports: reports
+    id,
+    testplan,
+    reports,
 });
 
 export const clearTestPlan = () => ({
     type: 'CLEAR_TESTPLAN',
 });
 
-export const updateReport = (report) => ({
+export const updateReport = report => ({
     type: 'UPDATE_REPORT',
-    report: report,
+    report,
 });

@@ -18,29 +18,28 @@
 
 
 export default class TestPlanReduxHelper {
-
-    static getSpecFromState(state,specName) {
+    static getSpecFromState(state, specName) {
         return state.specs[specName];
     }
 
-    static getSelectedVectorsFromState(state,specName){
-        return this.getSpecFromState(state,specName).selectedVectors;
+    static getSelectedVectorsFromState(state, specName) {
+        return this.getSpecFromState(state, specName).selectedVectors;
     }
 
-    static getSelectedFeaturesFromState(state,specName){
-        return this.getSpecFromState(state,specName).selectedFeatures;
+    static getSelectedFeaturesFromState(state, specName) {
+        return this.getSpecFromState(state, specName).selectedFeatures;
     }
 
-    static getSelectedSpecsFromState(state,selectedFeatures){
+    static getSelectedSpecsFromState(state, selectedFeatures) {
         return Object.values(state.specs).filter(spec => selectedFeatures.includes(spec.name));
     }
 
     static buildTestPlanSpecFromTestValues(spec) {
-        var selectedFeatures = {};
+        const selectedFeatures = {};
 
-        spec.selectedFeatures.forEach((key) => selectedFeatures[key] = {
+        spec.selectedFeatures.forEach(key => selectedFeatures[key] = {
             uri: key,
-            attributeGroups : spec.selectedValues.features[key]
+            attributeGroups: spec.selectedValues.features[key],
         });
 
         return {
@@ -48,20 +47,19 @@ export default class TestPlanReduxHelper {
             version: spec.version,
             features: selectedFeatures,
             testingVectors: spec.selectedVectors,
-            attributeGroups: spec.selectedValues.specification
+            attributeGroups: spec.selectedValues.specification,
         };
     }
 
 
-    static buildTestPlanFromTestValues(testvalues){
-        var specs = {};
+    static buildTestPlanFromTestValues(testvalues) {
+        const specs = {};
         Object.keys(testvalues.specs).forEach((key) => {
-            specs[key] = TestPlanReduxHelper.buildTestPlanSpecFromTestValues(testvalues.specs[key])
+            specs[key] = TestPlanReduxHelper.buildTestPlanSpecFromTestValues(testvalues.specs[key]);
         });
         return {
-            name : testvalues.name,
-            "specifications" : specs
-        }
+            name: testvalues.name,
+            specifications: specs,
+        };
     }
-
 }

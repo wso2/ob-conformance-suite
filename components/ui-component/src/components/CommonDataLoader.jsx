@@ -17,20 +17,19 @@
  */
 
 import React from 'react';
-import RequestBuilder from "../utils/RequestBuilder";
 import axios from 'axios';
 import {connect} from "react-redux";
-import {addSpecification, addTestPlan, clearTestPlan} from "../actions";
+import RequestBuilder from "../utils/RequestBuilder";
+import { addSpecification, addTestPlan, clearTestPlan } from '../actions';
 
 const client = new RequestBuilder();
 
 class CommonDataLoader extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
-            loading: true
-        }
+            loading: true,
+        };
     }
 
     componentDidMount() {
@@ -40,15 +39,14 @@ class CommonDataLoader extends React.Component {
                     this.props.dispatch(addSpecification(spec.name, spec));
                 });
 
-                let testplans = plans.data;
-                Object.keys(testplans).forEach((key) =>
-                    this.props.dispatch(addTestPlan(key, testplans[key].testPlan, testplans[key].reports))
-                )
-            })
+                const testplans = plans.data;
+                Object.keys(testplans).forEach(key => this.props.dispatch(addTestPlan(key, testplans[key].testPlan, testplans[key].reports))
+                );
+            }),
         ).finally(() => {
             this.setState({
-                loading: false
-            })
+                loading: false,
+            });
         });
     }
 
