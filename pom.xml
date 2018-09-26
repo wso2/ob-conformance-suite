@@ -163,7 +163,6 @@
         <module>components/com.wso2.finance.open.banking.conformance.test.core</module>
         <module>components/com.wso2.finance.open.banking.conformance.mgt</module>
         <module>components/com.wso2.finance.open.banking.conformance.api</module>
-        <module>components/ui-component</module>
     </modules>
 
     <properties>
