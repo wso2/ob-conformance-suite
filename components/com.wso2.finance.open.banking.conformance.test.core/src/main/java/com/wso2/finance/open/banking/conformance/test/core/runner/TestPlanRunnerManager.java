@@ -124,6 +124,7 @@ public class TestPlanRunnerManager implements RunnerManagerCallback {
         for (TestPlanRunnerInstance instance : this.runnerInstanceMap.values()) {
             if (instance.getStatus() == Report.RunnerState.WAITING) {
                 instance.setContextAttributes(key, value);
+                instance.setStatus(Report.RunnerState.RUNNING);
             }
         }
     }

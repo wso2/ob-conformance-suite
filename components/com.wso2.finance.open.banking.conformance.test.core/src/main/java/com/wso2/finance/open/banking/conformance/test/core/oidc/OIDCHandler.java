@@ -30,17 +30,16 @@ import static io.restassured.RestAssured.given;
  */
 public class OIDCHandler {
 
-    class TokenEndResponse {
-
-        private String accessToken;
-        private String refreshToken;
+    class TokenEndResponse{
+        private String access_token;
+        private String refresh_token;
         private String scope;
-        private String tokenType;
-        private int expiredIn;
+        private String token_type;
+        private int expired_in;
 
-        public String getAccessToken() {
+        public String getAccess_token() {
 
-            return accessToken;
+            return access_token;
         }
     }
 
@@ -96,7 +95,7 @@ public class OIDCHandler {
         Log.info("Token EndPoint Response: " + response.getBody().asString());
 
         Gson gson = new Gson();
-        return gson.fromJson(response.getBody().asString(), TokenEndResponse.class).getAccessToken();
+        return gson.fromJson(response.getBody().asString(), TokenEndResponse.class).getAccess_token();
 
     }
 

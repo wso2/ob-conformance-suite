@@ -45,6 +45,7 @@ public class TestPlanRunnerInstance extends Thread {
     private volatile Map<String, List<JsonObject>> formattedResult = new HashMap();
     private volatile Report.RunnerState status;
     private RunnerManagerCallback runnerManagerCallback;
+    private Context context;
 
     /**
      * @param testPlan
@@ -139,7 +140,8 @@ public class TestPlanRunnerInstance extends Thread {
      */
     public void run() {
 
-        Context.getInstance().init(testPlan);
+        context = Context.getInstance();
+        context.init(testPlan);
         this.status = Report.RunnerState.RUNNING;
         for (Specification specification : this.testPlan.getSpecifications()) {
             this.processSpec(specification);
@@ -181,7 +183,7 @@ public class TestPlanRunnerInstance extends Thread {
      */
     public void setContextAttributes(String key, String value) {
 
-        Context.getInstance().setAttributesToTempMap(key, value);
+        context.setAttributesToTempMap(key, value);
     }
 
     /**
