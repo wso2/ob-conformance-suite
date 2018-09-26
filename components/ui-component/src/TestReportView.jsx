@@ -24,8 +24,9 @@ import AppHeader from './partials/AppHeader';
 import '../public/css/report-style.scss';
 import RequestBuilder from './utils/RequestBuilder';
 import TestReportHelper from './utils/TestReportHelper';
-import AttributeGroup from './components/AttributeGroup';
-import LoaderComponent from './components/LoaderComponent';
+import AttributeGroup from "./components/AttributeGroup";
+import LoaderComponent from "./components/LoaderComponent"
+
 import { updateReport } from './actions';
 
 const client = new RequestBuilder();
@@ -143,7 +144,6 @@ const stepStatus = (steps) => {
           ? <span className="pull-right">skipped</span>
           : <i className={faIconClass} />
                 }
-
         { step.result.status === 'failed'
           ? (
             <Panel defaultExpanded={false} className="error-description-panel">
