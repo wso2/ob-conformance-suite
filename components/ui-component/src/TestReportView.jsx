@@ -45,7 +45,6 @@ const stepStatus = (steps) => {
     let errorStep;
     let errorDescription;
     let errorClass;
-    let faIconClass = '';
     const errorDisplayList = [];
 
     steps.forEach((step) => {
@@ -53,7 +52,6 @@ const stepStatus = (steps) => {
         errorClass = step.result.status;
         errorDescription = step.result.error_message;
         errorStep = (`${step.keyword} | ${step.name}`);
-        step.result.status === 'passed' ? faIconClass = '' : faIconClass = '';
 
         errorDisplayList.push(
             <ListGroupItem className={errorClass} key={step.name}>
@@ -68,7 +66,7 @@ const stepStatus = (steps) => {
 
                 {step.result.status === 'skipped'
                     ? <span className='pull-right'>skipped</span>
-                    : <i className={faIconClass} />
+                    : null
                 }
 
                 {step.result.status === 'failed'
@@ -78,14 +76,14 @@ const stepStatus = (steps) => {
                                 <span className='error-more-info-link'>
                                     <b>{errorStep.split(' ')[0]}</b>
                                     {errorStep.split(' ').slice(1).join(' ')}
-                                    <i className='fas fa-angle-down'/>
+                                    <i className='fas fa-angle-down' />
                                 </span>
                             </Panel.Toggle>
                             <Panel.Collapse>
                                 <Panel.Body>
                                     <i>
-                                        {errorDescription.match(new RegExp('StartError' + '(.*)' + 'EndError'))
-                                            ? errorDescription.match(new RegExp('StartError' + '(.*)' + 'EndError'))[1]
+                                        {errorDescription.match(new RegExp('StartError(.*)EndError'))
+                                            ? errorDescription.match(new RegExp('StartError(.*)EndError'))[1]
                                             : errorDescription
                                         }
                                     </i>
@@ -100,11 +98,11 @@ const stepStatus = (steps) => {
     });
 
     if (status) {
-        return (<p className='passedTag status-badge'><i className='fas fa-check-circle'/></p>);
+        return (<p className='passedTag status-badge'><i className='fas fa-check-circle' /></p>);
     } else {
         return (
             <div>
-                <p className='failedTag status-badge'><i className='fas fa-times-circle'/></p>
+                <p className='failedTag status-badge'><i className='fas fa-times-circle' /></p>
                 <Panel className='error-panel' defaultExpanded>
                     <Panel.Collapse>
                         <p className='top-left-padding'><b>Failure details :</b></p>
@@ -221,11 +219,19 @@ const ReportAPI = connect(state => ({ specifications: state.specifications }))((
     </Panel>
 ));
 
-
 /**
- * sadsad.
+ * ClassName: TestReportView
+ * 
+ * Responsible for displaying results and statistical 
+ * data relavant to the results which will be supplied 
+ * as JSON data.  
+ *
  */
 class TestReportView extends React.Component {
+    /**
+     * 
+     * @param {*} props - Class props
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -300,21 +306,46 @@ class TestReportView extends React.Component {
         clearInterval(this.interval);
     }
 
-    /*
-     *Function to load results to the report while polling
+
+    /**
+     * Loads results to the report while polling
      */
     appendResults() {
-        client.pollResultsForTestPlan(this.state.uuid).then((response) => {
-            for (let i = 0, len = response.data.length; i < len; i++) {
-                const result = response.data[i];
+        client.pollResultsForTestPlan(this.state.uuid).then((pollResponse) => {
+            for (let i = 0, len = pollResponse.data.length; i < len; i++) {
+                const result = pollResponse.data[i];
 
                 /* Check for already loaded results and skip appending. */
-                if (this.state.finishedFeatureIds.hasOwnProperty(result.specName)) {
-                    if (this.state.finishedFeatureIds[result.specName].includes(result.featureResult.id)) {
-                        continue;
+                if (Object.prototype.hasOwnProperty.call(this.state.finishedFeatureIds, result.specName)) {
+                    if (!(this.state.finishedFeatureIds[result.specName].includes(result.featureResult.id))) {
+                        this.setState({
+                            showInteractionModel: false,
+                        });
+
+                        let resultObject = this.state.data;
+                        if (result.featureResult) {
+                            const featureResult = reportHelper.getFeatureResult(result.featureResult, reportHelper);
+                            resultObject = { 
+                                ...resultObject,
+                                [result.specName]: [...resultObject[result.specName], result.featureResult],
+                            };
+                            this.setState(prevState => ({
+                                data: resultObject,
+                                passed: prevState.passed 
+                                    + (featureResult.failed === 0), // all scenarios of feature passed
+                                failed: prevState.failed 
+                                    + (featureResult.failed > 0), // any scenario of feature failed
+                                completedFeatures: prevState.completedFeatures + 1,
+                                progress: ((prevState.completedFeatures + 1) / prevState.featureCount) * 100,
+                            }));
+                        } else if (result.attributeGroup) {
+                            this.setState({
+                                attributes: result.attributeGroup,
+                                showInteractionModel: true,
+                            });
+                        }
                     }
                 }
-
                 /* update state when the test is finished */
                 if (result.runnerState === 'DONE') {
                     client.getResultsForTestPlan(this.state.uuid, this.state.revision).then((response) => {
@@ -324,43 +355,21 @@ class TestReportView extends React.Component {
                         testRunning: false,
                     });
                 }
-
-                this.setState({
-                    showInteractionModel: false,
-                });
-
-                let resultObject = this.state.data;
-                if (result.featureResult) {
-                    const featureResult = reportHelper.getFeatureResult(result.featureResult, reportHelper);
-                    resultObject = { 
-                        ...resultObject,
-                        [result.specName]: [...resultObject[result.specName], result.featureResult],
-                    };
-                    this.setState({
-                        data: resultObject,
-                        passed: this.state.passed
-                            + (featureResult.failed === 0) * 1, // all scenarios of feature passed
-                        failed: this.state.failed
-                            + (featureResult.failed > 0) * 1, // any scenario of feature failed
-                        completedFeatures: this.state.completedFeatures + 1,
-                        progress: ((this.state.completedFeatures + 1) / this.state.featureCount) * 100,
-                    });
-                } else if (result.attributeGroup) {
-                    this.setState({
-                        attributes: result.attributeGroup,
-                        showInteractionModel: true,
-                    });
-                }
             }
         });
     }
 
+    /**
+     * Renders main components of the report
+     * @returns {string} - HTML markup for the main components
+     */
     renderMain() {
         return (
             <Grid>
-                <Modal show={this.state.showInteractionModel} 
+                <Modal 
+                    show={this.state.showInteractionModel} 
                     onHide={() => {
-                        this.setState({showInteractionModel: false });
+                        this.setState({ showInteractionModel: false });
                     }} 
                     container={this}
                 >
@@ -388,14 +397,22 @@ class TestReportView extends React.Component {
                         </Button>
                     </Modal.Footer>
                 </Modal>
-                <Row className="stickeyHeader">
+                <Row className='stickeyHeader'>
                     <Col md={12}>
-                        <div className="pull-right">
+                        <div className='pull-right'>
+                            {!this.state.testRunning && this.state.failed === 0
+                                ? <Badge className='test-complete-badge'>Completed</Badge>
+                                : null
+                            }
+
+                            {!this.state.testRunning && this.state.failed > 0
+                                ? <Badge className='test-complete-withfail-badge'>Completed</Badge>
+                                : null
+                            }
+
                             {this.state.testRunning
                                 ? <LoaderComponent/>
-                                : this.state.failed > 0
-                                    ? <Badge className="test-complete-withfail-badge">Completed</Badge>
-                                    : <Badge className="test-complete-badge">Completed</Badge>
+                                : null
                             }
                         </div>
                         <div>
@@ -406,7 +423,7 @@ class TestReportView extends React.Component {
                             </h1>
                         </div>
 
-                        <div className="overall-results-block report-block">
+                        <div className='overall-results-block report-block'>
                             {this.state.passed > 0
                                 ? (
                                     <p>
@@ -428,9 +445,15 @@ class TestReportView extends React.Component {
                             }
                             <div hidden={!this.state.newTest}>
                                 {this.state.progress !== 100
-                                    ? <ProgressBar className="pass-rate-progress" active striped
-                                        now={this.state.progress}/>
-                                    : <ProgressBar className="pass-rate-progress fadeout" striped now={100}/>
+                                    ? (
+                                        <ProgressBar 
+                                            className='pass-rate-progress' 
+                                            active 
+                                            striped
+                                            now={this.state.progress}
+                                        />
+                                    )
+                                    : <ProgressBar className='pass-rate-progress fadeout' striped now={100} />
                                 }
                             </div>
 
@@ -439,10 +462,10 @@ class TestReportView extends React.Component {
                 </Row>
                 <Row>
                     <Col md={12}>
-                        <br/>
+                        <br />
                         <div>
                             {Object.keys(this.state.data).map(
-                                key => <ReportAPI api={this.state.data[key]} key={key} apiName={key}/>,
+                                key => <ReportAPI api={this.state.data[key]} key={key} apiName={key} />,
                             )}
                         </div>
                     </Col>
@@ -451,6 +474,10 @@ class TestReportView extends React.Component {
         );
     }
 
+    /**
+     * Renders the report if not in loading state
+     * @returns {string} - HTML markup for the report
+     */
     render() {
         return (
             <div>
@@ -461,5 +488,14 @@ class TestReportView extends React.Component {
         );
     }
 }
+
+TestReportView.propTypes = {
+    match: PropTypes.shape({
+        isExact: PropTypes.bool.isRequired,
+        params: PropTypes.object.isRequired,
+        path: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired,
+    }).isRequired,
+};
 
 export default connect()(TestReportView);
