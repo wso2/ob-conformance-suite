@@ -24,13 +24,16 @@ import com.wso2.finance.open.banking.conformance.test.core.request.TokenEndPoint
 import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+
 import static io.restassured.RestAssured.given;
+
 /**
  * Helper for Handling OIDC flow.
  */
 public class OIDCHandler {
 
-    class TokenEndResponse{
+    class TokenEndResponse {
+
         private String access_token;
         private String refresh_token;
         private String scope;
@@ -43,15 +46,14 @@ public class OIDCHandler {
         }
     }
 
-    private String clientID = "";         //client username
-    private String clientSecret = "";     //client password
-    private String callbackURL = "";    // eg: "https://openbanking.wso2.com/authenticationendpoint/authorize_callback.do";
-    private String authEnd = "";        //eg: "https://api-openbanking.wso2.com/AuthorizeAPI/v1.0.0/";
-    private String tokenEnd = "";       //eg: https://api-openbanking.wso2.com/TokenAPI/v1.0.0/
-    private String authCode = "";       //Authorization code received from authorization endpoint
+    private String clientID = "";
+    private String clientSecret = "";
+    private String callbackURL = "";
+    private String authEnd = "";
+    private String tokenEnd = "";
+    private String authCode = "";
 
     /**
-     *
      * @param clientID
      * @param clientSecret
      * @param authEnd
@@ -68,19 +70,18 @@ public class OIDCHandler {
     }
 
     /**
-     *
      * @param state
      * @return
      */
     public String createAuthUrlForUserContent(String state) {
 
-        String url = authEnd + "?response_type=code&scope=accounts payments&state=" + state + "&client_id=" + clientID + "&redirect_uri=" + callbackURL;
+        String url = authEnd + "?response_type=code&scope=accounts payments&state=" +
+                state + "&client_id=" + clientID + "&redirect_uri=" + callbackURL;
         Log.info(url);
         return url;
     }
 
     /**
-     *
      * @return
      */
     public String getAccessTokenByAuthorizationCode() {
@@ -99,23 +100,20 @@ public class OIDCHandler {
 
     }
 
-
     /**
-     *
      * @return
      */
-    public String getAccessTokenByClientCredintials()
-    {
+    public String getAccessTokenByClientCredintials() {
+
         return "";
 
     }
 
-
     /**
-     *
      * @param authCode
      */
-    public void setAuthCode(String authCode){
+    public void setAuthCode(String authCode) {
+
         this.authCode = authCode;
     }
 }
