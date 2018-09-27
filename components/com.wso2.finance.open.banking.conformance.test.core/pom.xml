@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~
+  ~ WSO2 Inc. licenses this file to you under the Apache License,
+  ~ Version 2.0 (the "License"); you may not use this file except
+  ~ in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -25,19 +42,6 @@
             <version>2.3.1</version>
             <scope>compile</scope>
         </dependency>
-
-    <!--    <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-testng</artifactId>
-            <version>2.3.1</version>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>-->
 
         <dependency>
             <groupId>io.rest-assured</groupId>
@@ -70,22 +74,16 @@
             <version>2.0.0-rc2</version>
         </dependency>
 
-        <!-- <dependency>
-             <groupId>org.testng</groupId>
-             <artifactId>testng</artifactId>
-             <version>6.14.3</version>
-         </dependency> -->
-
-        <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
-            <version>1.1.1</version>
+            <version>${com.googlecode.json-simple.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.wso2.finance</groupId>
             <artifactId>com.wso2.finance.open.banking.conformance.mgt</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
 
@@ -93,19 +91,19 @@
         <dependency>
             <groupId>com.atlassian.oai</groupId>
             <artifactId>swagger-request-validator-core</artifactId>
-            <version>2.0.0-rc2</version>
+            <version>${com.atlassian.oai.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.atlassian.oai</groupId>
             <artifactId>swagger-request-validator-restassured</artifactId>
-            <version>2.0.0-rc2</version>
+            <version>${com.atlassian.oai.version}</version>
         </dependency>
 
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit.version}</version>
             <scope>compile</scope>
         </dependency>
 
@@ -119,12 +117,11 @@
     </dependencies>
 
     <build>
-       <!-- <directory>${buildDir}</directory> -->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>${org.apache.maven.plugins.version}</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <source>1.8</source>
@@ -132,42 +129,10 @@
                     <compilerArgument>-Werror</compilerArgument>
                 </configuration>
             </plugin>
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-surefire-plugin</artifactId>-->
-                <!--<version>2.22.0</version>-->
-                <!--<configuration>-->
-                    <!--<testFailureIgnore>true</testFailureIgnore>-->
-                    <!--<suiteXmlFiles>-->
-                        <!--<suiteXmlFile>TestSuite/TestNG.xml</suiteXmlFile>-->
-                    <!--</suiteXmlFiles>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
-
-
-           <!-- <plugin>
-                <groupId>com.trivago.rta</groupId>
-                <artifactId>cluecumber-report-plugin</artifactId>
-                <version>1.2.1</version>
-                <executions>
-                    <execution>
-                        <id>report</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>reporting</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <sourceJsonReportDirectory>${buildDir}/cucumber-report</sourceJsonReportDirectory>
-                    <generatedHtmlReportDirectory>${buildDir}/generated-report</generatedHtmlReportDirectory>
-                </configuration>
-            </plugin> -->
         </plugins>
     </build>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!--<buildDir>${user.dir}</buildDir> -->
     </properties>
 
 </project>

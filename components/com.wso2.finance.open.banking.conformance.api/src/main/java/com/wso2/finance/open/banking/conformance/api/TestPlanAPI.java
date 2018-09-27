@@ -48,6 +48,12 @@ public class TestPlanAPI {
 
     TestPlanRunnerManager runnerManager = ApplicationDataHolder.getInstance().getRunnerManager();
 
+    /**
+     * Add a new TestPlan.
+     *
+     * @param plan AddTestPlanDTO
+     * @return TestPlanAddConfirmationDTO
+     */
     @POST
     @Path("/add")
     @Consumes("application/json")
@@ -63,6 +69,11 @@ public class TestPlanAPI {
         return new TestPlanAddConfirmationDTO(testId, report);
     }
 
+    /**
+     * Options Endpoint for addTestPlan
+     *
+     * @return
+     */
     @OPTIONS
     @Path("/add")
     public Response getOptionsRunTestPlan() {
@@ -70,6 +81,12 @@ public class TestPlanAPI {
         return Response.status(Response.Status.OK).header("Access-Control-Allow-Methods", "POST,OPTIONS").build();
     }
 
+    /**
+     * Run a single TestPlan.
+     *
+     * @param uuid id of the TestPlan.
+     * @return Report.
+     */
     @GET
     @Path("/run/{uuid}")
     @Produces("application/json")
@@ -78,6 +95,11 @@ public class TestPlanAPI {
         return this.runnerManager.start(uuid);
     }
 
+    /**
+     * List all TestPlans.
+     *
+     * @return List of TestPlanDTOs.
+     */
     @GET
     @Path("/list/all")
     @Produces("application/json")
@@ -93,6 +115,12 @@ public class TestPlanAPI {
         return results;
     }
 
+    /**
+     * OAuth callback to get Security code for OIDC flow.
+     *
+     * @param code auth code.
+     * @return
+     */
     @GET
     @Path("/callback")
     public Response processCallback(@QueryParam("code") String code) {

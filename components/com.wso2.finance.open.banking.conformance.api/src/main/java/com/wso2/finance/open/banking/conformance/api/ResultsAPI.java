@@ -38,6 +38,12 @@ public class ResultsAPI {
 
     TestPlanRunnerManager runnerManager = ApplicationDataHolder.getInstance().getRunnerManager();
 
+    /**
+     * Poll Result Queue to get progressive results.
+     *
+     * @param testId id of the test.
+     * @return List of TestPlanFeatureResult.
+     */
     @GET
     @Path("/poll/{testId}")
     @Produces("application/json")
@@ -46,6 +52,13 @@ public class ResultsAPI {
         return this.runnerManager.getResults(testId);
     }
 
+    /**
+     * Get Complete Result of a Test.
+     *
+     * @param testId   Id of the test.
+     * @param reportId Report Iteration Id.
+     * @return TestResultDTO
+     */
     @GET
     @Path("/{testId}/{reportId}")
     @Produces("application/json")

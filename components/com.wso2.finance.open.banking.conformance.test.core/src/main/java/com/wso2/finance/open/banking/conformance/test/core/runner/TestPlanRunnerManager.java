@@ -82,9 +82,7 @@ public class TestPlanRunnerManager implements RunnerManagerCallback {
      * @return
      */
     public Report start(String uuid) {
-        //Only one test can run now
-        //TODO: block more than one running
-        //TODO: Hack code to reset thread
+
         TestPlanRunnerInstance runnerInstance = runnerInstanceMap.get(uuid);
         this.runnerInstanceMap.put(uuid,
                 new TestPlanRunnerInstance(runnerInstance.getTestPlan(), this.resultQueueMap.get(uuid), this));

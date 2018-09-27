@@ -28,7 +28,8 @@ import java.util.Map;
 import javax.xml.bind.JAXBException;
 
 /**
- * Application entry point.
+ * Application main entry point.
+ * Load Necessary resource XML's and start the Microservices.
  *
  * @since 1.0.0-SNAPSHOT
  */

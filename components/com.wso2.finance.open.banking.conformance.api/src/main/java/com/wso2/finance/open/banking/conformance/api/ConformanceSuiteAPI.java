@@ -36,6 +36,11 @@ public class ConformanceSuiteAPI {
 
     private SpecificationDAO specificationDAO = new SpecificationDAO();
 
+    /**
+     * Return all BasicSpecifications.
+     *
+     * @return List of basic specifications.
+     */
     @GET
     @Path("/all")
     @Produces("application/json")
@@ -44,6 +49,12 @@ public class ConformanceSuiteAPI {
         return specificationDAO.getBasicSpecifications();
     }
 
+    /**
+     * Return a single complete Specification bny name.
+     *
+     * @param name name of the specification.
+     * @return single Specification.
+     */
     @GET
     @Path("/single/{name}")
     @Produces("application/json")
