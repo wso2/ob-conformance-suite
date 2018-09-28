@@ -19,18 +19,19 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import {
- Grid, Row, Col, Button, ListGroup, Panel } from 'react-bootstrap';
-import AppHeader from "./partials/AppHeader";
+    Grid, Row, Col, Button, ListGroup, Panel,
+} from 'react-bootstrap';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { bootstrapUtils } from 'react-bootstrap/lib/utils';
+import AppHeader from './partials/AppHeader';
 import RequestBuilder from './utils/RequestBuilder';
 import {
     updateSpecification, addSpecificationToTestValues,
-    addTestPlan, clearTestValues, clearSelectedSpecifications, updateReport 
+    addTestPlan, clearTestValues, clearSelectedSpecifications, updateReport,
 } from './actions';
-import { connect } from 'react-redux';
 import TestPlanReduxHelper from './utils/TestPlanReduxHelper';
-import axios from 'axios';
 import { Specification, SpecificationEditor } from './components/TestPlanComponents';
-import { bootstrapUtils } from 'react-bootstrap/lib/utils';
 
 bootstrapUtils.addStyle(Button, 'secondary');
 
@@ -72,17 +73,21 @@ class TestConfigurationView extends React.Component {
     renderEditor() {
         return (
             <SpecificationEditor
-               spec={TestPlanReduxHelper.getSpecFromState(this.props.specifications, this.state.selectedSpec)}
+                spec={TestPlanReduxHelper.getSpecFromState(this.props.specifications,
+                    this.state.selectedSpec)}
             />
         );
     }
 
     renderSpecs() {
-        return TestPlanReduxHelper.getSelectedSpecsFromState(this.props.specifications, this.props.specifications.selected)
+        return TestPlanReduxHelper.getSelectedSpecsFromState(this.props.specifications,
+            this.props.specifications.selected)
             .map((spec) => {
                 return (
                     <Specification
-                        selected={spec.name == this.state.selectedSpec} key={spec.name} spec={spec}
+                        selected={spec.name == this.state.selectedSpec}
+                        key={spec.name}
+                        spec={spec}
                         selectElement={this.selectSpec}
                     />
                 );
@@ -176,21 +181,26 @@ class TestConfigurationView extends React.Component {
                             <br />
                             <div>
                                 <Button
-                                    bsStyle='primary' bsSize='lg'
+                                    bsStyle='primary'
+                                    bsSize='lg'
                                     disabled={this.isCompleted()}
                                     onClick={() => { this.buildTestPlan(true); }}
                                 >
                                     Save and Run
                                 </Button>
                                 <Button
-                                    className='test-save-btn' bsStyle='secondary' bsSize='lg'
+                                    className='test-save-btn'
+                                    bsStyle='secondary'
+                                    bsSize='lg'
                                     disabled={this.isCompleted()}
                                     onClick={() => { this.buildTestPlan(false); }}
                                 >
                                     Save
                                 </Button>
                                 <Button
-                                    className='test-save-btn' bsStyle='default' bsSize='lg'
+                                    className='test-save-btn'
+                                    bsStyle='default'
+                                    bsSize='lg'
                                     onClick={() => { this.dismiss(); }}
                                 >
                                     Cancel
