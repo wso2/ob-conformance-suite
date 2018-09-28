@@ -14,20 +14,21 @@ export default class LoaderComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: true
-        }
+            loading: true,
+        };
     }
+
     render() {
         return (
             <div className='sweet-loading'>
                 <PulseLoader
                     className={override}
-                    sizeUnit={"px"}
+                    sizeUnit='px'
                     size={5}
-                    color={'#507192'}
+                    color='#507192'
                     loading={this.state.loading}
                 />
             </div>
-        )
+        );
     }
 }

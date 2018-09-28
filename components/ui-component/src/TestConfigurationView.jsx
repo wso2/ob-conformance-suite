@@ -17,16 +17,19 @@
  */
 
 import React from 'react';
+import { withRouter, Link } from 'react-router-dom';
+import {
+ Grid, Row, Col, Button, ListGroup, Panel } from 'react-bootstrap';
 import AppHeader from "./partials/AppHeader";
 import RequestBuilder from './utils/RequestBuilder';
-import {withRouter, Link} from 'react-router-dom'
-import { Grid, Row, Col, Button, ListGroup, Panel} from 'react-bootstrap';
-import {updateSpecification,addSpecificationToTestValues,
-    addTestPlan,clearTestValues,clearSelectedSpecifications,updateReport} from "./actions";
-import {connect} from 'react-redux'
-import TestPlanReduxHelper from './utils/TestPlanReduxHelper'
+import {
+    updateSpecification, addSpecificationToTestValues,
+    addTestPlan, clearTestValues, clearSelectedSpecifications, updateReport 
+} from './actions';
+import { connect } from 'react-redux';
+import TestPlanReduxHelper from './utils/TestPlanReduxHelper';
 import axios from 'axios';
-import {Specification, SpecificationEditor} from "./components/TestPlanComponents";
+import { Specification, SpecificationEditor } from './components/TestPlanComponents';
 import { bootstrapUtils } from 'react-bootstrap/lib/utils';
 
 bootstrapUtils.addStyle(Button, 'secondary');
@@ -34,12 +37,11 @@ bootstrapUtils.addStyle(Button, 'secondary');
 const client = new RequestBuilder();
 
 class TestConfigurationView extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
             loading: true,
-            selectedSpec: null
+            selectedSpec: null,
         };
         this.selectSpec = this.selectSpec.bind(this);
         this.isCompleted = this.isCompleted.bind(this);
@@ -52,61 +54,67 @@ class TestConfigurationView extends React.Component {
             axios.all(this.props.specifications.selected.map(key => client.getSingleSpecification(key))).then(
                 axios.spread((...specs) => {
                     specs.forEach((spec) => {
-                        this.props.dispatch(updateSpecification(spec.data.name,spec.data));
+                        this.props.dispatch(updateSpecification(spec.data.name, spec.data));
                         this.props.dispatch(addSpecificationToTestValues(spec.data));
                     });
-                })).finally(() => {
+                }),
+            ).finally(() => {
                 this.setState({
                     loading: false,
-                    selectedSpec: this.props.specifications.selected[0]
+                    selectedSpec: this.props.specifications.selected[0],
                 });
             });
         } else {
-            this.props.history.push("/tests/new");
+            this.props.history.push('/tests/new');
         }
     }
 
     renderEditor() {
-        return <SpecificationEditor
-            spec={TestPlanReduxHelper.getSpecFromState(this.props.specifications, this.state.selectedSpec)}/>;
+        return (
+            <SpecificationEditor
+               spec={TestPlanReduxHelper.getSpecFromState(this.props.specifications, this.state.selectedSpec)}
+            />
+        );
     }
 
     renderSpecs() {
-        return TestPlanReduxHelper.getSelectedSpecsFromState(this.props.specifications,this.props.specifications.selected)
-            .map(spec => {
+        return TestPlanReduxHelper.getSelectedSpecsFromState(this.props.specifications, this.props.specifications.selected)
+            .map((spec) => {
                 return (
-                    <Specification selected={spec.name == this.state.selectedSpec} key={spec.name} spec={spec}
-                                   selectElement={this.selectSpec}/>
+                    <Specification
+                        selected={spec.name == this.state.selectedSpec} key={spec.name} spec={spec}
+                        selectElement={this.selectSpec}
+                    />
                 );
-        });
+            });
     }
 
     selectSpec(key) {
         this.setState({
-            selectedSpec: key
-        })
+            selectedSpec: key,
+        });
     }
 
     isCompleted() {
-        //return TestPlanReduxHelper.isTestPlanFilled(this.props.testvalues);
+        // return TestPlanReduxHelper.isTestPlanFilled(this.props.testvalues);
     }
 
-    buildTestPlan(runNow){
-        let testPlan = TestPlanReduxHelper.buildTestPlanFromTestValues(this.props.testvalues);
+    buildTestPlan(runNow) {
+        const testPlan = TestPlanReduxHelper.buildTestPlanFromTestValues(this.props.testvalues);
         client.postTestPlan({
-            testPlan : testPlan,
-            runNow : runNow
+            testPlan,
+            runNow,
         }).then((response) => {
-            let reports = runNow ? [response.data.report] : [];
-            this.props.dispatch(addTestPlan(response.data.testId,testPlan,reports));
-            if (runNow){
+            const reports = runNow ? [response.data.report] : [];
+            this.props.dispatch(addTestPlan(response.data.testId, testPlan, reports));
+            if (runNow) {
                 this.props.history.push({
-                    pathname: "/tests/report/"+response.data.testId+"/"+response.data.report.reportId,
-                    state: {fromDashboard: false}
+                    pathname: '/tests/report/' + response.data.testId + '/' + response.data.report.reportId,
+                    state: { fromDashboard: false },
                 });
                 this.props.dispatch(updateReport(response.data.report));
-            }else{
-                this.props.history.push("/dashboard");
+            } else {
+                this.props.history.push('/dashboard');
             }
         }).finally(() => {
             this.props.dispatch(clearTestValues());
@@ -115,47 +123,47 @@ class TestConfigurationView extends React.Component {
     }
 
     dismiss() {
-        this.props.history.push("/dashboard");
+        this.props.history.push('/dashboard');
         this.props.dispatch(clearTestValues());
         this.props.dispatch(clearSelectedSpecifications());
     }
 
-    saveTestPlan(){
-        let testConfiguration = TestPlanReduxHelper.buildTestPlanFromTestValues(this.props.testvalues);
-        console.log(testConfiguration)
+    saveTestPlan() {
+        const testConfiguration = TestPlanReduxHelper.buildTestPlanFromTestValues(this.props.testvalues);
+        console.log(testConfiguration);
     }
 
     renderMain() {
         return (
             <div>
-                <br/>
+                <br />
                 <Grid>
                     <Row>
-                        <ul className="nav nav-wizard nav-justified nav-margin">
-                            <li role="presentation">
-                                <Link to={"/tests/new"}>
-                                    <span className="step-number">01</span>
-                                    <span className="step-desc">
-                                <h2>Create new Test Plan</h2>
-                                <p>Create new test plan for conformance testing</p>
-                            </span>
+                        <ul className='nav nav-wizard nav-justified nav-margin'>
+                            <li role='presentation'>
+                                <Link to='/tests/new'>
+                                    <span className='step-number'>01</span>
+                                    <span className='step-desc'>
+                                        <h2>Create new Test Plan</h2>
+                                        <p>Create new test plan for conformance testing</p>
+                                    </span>
                                 </Link>
                             </li>
-                            <li role="presentation" className="active">
-                                <a href="#">
-                                    <span className="step-number">02</span>
-                                    <span className="step-desc">
-                                <h2>Configure TestPlan</h2>
-                                <p>Configure test details</p>
-                            </span>
+                            <li role='presentation' className='active'>
+                                <a href='#'>
+                                    <span className='step-number'>02</span>
+                                    <span className='step-desc'>
+                                        <h2>Configure TestPlan</h2>
+                                        <p>Configure test details</p>
+                                    </span>
                                 </a>
                             </li>
                         </ul>
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                     </Row>
                     <Row>
-                        <Col md={4} className={"navigation-list"}>
+                        <Col md={4} className='navigation-list'>
                             <Panel>
                                 <Panel.Heading>Selected API Specifications</Panel.Heading>
                                 <ListGroup>
@@ -165,19 +173,28 @@ class TestConfigurationView extends React.Component {
                         </Col>
                         <Col md={8}>
                             {this.state.selectedSpec ? this.renderEditor() : null}
-                            <br/>
+                            <br />
                             <div>
-                                <Button bsStyle={"primary"} bsSize={"lg"}
-                                        disabled={this.isCompleted()}
-                                        onClick={()=>{this.buildTestPlan(true)}}
-                                >Save and Run</Button>
-                                <Button className="test-save-btn" bsStyle={"secondary"} bsSize={"lg"}
-                                        disabled={this.isCompleted()}
-                                        onClick={()=>{this.buildTestPlan(false)}}
-                                >Save</Button>
-                                <Button className="test-save-btn" bsStyle={"default"} bsSize={"lg"}
-                                        onClick={()=>{this.dismiss()}}
-                                >Cancel</Button>
+                                <Button
+                                    bsStyle='primary' bsSize='lg'
+                                    disabled={this.isCompleted()}
+                                    onClick={() => { this.buildTestPlan(true); }}
+                                >
+                                    Save and Run
+                                </Button>
+                                <Button
+                                    className='test-save-btn' bsStyle='secondary' bsSize='lg'
+                                    disabled={this.isCompleted()}
+                                    onClick={() => { this.buildTestPlan(false); }}
+                                >
+                                    Save
+                                </Button>
+                                <Button
+                                    className='test-save-btn' bsStyle='default' bsSize='lg'
+                                    onClick={() => { this.dismiss(); }}
+                                >
+                                    Cancel
+                                </Button>
                             </div>
                         </Col>
                     </Row>
@@ -189,9 +206,9 @@ class TestConfigurationView extends React.Component {
     render() {
         return (
             <div>
-                <AppHeader/>
+                <AppHeader />
                 {/* <AppBreadcrumbs/> */}
-                <div className={"container"}>
+                <div className='container'>
                     {this.state.loading ? <h1>Loading</h1> : this.renderMain()}
                 </div>
             </div>
@@ -199,7 +216,7 @@ class TestConfigurationView extends React.Component {
     }
 }
 
-export default withRouter(connect((state) => ({
+export default withRouter(connect(state => ({
     specifications: state.specifications,
-    testvalues: state.testvalues
+    testvalues: state.testvalues,
 }))(TestConfigurationView));

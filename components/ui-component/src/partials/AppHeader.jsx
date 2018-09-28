@@ -17,21 +17,25 @@
  */
 
 import React from 'react';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 const AppHeader = () => (
-    <header className="header header-default">
-        <div className="container-fluid">
-            <div className="pull-left brand">
-                <Link to="/dashboard">
-                    <img src="/images/ob-logo.svg" alt="wso2" title="wso2"
-                         className="logo"/>
+    <header className='header header-default'>
+        <div className='container-fluid'>
+            <div className='pull-left brand'>
+                <Link to='/dashboard'>
+                    <img
+                        src='/images/ob-logo.svg'
+                        alt='wso2'
+                        title='wso2'
+                        className='logo'
+                    />
                     <span>Conformance Suite</span>
                 </Link>
             </div>
-            <div className="pull-right header-user">
-                <i className="fas fa-lg fa-university"></i>
-                <span className="span-icon">National Australia Bank (NAB)</span>
+            <div className='pull-right header-user'>
+                <i className='fas fa-lg fa-university' />
+                <span className='span-icon'>National Australia Bank (NAB)</span>
             </div>
         </div>
     </header>

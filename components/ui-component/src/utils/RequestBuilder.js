@@ -19,36 +19,35 @@
 import axios from 'axios';
 
 export default class RequestBuilder {
-
     constructor() {
-        this.base_url = "http://localhost:9090/";
+        this.base_url = 'http://localhost:9090/';
     }
 
     getSpecifications() {
-        return axios.get(this.base_url + "specifications/all");
+        return axios.get(this.base_url + 'specifications/all');
     }
 
     getSingleSpecification(name) {
-        return axios.get(this.base_url + "specifications/single/" + name);
+        return axios.get(this.base_url + 'specifications/single/' + name);
     }
 
-    postTestPlan(testplan){
-        return axios.post(this.base_url + "testplan/add/",testplan);
+    postTestPlan(testplan) {
+        return axios.post(this.base_url + 'testplan/add/', testplan);
     }
 
-    runTestPlan(testplan){
-        return axios.get(this.base_url + "testplan/run/"+ testplan.testId);
+    runTestPlan(testplan) {
+        return axios.get(this.base_url + 'testplan/run/' + testplan.testId);
     }
 
-    pollResultsForTestPlan(id){
-        return axios.get(this.base_url + "results/poll/" + id);
+    pollResultsForTestPlan(id) {
+        return axios.get(this.base_url + 'results/poll/' + id);
     }
 
-    getResultsForTestPlan(uuid, id){
-        return axios.get(this.base_url + "results/"+ uuid +"/" + id);
+    getResultsForTestPlan(uuid, id) {
+        return axios.get(this.base_url + 'results/' + uuid + '/' + id);
     }
 
-    getTestPlans(){
-        return axios.get(this.base_url + "testplan/list/all");
+    getTestPlans() {
+        return axios.get(this.base_url + 'testplan/list/all');
     }
 }

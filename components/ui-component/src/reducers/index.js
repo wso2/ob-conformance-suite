@@ -16,13 +16,13 @@
  * under the License.
  */
 
-import {combineReducers} from 'redux'
-import specifications from './specifications'
-import testvalues from './testvalues'
-import testplans from './testplans'
+import { combineReducers } from 'redux';
+import specifications from './specifications';
+import testvalues from './testvalues';
+import testplans from './testplans';
 
 export default combineReducers({
     specifications,
     testvalues,
-    testplans
+    testplans,
 });

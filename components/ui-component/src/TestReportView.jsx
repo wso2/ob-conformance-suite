@@ -45,6 +45,7 @@ const stepStatus = (steps) => {
     let errorStep;
     let errorDescription;
     let errorClass;
+    let faIconClass = '';
     const errorDisplayList = [];
 
     steps.forEach((step) => {
@@ -52,15 +53,19 @@ const stepStatus = (steps) => {
         errorClass = step.result.status;
         errorDescription = step.result.error_message;
         errorStep = (`${step.keyword} | ${step.name}`);
+        step.result.status === 'passed' ? faIconClass = '' : faIconClass = '';
 
         errorDisplayList.push(
             <ListGroupItem className={errorClass} key={step.name}>
-                {step.result.status !== 'failed'
+                { step.result.status !== 'failed'
                     ? (
                         <span>
                             <b>{errorStep.split(' ')[0]}</b>
+                            {' '}
                             {errorStep.split(' ').slice(1).join(' ')}
-                        </span>)
+
+                        </span>
+                    )
                     : null
                 }
 
@@ -276,7 +281,6 @@ class TestReportView extends React.Component {
                 progress: ((results.passed + results.failed) / (
                     reportHelper.getFeatureCount(response.data.testPlan))) * 100,
             });
-
             /* Add Ids of loaded results to the state. */
             const finishedFeatureIdSet = this.state.finishedFeatureIds;
             for (const api in response.data.report.result) {
@@ -411,7 +415,7 @@ class TestReportView extends React.Component {
                             }
 
                             {this.state.testRunning
-                                ? <LoaderComponent/>
+                                ? <LoaderComponent />
                                 : null
                             }
                         </div>

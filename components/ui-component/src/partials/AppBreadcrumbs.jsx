@@ -19,14 +19,22 @@
 import React from 'react';
 
 const AppBreadcrumb = (name, link) => {
-    <li className="active"><a href="#">Current Page</a></li>
+    <li className='active'>
+        <a href='#'>Current Page</a>
+    </li>;
 };
 
 const AppBreadcrumbs = () => (
-    <div className="breadcrumb-wrapper">
-        <ol className="breadcrumb">
-            <li><a href="#"><i className="fas fa-home"></i> <span className="hidden-xs">Home</span></a></li>
-            <li className="active"><a href="#">Current Page</a></li>
+    <div className='breadcrumb-wrapper'>
+        <ol className='breadcrumb'>
+            <li>
+                <a href='#'>
+                    <i className='fas fa-home' />
+                    {' '}
+                    <span className='hidden-xs'>Home</span>
+                </a>
+            </li>
+            <li className='active'><a href='#'>Current Page</a></li>
         </ol>
     </div>
 );
