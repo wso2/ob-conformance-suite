@@ -20,7 +20,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import {
-Table, Row, Col, Button, Panel, ButtonToolbar
+    Table, Row, Col, Button, Panel, ButtonToolbar,
 } from 'react-bootstrap';
 import AppHeader from './partials/AppHeader';
 import RequestBuilder from './utils/RequestBuilder';
@@ -34,13 +34,8 @@ const reportHelper = new TestReportHelper();
 /*
  * Row of the test plan table
  */
-<<<<<<< HEAD
 const TestPlanRow = ({ report }) => (
     <tr align='left'>
-=======
-const TestPlanRow = ({report}) => (
-    <tr align="left">
->>>>>>> Code refactor
         <td>{report.executed}</td>
         <td>{report.state}</td>
         <td className='overall-results-block'>
@@ -67,7 +62,9 @@ const TestPlanRow = ({report}) => (
             <p>
                 <span>
                     Success Rate:
-                    {reportHelper.getTestSummary(report.result).rate} %
+                    {reportHelper.getTestSummary(report.result).rate}
+                    {' '}
+%
                 </span>
             </p>
         </td>
@@ -99,13 +96,8 @@ class TestPlanView extends React.Component {
     /*
      *Funtion fires when panel toggles
      */
-<<<<<<< HEAD
     togglePlan() {
         console.log('Toggled');
-=======
-    togglePlan(){
-        console.log("Toggled");
->>>>>>> Code refactor
     }
 
     render() {
@@ -119,7 +111,7 @@ class TestPlanView extends React.Component {
                                     {this.props.plan.testPlan.name}
                                     <small>
                                         <p className='text-muted'>
-                                            <span className="history-view-inline-specs">
+                                            <span className='history-view-inline-specs'>
                                                 {Object.keys(this.props.plan.testPlan.specifications).map(key => (
                                                     <span key={this.props.specifications[key].title}>
                                                         {this.props.specifications[key].title}
@@ -164,7 +156,7 @@ class TestPlanView extends React.Component {
                                     <th className='tableHead'>Test Run Date</th>
                                     <th className='tableHead'>Status</th>
                                     <th className='tableHead'>Summary</th>
-                                    <th className='tableHead'></th>
+                                    <th className='tableHead' />
                                 </tr>
                             </thead>
                             <tbody className='text-center'>
@@ -187,11 +179,7 @@ class TestHistoryView extends React.Component {
     /*
      *Function to run the test plan
      */
-<<<<<<< HEAD
     runTest(testPlan) {
-=======
-    runTest(testPlan){
->>>>>>> Code refactor
         client.runTestPlan(testPlan).then((response) => {
             this.props.dispatch(updateReport(response.data));
             this.props.history.push('/tests/report/' + response.data.testId + '/' + response.data.reportId);
