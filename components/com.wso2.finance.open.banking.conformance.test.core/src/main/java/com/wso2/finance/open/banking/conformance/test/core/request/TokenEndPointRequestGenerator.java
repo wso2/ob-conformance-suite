@@ -27,13 +27,29 @@ import io.restassured.specification.RequestSpecification;
 /**
  * Helper class for generating api request to ATM endpoint.
  */
-public class TokenEndPointRequestGenerator extends  RequestGenerator {
+public class TokenEndPointRequestGenerator extends RequestGenerator {
 
+    private String grantType;
+    private String scope;
+    private String redirectURL;
+    private String tokenEnd;
+
+    /**
+     * @param grantType
+     * @param scope
+     * @param redirectURL
+     * @param tokenEnd
+     */
+    public TokenEndPointRequestGenerator(String grantType, String scope, String redirectURL, String tokenEnd) {
+
+        this.grantType = grantType;
+        this.scope = scope;
+        this.redirectURL = redirectURL;
+        this.tokenEnd = tokenEnd;
+    }
 
     @Override
     public RequestSpecification generate() {
-
-        String baseUri = "https://api-openbanking.wso2.com/TokenAPI/v1.0.0/";
 
         String clientID = Context.getInstance()
                 .getCurrentSpecAttribute("client", "consumer key");
@@ -41,19 +57,19 @@ public class TokenEndPointRequestGenerator extends  RequestGenerator {
                 .getCurrentSpecAttribute("client", "consumer secret");
         String authCode = Context.getInstance().getAttributesFromTempMap("auth_code");
 
-        String requestBody = "client_id=" + clientID + "&grant_type=authorization_code&code="
-                + authCode + "&scope=accounts payments&redirect_uri=http://localhost:9090/testplan/callback";
+        String requestBody = "client_id=" + clientID + "&grant_type=" + grantType + "&code="
+                + authCode + "&scope=" + scope + "&redirect_uri=" + redirectURL;
 
         Log.info("Token End Point Request Body: " + requestBody);
 
         String swaggerJsonFile = Context.getInstance().getSwaggerJsonFile(Constants.TOKEN_API_SPEC);
         SwaggerValidationFilter validationFilter = new SwaggerValidationFilter(swaggerJsonFile);
 
-        RequestSpecification spec = this.setBaseUri(baseUri).
-                                         setAccept("application/json").
-                                         setContentType("application/x-www-form-urlencoded;charset=UTF-8").
-                                         setBody(requestBody).
-                                         addFilter(validationFilter).build();
+        RequestSpecification spec = this.setBaseUri(tokenEnd).
+                setAccept("application/json").
+                setContentType("application/x-www-form-urlencoded;charset=UTF-8").
+                setBody(requestBody).
+                addFilter(validationFilter).build();
 
         return spec.auth().preemptive().basic(clientID, clientSecret);
 

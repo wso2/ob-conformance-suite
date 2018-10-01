@@ -56,6 +56,8 @@ public class OIDCSteps {
         callbackUrl = Context.getInstance().getCurrentSpecAttribute("oauth", "callback_url");
         tokenEndPoint = "https://api-openbanking.wso2.com/TokenAPI/v1.0.0/";
         oidcHandler = new OIDCHandler(clientID, clientSecret, authEndPoint, callbackUrl, tokenEndPoint);
+        oidcHandler.setScope("accounts payments");
+        oidcHandler.setGrantType("authorization_code");
         String url = oidcHandler.createAuthUrlForUserContent("YWlzcDozMTQ2");
         setBrowserInteractionURLtoContext(url);
     }
