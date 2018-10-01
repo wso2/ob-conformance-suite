@@ -19,7 +19,6 @@
 package com.wso2.finance.open.banking.conformance.mgt.models;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -55,27 +54,13 @@ public class Specification {
 
     }
 
-    /**
-     * @param name
-     * @param version
-     * @param title
-     * @param description
-     * @param specificationUri
-     * @param attributeGroups
-     * @param testingVectors
-     * @param features
-     */
-    public Specification(String name, String version, String title, String description, String specificationUri,
-                         List<AttributeGroup> attributeGroups, List<Vector> testingVectors, List<Feature> features) {
+    public Specification(String name, String version, String title, String description, String specificationUri) {
 
         this.name = name;
         this.version = version;
         this.title = title;
         this.description = description;
         this.specificationUri = specificationUri;
-        this.attributeGroups = attributeGroups;
-        this.testingVectors = testingVectors;
-        this.features = features;
     }
 
     /**
@@ -140,57 +125,5 @@ public class Specification {
     public String getVersion() {
 
         return version;
-    }
-
-    /**
-     * @param tag
-     * @return
-     * @throws NoSuchElementException
-     */
-    public Vector getVector(String tag) throws NoSuchElementException {
-
-        int len = testingVectors.size();
-        for (int i = 0; i < len; i++) {
-            if (testingVectors.get(i).getTag().equals(tag)) {
-                return testingVectors.get(i);
-            }
-        }
-        throw new NoSuchElementException("Invalid tag.");
-    }
-
-    /**
-     * Get specific Feature by Feature Title.
-     *
-     * @param title
-     * @return
-     * @throws NoSuchElementException
-     */
-    public Feature getFeature(String title) throws NoSuchElementException {
-
-        int len = features.size();
-        for (int i = 0; i < len; i++) {
-            if (features.get(i).getTitle().equals(title)) {
-                return features.get(i);
-            }
-        }
-        throw new NoSuchElementException("Invalid feature title.");
-    }
-
-    /**
-     * Get specific AttributeGroup by groupName.
-     *
-     * @param groupName
-     * @return
-     * @throws NoSuchElementException
-     */
-    public AttributeGroup getAttributeGroup(String groupName) throws NoSuchElementException {
-
-        int len = attributeGroups.size();
-        for (int i = 0; i < len; i++) {
-            if (attributeGroups.get(i).getGroupName().equals(groupName)) {
-                return attributeGroups.get(i);
-            }
-        }
-        throw new NoSuchElementException("Invalid group name.");
     }
 }

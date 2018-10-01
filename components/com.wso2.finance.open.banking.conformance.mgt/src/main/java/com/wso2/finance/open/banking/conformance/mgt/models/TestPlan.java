@@ -19,7 +19,6 @@
 package com.wso2.finance.open.banking.conformance.mgt.models;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -50,25 +49,5 @@ public class TestPlan {
     public List<Specification> getSpecifications() {
 
         return specifications;
-    }
-
-    /**
-     * Get specific Specification by specification name and version.
-     *
-     * @param specName
-     * @param specVersion
-     * @return
-     * @throws NoSuchElementException
-     */
-    public Specification getSpecification(String specName, String specVersion) throws NoSuchElementException {
-
-        int len = specifications.size();
-        for (int i = 0; i < len; i++) {
-            if (specifications.get(i).getName().equals(specName) &&
-                    specifications.get(i).getVersion().equals(specVersion)) {
-                return specifications.get(i);
-            }
-        }
-        throw new NoSuchElementException("Invalid specification name or version.");
     }
 }

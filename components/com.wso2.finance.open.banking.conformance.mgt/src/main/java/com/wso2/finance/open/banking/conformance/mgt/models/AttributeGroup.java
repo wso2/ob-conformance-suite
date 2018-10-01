@@ -19,7 +19,6 @@
 package com.wso2.finance.open.banking.conformance.mgt.models;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -89,21 +88,4 @@ public class AttributeGroup {
         return attributes;
     }
 
-    /**
-     * Get specific Attribute by attribute name.
-     *
-     * @param name
-     * @return
-     * @throws NoSuchElementException
-     */
-    public Attribute getAttribute(String name) throws NoSuchElementException {
-
-        int len = attributes.size();
-        for (int i = 0; i < len; i++) {
-            if (attributes.get(i).getName().equals(name)) {
-                return attributes.get(i);
-            }
-        }
-        throw new NoSuchElementException("Invalid attribute name.");
-    }
 }
