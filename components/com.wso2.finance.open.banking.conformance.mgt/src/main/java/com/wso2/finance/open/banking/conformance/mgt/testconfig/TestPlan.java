@@ -33,7 +33,7 @@ public class TestPlan {
     private String testId;
     private String name;
 
-    private Date lastRun;
+    private Date lastRun = new Date();
 
     public TestPlan() {
 
