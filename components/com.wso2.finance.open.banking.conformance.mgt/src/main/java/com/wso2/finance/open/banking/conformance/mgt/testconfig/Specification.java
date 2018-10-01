@@ -47,6 +47,11 @@ public class Specification {
         this.testingVectors = testingVectors;
     }
 
+    public List<String> getTestingVectors() {
+
+        return testingVectors;
+    }
+
     public String getName() {
 
         return name;
