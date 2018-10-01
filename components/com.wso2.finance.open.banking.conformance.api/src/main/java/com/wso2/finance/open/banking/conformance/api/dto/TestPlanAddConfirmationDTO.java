@@ -33,4 +33,14 @@ public class TestPlanAddConfirmationDTO {
         this.testId = testId;
         this.report = report;
     }
+
+    public String getTestId() {
+
+        return testId;
+    }
+
+    public Report getReport() {
+
+        return report;
+    }
 }

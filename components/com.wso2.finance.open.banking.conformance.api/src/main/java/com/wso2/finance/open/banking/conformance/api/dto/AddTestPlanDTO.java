@@ -28,6 +28,12 @@ public class AddTestPlanDTO {
     private TestPlan testPlan;
     private boolean runNow;
 
+    public AddTestPlanDTO(TestPlan testPlan, boolean runNow) {
+
+        this.testPlan = testPlan;
+        this.runNow = runNow;
+    }
+
     /**
      * @return
      */

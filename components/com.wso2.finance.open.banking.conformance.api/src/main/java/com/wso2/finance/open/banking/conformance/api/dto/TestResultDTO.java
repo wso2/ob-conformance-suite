@@ -34,4 +34,14 @@ public class TestResultDTO {
         this.testPlan = testPlan;
         this.report = report;
     }
+
+    public TestPlan getTestPlan() {
+
+        return testPlan;
+    }
+
+    public Report getReport() {
+
+        return report;
+    }
 }
