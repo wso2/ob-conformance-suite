@@ -29,16 +29,76 @@ import java.util.Map;
  */
 public class Report {
 
-    public String testId;
-    public Integer reportId;
-    public Map<String, List<JsonObject>> result;
-    public RunnerState state;
-    public Date executed;
+    private String testId;
+    private Integer reportId;
+    private Map<String, List<JsonObject>> result;
+    private RunnerState state;
+    private Date executed;
 
     /**
      * Enum representing the state of the Report.
      */
     public enum RunnerState {
         RUNNING, DONE, NOT_STARTED, WAITING
+    }
+
+    public Report(String testId, Integer reportId, Map<String, List<JsonObject>> result, RunnerState state,
+                  Date executed) {
+
+        this.testId = testId;
+        this.reportId = reportId;
+        this.result = result;
+        this.state = state;
+        this.executed = new Date(executed.getTime());
+    }
+
+    public String getTestId() {
+
+        return testId;
+    }
+
+    public void setTestId(String testId) {
+
+        this.testId = testId;
+    }
+
+    public Integer getReportId() {
+
+        return reportId;
+    }
+
+    public void setReportId(Integer reportId) {
+
+        this.reportId = reportId;
+    }
+
+    public Map<String, List<JsonObject>> getResult() {
+
+        return result;
+    }
+
+    public void setResult(Map<String, List<JsonObject>> result) {
+
+        this.result = result;
+    }
+
+    public RunnerState getState() {
+
+        return state;
+    }
+
+    public void setState(RunnerState state) {
+
+        this.state = state;
+    }
+
+    public Date getExecuted() {
+
+        return new Date(executed.getTime());
+    }
+
+    public void setExecuted(Date executed) {
+
+        this.executed = new Date(executed.getTime());
     }
 }

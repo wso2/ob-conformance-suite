@@ -33,9 +33,10 @@ public class Feature {
 
     }
 
-    public Feature(String title, Map<String, Map<String, String>> attributeGroups) {
+    public Feature(String title, String uri, Map<String, Map<String, String>> attributeGroups) {
 
         this.title = title;
+        this.uri = uri;
         this.attributeGroups = attributeGroups;
     }
 

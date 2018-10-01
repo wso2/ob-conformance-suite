@@ -88,8 +88,8 @@ public class TestPlanRunnerManager implements RunnerManagerCallback {
                 new TestPlanRunnerInstance(runnerInstance.getTestPlan(), this.resultQueueMap.get(uuid), this));
         Report report = this.runnerInstanceMap.get(uuid).buildReport();
         report = this.onAddResult(report);
-        report.state = Report.RunnerState.RUNNING;
-        this.runnerInstanceMap.get(uuid).setReportId(report.reportId);
+        report.setState(Report.RunnerState.RUNNING);
+        this.runnerInstanceMap.get(uuid).setReportId(report.getReportId());
         this.runnerInstanceMap.get(uuid).start();
         return report;
     }
@@ -136,11 +136,11 @@ public class TestPlanRunnerManager implements RunnerManagerCallback {
     @Override
     public Report onAddResult(Report report) {
 
-        if (reportStore.get(report.testId) == null) {
-            reportStore.put(report.testId, new ConcurrentHashMap<>());
+        if (reportStore.get(report.getTestId()) == null) {
+            reportStore.put(report.getTestId(), new ConcurrentHashMap<>());
         }
-        report.reportId = reportStore.get(report.testId).size() + 1;
-        reportStore.get(report.testId).put(report.reportId, report);
+        report.setReportId(reportStore.get(report.getTestId()).size() + 1);
+        reportStore.get(report.getTestId()).put(report.getReportId(), report);
         return report;
     }
 
@@ -150,7 +150,7 @@ public class TestPlanRunnerManager implements RunnerManagerCallback {
     @Override
     public void onUpdateResult(Report report) {
 
-        reportStore.get(report.testId).put(report.reportId, report);
+        reportStore.get(report.getTestId()).put(report.getReportId(), report);
     }
 
     /**

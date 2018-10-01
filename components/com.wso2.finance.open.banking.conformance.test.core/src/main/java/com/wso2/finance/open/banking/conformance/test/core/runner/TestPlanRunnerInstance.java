@@ -127,13 +127,7 @@ public class TestPlanRunnerInstance extends Thread {
      */
     public Report buildReport() {
 
-        Report report = new Report();
-        report.testId = this.testPlan.getTestId();
-        report.result = formattedResult;
-        report.state = this.status;
-        report.reportId = this.reportId;
-        report.executed = new Date();
-        return report;
+        return new Report(testPlan.getTestId(), reportId, formattedResult, status, new Date());
     }
 
     /**
