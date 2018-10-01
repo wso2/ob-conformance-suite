@@ -63,12 +63,11 @@ public class FeatureRunner {
         Context.getInstance().setFeatureContext(feature.getUri());
         File resultFile = new File("target/cucumber-report/cucumber.json");
 
-        //set cucumber options
-        String[] argv = new String[]
-                {"-p", "json:" + resultFile.getPath(), "-g",
-                        "classpath:com.wso2.finance.open.banking.conformance.test.core.steps",
-                        feature.getUri()
-                };
+        String[] argv = new FeatureRunnerArgumentBuilder().addResultFile(resultFile)
+                .addSteps("classpath:com.wso2.finance.open.banking.conformance.test.core.steps")
+                .addTags(Context.getInstance().getCurrentTestingVectors())
+                .addFeature(feature.getUri())
+                .build();
 
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         try {
@@ -97,8 +96,15 @@ public class FeatureRunner {
     private JsonObject readJson(File url) throws UnsupportedEncodingException, FileNotFoundException {
 
         JsonParser parser = new JsonParser();
+
         Reader reader = new InputStreamReader(new FileInputStream(url), "UTF-8");
+
         JsonElement jsonElement = parser.parse(reader);
-        return jsonElement.getAsJsonArray().get(0).getAsJsonObject();
+        if (jsonElement.getAsJsonArray().size() != 0) {
+
+            return jsonElement.getAsJsonArray().get(0).getAsJsonObject();
+        } else {
+            return new JsonObject();
+        }
     }
 }

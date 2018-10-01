@@ -1,6 +1,6 @@
 Feature: Beneficiaries endpoint
 
-  @AccountAndTransactionAPI @9.1.8 @security
+  @AccountAndTransactionAPI @9.1.8 @Security
   Scenario: Get Details on Account Beneficiaries
     Given TPP wants to access beneficiary details of an account
     When user provides his consent by clicking on redirect url
