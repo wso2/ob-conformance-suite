@@ -26,6 +26,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.requestSpecification;
 
 /**
  * Helper for Handling OIDC flow.
@@ -52,6 +53,8 @@ public class OIDCHandler {
     private String authEnd = "";
     private String tokenEnd = "";
     private String authCode = "";
+    private String scope = "";
+    private String grantType = "";
 
     /**
      * @param clientID
@@ -75,7 +78,7 @@ public class OIDCHandler {
      */
     public String createAuthUrlForUserContent(String state) {
 
-        String url = authEnd + "?response_type=code&scope=accounts payments&state=" +
+        String url = authEnd + "?response_type=code&scope=" + scope + "&state=" +
                 state + "&client_id=" + clientID + "&redirect_uri=" + callbackURL;
         Log.info(url);
         return url;
@@ -86,7 +89,7 @@ public class OIDCHandler {
      */
     public String getAccessTokenByAuthorizationCode() {
 
-        RequestGenerator reqGenerator = new TokenEndPointRequestGenerator();
+        RequestGenerator reqGenerator = new TokenEndPointRequestGenerator(grantType, scope, callbackURL, tokenEnd);
         RequestSpecification req = reqGenerator.generate();
 
         Log.info("Token EndPoint Request: " + req.toString());
@@ -115,5 +118,21 @@ public class OIDCHandler {
     public void setAuthCode(String authCode) {
 
         this.authCode = authCode;
+    }
+
+    /**
+     * @param scope
+     */
+    public void setScope(String scope) {
+
+        this.scope = scope;
+    }
+
+    /**
+     * @param grantType
+     */
+    public void setGrantType(String grantType) {
+
+        this.grantType = grantType;
     }
 }
