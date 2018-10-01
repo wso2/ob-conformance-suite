@@ -26,7 +26,12 @@ import io.restassured.response.Response;
  */
 public class ResponseValidator {
 
-    Response reponse;
+    public Response getReponse() {
+
+        return reponse;
+    }
+
+    private Response reponse;
 
     public ResponseValidator(Response reponse) {
 

@@ -27,8 +27,12 @@ import cucumber.api.cli.Main;
 import org.apache.log4j.Logger;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Execute a single Feature and return result.
@@ -79,7 +83,7 @@ public class FeatureRunner {
 
         try {
             return this.readJson(resultFile);
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             log.error("Feature Result File Not Found", e);
             return null;
         }
@@ -90,10 +94,11 @@ public class FeatureRunner {
      * @return
      * @throws FileNotFoundException
      */
-    private JsonObject readJson(File url) throws FileNotFoundException {
+    private JsonObject readJson(File url) throws UnsupportedEncodingException, FileNotFoundException {
 
         JsonParser parser = new JsonParser();
-        JsonElement jsonElement = parser.parse(new FileReader(url));
+        Reader reader = new InputStreamReader(new FileInputStream(url), "UTF-8");
+        JsonElement jsonElement = parser.parse(reader);
         return jsonElement.getAsJsonArray().get(0).getAsJsonObject();
     }
 }
