@@ -126,7 +126,7 @@
                     </outputDirectory>
                 </configuration>
             </plugin>
-            <plugin>
+            <plugin><!-- Overridden from parent pom to exclude generated sources -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${maven.checkstyleplugin.version}</version>
@@ -156,6 +156,29 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin><!-- Overridden from parent pom to exclude generated sources -->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <configuration>
+                    <effort>Max</effort>
+                    <threshold>Low</threshold>
+                    <xmlOutput>true</xmlOutput>
+                    <findbugsXmlOutputDirectory>${project.build.directory}/findbugs
+                    </findbugsXmlOutputDirectory>
+                    <!--<excludeFilterFile>findbugs_exclude.xml</excludeFilterFile>-->
+                    <!--Exclude generated sources-->
+                </configuration>
+                <version>${maven.findbugsplugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>analyze-compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -168,6 +191,7 @@
     <properties>
         <com.google.code.gson.version>2.8.5</com.google.code.gson.version>
         <maven.checkstyleplugin.version>2.16</maven.checkstyleplugin.version>
+        <maven.findbugsplugin.version>3.0.3</maven.findbugsplugin.version>
         <com.googlecode.json-simple.version>1.1.1</com.googlecode.json-simple.version>
         <com.atlassian.oai.version>2.0.0-rc2</com.atlassian.oai.version>
         <org.apache.maven.plugins.version>3.7.0</org.apache.maven.plugins.version>
