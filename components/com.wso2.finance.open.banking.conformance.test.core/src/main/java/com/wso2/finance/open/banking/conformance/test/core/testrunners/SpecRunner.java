@@ -22,7 +22,7 @@ import com.google.gson.JsonObject;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.Feature;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.Specification;
 import com.wso2.finance.open.banking.conformance.test.core.context.Context;
-import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +31,8 @@ import java.util.List;
  * Execute Features from a Specification.
  */
 public class SpecRunner {
+
+    private static Logger log = Logger.getLogger(SpecRunner.class);
 
     private Specification specification;
 
@@ -49,7 +51,7 @@ public class SpecRunner {
      */
     public List<JsonObject> runSpecification() {
 
-        Log.info("Start Running TestSpec " + specification.getName() + " version:" + specification.getVersion());
+        log.debug("Start Running TestSpec " + specification.getName() + " version:" + specification.getVersion());
 
         List<JsonObject> results = new ArrayList();
 
@@ -61,7 +63,7 @@ public class SpecRunner {
         }
 
         Context.getInstance().clearSpecContext();
-        Log.info("End Running TestSpec " + specification.getName() + " version:" + specification.getVersion());
+        log.debug("End Running TestSpec " + specification.getName() + " version:" + specification.getVersion());
 
         return results;
 

@@ -25,12 +25,14 @@ import io.restassured.authentication.AuthenticationScheme;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.Filter;
 import io.restassured.specification.RequestSpecification;
-
+import org.apache.log4j.Logger;
 
 /**
  * Helper class for generating API Requests.
  */
 public class RequestGenerator {
+
+    private static Logger log = Logger.getLogger(RequestGenerator.class);
 
     private RequestSpecBuilder requestBuilder = new RequestSpecBuilder();
 
@@ -80,6 +82,8 @@ public class RequestGenerator {
     }
 
     public RequestSpecification generate() {
+
+        log.debug("Generating default http request");
 
         String swaggerJsonFile = Context.getInstance().getCurrentSwaggerJsonFile();
         SwaggerValidationFilter validationFilter = new SwaggerValidationFilter(swaggerJsonFile);

@@ -26,6 +26,7 @@ import com.wso2.finance.open.banking.conformance.mgt.testconfig.Specification;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 import com.wso2.finance.open.banking.conformance.test.core.context.Context;
 import com.wso2.finance.open.banking.conformance.test.core.testrunners.FeatureRunner;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,6 +39,7 @@ import java.util.concurrent.BlockingQueue;
  * Executes and holds results of a TestPlan.
  */
 public class TestPlanRunnerInstance extends Thread {
+    private static Logger log = Logger.getLogger(TestPlanRunnerInstance.class);
 
     private TestPlan testPlan;
     private volatile Integer reportId;
@@ -105,11 +107,13 @@ public class TestPlanRunnerInstance extends Thread {
      */
     private void processSpec(Specification specification) {
 
+        log.debug("Run Spec : "+ specification.getName());
+
         List<JsonObject> featureResults = new ArrayList();
         formattedResult.put(specification.getName(), featureResults);
 
         Context.getInstance().setSpecContext(specification.getName(), specification.getVersion());
-        Context.getInstance().setRunnerInstance(this); //TODO make context thread local
+        Context.getInstance().setRunnerInstance(this);
 
         for (Feature feature : specification.getFeatures()) {
             FeatureRunner featureRunner = new FeatureRunner(feature);

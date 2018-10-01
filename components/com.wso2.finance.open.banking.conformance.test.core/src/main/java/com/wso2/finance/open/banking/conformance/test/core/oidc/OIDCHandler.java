@@ -21,17 +21,17 @@ package com.wso2.finance.open.banking.conformance.test.core.oidc;
 import com.google.gson.Gson;
 import com.wso2.finance.open.banking.conformance.test.core.request.RequestGenerator;
 import com.wso2.finance.open.banking.conformance.test.core.request.TokenEndPointRequestGenerator;
-import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-
+import org.apache.log4j.Logger;
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.requestSpecification;
 
 /**
  * Helper for Handling OIDC flow.
  */
 public class OIDCHandler {
+
+    private static Logger log = Logger.getLogger(OIDCHandler.class);
 
     class TokenEndResponse {
 
@@ -80,7 +80,7 @@ public class OIDCHandler {
 
         String url = authEnd + "?response_type=code&scope=" + scope + "&state=" +
                 state + "&client_id=" + clientID + "&redirect_uri=" + callbackURL;
-        Log.info(url);
+        log.debug("Get user consent url :" + url);
         return url;
     }
 
@@ -92,11 +92,11 @@ public class OIDCHandler {
         RequestGenerator reqGenerator = new TokenEndPointRequestGenerator(grantType, scope, callbackURL, tokenEnd);
         RequestSpecification req = reqGenerator.generate();
 
-        Log.info("Token EndPoint Request: " + req.toString());
+        log.debug("Token EndPoint Request: " + req.toString());
 
         Response response = given().spec(req).when().post();
 
-        Log.info("Token EndPoint Response: " + response.getBody().asString());
+        log.debug("Token EndPoint Response: " + response.getBody().asString());
 
         Gson gson = new Gson();
         return gson.fromJson(response.getBody().asString(), TokenEndResponse.class).getAccess_token();

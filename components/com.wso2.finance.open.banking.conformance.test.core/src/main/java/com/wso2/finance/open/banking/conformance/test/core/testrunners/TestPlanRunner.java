@@ -21,7 +21,7 @@ package com.wso2.finance.open.banking.conformance.test.core.testrunners;
 import com.google.gson.JsonObject;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.Specification;
 import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
-import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
+import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +31,8 @@ import java.util.Map;
  * Execute TestPlan.
  */
 public class TestPlanRunner {
+
+    private static Logger log = Logger.getLogger(TestPlanRunner.class);
 
     private TestPlan testPlan;
 
@@ -52,12 +54,12 @@ public class TestPlanRunner {
         Map<String, List<JsonObject>> results = new HashMap();
 
         for (Specification spec : testPlan.getSpecifications()) {
-            Log.info("Start Running TestPlan: " + testPlan.getName());
+            log.debug("Start Running TestPlan: " + testPlan.getName());
 
             SpecRunner specRunner = new SpecRunner(spec);
             results.put(spec.getName(), specRunner.runSpecification());
 
-            Log.info("End Running TestPlan: " + testPlan.getName());
+            log.debug("End Running TestPlan: " + testPlan.getName());
         }
         return results;
     }

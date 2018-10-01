@@ -54,7 +54,7 @@ public class FeatureRunner {
      */
     public JsonObject runFeature() {
 
-        log.info("Start Running Feature: " + feature.getTitle());
+        log.debug("Start Running Feature: " + feature.getTitle());
 
         Context.getInstance().setFeatureContext(feature.getUri());
         File resultFile = new File("target/cucumber-report/cucumber.json");
@@ -75,7 +75,7 @@ public class FeatureRunner {
 
         Context.getInstance().clearFeatureContext();
 
-        log.info("End Running Feature: " + feature.getTitle());
+        log.debug("End Running Feature: " + feature.getTitle());
 
         try {
             return this.readJson(resultFile);

@@ -21,13 +21,15 @@ package com.wso2.finance.open.banking.conformance.test.core.request;
 import com.atlassian.oai.validator.restassured.SwaggerValidationFilter;
 import com.wso2.finance.open.banking.conformance.test.core.constants.Constants;
 import com.wso2.finance.open.banking.conformance.test.core.context.Context;
-import com.wso2.finance.open.banking.conformance.test.core.utilities.Log;
 import io.restassured.specification.RequestSpecification;
+import org.apache.log4j.Logger;
 
 /**
  * Helper class for generating api request to ATM endpoint.
  */
 public class TokenEndPointRequestGenerator extends RequestGenerator {
+
+    private static Logger log = Logger.getLogger(TokenEndPointRequestGenerator.class);
 
     private String grantType;
     private String scope;
@@ -51,6 +53,8 @@ public class TokenEndPointRequestGenerator extends RequestGenerator {
     @Override
     public RequestSpecification generate() {
 
+        log.debug("Generating Request for Token End Point");
+
         String clientID = Context.getInstance()
                 .getCurrentSpecAttribute("client", "consumer key");
         String clientSecret = Context.getInstance()
@@ -60,7 +64,7 @@ public class TokenEndPointRequestGenerator extends RequestGenerator {
         String requestBody = "client_id=" + clientID + "&grant_type=" + grantType + "&code="
                 + authCode + "&scope=" + scope + "&redirect_uri=" + redirectURL;
 
-        Log.info("Token End Point Request Body: " + requestBody);
+        log.debug("Token End Point Request Body: " + requestBody);
 
         String swaggerJsonFile = Context.getInstance().getSwaggerJsonFile(Constants.TOKEN_API_SPEC);
         SwaggerValidationFilter validationFilter = new SwaggerValidationFilter(swaggerJsonFile);
