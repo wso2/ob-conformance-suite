@@ -27,8 +27,48 @@ import com.wso2.finance.open.banking.conformance.mgt.models.Report;
  */
 public class TestPlanFeatureResult {
 
-    public JsonObject featureResult;
-    public AttributeGroup attributeGroup;
-    public String specName;
-    public Report.RunnerState runnerState;
+    private JsonObject featureResult;
+    private AttributeGroup attributeGroup;
+    private String specName;
+    private Report.RunnerState runnerState;
+
+    public void setFeatureResult(JsonObject featureResult) {
+
+        this.featureResult = featureResult;
+    }
+
+    public void setAttributeGroup(AttributeGroup attributeGroup) {
+
+        this.attributeGroup = attributeGroup;
+    }
+
+    public void setSpecName(String specName) {
+
+        this.specName = specName;
+    }
+
+    public void setRunnerState(Report.RunnerState runnerState) {
+
+        this.runnerState = runnerState;
+    }
+
+    public JsonObject getFeatureResult() {
+
+        return featureResult;
+    }
+
+    public AttributeGroup getAttributeGroup() {
+
+        return attributeGroup;
+    }
+
+    public String getSpecName() {
+
+        return specName;
+    }
+
+    public Report.RunnerState getRunnerState() {
+
+        return runnerState;
+    }
 }

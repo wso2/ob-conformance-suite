@@ -75,9 +75,9 @@ public class TestPlanRunnerInstance extends Thread {
     private void queueResult(JsonObject result, Specification specification) {
 
         TestPlanFeatureResult testPlanFeatureResult = new TestPlanFeatureResult();
-        testPlanFeatureResult.featureResult = result;
-        testPlanFeatureResult.specName = specification.getName();
-        testPlanFeatureResult.runnerState = this.status;
+        testPlanFeatureResult.setFeatureResult(result);
+        testPlanFeatureResult.setSpecName(specification.getName());
+        testPlanFeatureResult.setRunnerState(this.status);
         this.resultsQueue.add(testPlanFeatureResult);
     }
 
@@ -87,7 +87,7 @@ public class TestPlanRunnerInstance extends Thread {
     private void queueStopMessege() {
 
         TestPlanFeatureResult testPlanFeatureResult = new TestPlanFeatureResult();
-        testPlanFeatureResult.runnerState = this.status;
+        testPlanFeatureResult.setRunnerState(this.status);
         this.resultsQueue.add(testPlanFeatureResult);
     }
 
@@ -97,8 +97,8 @@ public class TestPlanRunnerInstance extends Thread {
     public void queueBrowserInteractionAttributes(AttributeGroup attributeGroup) {
 
         TestPlanFeatureResult featureResult = new TestPlanFeatureResult();
-        featureResult.attributeGroup = attributeGroup;
-        featureResult.runnerState = this.status;
+        featureResult.setAttributeGroup(attributeGroup);
+        featureResult.setRunnerState(this.status);
         this.resultsQueue.add(featureResult);
     }
 
