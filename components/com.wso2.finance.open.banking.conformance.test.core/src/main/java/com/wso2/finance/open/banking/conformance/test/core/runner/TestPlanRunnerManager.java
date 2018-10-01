@@ -117,7 +117,7 @@ public class TestPlanRunnerManager implements RunnerManagerCallback {
      * @param key
      * @param value
      */
-    public void setContextAttribute(String key, String value) {
+    public void setContextAttribute(String key, String value) {   //todo handle multiple threads
 
         for (TestPlanRunnerInstance instance : this.runnerInstanceMap.values()) {
             if (instance.getStatus() == Report.RunnerState.WAITING) {
