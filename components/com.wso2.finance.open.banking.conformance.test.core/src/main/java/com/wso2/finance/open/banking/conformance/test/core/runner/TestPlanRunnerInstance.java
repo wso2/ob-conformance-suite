@@ -39,6 +39,7 @@ import java.util.concurrent.BlockingQueue;
  * Executes and holds results of a TestPlan.
  */
 public class TestPlanRunnerInstance extends Thread {
+
     private static Logger log = Logger.getLogger(TestPlanRunnerInstance.class);
 
     private TestPlan testPlan;
@@ -107,7 +108,7 @@ public class TestPlanRunnerInstance extends Thread {
      */
     private void processSpec(Specification specification) {
 
-        log.debug("Run Spec : "+ specification.getName());
+        log.debug("Run Spec : " + specification.getName());
 
         List<JsonObject> featureResults = new ArrayList();
         formattedResult.put(specification.getName(), featureResults);

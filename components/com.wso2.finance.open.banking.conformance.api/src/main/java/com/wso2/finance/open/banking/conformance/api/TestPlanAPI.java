@@ -70,7 +70,7 @@ public class TestPlanAPI {
     }
 
     /**
-     * Options Endpoint for addTestPlan
+     * Options Endpoint for addTestPlan.
      *
      * @return
      */

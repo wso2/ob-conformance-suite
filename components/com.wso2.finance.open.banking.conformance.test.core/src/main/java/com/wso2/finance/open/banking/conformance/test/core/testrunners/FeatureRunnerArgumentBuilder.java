@@ -19,10 +19,10 @@
 package com.wso2.finance.open.banking.conformance.test.core.testrunners;
 
 import com.wso2.finance.open.banking.conformance.test.core.constants.Constants;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +30,8 @@ import java.util.stream.Collectors;
  * Build Argument String for Cucumber.
  */
 public class FeatureRunnerArgumentBuilder {
+
+    private Logger log = Logger.getLogger(FeatureRunnerArgumentBuilder.class);
 
     private List<String> arguments;
     private String featureUri = "";
@@ -72,7 +74,7 @@ public class FeatureRunnerArgumentBuilder {
         List<String> vectors = new ArrayList<>(Constants.AVAILABLE_VECOTRS);
 
         // Remove Vector if selected
-        for (String vector : currentTestingVectors){
+        for (String vector : currentTestingVectors) {
             vectors.remove(vector.indexOf(vector));
         }
 
@@ -90,7 +92,7 @@ public class FeatureRunnerArgumentBuilder {
     public String[] build() {
 
         arguments.add(featureUri);
-        System.out.println(String.join(" ", arguments));
+        log.debug("Feature Runner args :" + String.join(" ", arguments));
         return arguments.toArray(new String[arguments.size()]);
     }
 }
