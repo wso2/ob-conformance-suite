@@ -25,6 +25,7 @@ import com.wso2.finance.open.banking.conformance.test.core.constants.Constants;
 import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerInstance;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -242,4 +243,9 @@ public class Context {
 
         return runnerInstance;
     }
+
+    public List<String> getCurrentTestingVectors() {
+        return testPlan.getSpecification(currentSpec).getTestingVectors();
+    }
+
 }

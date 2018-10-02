@@ -18,6 +18,10 @@
 
 package com.wso2.finance.open.banking.conformance.test.core.constants;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Constants used by the application.
  */
@@ -33,5 +37,8 @@ public class Constants {
     public static final String TOKEN_API_SPEC = "Token";
     public static final String ACCOUNTS_INFORMATION_API_SPEC = "AccountsInformation";
     public static final String OPEN_DATA_API_SPEC = "OpenData";
+
+    public static final List<String> AVAILABLE_VECOTRS = Collections
+            .unmodifiableList(Arrays.asList("@Security", "@Data"));
 
 }
