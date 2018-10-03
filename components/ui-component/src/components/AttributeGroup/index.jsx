@@ -23,91 +23,74 @@ import {
 import { connect } from 'react-redux';
 import { bootstrapUtils } from 'react-bootstrap/lib/utils';
 import PropTypes from 'prop-types';
-import { setSpecValue, setFeatureValue } from '../actions';
+import { setSpecValue, setFeatureValue } from '../../actions';
 import StringAttribute from './StringAttribute';
+import TextLabelAttribute from './TextLabelAttribute';
+import LinkButtonAttribute from './LinkButtonAttribute';
+
 
 bootstrapUtils.addStyle(Button, 'secondary');
 
-const TextLabelAttribute = ({ attribute }) => (
-    <div>
-        <p>
-            {attribute.label ? (
-                <b>
-                    {attribute.label}
-                    {' '}
-                    {' '}
-                </b>
-            ) : []}
-            {attribute.defaultValue}
-        </p>
-    </div>
-);
-
-TextLabelAttribute.propTypes = {
-    attribute: PropTypes.shape.isRequired,
-};
-
-const LinkButtonAttribute = ({ attribute }) => (
-    <div>
-        <Button
-            bsStyle='secondary'
-            onClick={() => {
-                window.open(attribute.defaultValue, '_blank');
-            }}
-        >
-            {attribute.label}
-        </Button>
-    </div>
-);
-
-LinkButtonAttribute.propTypes = {
-    attribute: PropTypes.shape.isRequired,
-};
-
+/**
+ * Render AttributeGroups and bind results with redux.
+ */
 class AttributeGroup extends React.Component {
+    /**
+     * @inheritdoc
+     */
     constructor(props) {
         super(props);
         this.updateChange = this.updateChange.bind(this);
         this.getValue = this.getValue.bind(this);
     }
 
+    /**
+     * Get default or value from redux store for the given attribute.
+     * @param {String} attributeName attribute name
+     * @returns {String} attribute value
+     */
     getValue(attributeName) {
-        const { scope } = this.props;
-        const { testvalues } = this.props;
-        const { specName } = this.props;
-        const { group } = this.props;
-        // const { featureName } = this.props;
+        const { scope, testvalues, specName } = this.props;
+        const { group, featureName } = this.props;
+
         switch (scope) {
             case 'specification':
                 return testvalues.specs[specName]
                     .selectedValues.specification[group.groupName][attributeName];
             case 'feature':
                 return testvalues.specs[specName]
-                    .selectedValues.features[this.props.featureName][group.groupName][attributeName];
+                    .selectedValues.features[featureName][group.groupName][attributeName];
             default:
                 return null;
         }
     }
 
+    /**
+     * Update value of redux store for the changed attribute.
+     * @param {String} attributeName attribute name
+     * @param {String} value attribute value
+     */
     updateChange(attributeName, value) {
-        console.log('featurename' + this.props.featureName);
-        const { scope } = this.props;
-        const { dispatch } = this.props;
-        const { specName } = this.props;
-        const { group } = this.props;
-        // const { featureName } = this.props;
+        const { scope, group, specName } = this.props;
+        const { featureName, dispatch } = this.props;
+
         switch (scope) {
             case 'specification':
                 dispatch(setSpecValue(specName, group.groupName, attributeName, value));
-                return;
+                break;
             case 'feature':
-                dispatch(setFeatureValue(specName, this.props.featureName, group.groupName, attributeName, value));
-                return;
+                dispatch(setFeatureValue(specName, featureName, group.groupName, attributeName, value));
+                break;
             default:
-                console.log('Default');
+                break;
         }
     }
 
+    /**
+     * Render specific Attribute based on type.
+     * @param {Object} attribute Attribute object
+     * @returns {React.Component} Attribute Form object
+     */
     renderAttribute(attribute) {
         const { specName } = this.props;
         switch (attribute.attributeType) {
@@ -130,6 +113,9 @@ class AttributeGroup extends React.Component {
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     render() {
         const { group } = this.props;
         return (
@@ -147,15 +133,20 @@ AttributeGroup.propTypes = {
     testvalues: PropTypes.shape({
         specs: PropTypes.object.isRequired,
     }).isRequired,
-    specName: PropTypes.string.isRequired,
+    specName: PropTypes.string,
     group: PropTypes.shape({
         groupName: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         description: PropTypes.string,
         attributes: PropTypes.array.isRequired,
     }).isRequired,
-    // featureName: PropTypes.string.isRequired,
+    featureName: PropTypes.string,
     dispatch: PropTypes.func.isRequired,
+};
+
+AttributeGroup.defaultProps = {
+    featureName: undefined,
+    specName: undefined,
 };
 
 export default connect(state => ({

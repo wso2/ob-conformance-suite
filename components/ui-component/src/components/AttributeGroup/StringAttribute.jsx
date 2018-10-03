@@ -22,8 +22,13 @@ import {
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-
+/**
+ * Render Validated String Attribute From field.
+ */
 class StringAttribute extends React.Component {
+    /**
+     * @inheritdoc
+     */
     constructor(props) {
         super(props);
 
@@ -36,49 +41,73 @@ class StringAttribute extends React.Component {
         this.getValidationStatus = this.getValidationStatus.bind(this);
     }
 
+    /**
+     * @inheritdoc
+     */
     componentDidUpdate(prevProps, prevState, snapshot) {
         const { specName } = this.props;
         if (prevProps.specName !== specName) {
             const defaultValue = this.getDefaultValue();
+            // TODO: Stop Polluting State, Refactor and abstract state cycle.
             this.setState({
                 value: defaultValue || '',
             });
         }
     }
 
+    /**
+     * Get Default Value.
+     * @returns {String} value
+     */
     getDefaultValue() {
         const { attribute } = this.props;
         const { getValue } = this.props;
+
         const testStateValue = getValue(attribute.name);
         return testStateValue || attribute.defaultValue;
     }
 
+    /**
+     * Get Validation Status of curent value.
+     * @returns {String} validation state
+     */
     getValidationStatus() {
         const { attribute } = this.props;
+        const { value } = this.state;
+
         if (attribute.validationRegex) {
-            const isValid = this.state.value.match(RegExp(attribute.validationRegex));
+            const isValid = value.match(RegExp(attribute.validationRegex));
             return isValid ? null : 'error';
         } else {
             return null;
         }
     }
 
+    /**
+     * Update value and validation status on change
+     * @param {Event} e event.
+     */
     handleChange(e) {
-        const { updateChange } = this.props;
-        const { attribute } = this.props;
-        this.setState({ value: e.target.value });
-        updateChange(attribute.name,
-            (this.getValidationStatus() === 'success' ? this.state.value : null));
+        const changedValue = e.target.value;
+        const { updateChange, attribute } = this.props;
+
+        this.setState({ value: changedValue });
+        updateChange(attribute.name, (this.getValidationStatus() === null ? changedValue : null));
     }
 
+    /**
+     * @inheritdoc
+     */
     render() {
         const { attribute } = this.props;
+        const { value } = this.state;
+
         return (
             <FormGroup controlId={attribute.name} validationState={this.getValidationStatus()}>
                 <ControlLabel>{attribute.label}</ControlLabel>
                 <FormControl
                     type='text'
-                    value={this.state.value}
+                    value={value}
                     placeholder='Enter text'
                     onChange={this.handleChange}
                 />
