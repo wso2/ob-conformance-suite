@@ -1,86 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import {
     Table, Row, Col, Button, Panel, ButtonToolbar,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import TestReportHelper from '../utils/TestReportHelper';
-import '../../public/css/report-style.scss';
-
-const reportHelper = new TestReportHelper();
-
-/*
- * Row structure of the test plan table
- */
-const TestPlanRow = ({ report }) => (
-    <tr align='left'>
-        <td>{report.executed}</td>
-        <td>{report.state}</td>
-        <td className='overall-results-block'>
-            <p>
-                <span style={{ color: 'green' }}>
-                    <i className='fas fa-check-circle' />
-                    {' '}
-                    Passed :
-                    {reportHelper.getTestSummary(report.result).passed}
-                </span>
-            </p>
-            {reportHelper.getTestSummary(report.result).failed > 0 ? (
-                <p>
-                    <span style={{ color: 'red' }}>
-                        <i className='fas fa-times-circle' />
-                        {' '}
-                        Failed :
-                        {reportHelper.getTestSummary(report.result).failed}
-                    </span>
-                </p>
-            )
-                : null
-            }
-            <p>
-                <span>
-                    Success Rate:
-                    {reportHelper.getTestSummary(report.result).rate}
-                    {' '}
-%
-                </span>
-            </p>
-        </td>
-        <td>
-            <Link to={
-                {
-                    pathname: '/tests/report/' + report.testId + '/' + report.reportId,
-                    state: { fromDashboard: true },
-                }
-            }
-            >
-            Check Report
-            </Link>
-        </td>
-    </tr>
-);
-
-TestPlanRow.propTypes = {
-    report: PropTypes.shape({
-        executed: PropTypes.string.isRequired,
-        reportId: PropTypes.number.isRequired,
-        result: PropTypes.object.isRequired,
-        state: PropTypes.string.isRequired,
-        testId: PropTypes.string.isRequired,
-    }).isRequired,
-};
+import '../../../public/css/report-style.scss';
+import TestPlanRow from './TestPlanRow';
 
 /**
- * ClassName: TestPlanView
- *
- * Responsible for displaying Test details and summary in the
- * test history view
- *
+ * Render TestPlan History and action controls.
  */
 class TestPlanView extends React.Component {
     /**
-     *
-     * @param {*} props - Class props
+     * @inheritdoc
      */
     constructor(props) {
         super(props);
@@ -90,8 +21,7 @@ class TestPlanView extends React.Component {
     }
 
     /**
-     *
-     * @returns {string} - HTML markup for the TestPlanView
+     * @inheritdoc
      */
     render() {
         const { open } = this.state;
