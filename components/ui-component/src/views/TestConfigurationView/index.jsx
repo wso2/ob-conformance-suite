@@ -27,25 +27,29 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { bootstrapUtils } from 'react-bootstrap/lib/utils';
 import AppHeader from '../../partials/AppHeader';
-import RequestBuilder from '../../utils/RequestBuilder';
+import RequestHelper from '../../utils/RequestHelper';
 import {
     updateSpecification, addSpecificationToTestValues,
     addTestPlan, clearTestValues, clearSelectedSpecifications, updateReport,
 } from '../../actions';
 import TestPlanReduxHelper from '../../utils/TestPlanReduxHelper';
-import SpecificationEditorView from './SpecificationEditorView';
-import SpecificationListGroupItem from './SpecificationListGroupItem';
+import { Specification, SpecificationEditor } from './TestPlanComponents';
 
 bootstrapUtils.addStyle(Button, 'secondary');
 
-const client = new RequestBuilder();
+const client = new RequestHelper();
 
 /**
- * View for configuration of selected specifications.
+ * ClassName: TestConfigurationView
+ *
+ * Responsible for displaying Test Configuration details of the
+ * selected APIs
+ *
  */
 class TestConfigurationView extends React.Component {
     /**
-     * @inheritdoc
+     *
+     * @param {*} props - Class props
      */
     constructor(props) {
         super(props);
@@ -56,11 +60,9 @@ class TestConfigurationView extends React.Component {
         this.selectSpec = this.selectSpec.bind(this);
         this.isCompleted = this.isCompleted.bind(this);
         this.buildTestPlan = this.buildTestPlan.bind(this);
+        this.saveTestPlan = this.saveTestPlan.bind(this);
     }
 
-    /**
-     * @inheritdoc
-     */
     componentDidMount() {
         const { specifications } = this.props;
         const { dispatch } = this.props;
@@ -85,8 +87,8 @@ class TestConfigurationView extends React.Component {
     }
 
     /**
-     * Select Specification for configuration by key.
-     * @param {string} key specification name
+     *Function to get the selected spec
+     * @param {string} key - key
      */
     selectSpec(key) {
         this.setState({
@@ -95,15 +97,15 @@ class TestConfigurationView extends React.Component {
     }
 
     /**
-     * Check if TestPlan configuration fields are filled.
+     *Function to test whether the test plan is completed
      */
     isCompleted() {
         // return TestPlanReduxHelper.isTestPlanFilled(this.props.testvalues);
     }
 
     /**
-     * Build TestPlan from redux store.
-     * @param {boolean} runNow flag to enable imediate execution
+     *Function to build the test plan
+     * @param {boolean} runNow - runNow
      */
     buildTestPlan(runNow) {
         const { testvalues } = this.props;
@@ -131,9 +133,6 @@ class TestConfigurationView extends React.Component {
         });
     }
 
-    /**
-     * Disimiss configuration and clear reduix store.
-     */
     dismiss() {
         const { history } = this.props;
         history.push('/dashboard');
@@ -143,17 +142,25 @@ class TestConfigurationView extends React.Component {
     }
 
     /**
-     * Render ListGroupItems fro selected specifications.
-     * @returns {Array} Specification ListGroupItems
+     *Function to save the test plan
      */
-    renderSpecs() {
+    saveTestPlan() {
+        const { testvalues } = this.props;
+        const testConfiguration = TestPlanReduxHelper.buildTestPlanFromTestValues(testvalues);
+        console.log(testConfiguration);
+    }
+
+    /**
+     *
+     * @returns {string} - HTML markup for list of APIs selected
+     */
+    renderSpecs(state) {
         const { specifications } = this.props;
-        const { selectedSpec } = this.state;
         return TestPlanReduxHelper.getSelectedSpecsFromState(specifications, specifications.selected)
             .map((spec) => {
                 return (
-                    <SpecificationListGroupItem
-                        selected={spec.name === selectedSpec}
+                    <Specification
+                        selected={spec.name === state.selectedSpec}
                         key={spec.name}
                         spec={spec}
                         selectElement={this.selectSpec}
@@ -163,25 +170,23 @@ class TestConfigurationView extends React.Component {
     }
 
     /**
-     * Render Specification Editor.
-     * @returns { SpecificationEditorView } editor view
+     *
+     * @returns {string} - HTML markup for details of the Specification selected
      */
-    renderEditor() {
+    renderEditor(state) {
         const { specifications } = this.props;
-        const { selectedSpec } = this.state;
         return (
-            <SpecificationEditorView
-                spec={TestPlanReduxHelper.getSpecFromState(specifications, selectedSpec)}
+            <SpecificationEditor
+                spec={TestPlanReduxHelper.getSpecFromState(specifications, state.selectedSpec)}
             />
         );
     }
 
     /**
-     * Render Specification selector and editor.
-     * @returns { React.Component } Selector and Editor view
+     *
+     * @returns {string} - HTML markup for Configration Details of the TestConfigurationView
      */
-    renderMain() {
-        const { selectedSpec } = this.state;
+    renderMain(state) {
         return (
             <div>
                 <br />
@@ -215,12 +220,12 @@ class TestConfigurationView extends React.Component {
                             <Panel>
                                 <Panel.Heading>Selected API Specifications</Panel.Heading>
                                 <ListGroup>
-                                    {this.renderSpecs()}
+                                    {this.renderSpecs(state)}
                                 </ListGroup>
                             </Panel>
                         </Col>
                         <Col md={8}>
-                            {selectedSpec ? this.renderEditor() : null}
+                            {state.selectedSpec ? this.renderEditor(state) : null}
                             <br />
                             <div>
                                 <Button
@@ -257,14 +262,16 @@ class TestConfigurationView extends React.Component {
     }
 
     /**
-     * @inheritdoc
+     *
+     * @returns {string} - HTML markup for the TestConfigurationView
      */
     render() {
         return (
             <div>
                 <AppHeader />
+                {/* <AppBreadcrumbs/> */}
                 <div className='container'>
-                    {this.state.loading ? <h1>Loading</h1> : this.renderMain()}
+                    {this.state.loading ? <h1>Loading</h1> : this.renderMain(this.state)}
                 </div>
             </div>
         );
