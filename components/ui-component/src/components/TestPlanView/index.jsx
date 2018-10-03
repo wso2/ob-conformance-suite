@@ -3,7 +3,6 @@ import {
     Table, Row, Col, Button, Panel, ButtonToolbar,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import '../../../public/css/report-style.scss';
 import TestPlanRow from './TestPlanRow';
 
 /**
