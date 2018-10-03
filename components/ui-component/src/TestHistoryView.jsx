@@ -25,7 +25,6 @@ import {
 import PropTypes from 'prop-types';
 import AppHeader from './partials/AppHeader';
 import RequestBuilder from './utils/RequestBuilder';
-import '../public/css/report-style.scss';
 import { updateReport } from './actions';
 import TestPlanView from './components/TestPlanView';
 

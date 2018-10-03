@@ -25,7 +25,6 @@ import {
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import AppHeader from './partials/AppHeader';
-import '../public/css/report-style.scss';
 import RequestBuilder from './utils/RequestBuilder';
 import TestReportHelper from './utils/TestReportHelper';
 import AttributeGroup from './components/AttributeGroup';

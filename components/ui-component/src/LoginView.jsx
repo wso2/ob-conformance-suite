@@ -20,7 +20,6 @@ import React from 'react';
 import {
     Button, Form, FormGroup, FormControl, Col, ControlLabel, Checkbox, Jumbotron, Row,
 } from 'react-bootstrap';
-import '../public/css/report-style.scss';
 import PropTypes from 'prop-types';
 
 /*
