@@ -24,12 +24,12 @@ import {
     Grid, Row, Col, Panel, Badge, ProgressBar, Well, 
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import AppHeader from './partials/AppHeader';
-import RequestBuilder from './utils/RequestBuilder';
-import TestReportHelper from './utils/TestReportHelper';
-import AttributeGroup from './components/AttributeGroup';
-import LoaderComponent from './components/LoaderComponent';
-import { updateReport } from './actions';
+import AppHeader from '../../partials/AppHeader';
+import RequestBuilder from '../../utils/RequestBuilder';
+import TestReportHelper from '../../utils/TestReportHelper';
+import AttributeGroup from '../../components/AttributeGroup';
+import LoaderComponent from '../../components/LoaderComponent';
+import { updateReport } from '../../actions';
 
 
 const client = new RequestBuilder();

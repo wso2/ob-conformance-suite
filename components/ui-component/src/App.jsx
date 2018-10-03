@@ -20,11 +20,11 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import SpecificationSelectView from './SpecificationSelectView';
-import TestConfigurationView from './TestConfigurationView';
-import TestHistoryView from './TestHistoryView';
-import TestReportView from './TestReportView';
-import LoginView from './LoginView';
+import SpecificationSelectView from './views/SpecificationSelectView';
+import TestConfigurationView from './views/TestConfigurationView';
+import TestHistoryView from './views/TestHistoryView';
+import TestReportView from './views/TestReportView';
+import LoginView from './views/LoginView';
 import rootReducer from './reducers';
 import CommonDataLoader from './components/CommonDataLoader';
 

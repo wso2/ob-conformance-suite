@@ -23,10 +23,10 @@ import {
     Row, Col, Button,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import AppHeader from './partials/AppHeader';
-import RequestBuilder from './utils/RequestBuilder';
-import { updateReport } from './actions';
-import TestPlanView from './components/TestPlanView';
+import AppHeader from '../../partials/AppHeader';
+import RequestBuilder from '../../utils/RequestBuilder';
+import { updateReport } from '../../actions';
+import TestPlanView from './TestPlanView';
 
 const client = new RequestBuilder();
 

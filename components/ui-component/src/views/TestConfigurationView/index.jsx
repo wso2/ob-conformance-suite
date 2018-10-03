@@ -26,14 +26,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { bootstrapUtils } from 'react-bootstrap/lib/utils';
-import AppHeader from './partials/AppHeader';
-import RequestBuilder from './utils/RequestBuilder';
+import AppHeader from '../../partials/AppHeader';
+import RequestBuilder from '../../utils/RequestBuilder';
 import {
     updateSpecification, addSpecificationToTestValues,
     addTestPlan, clearTestValues, clearSelectedSpecifications, updateReport,
-} from './actions';
-import TestPlanReduxHelper from './utils/TestPlanReduxHelper';
-import { Specification, SpecificationEditor } from './components/TestPlanComponents';
+} from '../../actions';
+import TestPlanReduxHelper from '../../utils/TestPlanReduxHelper';
+import { Specification, SpecificationEditor } from './TestPlanComponents';
 
 bootstrapUtils.addStyle(Button, 'secondary');
 

@@ -29,8 +29,8 @@ import {
     toggleSpecification,
     clearTestValues,
     clearSelectedSpecifications,
-} from './actions';
-import AppHeader from './partials/AppHeader';
+} from '../../actions';
+import AppHeader from '../../partials/AppHeader';
 
 /**
  * ClassName: SpecificationSelectView

@@ -22,9 +22,9 @@ import {
     ListGroup, ListGroupItem, Panel, Row, Table,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import TestPlanReduxHelper from '../utils/TestPlanReduxHelper';
-import { toggleVector, toggleFeature } from '../actions';
-import AttributeGroup from './AttributeGroup';
+import TestPlanReduxHelper from '../../utils/TestPlanReduxHelper';
+import { toggleVector, toggleFeature } from '../../actions';
+import AttributeGroup from '../../components/AttributeGroup';
 
 const ScenariodataRow = connect(state => ({ specifications: state.specifications.specs }))(({ scenario }) => (
     <tr align='left'>

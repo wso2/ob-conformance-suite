@@ -22,7 +22,7 @@ module.exports = {
     context: path.resolve(__dirname, './src'),
     mode: "none",
     entry: {
-        index: './Main.jsx',
+        index: './index.jsx',
     },
     output: {
         path: path.resolve(__dirname, './dist/'),
