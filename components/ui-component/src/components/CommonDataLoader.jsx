@@ -22,10 +22,18 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import RequestBuilder from '../utils/RequestBuilder';
 import { addSpecification, addTestPlan } from '../actions';
+import LoaderComponent from './LoaderComponent';
 
 const client = new RequestBuilder();
 
+/**
+ * Get commonly used resources to the redux store.
+ * TODO: depricate usage of this class and have self contained requests.
+ */
 class CommonDataLoader extends React.Component {
+    /**
+     * @inheritdoc
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -33,6 +41,9 @@ class CommonDataLoader extends React.Component {
         };
     }
 
+    /**
+     * @inheritdoc
+     */
     componentDidMount() {
         axios.all([client.getSpecifications(), client.getTestPlans()]).then(
             axios.spread((specs, plans) => {
@@ -52,18 +63,32 @@ class CommonDataLoader extends React.Component {
         });
     }
 
-
+    /**
+     * @inheritdoc
+     */
     render() {
-        if (this.state.loading) {
-            return (<h1>Loading...</h1>);
+        const { loading } = this.state;
+        const { children } = this.props;
+
+        if (loading) {
+            return (
+                <div className='text-center page-loader-compoent'>
+                    <LoaderComponent />
+                </div>
+            );
         } else {
-            return (this.props.children);
+            return (children);
         }
     }
 }
 
 CommonDataLoader.propTypes = {
     dispatch: PropTypes.func.isRequired,
+    children: PropTypes.node,
+};
+
+CommonDataLoader.defaultProps = {
+    children: [],
 };
 
 export default connect()(CommonDataLoader);
