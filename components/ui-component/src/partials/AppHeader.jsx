@@ -19,6 +19,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+/**
+ * Application header.
+ * @returns { React.Component } Header View
+ */
 const AppHeader = () => (
     <header className='header header-default'>
         <div className='container-fluid'>
