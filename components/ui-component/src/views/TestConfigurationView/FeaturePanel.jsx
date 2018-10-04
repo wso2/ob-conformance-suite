@@ -19,24 +19,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-    ListGroup, ListGroupItem, Panel, Row, Table,
+    Panel, Row, Table,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import TestPlanReduxHelper from '../../utils/TestPlanReduxHelper';
-import { toggleVector, toggleFeature } from '../../actions';
+import { toggleFeature } from '../../actions';
 import AttributeGroup from '../../components/AttributeGroup';
+import ScenarioDataRow from './ScenarioDataRow';
 
-const ScenariodataRow = connect(state => ({ specifications: state.specifications.specs }))(({ scenario }) => (
-    <tr align='left'>
-        <td>{scenario.scenarioName}</td>
-        <td>{scenario.specName}</td>
-        <td>{scenario.specSection}</td>
-    </tr>
-));
-
-export const Feature = connect(state => ({ testvalues: state.testvalues }))(({
-    feature, specName, dispatch, testvalues,
-}) => (
+/**
+ * Render feature panel for configuration of attribute groups.
+ * @param {Object} feature feature
+ * @param {string} specName specification name
+ * @param {func} dispatch redux dispatch callback
+ * @param {Object} testvalues testvaluesz object
+ * @returns {React.Component} FeaturePanel
+ */
+const FeaturePanel = ({ feature, specName, dispatch, testvalues }) => (
     <div className='tc-feature-panel'>
         <Panel
             expanded={TestPlanReduxHelper.getSelectedFeaturesFromState(testvalues, specName).includes(feature.uri.path)}
@@ -76,8 +75,7 @@ export const Feature = connect(state => ({ testvalues: state.testvalues }))(({
                                             </tr>
                                         </thead>
                                         <tbody className='text-center'>
-                                            {feature.scenarios.map(scenario =>
-                                                <ScenariodataRow key={scenario.scenarioName} scenario={scenario} />)}
+                                            {feature.scenarios.map(scenario => <ScenarioDataRow key={scenario.scenarioName} scenario={scenario} />)}
                                         </tbody>
                                     </Table>
                                 </Panel.Body>
@@ -100,76 +98,21 @@ export const Feature = connect(state => ({ testvalues: state.testvalues }))(({
             </Panel.Collapse>
         </Panel>
     </div>
-));
-
-export const Vector = connect(state => ({ testvalues: state.testvalues }))(({
-    testvalues, specName, vector, dispatch,
-}) => (
-    <ListGroupItem onClick={() => {
-        dispatch(toggleVector(specName, vector.tag));
-    }}
-    >
-        <div className='pull-right'>
-            <i className={'fas fa-' + (TestPlanReduxHelper.getSelectedVectorsFromState(testvalues, specName)
-                .includes(vector.tag) ? 'check-square check-square-m' : 'square fa-1x fa-square-list')}
-            />
-        </div>
-        <p>
-            Test
-            {vector.title}
-        </p>
-    </ListGroupItem>
-));
-
-export const Specification = ({ spec, selectElement, selected }) => (
-    <ListGroupItem key='root-spec' onClick={() => { selectElement(spec.name); }} active={selected}>
-        <h4>
-            {spec.title}
-            {' '}
-            {spec.version}
-        </h4>
-        <p>{spec.description}</p>
-    </ListGroupItem>
 );
 
-Specification.propTypes = {
-    spec: PropTypes.shape({
-        name: PropTypes.string.isRequired,
+FeaturePanel.propTypes = {
+    specName: PropTypes.string.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    feature: PropTypes.shape({
+        uri: PropTypes.shape({
+            path: PropTypes.string.isRequired,
+        }).isRequired,
         title: PropTypes.string.isRequired,
-        version: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
-    }).isRequired,
-    selectElement: PropTypes.func.isRequired,
-    selected: PropTypes.bool.isRequired,
-};
-
-export const SpecificationEditor = ({ spec }) => (
-    <div className='test-configuration-view'>
-        <Panel>
-            <Panel.Heading>Testing Vectors</Panel.Heading>
-            <ListGroup>
-                {spec.testingVectors.map(vector => (<Vector vector={vector} specName={spec.name} key={vector.tag} />))}
-            </ListGroup>
-        </Panel>
-        <Panel>
-            <Panel.Heading>Global Configuration</Panel.Heading>
-            <Panel.Body id='attributeGroups'>
-                {spec.attributeGroups.map(group =>
-                    <AttributeGroup scope='specification' specName={spec.name} group={group} key={group.groupName} />)}
-            </Panel.Body>
-        </Panel>
-        <br />
-        <h4>Testing Features</h4>
-        <br />
-        {spec.features.map(feature => <Feature key={feature.uri.path} feature={feature} specName={spec.name} />)}
-    </div>
-);
-
-SpecificationEditor.propTypes = {
-    spec: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        testingVectors: PropTypes.array.isRequired,
         attributeGroups: PropTypes.array.isRequired,
-        features: PropTypes.array.isRequired,
+        scenarios: PropTypes.array.isRequired,
     }).isRequired,
+    testvalues: PropTypes.shape().isRequired,
 };
+
+export default connect(state => ({ testvalues: state.testvalues }))(FeaturePanel);
