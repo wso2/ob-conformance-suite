@@ -39,16 +39,28 @@ public class TestPlanDTO {
         this.reports = reports;
     }
 
+    /**
+     *
+     * @return testId
+     */
     public String getTestId() {
 
         return testId;
     }
 
+    /**
+     *
+     * @return testPlan
+     */
     public TestPlan getTestPlan() {
 
         return testPlan;
     }
 
+    /**
+     *
+     * @return results of each iteration
+     */
     public List<Report> getReports() {
 
         return reports;

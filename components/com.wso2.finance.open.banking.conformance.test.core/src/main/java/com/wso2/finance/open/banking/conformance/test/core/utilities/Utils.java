@@ -25,9 +25,9 @@ public class Utils {
 
     /**
      * This method appends a prefix and suffix to the error msg.
-     *
+     * This prefix and suffix can be used in regex patters to capture the error from the cucumber test results
      * @param error
-     * @return
+     * @return error string wrapped with a prefix and suffix
      */
     public static String formatError(String error) {
 

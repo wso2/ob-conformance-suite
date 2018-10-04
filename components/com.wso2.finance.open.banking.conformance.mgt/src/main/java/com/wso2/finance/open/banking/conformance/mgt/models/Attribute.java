@@ -73,7 +73,7 @@ public class Attribute {
     }
 
     /**
-     * @return
+     * @return name of the attribute
      */
     public String getName() {
 
@@ -81,7 +81,7 @@ public class Attribute {
     }
 
     /**
-     * @return
+     * @return label
      */
     public String getLabel() {
 
@@ -89,7 +89,7 @@ public class Attribute {
     }
 
     /**
-     * @return
+     * @return type of the attribute
      */
     public AttributeType getAttributeType() {
 
@@ -97,7 +97,7 @@ public class Attribute {
     }
 
     /**
-     * @return
+     * @return default value of the attribute
      */
     public String getDefaultValue() {
 
@@ -105,7 +105,7 @@ public class Attribute {
     }
 
     /**
-     * @return
+     * @return value of the attribute
      */
     public String gettValue() {
 
@@ -113,7 +113,7 @@ public class Attribute {
     }
 
     /**
-     * @return
+     * @return help text highlighting meaning
      */
     public String getHelpText() {
 

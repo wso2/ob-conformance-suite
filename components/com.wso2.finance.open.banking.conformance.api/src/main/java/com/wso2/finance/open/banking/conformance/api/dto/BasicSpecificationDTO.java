@@ -19,7 +19,8 @@
 package com.wso2.finance.open.banking.conformance.api.dto;
 
 /**
- * DTO for Specification.
+ * DTO for reprenting basic information of a specification.
+ * This is required to show only the basic details of a specification on the Front End
  */
 public class BasicSpecificationDTO {
 

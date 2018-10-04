@@ -38,6 +38,9 @@ public class SpecificationDAO {
         this.specifications = ApplicationDataHolder.getInstance().getSpecifications();
     }
 
+    /**
+     * @return List of basic specifications
+     */
     public List<BasicSpecificationDTO> getBasicSpecifications() {
 
         return this.specifications.values().stream().map(specification ->
@@ -47,6 +50,10 @@ public class SpecificationDAO {
         ).collect(Collectors.toList());
     }
 
+    /**
+     * @param key name of the spec
+     * @return specification for the given name
+     */
     public Specification getSpecification(String key) {
 
         return this.specifications.get(key);

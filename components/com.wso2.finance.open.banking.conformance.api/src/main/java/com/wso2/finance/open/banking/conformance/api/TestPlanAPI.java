@@ -46,7 +46,7 @@ import javax.ws.rs.core.Response;
 @Path("/testplan")
 public class TestPlanAPI {
 
-    TestPlanRunnerManager runnerManager = ApplicationDataHolder.getInstance().getRunnerManager();
+    private TestPlanRunnerManager runnerManager = ApplicationDataHolder.getInstance().getRunnerManager();
 
     /**
      * Add a new TestPlan.
@@ -119,7 +119,7 @@ public class TestPlanAPI {
      * OAuth callback to get Security code for OIDC flow.
      *
      * @param code auth code.
-     * @return
+     * @return string "done" in the response
      */
     @GET
     @Path("/callback")

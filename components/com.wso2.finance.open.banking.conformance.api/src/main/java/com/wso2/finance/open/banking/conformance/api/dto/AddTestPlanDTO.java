@@ -35,7 +35,7 @@ public class AddTestPlanDTO {
     }
 
     /**
-     * @return
+     * @return testPlan
      */
     public TestPlan getTestPlan() {
 

@@ -38,6 +38,12 @@ public class Constants {
     public static final String ACCOUNTS_INFORMATION_API_SPEC = "AccountsInformation";
     public static final String OPEN_DATA_API_SPEC = "OpenData";
 
+    //Open API json file paths
+    public static final String  OPEN_DATA_V_1_0_0_OPEN_API = "schema/v1_0_0/open_data.json";
+    public static final String  ACCOUNT_INFORMATION_V_2_0_0_OPEN_API = "schema/v2_0_0/accounts_information.json";
+    public static final String  AUTHORIZE_V_1_0_0_OPEN_API = "schema/v1_0_0/authorize.json";
+    public static final String  TOKEN_V_1_0_0_OPEN_API = "schema/v1_0_0/token.json";
+
     public static final List<String> AVAILABLE_VECOTRS = Collections
             .unmodifiableList(Arrays.asList("@Security", "@Data"));
 

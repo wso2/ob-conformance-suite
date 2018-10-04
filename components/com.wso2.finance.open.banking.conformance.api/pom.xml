@@ -28,10 +28,8 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.wso2.finance</groupId>
     <artifactId>com.wso2.finance.open.banking.conformance.api</artifactId>
     <name>WSO2 Open Banking Conformance Suite - API Service</name>
-    <version>1.0.0-SNAPSHOT</version>
     <build>
         <plugins>
             <plugin>
