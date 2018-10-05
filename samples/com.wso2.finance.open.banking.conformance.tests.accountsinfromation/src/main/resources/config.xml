@@ -21,6 +21,7 @@
     <title>AccountsInformation</title>
     <description>API to get Accounts Information of a bank customer</description>
     <specificationUri>https://github.com/OpenBankingUK/</specificationUri>
+    <glueClassPath>com.wso2.finance.open.banking.conformance.tests.accountsinfromation</glueClassPath>
     <attributeGroups>
         <AttributeGroup groupName="default" title="Server Configuration">
             <Attribute name="base_url">
@@ -66,7 +67,7 @@
     </vectors>
     <features>
         <Feature
-                uri="components/com.wso2.finance.open.banking.conformance.test.core/src/main/resources/features/v2_0_0/accountinfo/beneficiaries.feature">
+                uri="samples/com.wso2.finance.open.banking.conformance.tests.accountsinfromation/src/main/resources/features/beneficiaries.feature">
             <title>Beneficiaries endpoint</title>
             <description>Get Details on Account Beneficiaries</description>
             <attributeGroups>

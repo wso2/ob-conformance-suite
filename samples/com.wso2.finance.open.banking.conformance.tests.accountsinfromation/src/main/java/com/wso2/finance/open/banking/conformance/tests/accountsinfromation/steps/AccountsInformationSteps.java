@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package com.wso2.finance.open.banking.conformance.test.core.steps.v2_0_0;
+package com.wso2.finance.open.banking.conformance.tests.accountsinfromation.steps;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;

@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.wso2.finance.open.banking.conformance.test.core.steps.v1_0_0;
+package com.wso2.finance.open.banking.conformance.tests.accountsinfromation.steps;
 
 import com.wso2.finance.open.banking.conformance.mgt.models.Attribute;
 import com.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;

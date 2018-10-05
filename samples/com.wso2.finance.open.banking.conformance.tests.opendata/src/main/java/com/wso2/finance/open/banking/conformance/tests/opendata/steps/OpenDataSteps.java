@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package com.wso2.finance.open.banking.conformance.test.core.steps.v1_0_0;
+package com.wso2.finance.open.banking.conformance.tests.opendata.steps;
 
 import com.wso2.finance.open.banking.conformance.test.core.context.Context;
 import com.wso2.finance.open.banking.conformance.test.core.request.RequestGenerator;
@@ -26,12 +26,11 @@ import com.wso2.finance.open.banking.conformance.test.core.utilities.Utils;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.apache.log4j.Logger;
-
-import static io.restassured.RestAssured.given;
-import static org.junit.Assert.assertEquals;
+import org.junit.Assert;
 
 
 /**
@@ -61,7 +60,7 @@ public class OpenDataSteps {
     @When("a user retrieves the atm details")
     public void getAtmDetails() {
 
-        response = given().spec(httpRequest).when().get(endpointGetAtmsByBankId);
+        response = RestAssured.given().spec(httpRequest).when().get(endpointGetAtmsByBankId);
         responseValidator = new ResponseValidator(response);
         log.info("response: " + response.getBody().asString());
     }
@@ -83,7 +82,7 @@ public class OpenDataSteps {
     @When("a user retrieves the branch details")
     public void getBranchDetails() {
 
-        response = given().spec(httpRequest).when().get(endpointGetBranchesByBankId);
+        response = RestAssured.given().spec(httpRequest).when().get(endpointGetBranchesByBankId);
         log.info("response: " + response.getBody().asString());
     }
 
@@ -98,14 +97,14 @@ public class OpenDataSteps {
     @When("a user retrieves the product details")
     public void getProductDetails() {
 
-        response = given().spec(httpRequest).when().get(endpointGetProductsByBankId);
+        response = RestAssured.given().spec(httpRequest).when().get(endpointGetProductsByBankId);
         log.info("response: " + response.getBody().asString());
     }
 
     @Then("response json data should contain geo-location of the branch")
     public void validateGeoLocation() {
 
-        assertEquals(Utils.formatError("Response does not contain geo-location of the bank"), false, true);
+        Assert.assertEquals(Utils.formatError("Response does not contain geo-location of the bank"), false, true);
     }
 
 }

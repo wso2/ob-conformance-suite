@@ -27,6 +27,10 @@ import io.restassured.filter.Filter;
 import io.restassured.specification.RequestSpecification;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 /**
  * Helper class for generating API Requests.
  */
@@ -86,6 +90,7 @@ public class RequestGenerator {
         log.debug("Generating default http request");
 
         String swaggerJsonFile = Context.getInstance().getCurrentSwaggerJsonFile();
+
         SwaggerValidationFilter validationFilter = new SwaggerValidationFilter(swaggerJsonFile);
 
         String baseUri = Context.getInstance()

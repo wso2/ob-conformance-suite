@@ -52,12 +52,12 @@ public class Application {
             Map<String, Specification> specifications = new HashMap();
 
             specifications.put("OpenData", XmlHelper.unmarshallSepcificationXML(
-                    new File("components/" +
-                            "com.wso2.finance.open.banking.conformance.mgt/src/main/resources/openData.xml")));
+                    new File("samples/" +
+                            "com.wso2.finance.open.banking.conformance.tests.opendata/src/main/resources/config.xml")));
+
             specifications.put("AccountsInformation", XmlHelper.unmarshallSepcificationXML(
-                    new File("components/" +
-                            "com.wso2.finance.open.banking.conformance.mgt/src/main/resources/" +
-                            "accountsinformation.xml")));
+                    new File("samples/" +
+                            "com.wso2.finance.open.banking.conformance.tests.accountsinfromation/src/main/resources/config.xml")));
 
             ApplicationDataHolder.getInstance().setSpecifications(specifications);
 

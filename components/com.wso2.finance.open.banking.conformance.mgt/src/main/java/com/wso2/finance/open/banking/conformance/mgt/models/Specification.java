@@ -40,6 +40,8 @@ public class Specification {
     private String description;
     @XmlElement
     private String specificationUri;
+    @XmlElement
+    private String glueClassPath;
     @XmlElementWrapper(name = "attributeGroups")
     @XmlElement(name = "AttributeGroup")
     private List<AttributeGroup> attributeGroups;
@@ -125,5 +127,10 @@ public class Specification {
     public String getVersion() {
 
         return version;
+    }
+
+    public String getGlueClassPath() {
+
+        return glueClassPath;
     }
 }
