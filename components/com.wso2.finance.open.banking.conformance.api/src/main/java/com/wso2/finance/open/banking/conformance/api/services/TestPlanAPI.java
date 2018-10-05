@@ -16,11 +16,12 @@
  * under the License.
  */
 
-package com.wso2.finance.open.banking.conformance.api;
+package com.wso2.finance.open.banking.conformance.api.services;
 
-import com.wso2.finance.open.banking.conformance.api.dto.AddTestPlanDTO;
-import com.wso2.finance.open.banking.conformance.api.dto.TestPlanAddConfirmationDTO;
+import com.wso2.finance.open.banking.conformance.api.ApplicationDataHolder;
 import com.wso2.finance.open.banking.conformance.api.dto.TestPlanDTO;
+import com.wso2.finance.open.banking.conformance.api.dto.TestPlanRequestDTO;
+import com.wso2.finance.open.banking.conformance.api.dto.TestPlanResponseDTO;
 import com.wso2.finance.open.banking.conformance.mgt.models.Report;
 import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerManager;
 
@@ -34,14 +35,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
  * Microservice for managing TestPlans.
- *
- * @since 1.0.0-SNAPSHOT
  */
 @Path("/testplan")
 public class TestPlanAPI {
@@ -51,14 +48,14 @@ public class TestPlanAPI {
     /**
      * Add a new TestPlan.
      *
-     * @param plan AddTestPlanDTO
-     * @return TestPlanAddConfirmationDTO
+     * @param plan TestPlanRequestDTO
+     * @return TestPlanResponseDTO
      */
     @POST
-    @Path("/add")
+    @Path("/")
     @Consumes("application/json")
     @Produces("application/json")
-    public TestPlanAddConfirmationDTO addTestPlan(AddTestPlanDTO plan) {
+    public TestPlanResponseDTO addTestPlan(TestPlanRequestDTO plan) {
 
         String testId = this.runnerManager.addPlan(plan.getTestPlan());
         Report report = null;
@@ -66,7 +63,7 @@ public class TestPlanAPI {
             report = this.runnerManager.start(testId);
         }
 
-        return new TestPlanAddConfirmationDTO(testId, report);
+        return new TestPlanResponseDTO(testId, report);
     }
 
     /**
@@ -75,24 +72,10 @@ public class TestPlanAPI {
      * @return
      */
     @OPTIONS
-    @Path("/add")
+    @Path("/")
     public Response getOptionsRunTestPlan() {
 
         return Response.status(Response.Status.OK).header("Access-Control-Allow-Methods", "POST,OPTIONS").build();
-    }
-
-    /**
-     * Run a single TestPlan.
-     *
-     * @param uuid id of the TestPlan.
-     * @return Report.
-     */
-    @GET
-    @Path("/run/{uuid}")
-    @Produces("application/json")
-    public Report startTestPlan(@PathParam("uuid") String uuid) {
-
-        return this.runnerManager.start(uuid);
     }
 
     /**
@@ -101,7 +84,7 @@ public class TestPlanAPI {
      * @return List of TestPlanDTOs.
      */
     @GET
-    @Path("/list/all")
+    @Path("/")
     @Produces("application/json")
     public Map<String, TestPlanDTO> getAllTestPlans() {
 
@@ -115,18 +98,19 @@ public class TestPlanAPI {
         return results;
     }
 
+
     /**
-     * OAuth callback to get Security code for OIDC flow.
+     * Run a single TestPlan.
      *
-     * @param code auth code.
-     * @return string "done" in the response
+     * @param uuid id of the TestPlan.
+     * @return Report.
      */
     @GET
-    @Path("/callback")
-    public Response processCallback(@QueryParam("code") String code) {
+    @Path("/{uuid}/run")
+    @Produces("application/json")
+    public Report startTestPlan(@PathParam("uuid") String uuid) {
 
-        this.runnerManager.setContextAttribute("auth_code", code);
-        return Response.ok().type(MediaType.TEXT_HTML).entity("Done").build();
+        return this.runnerManager.start(uuid);
     }
 
 }

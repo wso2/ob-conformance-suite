@@ -16,41 +16,24 @@
  * under the License.
  */
 
-package com.wso2.finance.open.banking.conformance.api;
+package com.wso2.finance.open.banking.conformance.api.services;
 
+import com.wso2.finance.open.banking.conformance.api.ApplicationDataHolder;
 import com.wso2.finance.open.banking.conformance.api.dto.TestResultDTO;
-import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanFeatureResult;
 import com.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerManager;
 
-import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 /**
- * Microservice for Managing Results.
- *
- * @since 1.0.0-SNAPSHOT
+ * Microservice for managing Results.
  */
 @Path("/results")
 public class ResultsAPI {
 
     TestPlanRunnerManager runnerManager = ApplicationDataHolder.getInstance().getRunnerManager();
-
-    /**
-     * Poll Result Queue to get progressive results.
-     *
-     * @param testId id of the test.
-     * @return List of TestPlanFeatureResult.
-     */
-    @GET
-    @Path("/poll/{testId}")
-    @Produces("application/json")
-    public List<TestPlanFeatureResult> getCurrentResult(@PathParam("testId") String testId) {
-
-        return this.runnerManager.getResults(testId);
-    }
 
     /**
      * Get Complete Result of a Test.

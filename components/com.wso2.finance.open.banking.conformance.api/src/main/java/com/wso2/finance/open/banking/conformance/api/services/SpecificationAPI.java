@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package com.wso2.finance.open.banking.conformance.api;
+package com.wso2.finance.open.banking.conformance.api.services;
 
 import com.wso2.finance.open.banking.conformance.api.dao.SpecificationDAO;
 import com.wso2.finance.open.banking.conformance.api.dto.BasicSpecificationDTO;
@@ -30,11 +30,9 @@ import javax.ws.rs.Produces;
 
 /**
  * Microservice for managing Specifications.
- *
- * @since 1.0.0-SNAPSHOT
  */
 @Path("/specifications")
-public class ConformanceSuiteAPI {
+public class SpecificationAPI {
 
     private SpecificationDAO specificationDAO = new SpecificationDAO();
 
@@ -44,7 +42,7 @@ public class ConformanceSuiteAPI {
      * @return List of basic specifications.
      */
     @GET
-    @Path("/all")
+    @Path("/")
     @Produces("application/json")
     public List<BasicSpecificationDTO> get() {
 
@@ -58,7 +56,7 @@ public class ConformanceSuiteAPI {
      * @return single Specification.
      */
     @GET
-    @Path("/single/{name}")
+    @Path("/{name}")
     @Produces("application/json")
     public Specification getSpecification(@PathParam("name") String name) {
 

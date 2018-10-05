@@ -19,6 +19,10 @@
 package com.wso2.finance.open.banking.conformance.api;
 
 import com.wso2.finance.open.banking.conformance.api.interceptors.CorsInterceptor;
+import com.wso2.finance.open.banking.conformance.api.services.ResultsAPI;
+import com.wso2.finance.open.banking.conformance.api.services.RunnerManagerAPI;
+import com.wso2.finance.open.banking.conformance.api.services.SpecificationAPI;
+import com.wso2.finance.open.banking.conformance.api.services.TestPlanAPI;
 import com.wso2.finance.open.banking.conformance.mgt.helpers.XmlHelper;
 import com.wso2.finance.open.banking.conformance.mgt.models.Specification;
 import org.apache.log4j.Logger;
@@ -66,9 +70,10 @@ public class Application {
 
         loadResources();
         new MicroservicesRunner()
-                .deploy(new ConformanceSuiteAPI())
+                .deploy(new SpecificationAPI())
                 .deploy(new TestPlanAPI())
                 .deploy(new ResultsAPI())
+                .deploy(new RunnerManagerAPI())
                 .addGlobalResponseInterceptor(new CorsInterceptor())
                 .start();
     }

@@ -18,35 +18,29 @@
 
 package com.wso2.finance.open.banking.conformance.api.dto;
 
-import com.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
+import com.wso2.finance.open.banking.conformance.mgt.models.Report;
 
 /**
- * DTO for TestPlan.
+ * DTO sent as a response for the addition request of a TestPlan.
  */
-public class AddTestPlanDTO {
+public class TestPlanResponseDTO {
 
-    private TestPlan testPlan;
-    private boolean runNow;
+    String testId;
+    Report report;
 
-    public AddTestPlanDTO(TestPlan testPlan, boolean runNow) {
+    public TestPlanResponseDTO(String testId, Report report) {
 
-        this.testPlan = testPlan;
-        this.runNow = runNow;
+        this.testId = testId;
+        this.report = report;
     }
 
-    /**
-     * @return testPlan
-     */
-    public TestPlan getTestPlan() {
+    public String getTestId() {
 
-        return testPlan;
+        return testId;
     }
 
-    /**
-     * @return
-     */
-    public boolean isRunNow() {
+    public Report getReport() {
 
-        return runNow;
+        return report;
     }
 }
