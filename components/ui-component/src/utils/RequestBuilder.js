@@ -24,23 +24,23 @@ export default class RequestBuilder {
     }
 
     getSpecifications() {
-        return axios.get(this.base_url + 'specifications/all');
+        return axios.get(this.base_url + 'specifications/');
     }
 
     getSingleSpecification(name) {
-        return axios.get(this.base_url + 'specifications/single/' + name);
+        return axios.get(this.base_url + 'specifications/' + name);
     }
 
     postTestPlan(testplan) {
-        return axios.post(this.base_url + 'testplan/add/', testplan);
+        return axios.post(this.base_url + 'testplan/', testplan);
     }
 
     runTestPlan(testplan) {
-        return axios.get(this.base_url + 'testplan/run/' + testplan.testId);
+        return axios.get(this.base_url + 'testplan/' + testplan.testId + '/run/');
     }
 
     pollResultsForTestPlan(id) {
-        return axios.get(this.base_url + 'results/poll/' + id);
+        return axios.get(this.base_url + 'runner/' + id + '/poll/');
     }
 
     getResultsForTestPlan(uuid, id) {
@@ -48,6 +48,6 @@ export default class RequestBuilder {
     }
 
     getTestPlans() {
-        return axios.get(this.base_url + 'testplan/list/all');
+        return axios.get(this.base_url + 'testplan/');
     }
 }
