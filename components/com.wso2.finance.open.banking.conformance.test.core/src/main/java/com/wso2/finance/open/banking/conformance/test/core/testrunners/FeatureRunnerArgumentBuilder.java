@@ -41,6 +41,12 @@ public class FeatureRunnerArgumentBuilder {
         arguments = new ArrayList<>();
     }
 
+    /**
+     * Set JSON formatted result file.
+     *
+     * @param location path of the result file
+     * @return builder
+     */
     public FeatureRunnerArgumentBuilder addResultFile(File location) {
 
         arguments.add("-p");
@@ -48,6 +54,12 @@ public class FeatureRunnerArgumentBuilder {
         return this;
     }
 
+    /**
+     * Set glue classes required for feature.
+     *
+     * @param classpath classpath of glue code
+     * @return builder
+     */
     public FeatureRunnerArgumentBuilder addSteps(String classpath) {
 
         arguments.add("-g");
@@ -56,6 +68,12 @@ public class FeatureRunnerArgumentBuilder {
 
     }
 
+    /**
+     * Set tag expression required to filter feature.
+     *
+     * @param tag cucumber tag expression
+     * @return builder
+     */
     public FeatureRunnerArgumentBuilder addTag(String tag) {
 
         arguments.add("-t");
@@ -63,12 +81,24 @@ public class FeatureRunnerArgumentBuilder {
         return this;
     }
 
+    /**
+     * Set feature file URI
+     *
+     * @param uri uri of the feature file
+     * @return builder
+     */
     public FeatureRunnerArgumentBuilder addFeature(String uri) {
 
         this.featureUri = uri;
         return this;
     }
 
+    /**
+     * Set a list of vectors for filtration.
+     *
+     * @param currentTestingVectors list of vectors
+     * @return builder
+     */
     public FeatureRunnerArgumentBuilder addTags(List<String> currentTestingVectors) {
 
         List<String> vectors = new ArrayList<>(Constants.AVAILABLE_VECOTRS);
@@ -89,6 +119,11 @@ public class FeatureRunnerArgumentBuilder {
         return this;
     }
 
+    /**
+     * Build arguments required for feature runner.
+     *
+     * @return list of arguments
+     */
     public String[] build() {
 
         arguments.add(featureUri);
