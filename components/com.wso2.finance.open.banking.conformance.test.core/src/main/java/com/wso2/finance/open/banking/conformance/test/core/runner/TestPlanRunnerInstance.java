@@ -51,9 +51,9 @@ public class TestPlanRunnerInstance extends Thread {
     private Context context;
 
     /**
-     * @param testPlan
-     * @param resultQueue
-     * @param managerCallbacks
+     * @param testPlan Configured TestPlan received from front end
+     * @param resultQueue queue used to publish the results realtime
+     * @param managerCallbacks Interface used to publish updates to the test runner manager
      */
     public TestPlanRunnerInstance(TestPlan testPlan, BlockingQueue<TestPlanFeatureResult> resultQueue,
                                   RunnerManagerCallback managerCallbacks) {
@@ -70,8 +70,8 @@ public class TestPlanRunnerInstance extends Thread {
     }
 
     /**
-     * @param result
-     * @param specification
+     * @param result test results json
+     * @param specification corresponding specification
      */
     private void queueResult(JsonObject result, Specification specification) {
 
@@ -80,6 +80,9 @@ public class TestPlanRunnerInstance extends Thread {
         testPlanFeatureResult.setSpecName(specification.getName());
         testPlanFeatureResult.setRunnerState(this.status);
         this.resultsQueue.add(testPlanFeatureResult);
+
+        log.debug("Queue test results of the Spec : " + specification.getName());
+
     }
 
     /**
@@ -90,6 +93,7 @@ public class TestPlanRunnerInstance extends Thread {
         TestPlanFeatureResult testPlanFeatureResult = new TestPlanFeatureResult();
         testPlanFeatureResult.setRunnerState(this.status);
         this.resultsQueue.add(testPlanFeatureResult);
+        log.debug("Add last test result of TestPlan: " + testPlan.getName() + " to the queue");
     }
 
     /**
@@ -128,7 +132,7 @@ public class TestPlanRunnerInstance extends Thread {
     }
 
     /**
-     * @return
+     * @return Report with test results
      */
     public Report buildReport() {
 

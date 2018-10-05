@@ -72,7 +72,7 @@ public class FeatureRunner {
         try {
             Main.run(argv, contextClassLoader);
         } catch (Exception e) {
-            log.warn("Unable to Run Feature " + feature.getTitle(), e);
+            log.error("Unable to Run Feature " + feature.getTitle(), e);
         }
 
         Context.getInstance().clearFeatureContext();
@@ -99,7 +99,8 @@ public class FeatureRunner {
         Reader reader = new InputStreamReader(new FileInputStream(url), "UTF-8");
 
         JsonElement jsonElement = parser.parse(reader);
-        if (jsonElement.getAsJsonArray().size() != 0) {
+        if ((jsonElement.getAsJsonArray().size() != 0) &&
+                (jsonElement.getAsJsonArray().get(0) != null)) {
 
             return jsonElement.getAsJsonArray().get(0).getAsJsonObject();
         } else {
