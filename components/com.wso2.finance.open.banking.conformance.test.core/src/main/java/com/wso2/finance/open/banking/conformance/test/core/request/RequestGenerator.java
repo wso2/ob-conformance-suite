@@ -40,51 +40,110 @@ public class RequestGenerator {
 
     private RequestSpecBuilder requestBuilder = new RequestSpecBuilder();
 
-    protected RequestSpecBuilder addHeader(String name, String value) {
+    /**
+     * @param name  header parameter name
+     * @param value header parameter value
+     * @return RequestGenerator
+     */
+    protected RequestGenerator addHeader(String name, String value) {
 
-        return requestBuilder.addHeader(name, value);
+        requestBuilder.addHeader(name, value);
+        return this;
     }
 
-    protected RequestSpecBuilder addFilter(Filter filter) {
+    /**
+     * @param filter RestAssured filter
+     * @return RequestGenerator
+     */
+    protected RequestGenerator addFilter(Filter filter) {
 
-        return requestBuilder.addFilter(filter);
+        requestBuilder.addFilter(filter);
+        return this;
     }
 
-    protected RequestSpecBuilder setBaseUri(String uri) {
+    /**
+     * @param uri base url of the HTTP Request
+     * @return RequestGenerator
+     */
+    protected RequestGenerator setBaseUri(String uri) {
 
-        return requestBuilder.setBaseUri(uri);
+        requestBuilder.setBaseUri(uri);
+        return this;
     }
 
-    protected RequestSpecBuilder setPort(int port) {
+    /**
+     * @param port service port
+     * @return RequestGenerator
+     */
+    protected RequestGenerator setPort(int port) {
 
-        return requestBuilder.setPort(port);
+        requestBuilder.setPort(port);
+        return this;
     }
 
-    protected RequestSpecBuilder setBody(String body) {
+    /**
+     * @param body HTTP Request body string
+     * @return RequestGenerator
+     */
+    protected RequestGenerator setBody(String body) {
 
-        return requestBuilder.setBody(body);
+        requestBuilder.setBody(body);
+        return this;
     }
 
-    protected RequestSpecBuilder setAccept(String accept) {
+    /**
+     * @param accept Accept Header Field
+     * @return RequestGenerator
+     */
+    protected RequestGenerator setAccept(String accept) {
 
-        return requestBuilder.setAccept(accept);
+        requestBuilder.setAccept(accept);
+        return this;
     }
 
-    protected RequestSpecBuilder setContenType(String contentType) {
+    /**
+     * @param contentType contentType Header Field
+     * @return RequestGenerator
+     */
+    protected RequestGenerator setContentType(String contentType) {
 
-        return requestBuilder.setContentType(contentType);
+        requestBuilder.setContentType(contentType);
+        return this;
     }
 
+    /**
+     * @param contentType Content-Type Header Field
+     * @return RequestGenerator
+     */
+    protected RequestGenerator setContenType(String contentType) {
+
+        requestBuilder.setContentType(contentType);
+        return this;
+    }
+
+    /**
+     * @param authScheme authentication scheme used to communicate with server
+     * @return RequestGenerator
+     */
+    protected RequestGenerator setAuth(AuthenticationScheme authScheme) {
+
+        requestBuilder.setAuth(authScheme);
+        return this;
+    }
+
+    /**
+     * @return RequestSpecification
+     */
     protected RequestSpecification build() {
 
         return requestBuilder.build();
     }
 
-    protected RequestSpecBuilder setAuth(AuthenticationScheme authScheme) {
-
-        return requestBuilder.setAuth(authScheme);
-    }
-
+    /**
+     * Generates the Request Specification.
+     *
+     * @return RequestSpecification
+     */
     public RequestSpecification generate() {
 
         log.debug("Generating default http request");

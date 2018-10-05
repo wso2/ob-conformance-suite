@@ -37,10 +37,10 @@ public class TokenEndPointRequestGenerator extends RequestGenerator {
     private String tokenEnd;
 
     /**
-     * @param grantType
-     * @param scope
-     * @param redirectURL
-     * @param tokenEnd
+     * @param grantType authorization grant type
+     * @param scope consent scope
+     * @param redirectURL Redirect URL to receive authorization code
+     * @param tokenEnd token endpoint URL
      */
     public TokenEndPointRequestGenerator(String grantType, String scope, String redirectURL, String tokenEnd) {
 
@@ -50,6 +50,10 @@ public class TokenEndPointRequestGenerator extends RequestGenerator {
         this.tokenEnd = tokenEnd;
     }
 
+    /**
+     * Generate RequestSpecification for the Token Endpoint.
+     * @return RequestSpecification
+     */
     @Override
     public RequestSpecification generate() {
 
