@@ -34,8 +34,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>com.wso2.finance.open.banking.conformance.tests.opendata</module>
-        <module>com.wso2.finance.open.banking.conformance.tests.accountsinfromation</module>
+        <module>org.wso2.finance.open.banking.conformance.tests.opendata</module>
+        <module>org.wso2.finance.open.banking.conformance.tests.accountsinfromation</module>
     </modules>
 
 </project>
