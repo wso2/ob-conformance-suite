@@ -34,9 +34,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>com.wso2.finance.open.banking.conformance.test.core</module>
-        <module>com.wso2.finance.open.banking.conformance.mgt</module>
-        <module>com.wso2.finance.open.banking.conformance.api</module>
+        <module>org.wso2.finance.open.banking.conformance.test.core</module>
+        <module>org.wso2.finance.open.banking.conformance.mgt</module>
+        <module>org.wso2.finance.open.banking.conformance.api</module>
     </modules>
 
 </project>
