@@ -22,21 +22,30 @@ import {
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-/*
- * LoginView
+/**
+ * Login View
  */
 class LoginView extends React.Component {
+    /**
+     * @inheritdoc
+     */
     constructor(props) {
         super(props);
         this.history = props.history;
     }
 
+    /**
+     * Temporary login validation
+     */
     validateUser() {
-        if (this.username.value === 'nab' && this.password.value === 'nab') {
+        if (this.username.value === 'admin' && this.password.value === 'admin') {
             this.history.push('/dashboard');
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     render() {
         return (
             <div>

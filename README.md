@@ -16,7 +16,7 @@
 2. Perform `mvn clean install`
 3. Execute `./startSolution.sh`
 4. go to [http://localhost:8082/](htpp://localhost:8082/)
-5. Login with credentials **username: *nab*** and **password: *nab***
+5. Login with credentials **username: *admin*** and **password: *admin***
 
 ## Project Structure
 
