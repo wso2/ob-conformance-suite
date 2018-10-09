@@ -17,11 +17,11 @@
   ~ under the License.
   -->
 
-<ns2:Specification xmlns:ns2="com.wso2.finance.open.banking.conformance.mgt.models" name="AccountsInformation" version="v2.0.0">
+<ns2:Specification xmlns:ns2="org.wso2.finance.open.banking.conformance.mgt.models" name="AccountsInformation" version="v2.0.0">
     <title>AccountsInformation</title>
     <description>API to get Accounts Information of a bank customer</description>
     <specificationUri>https://github.com/OpenBankingUK/</specificationUri>
-    <glueClassPath>com.wso2.finance.open.banking.conformance.tests.accountsinfromation</glueClassPath>
+    <glueClassPath>org.wso2.finance.open.banking.conformance.tests.accountsinfromation</glueClassPath>
     <attributeGroups>
         <AttributeGroup groupName="default" title="Server Configuration">
             <Attribute name="base_url">
@@ -67,7 +67,7 @@
     </vectors>
     <features>
         <Feature
-                uri="samples/com.wso2.finance.open.banking.conformance.tests.accountsinfromation/src/main/resources/features/beneficiaries.feature">
+                uri="samples/org.wso2.finance.open.banking.conformance.tests.accountsinfromation/src/main/resources/features/beneficiaries.feature">
             <title>Beneficiaries endpoint</title>
             <description>Get Details on Account Beneficiaries</description>
             <attributeGroups>

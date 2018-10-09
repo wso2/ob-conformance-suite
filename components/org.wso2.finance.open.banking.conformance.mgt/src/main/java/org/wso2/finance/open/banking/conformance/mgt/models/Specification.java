@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Model class representing a single Specification.
  */
-@XmlRootElement(namespace = "com.wso2.finance.open.banking.conformance.mgt.models", name = "Specification")
+@XmlRootElement(namespace = "org.wso2.finance.open.banking.conformance.mgt.models", name = "Specification")
 public class Specification {
 
     @XmlAttribute

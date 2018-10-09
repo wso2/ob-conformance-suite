@@ -63,7 +63,7 @@ public class FeatureRunner {
         File resultFile = new File("target/cucumber-report/cucumber.json");
 
         String[] argv = new FeatureRunnerArgumentBuilder().addResultFile(resultFile)
-                .addSteps("classpath:com.wso2.finance.open.banking.conformance.tests")
+                .addSteps("classpath:org.wso2.finance.open.banking.conformance.tests")
                 .addTags(Context.getInstance().getCurrentTestingVectors())
                 .addFeature(feature.getUri())
                 .build();

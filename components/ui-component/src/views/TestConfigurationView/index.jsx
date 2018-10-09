@@ -27,7 +27,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { bootstrapUtils } from 'react-bootstrap/lib/utils';
 import AppHeader from '../../partials/AppHeader';
-import RequestHelper from '../../utils/RequestHelper';
+import RequestHelper from '../../utils/RequestBuilder';
 import {
     updateSpecification, addSpecificationToTestValues,
     addTestPlan, clearTestValues, clearSelectedSpecifications, updateReport,

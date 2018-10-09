@@ -17,13 +17,13 @@
   ~ under the License.
   -->
 
-<ns2:Specification xmlns:ns2="com.wso2.finance.open.banking.conformance.mgt.models" name="OpenData" version="v1.0">
+<ns2:Specification xmlns:ns2="org.wso2.finance.open.banking.conformance.mgt.models" name="OpenData" version="v1.0">
     <title>OpenBankAPI</title>
     <description>This API exposes open data of a bank such as the branch locations, ATM locations, and supporting
         products.
     </description>
     <specificationUri>https://github.com/OpenBankingUK/</specificationUri>
-    <glueClassPath>com.wso2.finance.open.banking.conformance.tests.opendata</glueClassPath>
+    <glueClassPath>org.wso2.finance.open.banking.conformance.tests.opendata</glueClassPath>
     <attributeGroups>
         <AttributeGroup groupName="default" title="Server Configuration">
             <Attribute name="base_url">
@@ -49,7 +49,7 @@
     </vectors>
     <features>
         <Feature
-                uri="samples/com.wso2.finance.open.banking.conformance.tests.opendata/src/main/resources/features/atms.feature">
+                uri="samples/org.wso2.finance.open.banking.conformance.tests.opendata/src/main/resources/features/atms.feature">
             <title>ATMs endpoint</title>
             <description>Get the details of all atms owned by a bank</description>
             <attributeGroups>
@@ -68,7 +68,7 @@
             </Scenarios>
         </Feature>
         <Feature
-                uri="samples/com.wso2.finance.open.banking.conformance.tests.opendata/src/main/resources/features/branches.feature">
+                uri="samples/org.wso2.finance.open.banking.conformance.tests.opendata/src/main/resources/features/branches.feature">
             <title>Branches endpoint</title>
             <description>Get the details of all the branches of a bank</description>
             <attributeGroups>
@@ -89,7 +89,7 @@
             </Scenarios>
         </Feature>
         <Feature
-                uri="samples/com.wso2.finance.open.banking.conformance.tests.opendata/src/main/resources/features/products.feature">
+                uri="samples/org.wso2.finance.open.banking.conformance.tests.opendata/src/main/resources/features/products.feature">
             <title>Products endpoint</title>
             <description>Get the details of the products supported by a bank</description>
             <attributeGroups>

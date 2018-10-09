@@ -83,6 +83,7 @@ public class OpenDataSteps {
     public void getBranchDetails() {
 
         response = RestAssured.given().spec(httpRequest).when().get(endpointGetBranchesByBankId);
+        responseValidator = new ResponseValidator(response);
         log.info("response: " + response.getBody().asString());
     }
 
@@ -98,6 +99,7 @@ public class OpenDataSteps {
     public void getProductDetails() {
 
         response = RestAssured.given().spec(httpRequest).when().get(endpointGetProductsByBankId);
+        responseValidator = new ResponseValidator(response);
         log.info("response: " + response.getBody().asString());
     }
 

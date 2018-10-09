@@ -53,11 +53,11 @@ public class Application {
 
             specifications.put("OpenData", XmlHelper.unmarshallSepcificationXML(
                     new File("samples/" +
-                            "com.wso2.finance.open.banking.conformance.tests.opendata/src/main/resources/config.xml")));
+                            "org.wso2.finance.open.banking.conformance.tests.opendata/src/main/resources/config.xml")));
 
             specifications.put("AccountsInformation", XmlHelper.unmarshallSepcificationXML(
                     new File("samples/" +
-                            "com.wso2.finance.open.banking.conformance.tests.accountsinfromation/" +
+                            "org.wso2.finance.open.banking.conformance.tests.accountsinfromation/" +
                             "src/main/resources/config.xml")));
 
             ApplicationDataHolder.getInstance().setSpecifications(specifications);

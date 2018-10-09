@@ -26,16 +26,16 @@ import io.restassured.response.Response;
  */
 public class ResponseValidator {
 
-    public Response getReponse() {
-
-        return reponse;
-    }
-
     private Response reponse;
 
     public ResponseValidator(Response reponse) {
 
         this.reponse = reponse;
+    }
+
+    public Response getReponse() {
+
+        return reponse;
     }
 
     public void validateResponse() {
