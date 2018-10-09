@@ -23,13 +23,13 @@
 ```
 .
 ├── components
-│   ├── com.wso2.finance.open.banking.conformance.api
-│   ├── com.wso2.finance.open.banking.conformance.mgt
-│   ├── com.wso2.finance.open.banking.conformance.test.core
+│   ├── org.wso2.finance.open.banking.conformance.api
+│   ├── org.wso2.finance.open.banking.conformance.mgt
+│   ├── org.wso2.finance.open.banking.conformance.test.core
 │   └── ui-component
 └── samples
-    ├── com.wso2.finance.open.banking.conformance.tests.accountsinfromation
-    └── com.wso2.finance.open.banking.conformance.tests.opendata
+    ├── org.wso2.finance.open.banking.conformance.tests.accountsinfromation
+    └── org.wso2.finance.open.banking.conformance.tests.opendata
 
 - components
   contains the core components for the ob-conformance-suite.
