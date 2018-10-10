@@ -50,7 +50,7 @@ class TestPlanView extends React.Component {
                                     </small>
                                 </div>
                             </Col>
-                            <Col xs={5}>
+                            <Col xs={6}>
                                 <ButtonToolbar className='pull-right'>
                                     <Button
                                         onClick={() => { runTest(plan); }}
