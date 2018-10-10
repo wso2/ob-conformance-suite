@@ -76,7 +76,8 @@ class StringAttribute extends React.Component {
         const { value } = this.state;
 
         if (attribute.validationRegex) {
-            const isValid = value.match(RegExp(attribute.validationRegex));
+            const isValid = value.match(RegExp(attribute.validationRegex.trim()));
+            // return validation state only if validation fails.
             return isValid ? null : 'error';
         } else {
             return null;
