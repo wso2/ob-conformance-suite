@@ -134,12 +134,13 @@ const ReportFeature = ({ feature }) => (
                         <i className={reportHelper.getFeatureResultStatus(feature, reportHelper).status === 'Passed'
                             ? 'fas fa-check-circle' : 'fas fa-times-circle'}
                         />
+                        {' '}
                         {reportHelper.getFeatureResultStatus(feature, reportHelper).status}
                     </span>
                 </div>
                 <Panel.Title>
                     <h4 className='feature-title'>
-                        <b>Feature:</b>
+                        <b>Feature: </b>
                         {feature.name}
                     </h4>
                 </Panel.Title>
@@ -415,19 +416,9 @@ class TestReportView extends React.Component {
                 <Row className='stickeyHeader'>
                     <Col md={12}>
                         <div className='pull-right'>
-                            {!state.testRunning && state.failed === 0
-                                ? <Badge className='test-complete-badge'>Completed</Badge>
-                                : null
-                            }
-
-                            {!state.testRunning && state.failed > 0
-                                ? <Badge className='test-complete-withfail-badge'>Completed</Badge>
-                                : null
-                            }
-
                             {state.testRunning
                                 ? <LoaderComponent />
-                                : null
+                                : <Badge className='test-complete-badge'>Completed</Badge>
                             }
                         </div>
                         <div>
@@ -442,8 +433,11 @@ class TestReportView extends React.Component {
                             {state.passed > 0
                                 ? (
                                     <p>
-                                        <span className='passed-summary'>Passed: </span>
-                                        {state.passed}
+                                        <span className='passed-summary'>
+                                            Passed:
+                                            {' '}
+                                            {state.passed}
+                                        </span>
                                     </p>
                                 )
                                 : null
@@ -452,8 +446,11 @@ class TestReportView extends React.Component {
                             {state.failed > 0
                                 ? (
                                     <p>
-                                        <span className='failed-summary'>Failed: </span>
-                                        {state.failed}
+                                        <span className='failed-summary'>
+                                            Failed:
+                                            {' '}
+                                            {state.failed}
+                                        </span>
                                     </p>
                                 )
                                 : null

@@ -198,14 +198,9 @@ input[type="text"] {
 .test-complete-badge{
     margin-top: 32px;
     margin-left: 15px;
-    background-color: green;
+    background-color: dimgrey;
 }
 
-.test-complete-withfail-badge{
-    margin-top: 32px;
-    margin-left: 15px;
-    background-color: orange;
-}
 .history-view-inline-specs {
 
   span::after {
