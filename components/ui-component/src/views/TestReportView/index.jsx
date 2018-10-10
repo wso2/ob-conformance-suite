@@ -415,19 +415,9 @@ class TestReportView extends React.Component {
                 <Row className='stickeyHeader'>
                     <Col md={12}>
                         <div className='pull-right'>
-                            {!state.testRunning && state.failed === 0
-                                ? <Badge className='test-complete-badge'>Completed</Badge>
-                                : null
-                            }
-
-                            {!state.testRunning && state.failed > 0
-                                ? <Badge className='test-complete-withfail-badge'>Completed</Badge>
-                                : null
-                            }
-
                             {state.testRunning
                                 ? <LoaderComponent />
-                                : null
+                                : <Badge className='test-complete-badge'>Completed</Badge>
                             }
                         </div>
                         <div>
