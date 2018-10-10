@@ -224,6 +224,11 @@ input[type="text"] {
 
 .history-view-row {
   margin-top: 0.5em;
+
+  .test-span{
+    font-size:16px !important;
+    margin-left: 15px !important;
+  }
 }
 
 .report-title{
@@ -252,7 +257,7 @@ input[type="text"] {
         background-color: inherit;
       }
       .step-number {
-        background-color: mix(black,$secondary-color,40%) !important;
+        background-color: mix(black,$secondary-color,10%) !important;
       }
     }
   }

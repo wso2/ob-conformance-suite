@@ -32,7 +32,10 @@ class TestPlanView extends React.Component {
                         <Row className='history-view-row'>
                             <Col xs={6}>
                                 <div>
-                                    {plan.testPlan.name}
+                                    <Button className='round-btn' onClick={() => this.setState({ open: !open })}>
+                                        <i className={'fas fa-lg fa-' + (open ? 'angle-up' : 'angle-down')} />
+                                        <span className='test-span'>{plan.testPlan.name}</span>
+                                    </Button>
                                     <small>
                                         <p className='text-muted'>
                                             <span className='history-view-inline-specs'>
@@ -47,7 +50,7 @@ class TestPlanView extends React.Component {
                                     </small>
                                 </div>
                             </Col>
-                            <Col xs={5}>
+                            <Col xs={6}>
                                 <ButtonToolbar className='pull-right'>
                                     <Button
                                         onClick={() => { runTest(plan); }}
@@ -62,11 +65,6 @@ class TestPlanView extends React.Component {
                                         <i className='fas fa-lg fa-trash' />
                                     </Button>
                                 </ButtonToolbar>
-                            </Col>
-                            <Col xs={1}>
-                                <Button className='round-btn' onClick={() => this.setState({ open: !open })}>
-                                    <i className={'fas fa-lg fa-' + (open ? 'angle-up' : 'angle-down')} />
-                                </Button>
                             </Col>
                         </Row>
                     </Panel.Title>
