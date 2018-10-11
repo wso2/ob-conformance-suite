@@ -72,10 +72,8 @@ public class TestPlanRunnerInstance extends Thread {
      */
     private void queueResult(JsonObject result, Specification specification) {
 
-        TestPlanFeatureResult testPlanFeatureResult = new TestPlanFeatureResult();
-        testPlanFeatureResult.setFeatureResult(result);
-        testPlanFeatureResult.setSpecName(specification.getName());
-        testPlanFeatureResult.setRunnerState(this.status);
+        TestPlanFeatureResult testPlanFeatureResult =
+                new TestPlanFeatureResult(result, specification.getName(), this.status);
         this.resultsQueue.add(testPlanFeatureResult);
 
         log.debug("Queue test results of the Spec : " + specification.getName());
@@ -87,8 +85,7 @@ public class TestPlanRunnerInstance extends Thread {
      */
     private void queueStopMessege() {
 
-        TestPlanFeatureResult testPlanFeatureResult = new TestPlanFeatureResult();
-        testPlanFeatureResult.setRunnerState(this.status);
+        TestPlanFeatureResult testPlanFeatureResult = new TestPlanFeatureResult(this.status);
         this.resultsQueue.add(testPlanFeatureResult);
         log.debug("Add last test result of TestPlan: " + testPlan.getName() + " to the queue");
     }
@@ -96,11 +93,10 @@ public class TestPlanRunnerInstance extends Thread {
     /**
      * @param attributeGroup
      */
-    public void queueBrowserInteractionAttributes(AttributeGroup attributeGroup) {
+    public void queueBrowserInteractionAttributes(Specification specification, AttributeGroup attributeGroup) {
 
-        TestPlanFeatureResult featureResult = new TestPlanFeatureResult();
-        featureResult.setAttributeGroup(attributeGroup);
-        featureResult.setRunnerState(this.status);
+        TestPlanFeatureResult featureResult
+                = new TestPlanFeatureResult(attributeGroup, specification.getName(), this.status);
         this.resultsQueue.add(featureResult);
     }
 

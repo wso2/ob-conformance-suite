@@ -19,13 +19,13 @@ package org.wso2.finance.open.banking.conformance.tests.accountsinfromation.step
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.apache.log4j.Logger;
 import org.wso2.finance.open.banking.conformance.mgt.models.Attribute;
 import org.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 import org.wso2.finance.open.banking.conformance.test.core.context.Context;
 import org.wso2.finance.open.banking.conformance.test.core.oidc.OIDCHandler;
 import org.wso2.finance.open.banking.conformance.test.core.utilities.Utils;
-import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +104,9 @@ public class OIDCSteps {
         AttributeGroup atrGrp = new AttributeGroup("browser", "Get Consent",
                 "Get Consent through browser interaction", atrList);
 
-        Context.getInstance().getRunnerInstance().queueBrowserInteractionAttributes(atrGrp);
+        Context.getInstance().getRunnerInstance()
+                .queueBrowserInteractionAttributes(Context.getInstance().getCurrentSpec(), atrGrp);
+
         Context.getInstance().getRunnerInstance().setStatus(Report.RunnerState.WAITING);
     }
 }

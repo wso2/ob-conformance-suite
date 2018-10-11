@@ -326,36 +326,33 @@ class TestReportView extends React.Component {
                 const result = pollResponse.data[i];
                 /* Check for already loaded results and skip appending. */
                 const { finishedFeatureIds } = this.state;
-                if (Object.prototype.hasOwnProperty.call(finishedFeatureIds, result.specName)) {
-                    if (!(finishedFeatureIds[result.specName].includes(result.featureResult.id))) {
-                        this.setState({
-                            showInteractionModel: false,
-                        });
-
-                        let { data } = this.state; // result object
-
-                        const featureResult = reportHelper.getFeatureResult(result.featureResult, reportHelper);
-                        data = {
-                            ...data,
-                            [result.specName]: [...data[result.specName], result.featureResult],
-                        };
-                        this.setState(prevState => ({
-                            data,
-                            passed: prevState.passed
-                                + (featureResult.failed === 0), // all scenarios of feature passed
-                            failed: prevState.failed
-                                + (featureResult.failed > 0), // any scenario of feature failed
-                            completedFeatures: prevState.completedFeatures + 1,
-                            progress: ((prevState.completedFeatures + 1) / prevState.featureCount) * 100,
-                        }));
-                    }
-                }
                 /* Show browser interaction modal if an arrtibute group is received */
                 if (result.attributeGroup) {
                     this.setState({
                         attributes: result.attributeGroup,
                         showInteractionModel: true,
                     });
+                } else if (!(finishedFeatureIds[result.specName].includes(result.featureResult.id))) {
+                    this.setState({
+                        showInteractionModel: false,
+                    });
+
+                    let { data } = this.state; // result object
+
+                    const featureResult = reportHelper.getFeatureResult(result.featureResult, reportHelper);
+                    data = {
+                        ...data,
+                        [result.specName]: [...data[result.specName], result.featureResult],
+                    };
+                    this.setState(prevState => ({
+                        data,
+                        passed: prevState.passed
+                            + (featureResult.failed === 0), // all scenarios of feature passed
+                        failed: prevState.failed
+                            + (featureResult.failed > 0), // any scenario of feature failed
+                        completedFeatures: prevState.completedFeatures + 1,
+                        progress: ((prevState.completedFeatures + 1) / prevState.featureCount) * 100,
+                    }));
                 }
 
                 const { revision } = this.state;

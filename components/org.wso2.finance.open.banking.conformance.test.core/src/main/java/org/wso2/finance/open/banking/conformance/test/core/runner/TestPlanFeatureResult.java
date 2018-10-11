@@ -32,6 +32,25 @@ public class TestPlanFeatureResult {
     private String specName;
     private Report.RunnerState runnerState;
 
+    public TestPlanFeatureResult(JsonObject featureResult, String specName, Report.RunnerState runnerState) {
+
+        this.featureResult = featureResult;
+        this.specName = specName;
+        this.runnerState = runnerState;
+    }
+
+    public TestPlanFeatureResult(AttributeGroup attributeGroup, String specName, Report.RunnerState runnerState) {
+
+        this.attributeGroup = attributeGroup;
+        this.specName = specName;
+        this.runnerState = runnerState;
+    }
+
+    public TestPlanFeatureResult(Report.RunnerState runnerState) {
+
+        this.runnerState = runnerState;
+    }
+
     public void setFeatureResult(JsonObject featureResult) {
 
         this.featureResult = featureResult;
