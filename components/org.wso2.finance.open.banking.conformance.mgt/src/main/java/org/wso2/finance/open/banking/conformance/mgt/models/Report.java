@@ -31,7 +31,7 @@ public class Report {
 
     private String testId;
     private Integer reportId;
-    private Map<String, List<JsonObject>> result;
+    private Map<String, List<Result>> result;
     private RunnerState state;
     private Date executed;
 
@@ -42,7 +42,7 @@ public class Report {
         RUNNING, DONE, NOT_STARTED, WAITING
     }
 
-    public Report(String testId, Integer reportId, Map<String, List<JsonObject>> result, RunnerState state,
+    public Report(String testId, Integer reportId, Map<String, List<Result>> result, RunnerState state,
                   Date executed) {
 
         this.testId = testId;
@@ -72,12 +72,12 @@ public class Report {
         this.reportId = reportId;
     }
 
-    public Map<String, List<JsonObject>> getResult() {
+    public Map<String, List<Result>> getResult() {
 
         return result;
     }
 
-    public void setResult(Map<String, List<JsonObject>> result) {
+    public void setResult(Map<String, List<Result>> result) {
 
         this.result = result;
     }

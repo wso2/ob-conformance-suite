@@ -21,10 +21,12 @@ package org.wso2.finance.open.banking.conformance.test.core.testrunners;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.Gson;
 import cucumber.api.cli.Main;
 import org.apache.log4j.Logger;
 import org.wso2.finance.open.banking.conformance.mgt.testconfig.Feature;
 import org.wso2.finance.open.banking.conformance.test.core.context.Context;
+import org.wso2.finance.open.banking.conformance.mgt.models.Result;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,6 +34,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.io.FileReader;
 
 /**
  * Execute a single Feature and return result.
@@ -41,6 +44,8 @@ public class FeatureRunner {
     private Feature feature;
 
     private Logger log = Logger.getLogger(FeatureRunner.class);
+
+    Gson gson = new Gson();
 
     /**
      * @param feature
@@ -55,7 +60,7 @@ public class FeatureRunner {
      *
      * @return
      */
-    public JsonObject runFeature() {
+    public Result runFeature() {
 
         log.debug("Start Running Feature: " + feature.getTitle());
 
@@ -80,7 +85,8 @@ public class FeatureRunner {
         log.debug("End Running Feature: " + feature.getTitle());
 
         try {
-            return this.readJson(resultFile);
+            Result result = gson.fromJson(this.readJson(resultFile).toString(), Result.class);
+            return result;
         } catch (Exception e) {
             log.error("Feature Result File Not Found", e);
             return null;
