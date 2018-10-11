@@ -19,7 +19,7 @@
 package org.wso2.finance.open.banking.conformance.api.services;
 
 import org.wso2.finance.open.banking.conformance.api.ApplicationDataHolder;
-import org.wso2.finance.open.banking.conformance.api.dto.TestPlanDTO;
+import org.wso2.finance.open.banking.conformance.mgt.dto.TestPlanDTO;
 import org.wso2.finance.open.banking.conformance.api.dto.TestPlanRequestDTO;
 import org.wso2.finance.open.banking.conformance.api.dto.TestPlanResponseDTO;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;

@@ -16,32 +16,53 @@
  * under the License.
  */
 
-package org.wso2.finance.open.banking.conformance.api.dto;
+package org.wso2.finance.open.banking.conformance.mgt.dto;
 
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 import org.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 
+import java.util.List;
+
 /**
- * DTO for Result.
+ * DTO for TestPlan.
  */
-public class TestResultDTO {
+public class TestPlanDTO {
 
+    String testId;
     TestPlan testPlan;
-    Report report;
+    List<Report> reports;
 
-    public TestResultDTO(TestPlan testPlan, Report report) {
+    public TestPlanDTO(String testId, TestPlan testPlan, List<Report> reports) {
 
+        this.testId = testId;
         this.testPlan = testPlan;
-        this.report = report;
+        this.reports = reports;
     }
 
+    /**
+     *
+     * @return testId
+     */
+    public String getTestId() {
+
+        return testId;
+    }
+
+    /**
+     *
+     * @return testPlan
+     */
     public TestPlan getTestPlan() {
 
         return testPlan;
     }
 
-    public Report getReport() {
+    /**
+     *
+     * @return results of each iteration
+     */
+    public List<Report> getReports() {
 
-        return report;
+        return reports;
     }
 }

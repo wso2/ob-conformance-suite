@@ -19,7 +19,7 @@
 package org.wso2.finance.open.banking.conformance.api.services;
 
 import org.wso2.finance.open.banking.conformance.api.ApplicationDataHolder;
-import org.wso2.finance.open.banking.conformance.api.dto.TestResultDTO;
+import org.wso2.finance.open.banking.conformance.mgt.dto.TestResultDTO;
 import org.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerManager;
 
 import javax.ws.rs.GET;
