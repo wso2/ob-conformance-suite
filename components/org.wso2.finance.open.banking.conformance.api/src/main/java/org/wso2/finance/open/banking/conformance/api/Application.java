@@ -20,6 +20,8 @@ package org.wso2.finance.open.banking.conformance.api;
 
 import org.apache.log4j.Logger;
 import org.wso2.finance.open.banking.conformance.api.interceptors.CorsInterceptor;
+import org.wso2.finance.open.banking.conformance.api.interceptors.SecurityInterceptor;
+import org.wso2.finance.open.banking.conformance.api.services.OptionsAPI;
 import org.wso2.finance.open.banking.conformance.api.services.ResultsAPI;
 import org.wso2.finance.open.banking.conformance.api.services.RunnerManagerAPI;
 import org.wso2.finance.open.banking.conformance.api.services.SpecificationAPI;
@@ -75,6 +77,8 @@ public class Application {
                 .deploy(new TestPlanAPI())
                 .deploy(new ResultsAPI())
                 .deploy(new RunnerManagerAPI())
+                .deploy(new OptionsAPI())
+                .addGlobalRequestInterceptor(new SecurityInterceptor())
                 .addGlobalResponseInterceptor(new CorsInterceptor())
                 .start();
     }

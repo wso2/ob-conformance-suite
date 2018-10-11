@@ -18,36 +18,40 @@
 
 import axios from 'axios';
 
+const instance = axios.create();
+
 export default class RequestBuilder {
+
     constructor() {
         this.base_url = 'http://localhost:9090/';
+        instance.defaults.headers.common['Authorization'] = 'Basic ' + btoa("admin:admin");
     }
 
     getSpecifications() {
-        return axios.get(this.base_url + 'specifications/');
+        return instance.get(this.base_url + 'specifications/');
     }
 
     getSingleSpecification(name) {
-        return axios.get(this.base_url + 'specifications/' + name);
+        return instance.get(this.base_url + 'specifications/' + name);
     }
 
     postTestPlan(testplan) {
-        return axios.post(this.base_url + 'testplan/', testplan);
+        return instance.post(this.base_url + 'testplan/', testplan);
     }
 
     runTestPlan(testplan) {
-        return axios.get(this.base_url + 'testplan/' + testplan.testId + '/run/');
+        return instance.get(this.base_url + 'testplan/' + testplan.testId + '/run/');
     }
 
     pollResultsForTestPlan(id) {
-        return axios.get(this.base_url + 'runner/' + id + '/poll/');
+        return instance.get(this.base_url + 'runner/' + id + '/poll/');
     }
 
     getResultsForTestPlan(uuid, id) {
-        return axios.get(this.base_url + 'results/' + uuid + '/' + id);
+        return instance.get(this.base_url + 'results/' + uuid + '/' + id);
     }
 
     getTestPlans() {
-        return axios.get(this.base_url + 'testplan/');
+        return instance.get(this.base_url + 'testplan/');
     }
 }
