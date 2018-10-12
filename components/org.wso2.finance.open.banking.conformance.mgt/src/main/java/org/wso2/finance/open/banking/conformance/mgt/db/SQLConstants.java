@@ -11,7 +11,7 @@ public class SQLConstants {
 
     public static final String CREATE_REPORT_TABLE = "CREATE TABLE   Report " +
             "(reportID INT not NULL AUTO_INCREMENT, " +
-            "testID VARCHAR(100) not NULL, " +
+            " testID VARCHAR(100) not NULL, " +
             " userID VARCHAR(50), " +
             " report CLOB, " +
             " runTime DATETIME, " +
@@ -29,7 +29,7 @@ public class SQLConstants {
 
     /* Report SQL */
     // Create a Report
-    public static final String CREATE_REPORT =  "INSERT INTO Report VALUES  (?,?,?,?,?)";
+    public static final String CREATE_REPORT =  "INSERT INTO Report (testID, userID, report, runtime) VALUES  (?,?,?,?)";
 
     // Retrieve a Report
     public static final String RETRIEVE_REPORT = "SELECT * FROM Report WHERE userID= ? AND testID= ? AND reportID= ?";
