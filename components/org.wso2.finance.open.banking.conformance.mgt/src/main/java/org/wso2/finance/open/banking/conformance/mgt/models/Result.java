@@ -106,6 +106,19 @@ public class Result {
         return tags;
     }
 
+    /**
+     * @return
+     */
+    public String getFeatureStatus(){
+        String featureStatus = "passed";
+        for (FeatureElementItem element : elements){
+            if (element.getScenarioStatus().equals("failed")) {
+                featureStatus = "failed";
+            }
+        }
+        return featureStatus;
+    }
+
     public class Tag{
         private String name;
 

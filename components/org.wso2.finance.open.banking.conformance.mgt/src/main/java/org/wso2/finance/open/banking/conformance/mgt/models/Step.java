@@ -40,6 +40,7 @@ public class Step {
      * @return
      */
     public Map<String, String> getresults() {
+
         return result;
     }
 
@@ -73,6 +74,13 @@ public class Step {
     public String getKeyword() {
 
         return keyword;
+    }
+
+    /**
+     * @return
+     */
+    public String getStatus(){
+        return result.get("status");
     }
 
     @Override

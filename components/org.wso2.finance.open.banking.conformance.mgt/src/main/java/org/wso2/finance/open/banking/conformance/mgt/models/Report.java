@@ -18,8 +18,6 @@
 
 package org.wso2.finance.open.banking.conformance.mgt.models;
 
-import com.google.gson.JsonObject;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -100,5 +98,11 @@ public class Report {
     public void setExecuted(Date executed) {
 
         this.executed = new Date(executed.getTime());
+    }
+
+    @Override
+    public String toString() {
+        return "Result [testId=" + testId + ", reportId=" + reportId + "result = " + result + ", state=" + state
+                + ", executed=" + executed + "]";
     }
 }
