@@ -18,8 +18,6 @@
 
 package org.wso2.finance.open.banking.conformance.test.core.runner;
 
-import org.wso2.finance.open.banking.conformance.mgt.dao.TestPlanDAO;
-import org.wso2.finance.open.banking.conformance.mgt.dao.impl.TestPlanDAOImpl;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 import org.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 
@@ -28,35 +26,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Entry Point to the Test Core, Manages TestRunnerInstances.
  */
-public class TestPlanRunnerManager implements RunnerManagerCallback {
+public class TestPlanRunnerManager {
 
-    private Map<String, BlockingQueue<TestPlanFeatureResult>> resultQueueMap = new HashMap();
     private Map<String, TestPlanRunnerInstance> runnerInstanceMap = new HashMap();
-    private static Map<String, Map<Integer, Report>> reportStore = new ConcurrentHashMap<>();
 
     /**
      * @param testPlan
      * @return
      */
-    public String addPlan(TestPlan testPlan) {
+    public void addPlan(TestPlan testPlan, String testID) {
 
-        String uuid = UUID.randomUUID().toString();
-        TestPlanDAO testPlanDAO = new TestPlanDAOImpl();
-        testPlan.setTestId(uuid);
-        this.resultQueueMap.put(uuid, new ArrayBlockingQueue(50));
-        this.runnerInstanceMap.put(uuid,
-                new TestPlanRunnerInstance(testPlan, this.resultQueueMap.get(uuid), this));
-
-        //Add test plan to DB
-        testPlanDAO.storeTestPlan("adminx", uuid, testPlan);
-        return uuid;
+        testPlan.setTestId(testID);
+        this.runnerInstanceMap.put(testID, new TestPlanRunnerInstance(testPlan));
     }
 
     /**
@@ -67,7 +52,7 @@ public class TestPlanRunnerManager implements RunnerManagerCallback {
 
         if (this.runnerInstanceMap.containsKey(uuid)) {
             List<TestPlanFeatureResult> results = new ArrayList();
-            this.resultQueueMap.get(uuid).drainTo(results);
+            this.runnerInstanceMap.get(uuid).getResultsQueue().drainTo(results);
             return results;
         } else {
             return null;
@@ -89,16 +74,11 @@ public class TestPlanRunnerManager implements RunnerManagerCallback {
      */
     public Report start(String uuid) {
 
+        //TODO: Remove this method, should run test on addition.
         TestPlanRunnerInstance runnerInstance = runnerInstanceMap.get(uuid);
-        TestPlanDAO testPlanDAO = new TestPlanDAOImpl();
-        this.runnerInstanceMap.put(uuid,
-                new TestPlanRunnerInstance(testPlanDAO.getTestPlan("adminx", uuid), this.resultQueueMap.get(uuid), this));
-        Report report = this.runnerInstanceMap.get(uuid).buildReport();
-        report = this.onAddResult(report);
-        report.setState(Report.RunnerState.RUNNING);
-        this.runnerInstanceMap.get(uuid).setReportId(report.getReportId());
+        this.runnerInstanceMap.put(uuid, new TestPlanRunnerInstance(runnerInstance.getTestPlan()));
         this.runnerInstanceMap.get(uuid).start();
-        return report;
+        return this.runnerInstanceMap.get(uuid).buildReport();
     }
 
     /**
@@ -124,7 +104,7 @@ public class TestPlanRunnerManager implements RunnerManagerCallback {
      * @param key
      * @param value
      */
-    public void setContextAttribute(String key, String value) {   //todo handle multiple threads
+    public void setContextAttribute(String key, String value) {
 
         for (TestPlanRunnerInstance instance : this.runnerInstanceMap.values()) {
             if (instance.getStatus() == Report.RunnerState.WAITING) {
@@ -135,38 +115,16 @@ public class TestPlanRunnerManager implements RunnerManagerCallback {
     }
 
     /**
-     * RunnerManagerCallback.
-     *
-     * @param report
-     * @return
-     */
-    @Override
-    public Report onAddResult(Report report) {
-
-        if (reportStore.get(report.getTestId()) == null) {
-            reportStore.put(report.getTestId(), new ConcurrentHashMap<>());
-        }
-        report.setReportId(reportStore.get(report.getTestId()).size() + 1);
-        reportStore.get(report.getTestId()).put(report.getReportId(), report);
-        return report;
-    }
-
-    /**
-     * @param report
-     */
-    @Override
-    public void onUpdateResult(Report report) {
-
-        reportStore.get(report.getTestId()).put(report.getReportId(), report);
-    }
-
-    /**
      * @param uuid
      * @return
      */
     public List<Report> getAllReports(String uuid) {
 
-        return new ArrayList<>(reportStore.getOrDefault(uuid, new HashMap<>()).values());
+        //TODO: replaced with DTO on API end
+        // Only returns the single iteration object held.
+        ArrayList<Report> tmp = new ArrayList<>();
+        tmp.add(this.runnerInstanceMap.get(uuid).buildReport());
+        return tmp;
     }
 
     /**
@@ -176,6 +134,6 @@ public class TestPlanRunnerManager implements RunnerManagerCallback {
      */
     public Report getReport(String uuid, Integer reportId) {
 
-        return reportStore.get(uuid).get(reportId);
+        return this.runnerInstanceMap.get(uuid).buildReport();
     }
 }

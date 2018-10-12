@@ -9,7 +9,7 @@ import java.util.Map;
  * Interface to create a TestPlanDAO
  */
 public interface TestPlanDAO {
-    public void storeTestPlan(String userID, String uuid, TestPlan testPlan);
-    public TestPlan getTestPlan(String userID, String uuid);
+    public int storeTestPlan(String userID, TestPlan testPlan);
+    public TestPlan getTestPlan(String userID, String testID);
     public Map<String, TestPlanDTO> getTestPlans(String userID);
 }

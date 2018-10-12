@@ -39,7 +39,7 @@ public class Report {
      * Enum representing the state of the Report.
      */
     public enum RunnerState {
-        RUNNING, DONE, NOT_STARTED, WAITING
+        RUNNING, DONE, WAITING
     }
 
     public Report(String testId, Integer reportId, Map<String, List<JsonObject>> result, RunnerState state,

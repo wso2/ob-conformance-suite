@@ -21,9 +21,10 @@ import java.util.Map;
 public class TestPlanDAOImpl implements TestPlanDAO {
 
     @Override
-    public void storeTestPlan(String userID, String uuid, TestPlan testPlan) {
+    public int storeTestPlan(String userID, TestPlan testPlan) {
         Gson gson = new Gson();
         Connection conn = DBConnector.getConnection();
+        int generatedTestID = -1;
 
         java.util.Date dt = new java.util.Date();
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -35,12 +36,17 @@ public class TestPlanDAOImpl implements TestPlanDAO {
         try {
             // Execute query
             String sql = SQLConstants.CREATE_TESTPLAN;
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, uuid);
-            stmt.setString(2, userID);
-            stmt.setString(3, testPlanJson);
-            stmt.setString(4, currentTime);
+            stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, userID);
+            stmt.setString(2, testPlanJson);
+            stmt.setString(3, currentTime);
             stmt.executeUpdate();
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            if(rs.next())
+            {
+                generatedTestID = rs.getInt(1);
+            }
             // System.out.println("Data Added to DB........");
 
             // Clean-up
@@ -65,10 +71,11 @@ public class TestPlanDAOImpl implements TestPlanDAO {
             } //end finally try
         } //end try
         // System.out.println("Exit from storeTestPlan");
+        return generatedTestID;
     }
 
     @Override
-    public TestPlan getTestPlan(String userID, String uuid) {
+    public TestPlan getTestPlan(String userID, String testID) {
         Gson gson = new Gson();
         TestPlan testPlan = new TestPlan();
         Connection conn = DBConnector.getConnection();
@@ -79,7 +86,7 @@ public class TestPlanDAOImpl implements TestPlanDAO {
             String sql =  SQLConstants.RETRIEVE_TESTPLAN;
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, userID);
-            stmt.setString(2, uuid);
+            stmt.setString(2, testID);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
@@ -130,15 +137,15 @@ public class TestPlanDAOImpl implements TestPlanDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                String uuid = rs.getString("testID");
+                String testID = rs.getString("testID");
                 String testPlanJson = rs.getString("testConfig");
                 String creationTime = rs.getString("creationTime");
 
                 TestPlan testPlan = gson.fromJson(testPlanJson, TestPlan.class);
-                reports = reportDAO.getReports("adminx", uuid);
+                reports = reportDAO.getReports("adminx", testID);
                 // System.out.println(reports.toString());
-                TestPlanDTO testPlanDTO = new TestPlanDTO(uuid, testPlan, reports);
-                testPlans.put(uuid, testPlanDTO);
+                TestPlanDTO testPlanDTO = new TestPlanDTO(testID, testPlan, reports);
+                testPlans.put(testID, testPlanDTO);
                 // System.out.println(testPlans.toString());
             }
             // Clean-up

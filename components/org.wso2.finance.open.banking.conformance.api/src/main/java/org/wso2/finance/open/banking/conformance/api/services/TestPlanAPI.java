@@ -58,14 +58,18 @@ public class TestPlanAPI {
     @Consumes("application/json")
     @Produces("application/json")
     public TestPlanResponseDTO addTestPlan(TestPlanRequestDTO plan) {
-
-        String testId = this.runnerManager.addPlan(plan.getTestPlan());
+        // SAVE TO DB
+        //  String testId = this.runnerManager.addPlan(plan.getTestPlan());
+        TestPlanDAO testPlanDAO = new TestPlanDAOImpl();
+        int testID = testPlanDAO.storeTestPlan("adminx", plan.getTestPlan()); //TODO: Remove hardcoded userID
+        this.runnerManager.addPlan(plan.getTestPlan(), String.valueOf(testID));
         Report report = null;
         if (plan.isRunNow()) {
-            report = this.runnerManager.start(testId);
+            // PASS REPORT
+            report = this.runnerManager.start(String.valueOf(testID));
         }
 
-        return new TestPlanResponseDTO(testId, report);
+        return new TestPlanResponseDTO(String.valueOf(testID), report);
     }
 
     /**
