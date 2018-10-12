@@ -18,6 +18,8 @@
 
 package org.wso2.finance.open.banking.conformance.test.core.runner;
 
+import org.wso2.finance.open.banking.conformance.mgt.dao.TestPlanDAO;
+import org.wso2.finance.open.banking.conformance.mgt.dao.impl.TestPlanDAOImpl;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 import org.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 
@@ -46,10 +48,14 @@ public class TestPlanRunnerManager implements RunnerManagerCallback {
     public String addPlan(TestPlan testPlan) {
 
         String uuid = UUID.randomUUID().toString();
+        TestPlanDAO testPlanDAO = new TestPlanDAOImpl();
         testPlan.setTestId(uuid);
         this.resultQueueMap.put(uuid, new ArrayBlockingQueue(50));
         this.runnerInstanceMap.put(uuid,
                 new TestPlanRunnerInstance(testPlan, this.resultQueueMap.get(uuid), this));
+
+        //Add test plan to DB
+        testPlanDAO.storeTestPlan("adminx", uuid, testPlan);
         return uuid;
     }
 

@@ -10,7 +10,7 @@ import java.sql.Connection;
  */
 public class DBConnector {
     private static BasicDataSource dataSource;
-    private static final String DB_URL = "jdbc:h2:~/test";
+    private static final String DB_URL = "jdbc:h2:~/obsuit-reports";
     private static final String JDBC_DRIVER = "org.h2.Driver";
 
     //  Database credentials

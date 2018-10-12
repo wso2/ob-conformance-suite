@@ -80,7 +80,7 @@ public class TestPlanDAOImpl implements TestPlanDAO {
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, userID);
             stmt.setString(2, uuid);
-            ResultSet rs = stmt.executeQuery(sql);
+            ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 String testPlanJson = rs.getString("testConfig");
@@ -120,13 +120,14 @@ public class TestPlanDAOImpl implements TestPlanDAO {
         Connection conn = DBConnector.getConnection();
         ReportDAO reportDAO = new ReportDAOImpl();
         List<Report> reports = null;
-        Statement stmt = null;
+        PreparedStatement stmt = null;
 
         try {
             // Execute query
-            stmt = conn.createStatement();
             String sql =  SQLConstants.RETRIEVE_TESTPLANS;
-            ResultSet rs = stmt.executeQuery(sql);
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, userID);
+            ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 String uuid = rs.getString("testID");
