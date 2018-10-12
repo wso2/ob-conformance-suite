@@ -20,27 +20,18 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import SpecificationSelectView from './views/SpecificationSelectView';
-import TestConfigurationView from './views/TestConfigurationView';
-import TestHistoryView from './views/TestHistoryView';
-import TestReportView from './views/TestReportView';
 import LoginView from './views/LoginView';
+import ProtectedViews from './ProtectedViews';
 import rootReducer from './reducers';
-import CommonDataLoader from './components/CommonDataLoader';
 
 const store = createStore(rootReducer);
 
 const App = () => (
     <Provider store={store}>
-        <CommonDataLoader>
-            <Switch>
-                <Route exact path='/' component={LoginView} />
-                <Route exact path='/dashboard' component={TestHistoryView} />
-                <Route exact path='/tests/new' component={SpecificationSelectView} />
-                <Route exact path='/tests/new/configure' component={TestConfigurationView} />
-                <Route exact path='/tests/report/:uuid/:revision' component={TestReportView} />
-            </Switch>
-        </CommonDataLoader>
+        <Switch>
+            <Route exact path='/' component={LoginView} />
+            <ProtectedViews />
+        </Switch>
     </Provider>
 );
 

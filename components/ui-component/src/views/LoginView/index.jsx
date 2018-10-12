@@ -20,7 +20,9 @@ import React from 'react';
 import {
     Button, Form, FormGroup, FormControl, Col, ControlLabel, Checkbox, Jumbotron, Row,
 } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { setUser } from '../../actions';
 
 /**
  * Login View
@@ -38,9 +40,10 @@ class LoginView extends React.Component {
      * Temporary login validation
      */
     validateUser() {
-        if (this.username.value === 'admin' && this.password.value === 'admin') {
-            this.history.push('/dashboard');
-        }
+        const { dispatch } = this.props;
+        const authCode = btoa(this.username.value + ':' + this.password.value);
+        dispatch(setUser(this.username.value, authCode));
+        this.history.push('/dashboard');
     }
 
     /**
@@ -109,6 +112,9 @@ class LoginView extends React.Component {
 
 LoginView.propTypes = {
     history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
+    dispatch: PropTypes.func.isRequired,
 };
 
-export default LoginView;
+export default connect(state => (
+    { user: state.user }
+))(LoginView);

@@ -24,7 +24,6 @@ export default class RequestBuilder {
 
     constructor() {
         this.base_url = 'http://localhost:9090/';
-        instance.defaults.headers.common['Authorization'] = 'Basic ' + btoa("admin:admin");
     }
 
     getSpecifications() {

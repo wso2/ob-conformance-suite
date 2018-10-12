@@ -16,15 +16,24 @@
  * under the License.
  */
 
-import { combineReducers } from 'redux';
-import specifications from './specifications';
-import testvalues from './testvalues';
-import testplans from './testplans';
-import user from './user';
+const initialState = {
+    username: undefined,
+    authcode: undefined,
+};
 
-export default combineReducers({
-    specifications,
-    testvalues,
-    testplans,
-    user,
-});
+
+const user = (state = initialState, action) => {
+    switch (action.type) {
+        case 'SET_USER':
+            return {
+                username: action.username,
+                authcode: action.authcode,
+            };
+        case 'CLEAR_USER':
+            return initialState;
+        default:
+            return state;
+    }
+};
+
+export default user;
