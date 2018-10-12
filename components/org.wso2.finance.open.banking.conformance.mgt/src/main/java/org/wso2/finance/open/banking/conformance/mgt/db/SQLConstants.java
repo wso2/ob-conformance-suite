@@ -10,12 +10,12 @@ public class SQLConstants {
             " PRIMARY KEY ( testID, userID ))";
 
     public static final String CREATE_REPORT_TABLE = "CREATE TABLE   Report " +
-            "(reportID INT not NULL, " +
+            "(reportID INT not NULL AUTO_INCREMENT, " +
             "testID VARCHAR(100) not NULL, " +
             " userID VARCHAR(50), " +
             " report CLOB, " +
             " runTime DATETIME, " +
-            " PRIMARY KEY ( reportID, testID, userID ))";
+            " PRIMARY KEY ( reportID ))";
 
     /* Test Plan SQL */
     // Create a Test Plan
