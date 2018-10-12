@@ -3,6 +3,7 @@ package org.wso2.finance.open.banking.conformance.mgt.dao.impl;
 import com.google.gson.Gson;
 import org.wso2.finance.open.banking.conformance.mgt.dao.ReportDAO;
 import org.wso2.finance.open.banking.conformance.mgt.db.DBConnector;
+import org.wso2.finance.open.banking.conformance.mgt.db.SQLConstants;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 
 import java.sql.*;
@@ -28,13 +29,12 @@ public class ReportDAOImpl implements ReportDAO {
         PreparedStatement stmt = null;
         try {
             // Execute query
-            String sql =  "INSERT INTO Report VALUES  (?,?,?,?,?)";
+            String sql = SQLConstants.CREATE_REPORT;
             stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, 1);
-            stmt.setString(2, uuid);
-            stmt.setString(3, userID);
-            stmt.setString(4, reportJson);
-            stmt.setString(5, currentTime);
+            stmt.setString(1, uuid);
+            stmt.setString(2, userID);
+            stmt.setString(3, reportJson);
+            stmt.setString(4, currentTime);
             stmt.executeUpdate();
             // System.out.println("Report data Added to DB........");
 
@@ -68,12 +68,15 @@ public class ReportDAOImpl implements ReportDAO {
         Gson gson = new Gson();
         Report report = null;
         Connection conn = DBConnector.getConnection();
-        Statement stmt = null;
+        PreparedStatement stmt = null;
 
         try {
             // Execute query
-            stmt = conn.createStatement();
-            String sql =  "SELECT * FROM Report WHERE userID='"+userID+"' AND testID='"+uuid+"' AND reportID='"+reportID+"'";
+            String sql = SQLConstants.RETRIEVE_REPORT;
+            stmt.setString(1, userID);
+            stmt.setString(2, uuid);
+            stmt.setInt(3, reportID);
+            stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery(sql);
 
             if (rs.next()) {
@@ -116,12 +119,14 @@ public class ReportDAOImpl implements ReportDAO {
         Gson gson = new Gson();
         List<Report> reports = new ArrayList<Report>();
         Connection conn = DBConnector.getConnection();
-        Statement stmt = null;
+        PreparedStatement stmt = null;
 
         try {
             // Execute query
-            stmt = conn.createStatement();
-            String sql =  "SELECT * FROM Report WHERE testID='"+uuid+"'";
+            String sql = SQLConstants.RETRIEVE_REPORTS;
+            stmt.setString(1, userID);
+            stmt.setString(2, uuid);
+            stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {

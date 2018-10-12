@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import org.wso2.finance.open.banking.conformance.mgt.dao.ReportDAO;
 import org.wso2.finance.open.banking.conformance.mgt.dao.TestPlanDAO;
 import org.wso2.finance.open.banking.conformance.mgt.db.DBConnector;
+import org.wso2.finance.open.banking.conformance.mgt.db.SQLConstants;
 import org.wso2.finance.open.banking.conformance.mgt.dto.TestPlanDTO;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 import org.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
@@ -33,7 +34,7 @@ public class TestPlanDAOImpl implements TestPlanDAO {
         PreparedStatement stmt = null;
         try {
             // Execute query
-            String sql =  "INSERT INTO TestPlan VALUES  (?,?,?,?)";
+            String sql = SQLConstants.CREATE_TESTPLAN;
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, uuid);
             stmt.setString(2, userID);
@@ -71,19 +72,20 @@ public class TestPlanDAOImpl implements TestPlanDAO {
         Gson gson = new Gson();
         TestPlan testPlan = new TestPlan();
         Connection conn = DBConnector.getConnection();
-        Statement stmt = null;
+        PreparedStatement stmt = null;
 
         try {
             // Execute query
-            stmt = conn.createStatement();
-            String sql =  "SELECT * FROM TestPlan WHERE userID='"+userID+"' AND testID='"+uuid+"'";
+            String sql =  SQLConstants.RETRIEVE_TESTPLAN;
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, userID);
+            stmt.setString(2, uuid);
             ResultSet rs = stmt.executeQuery(sql);
 
             if (rs.next()) {
                 String testPlanJson = rs.getString("testConfig");
                 String creationTime = rs.getString("creationTime");
                 testPlan = gson.fromJson(testPlanJson, TestPlan.class);
-
             }
             // Clean-up
             stmt.close();
@@ -109,7 +111,6 @@ public class TestPlanDAOImpl implements TestPlanDAO {
         // System.out.println("Exit from getTestPlan");
 
         return testPlan;
-
     }
 
     @Override
@@ -124,7 +125,7 @@ public class TestPlanDAOImpl implements TestPlanDAO {
         try {
             // Execute query
             stmt = conn.createStatement();
-            String sql =  "SELECT * FROM TestPlan";
+            String sql =  SQLConstants.RETRIEVE_TESTPLANS;
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {

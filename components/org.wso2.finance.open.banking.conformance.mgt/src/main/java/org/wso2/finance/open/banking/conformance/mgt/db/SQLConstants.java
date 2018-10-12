@@ -19,7 +19,7 @@ public class SQLConstants {
 
     /* Test Plan SQL */
     // Create a Test Plan
-    public static final String CREAT_TESTPLAN =  "INSERT INTO TestPlan VALUES  (?,?,?,?)";
+    public static final String CREATE_TESTPLAN =  "INSERT INTO TestPlan VALUES  (?,?,?,?)";
 
     // Retrieve a Test Plan
     public static final String RETRIEVE_TESTPLAN = "SELECT * FROM TestPlan WHERE userID= ? AND testID= ?";
@@ -35,5 +35,5 @@ public class SQLConstants {
     public static final String RETRIEVE_REPORT = "SELECT * FROM Report WHERE userID= ? AND testID= ? AND reportID= ?";
 
     // Retrieve all Reports for a given testPlan
-    public static final String RETRIEVE_REPORTS = "SELECT * FROM Report WHERE testID=?";
+    public static final String RETRIEVE_REPORTS = "SELECT * FROM Report WHERE userID= ? AND testID= ?";
 }
