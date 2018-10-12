@@ -90,8 +90,9 @@ public class TestPlanRunnerManager implements RunnerManagerCallback {
     public Report start(String uuid) {
 
         TestPlanRunnerInstance runnerInstance = runnerInstanceMap.get(uuid);
+        TestPlanDAO testPlanDAO = new TestPlanDAOImpl();
         this.runnerInstanceMap.put(uuid,
-                new TestPlanRunnerInstance(runnerInstance.getTestPlan(), this.resultQueueMap.get(uuid), this));
+                new TestPlanRunnerInstance(testPlanDAO.getTestPlan("adminx", uuid), this.resultQueueMap.get(uuid), this));
         Report report = this.runnerInstanceMap.get(uuid).buildReport();
         report = this.onAddResult(report);
         report.setState(Report.RunnerState.RUNNING);

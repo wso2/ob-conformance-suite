@@ -73,11 +73,11 @@ public class ReportDAOImpl implements ReportDAO {
         try {
             // Execute query
             String sql = SQLConstants.RETRIEVE_REPORT;
+            stmt = conn.prepareStatement(sql);
             stmt.setString(1, userID);
             stmt.setString(2, uuid);
-            stmt.setInt(3, reportID);
-            stmt = conn.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery(sql);
+            stmt.setInt(3, 1);
+            ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 String reportJson = rs.getString("report");
@@ -124,10 +124,10 @@ public class ReportDAOImpl implements ReportDAO {
         try {
             // Execute query
             String sql = SQLConstants.RETRIEVE_REPORTS;
+            stmt = conn.prepareStatement(sql);
             stmt.setString(1, userID);
             stmt.setString(2, uuid);
-            stmt = conn.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery(sql);
+            ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 int reportID = rs.getInt("reportID");
@@ -159,7 +159,6 @@ public class ReportDAOImpl implements ReportDAO {
                 se.printStackTrace();
             } //end finally try
         } //end try
-
         return reports;
     }
 }

@@ -19,7 +19,12 @@
 package org.wso2.finance.open.banking.conformance.api.services;
 
 import org.wso2.finance.open.banking.conformance.api.ApplicationDataHolder;
+import org.wso2.finance.open.banking.conformance.mgt.dao.ReportDAO;
+import org.wso2.finance.open.banking.conformance.mgt.dao.TestPlanDAO;
+import org.wso2.finance.open.banking.conformance.mgt.dao.impl.ReportDAOImpl;
+import org.wso2.finance.open.banking.conformance.mgt.dao.impl.TestPlanDAOImpl;
 import org.wso2.finance.open.banking.conformance.mgt.dto.TestResultDTO;
+import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 import org.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerManager;
 
 import javax.ws.rs.GET;
@@ -48,9 +53,16 @@ public class ResultsAPI {
     public TestResultDTO getCompleteResult(@PathParam("testId") String testId,
                                            @PathParam("reportId") Integer reportId) {
 
+        TestPlanDAO testPlanDAO = new TestPlanDAOImpl();
+        ReportDAO reportDAO = new ReportDAOImpl();
+        Report report = reportDAO.getReport("adminx", testId, reportId);
+
+        if(report == null){
+            report =  this.runnerManager.getReport(testId, reportId);
+        }
         return new TestResultDTO(
-                this.runnerManager.getTestPlan(testId),
-                this.runnerManager.getReport(testId, reportId)
+                testPlanDAO.getTestPlan("adminx", testId),
+                report
         );
     }
 
