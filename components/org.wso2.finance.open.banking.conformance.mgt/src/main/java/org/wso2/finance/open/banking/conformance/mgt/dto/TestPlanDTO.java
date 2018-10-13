@@ -28,11 +28,11 @@ import java.util.List;
  */
 public class TestPlanDTO {
 
-    String testId;
+    int testId;
     TestPlan testPlan;
     List<Report> reports;
 
-    public TestPlanDTO(String testId, TestPlan testPlan, List<Report> reports) {
+    public TestPlanDTO(int testId, TestPlan testPlan, List<Report> reports) {
 
         this.testId = testId;
         this.testPlan = testPlan;
@@ -43,7 +43,7 @@ public class TestPlanDTO {
      *
      * @return testId
      */
-    public String getTestId() {
+    public int getTestId() {
 
         return testId;
     }

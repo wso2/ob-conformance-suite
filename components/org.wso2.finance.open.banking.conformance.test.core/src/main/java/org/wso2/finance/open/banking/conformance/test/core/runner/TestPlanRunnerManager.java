@@ -32,13 +32,13 @@ import java.util.UUID;
  */
 public class TestPlanRunnerManager {
 
-    private Map<String, TestPlanRunnerInstance> runnerInstanceMap = new HashMap();
+    private Map<Integer, TestPlanRunnerInstance> runnerInstanceMap = new HashMap();
 
     /**
      * @param testPlan
      * @return
      */
-    public void addPlan(TestPlan testPlan, String testID) {
+    public void addPlan(TestPlan testPlan, int testID) {
 
         testPlan.setTestId(testID);
         this.runnerInstanceMap.put(testID, new TestPlanRunnerInstance(testPlan));
@@ -48,7 +48,7 @@ public class TestPlanRunnerManager {
      * @param uuid
      * @return
      */
-    public List<TestPlanFeatureResult> getResults(String uuid) {
+    public List<TestPlanFeatureResult> getResults(int uuid) {
 
         if (this.runnerInstanceMap.containsKey(uuid)) {
             List<TestPlanFeatureResult> results = new ArrayList();
@@ -72,21 +72,21 @@ public class TestPlanRunnerManager {
      * @param uuid
      * @return
      */
-    public Report start(String uuid) {
+    public Report start(int uuid, int reportID) {
 
         //TODO: Remove this method, should run test on addition.
         TestPlanRunnerInstance runnerInstance = runnerInstanceMap.get(uuid);
         this.runnerInstanceMap.put(uuid, new TestPlanRunnerInstance(runnerInstance.getTestPlan()));
         this.runnerInstanceMap.get(uuid).start();
-        return this.runnerInstanceMap.get(uuid).buildReport();
+        return this.runnerInstanceMap.get(uuid).buildReport(reportID);
     }
 
     /**
      * @return
      */
-    public Map<String, TestPlan> getAllTests() {
+    public Map<Integer, TestPlan> getAllTests() {
 
-        Map<String, TestPlan> results = new HashMap<>();
+        Map<Integer, TestPlan> results = new HashMap<>();
         this.runnerInstanceMap.forEach((uuid, runnerInstance) -> results.put(uuid, runnerInstance.getTestPlan()));
         return results;
     }
@@ -123,7 +123,7 @@ public class TestPlanRunnerManager {
         //TODO: replaced with DTO on API end
         // Only returns the single iteration object held.
         ArrayList<Report> tmp = new ArrayList<>();
-        tmp.add(this.runnerInstanceMap.get(uuid).buildReport());
+        //tmp.add(this.runnerInstanceMap.get(uuid).buildReport());
         return tmp;
     }
 
@@ -132,8 +132,8 @@ public class TestPlanRunnerManager {
      * @param reportId
      * @return
      */
-    public Report getReport(String uuid, Integer reportId) {
+    public Report getReport(int uuid, Integer reportId) {
 
-        return this.runnerInstanceMap.get(uuid).buildReport();
+        return this.runnerInstanceMap.get(uuid).buildReport(reportId);
     }
 }

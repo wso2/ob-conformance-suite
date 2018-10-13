@@ -19,7 +19,9 @@
 package org.wso2.finance.open.banking.conformance.api.services;
 
 import org.wso2.finance.open.banking.conformance.api.ApplicationDataHolder;
+import org.wso2.finance.open.banking.conformance.mgt.dao.ReportDAO;
 import org.wso2.finance.open.banking.conformance.mgt.dao.TestPlanDAO;
+import org.wso2.finance.open.banking.conformance.mgt.dao.impl.ReportDAOImpl;
 import org.wso2.finance.open.banking.conformance.mgt.dao.impl.TestPlanDAOImpl;
 import org.wso2.finance.open.banking.conformance.mgt.dto.TestPlanDTO;
 import org.wso2.finance.open.banking.conformance.api.dto.TestPlanRequestDTO;
@@ -61,12 +63,14 @@ public class TestPlanAPI {
         // SAVE TO DB
         //  String testId = this.runnerManager.addPlan(plan.getTestPlan());
         TestPlanDAO testPlanDAO = new TestPlanDAOImpl();
+        ReportDAO reportDAO = new ReportDAOImpl();
         int testID = testPlanDAO.storeTestPlan("adminx", plan.getTestPlan()); //TODO: Remove hardcoded userID
-        this.runnerManager.addPlan(plan.getTestPlan(), String.valueOf(testID));
+        this.runnerManager.addPlan(plan.getTestPlan(), testID);
         Report report = null;
         if (plan.isRunNow()) {
             // PASS REPORT
-            report = this.runnerManager.start(String.valueOf(testID));
+            int reportID = reportDAO.getNewReportID("adminx", testID);
+            report = this.runnerManager.start(testID, reportID);
         }
 
         return new TestPlanResponseDTO(String.valueOf(testID), report);
@@ -92,9 +96,9 @@ public class TestPlanAPI {
     @GET
     @Path("/")
     @Produces("application/json")
-    public Map<String, TestPlanDTO> getAllTestPlans() {
+    public Map<Integer, TestPlanDTO> getAllTestPlans() {
         TestPlanDAO testPlanDAO = new TestPlanDAOImpl();
-        Map<String, TestPlanDTO> results;
+        Map<Integer, TestPlanDTO> results;
         results = testPlanDAO.getTestPlans("adminx");
         return results;
     }
@@ -109,9 +113,10 @@ public class TestPlanAPI {
     @GET
     @Path("/{uuid}/run")
     @Produces("application/json")
-    public Report startTestPlan(@PathParam("uuid") String uuid) {
+    public Report startTestPlan(@PathParam("uuid") int uuid) {
 
-        return this.runnerManager.start(uuid);
+        //return this.runnerManager.start(uuid, reportID); TODO: get reportID from DB
+        return null;
     }
 
 }

@@ -128,9 +128,10 @@ public class TestPlanRunnerInstance extends Thread {
     /**
      * @return Report with test results
      */
-    public Report buildReport() {
+    public Report buildReport(int reportId) {
 
-        return new Report(testPlan.getTestId(), reportId, formattedResult, status, new Date());
+        this.reportId = reportId;
+        return new Report(testPlan.getTestId(), reportId, formattedResult, status, new Date()); // TODO: Get reportID from DB
     }
 
     /**
@@ -150,7 +151,7 @@ public class TestPlanRunnerInstance extends Thread {
         queueStopMessege();
 
         // Add report to DB
-        reportDAO.storeReport("adminx", testPlan.getTestId(), this.buildReport());
+        reportDAO.updateReport(this.reportId, this.buildReport(this.reportId));
 
         this.interrupt();
     }

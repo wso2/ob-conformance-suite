@@ -50,20 +50,17 @@ public class ResultsAPI {
     @GET
     @Path("/{testId}/{reportId}")
     @Produces("application/json")
-    public TestResultDTO getCompleteResult(@PathParam("testId") String testId,
-                                           @PathParam("reportId") Integer reportId) {
+    public TestResultDTO getCompleteResult(@PathParam("testId") int testId,
+                                           @PathParam("reportId") int reportId) {
 
         TestPlanDAO testPlanDAO = new TestPlanDAOImpl();
         ReportDAO reportDAO = new ReportDAOImpl();
-        Report report = reportDAO.getReport("adminx", testId, reportId);
+        Report report = reportDAO.getReport("adminx", testId, reportId); //TODO: Remove hardcoded userID
 
         if(report == null){
             report =  this.runnerManager.getReport(testId, reportId);
         }
-        return new TestResultDTO(
-                testPlanDAO.getTestPlan("adminx", testId),
-                report
-        );
+        return new TestResultDTO(testPlanDAO.getTestPlan("adminx", testId), report); //TODO: Remove hardcoded userID
     }
 
 }

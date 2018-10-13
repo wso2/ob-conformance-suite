@@ -1,7 +1,7 @@
 package org.wso2.finance.open.banking.conformance.mgt.db;
 
 public class SQLConstants {
-    // Create Tables
+    /* Create Tables */
     public static final String CREATE_TESTPLAN_TABLE = "CREATE TABLE   TestPlan " +
             "(testID INT not NULL AUTO_INCREMENT, " +
             " userID VARCHAR(50), " +
@@ -17,9 +17,13 @@ public class SQLConstants {
             " runTime DATETIME, " +
             " PRIMARY KEY ( reportID ))";
 
+
     /* Test Plan SQL */
     // Create a Test Plan
     public static final String CREATE_TESTPLAN =  "INSERT INTO TestPlan (userID, testConfig, creationTime) VALUES  (?,?,?)";
+
+    // Update Test Paln
+    public static final String UPDATE_TESTPLAN = "UPDATE TestPlan SET testConfig = ? WHERE testID= ?";
 
     // Retrieve a Test Plan
     public static final String RETRIEVE_TESTPLAN = "SELECT * FROM TestPlan WHERE userID= ? AND testID= ?";
@@ -27,9 +31,13 @@ public class SQLConstants {
     // Retrieve all Test Plans for a given user
     public static final String RETRIEVE_TESTPLANS = "SELECT * FROM TestPlan WHERE userID= ?";
 
+
     /* Report SQL */
     // Create a Report
     public static final String CREATE_REPORT =  "INSERT INTO Report (testID, userID, report, runtime) VALUES  (?,?,?,?)";
+
+    // Update Report
+    public static final String UPDATE_REPORT = "UPDATE Report SET report = ?, runtime = ? WHERE reportID= ?";
 
     // Retrieve a Report
     public static final String RETRIEVE_REPORT = "SELECT * FROM Report WHERE userID= ? AND testID= ? AND reportID= ?";

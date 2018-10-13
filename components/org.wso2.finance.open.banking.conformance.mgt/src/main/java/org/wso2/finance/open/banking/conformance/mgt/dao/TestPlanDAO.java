@@ -10,6 +10,6 @@ import java.util.Map;
  */
 public interface TestPlanDAO {
     public int storeTestPlan(String userID, TestPlan testPlan);
-    public TestPlan getTestPlan(String userID, String testID);
-    public Map<String, TestPlanDTO> getTestPlans(String userID);
+    public TestPlan getTestPlan(String userID, int testID);
+    public Map<Integer, TestPlanDTO> getTestPlans(String userID);
 }

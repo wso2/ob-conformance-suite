@@ -48,7 +48,7 @@ public class RunnerManagerAPI {
     @GET
     @Path("/{testId}/poll")
     @Produces("application/json")
-    public List<TestPlanFeatureResult> getCurrentResult(@PathParam("testId") String testId) {
+    public List<TestPlanFeatureResult> getCurrentResult(@PathParam("testId") int testId) {
 
         return this.runnerManager.getResults(testId);
     }

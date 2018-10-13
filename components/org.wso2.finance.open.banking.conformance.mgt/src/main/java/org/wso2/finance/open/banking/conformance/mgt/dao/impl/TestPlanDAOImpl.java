@@ -29,13 +29,12 @@ public class TestPlanDAOImpl implements TestPlanDAO {
         java.util.Date dt = new java.util.Date();
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentTime = sdf.format(dt);
-
-
         String testPlanJson = gson.toJson(testPlan);
         PreparedStatement stmt = null;
+        String sql;
         try {
             // Execute query
-            String sql = SQLConstants.CREATE_TESTPLAN;
+            sql = SQLConstants.CREATE_TESTPLAN;
             stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, userID);
             stmt.setString(2, testPlanJson);
@@ -46,6 +45,14 @@ public class TestPlanDAOImpl implements TestPlanDAO {
             if(rs.next())
             {
                 generatedTestID = rs.getInt(1);
+                testPlan.setTestId(generatedTestID);
+                testPlanJson = gson.toJson(testPlan);
+                sql = SQLConstants.UPDATE_TESTPLAN;
+                stmt = conn.prepareStatement(sql);
+                stmt.setString(1, testPlanJson);
+                stmt.setInt(2, generatedTestID);
+                stmt.executeUpdate();
+
             }
             // System.out.println("Data Added to DB........");
 
@@ -75,7 +82,7 @@ public class TestPlanDAOImpl implements TestPlanDAO {
     }
 
     @Override
-    public TestPlan getTestPlan(String userID, String testID) {
+    public TestPlan getTestPlan(String userID, int testID) {
         Gson gson = new Gson();
         TestPlan testPlan = new TestPlan();
         Connection conn = DBConnector.getConnection();
@@ -86,7 +93,7 @@ public class TestPlanDAOImpl implements TestPlanDAO {
             String sql =  SQLConstants.RETRIEVE_TESTPLAN;
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, userID);
-            stmt.setString(2, testID);
+            stmt.setInt(2, testID);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
@@ -121,12 +128,12 @@ public class TestPlanDAOImpl implements TestPlanDAO {
     }
 
     @Override
-    public Map<String, TestPlanDTO> getTestPlans(String userID) {
+    public Map<Integer, TestPlanDTO> getTestPlans(String userID) {
         Gson gson = new Gson();
-        Map<String, TestPlanDTO> testPlans = new HashMap<String, TestPlanDTO>();
+        Map<Integer, TestPlanDTO> testPlans = new HashMap<Integer, TestPlanDTO>();
         Connection conn = DBConnector.getConnection();
         ReportDAO reportDAO = new ReportDAOImpl();
-        List<Report> reports = null;
+        List<Report> reports;
         PreparedStatement stmt = null;
 
         try {
@@ -137,12 +144,12 @@ public class TestPlanDAOImpl implements TestPlanDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                String testID = rs.getString("testID");
+                int testID = rs.getInt("testID");
                 String testPlanJson = rs.getString("testConfig");
                 String creationTime = rs.getString("creationTime");
 
                 TestPlan testPlan = gson.fromJson(testPlanJson, TestPlan.class);
-                reports = reportDAO.getReports("adminx", testID);
+                reports = reportDAO.getReports(userID, testID);
                 // System.out.println(reports.toString());
                 TestPlanDTO testPlanDTO = new TestPlanDTO(testID, testPlan, reports);
                 testPlans.put(testID, testPlanDTO);
