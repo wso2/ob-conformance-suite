@@ -116,7 +116,10 @@ public class TestPlanAPI {
     public Report startTestPlan(@PathParam("uuid") int uuid) {
 
         //return this.runnerManager.start(uuid, reportID); TODO: get reportID from DB
-        return null;
+        TestPlanDAO testPlanDAO = new TestPlanDAOImpl();
+        ReportDAO reportDAO = new ReportDAOImpl();
+        int reportID = reportDAO.getNewReportID("adminx", uuid);
+        this.runnerManager.addPlan(testPlanDAO.getTestPlan("adminx", uuid), uuid);
+        return this.runnerManager.start(uuid, reportID);
     }
-
 }
