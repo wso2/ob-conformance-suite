@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * WSO2 Inc. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 package org.wso2.finance.open.banking.conformance.mgt.dao.impl;
 
 import com.google.gson.Gson;
@@ -29,7 +47,6 @@ public class ReportDAOImpl implements ReportDAO {
         String reportJson = gson.toJson(report);
         PreparedStatement stmt = null;
         try {
-            // Execute query
             String sql = SQLConstants.CREATE_REPORT;
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, testID);
@@ -51,30 +68,23 @@ public class ReportDAOImpl implements ReportDAO {
                 stmt.setInt(3, generatedReportID);
                 stmt.executeUpdate();
             }
-            // System.out.println("Report data Added to DB........");
-
-            // Clean-up
             stmt.close();
             conn.close();
         } catch(SQLException se) {
-            //Handle errors for JDBC
             se.printStackTrace();
         } catch(Exception e) {
-            //Handle errors for Class.forName
             e.printStackTrace();
         } finally {
-            //finally block used to close resources
             try{
                 if(stmt!=null) stmt.close();
             } catch(SQLException se2) {
-            } // nothing we can do
+            }
             try {
                 if(conn!=null) conn.close();
             } catch(SQLException se){
                 se.printStackTrace();
-            } //end finally try
-        } //end try
-        // System.out.println("Exit from REPORT-DAO!");
+            }
+        }
         return generatedReportID;
     }
 
@@ -84,7 +94,6 @@ public class ReportDAOImpl implements ReportDAO {
         int generatedReportID = -1;
         PreparedStatement stmt = null;
         try {
-            // Execute query
             String sql = SQLConstants.CREATE_REPORT;
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, testID);
@@ -98,30 +107,23 @@ public class ReportDAOImpl implements ReportDAO {
             {
                 generatedReportID = rs.getInt(1);
             }
-            // System.out.println("Report data Added to DB........");
-
-            // Clean-up
             stmt.close();
             conn.close();
         } catch(SQLException se) {
-            //Handle errors for JDBC
             se.printStackTrace();
         } catch(Exception e) {
-            //Handle errors for Class.forName
             e.printStackTrace();
         } finally {
-            //finally block used to close resources
             try{
                 if(stmt!=null) stmt.close();
             } catch(SQLException se2) {
-            } // nothing we can do
+            }
             try {
                 if(conn!=null) conn.close();
             } catch(SQLException se){
                 se.printStackTrace();
-            } //end finally try
-        } //end try
-        // System.out.println("Exit from REPORT-DAO!");
+            }
+        }
         return generatedReportID;
     }
 
@@ -137,37 +139,29 @@ public class ReportDAOImpl implements ReportDAO {
         String reportJson = gson.toJson(report);
         PreparedStatement stmt = null;
         try {
-            // Execute query
             String sql = SQLConstants.UPDATE_REPORT;
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, reportJson);
             stmt.setString(2, currentTime);
             stmt.setInt(3, reportID);
             stmt.executeUpdate();
-            // System.out.println("Report data Added to DB........");
-
-            // Clean-up
             stmt.close();
             conn.close();
         } catch(SQLException se) {
-            //Handle errors for JDBC
             se.printStackTrace();
         } catch(Exception e) {
-            //Handle errors for Class.forName
             e.printStackTrace();
         } finally {
-            //finally block used to close resources
             try{
                 if(stmt!=null) stmt.close();
             } catch(SQLException se2) {
-            } // nothing we can do
+            }
             try {
                 if(conn!=null) conn.close();
             } catch(SQLException se){
                 se.printStackTrace();
-            } //end finally try
-        } //end try
-        // System.out.println("Exit from REPORT-DAO!");
+            }
+        }
     }
 
     @Override
@@ -178,7 +172,6 @@ public class ReportDAOImpl implements ReportDAO {
         PreparedStatement stmt = null;
 
         try {
-            // Execute query
             String sql = SQLConstants.RETRIEVE_REPORT;
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, userID);
@@ -188,33 +181,25 @@ public class ReportDAOImpl implements ReportDAO {
 
             if (rs.next()) {
                 String reportJson = rs.getString("report");
-                String creationTime = rs.getString("runTime");
                 report = gson.fromJson(reportJson, Report.class);
-
             }
-            // Clean-up
             stmt.close();
             conn.close();
         } catch(SQLException se) {
-            //Handle errors for JDBC
             se.printStackTrace();
         } catch(Exception e) {
-            //Handle errors for Class.forName
             e.printStackTrace();
         } finally {
-            //finally block used to close resources
             try{
                 if(stmt!=null) stmt.close();
             } catch(SQLException se2) {
-            } // nothing we can do
+            }
             try {
                 if(conn!=null) conn.close();
             } catch(SQLException se){
                 se.printStackTrace();
-            } //end finally try
-        } //end try
-        // System.out.println("Exit from storeReport()");
-
+            }
+        }
         return report;
 
 
@@ -229,7 +214,6 @@ public class ReportDAOImpl implements ReportDAO {
         PreparedStatement stmt = null;
 
         try {
-            // Execute query
             String sql = SQLConstants.RETRIEVE_REPORTS;
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, userID);
@@ -239,33 +223,26 @@ public class ReportDAOImpl implements ReportDAO {
             while (rs.next()) {
                 int reportID = rs.getInt("reportID");
                 String reportJson = rs.getString("report");
-                String runTime = rs.getString("runTime");
-
                 Report report = gson.fromJson(reportJson, Report.class);
                 reports.add(report);
-                // System.out.println(testPlans.toString());
             }
-            // Clean-up
             stmt.close();
             conn.close();
         } catch(SQLException se) {
-            //Handle errors for JDBC
             se.printStackTrace();
         } catch(Exception e) {
-            //Handle errors for Class.forName
             e.printStackTrace();
         } finally {
-            //finally block used to close resources
             try{
                 if(stmt!=null) stmt.close();
             } catch(SQLException se2) {
-            } // nothing we can do
+            }
             try {
                 if(conn!=null) conn.close();
             } catch(SQLException se){
                 se.printStackTrace();
-            } //end finally try
-        } //end try
+            }
+        }
         return reports;
     }
 }
