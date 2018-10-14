@@ -24,20 +24,28 @@ package org.wso2.finance.open.banking.conformance.mgt.db;
 
 public class SQLConstants {
     /* Create Tables */
-    public static final String CREATE_TESTPLAN_TABLE = "CREATE TABLE   TestPlan " +
+    public static final String CREATE_TESTPLAN_TABLE = "CREATE TABLE TestPlan " +
             "(testID INT not NULL AUTO_INCREMENT, " +
             " userID VARCHAR(50), " +
             " testConfig CLOB, " +
             " creationTime DATETIME, " +
             " PRIMARY KEY ( testID ))";
 
-    public static final String CREATE_REPORT_TABLE = "CREATE TABLE   Report " +
+    public static final String CREATE_REPORT_TABLE = "CREATE TABLE Report " +
             "(reportID INT not NULL AUTO_INCREMENT, " +
             " testID VARCHAR(100) not NULL, " +
             " userID VARCHAR(50), " +
             " report CLOB, " +
+            " passed INT, " +
+            " failed INT, " +
+            " passRate INT, " +
             " runTime DATETIME, " +
             " PRIMARY KEY ( reportID ))";
+
+    public static final String CREATE_USER_TABLE = "CREATE TABLE User " +
+            "(userID VARCHAR(50) not NULL, " +
+            " name VARCHAR(100) not NULL, " +
+            " PRIMARY KEY ( userID ))";
 
 
     /* Test Plan SQL */
@@ -53,17 +61,33 @@ public class SQLConstants {
     // Retrieve all Test Plans for a given user
     public static final String RETRIEVE_TESTPLANS = "SELECT * FROM TestPlan WHERE userID= ?";
 
+    // Delete a TestPlan
+    public static final String DELETE_TESTPLAN =  "DELETE FROM TestPlan WHERE testID = ?";
+
 
     /* Report SQL */
     // Create a Report
     public static final String CREATE_REPORT =  "INSERT INTO Report (testID, userID, report, runtime) VALUES  (?,?,?,?)";
 
     // Update Report
-    public static final String UPDATE_REPORT = "UPDATE Report SET report = ?, runtime = ? WHERE reportID= ?";
+    public static final String UPDATE_REPORT = "UPDATE Report SET report = ?, runtime = ? WHERE reportID = ?";
 
     // Retrieve a Report
-    public static final String RETRIEVE_REPORT = "SELECT * FROM Report WHERE userID= ? AND testID= ? AND reportID= ?";
+    public static final String RETRIEVE_REPORT = "SELECT * FROM Report WHERE userID = ? AND testID= ? AND reportID = ?";
 
     // Retrieve all Reports for a given testPlan
-    public static final String RETRIEVE_REPORTS = "SELECT * FROM Report WHERE userID= ? AND testID= ?";
+    public static final String RETRIEVE_REPORTS = "SELECT * FROM Report WHERE userID = ? AND testID = ?";
+
+    // Delete a Report
+    public static final String DELETE_REPORT =  "DELETE FROM Report WHERE reportID = ?";
+
+    // Delete all reports for a test plan
+    public static final String DELETE_REPORTS =  "DELETE FROM Report WHERE testID = ?";
+
+    /* User SQL */
+    // Add new user
+    public static final String ADD_USER =  "INSERT INTO User (userID, name) VALUES  (?,?)";
+
+    // Remove user
+    public static final String REMOVE_USER =  "DELETE FROM User WHERE userID = ?";
 }
