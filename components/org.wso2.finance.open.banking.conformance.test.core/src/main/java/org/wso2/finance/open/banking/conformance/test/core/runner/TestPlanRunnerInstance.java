@@ -147,7 +147,7 @@ public class TestPlanRunnerInstance extends Thread {
             this.processSpec(specification);
         }
         this.status = Report.RunnerState.DONE;
-        this.testPlan.setLastRun(new Date());
+        this.testPlan.setLastRun(new Date()); //TODO: Update date in DB
         queueStopMessege();
 
         // Add report to DB

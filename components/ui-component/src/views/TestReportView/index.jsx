@@ -324,6 +324,12 @@ class TestReportView extends React.Component {
         client.pollResultsForTestPlan(uuid).then((pollResponse) => {
             for (let i = 0, len = pollResponse.data.length; i < len; i++) {
                 const result = pollResponse.data[i];
+                /* update state when the test is finished */
+                if (result.runnerState === 'DONE') {
+                    this.setState({
+                        testRunning: false,
+                    });
+                }
                 /* Check for already loaded results and skip appending. */
                 const { finishedFeatureIds } = this.state;
                 /* Show browser interaction modal if an arrtibute group is received */
@@ -360,14 +366,13 @@ class TestReportView extends React.Component {
                     const { dispatch } = this.props;
                     dispatch(updateReport(response.data.report));
                 });
-                
-                /* update state when the test is finished */
-                if (result.runnerState === 'DONE') {
-                    this.setState({
-                        testRunning: false,
-                    });
-                }
+
             }
+           /* if (pollResponse.data.length === 0){
+                this.setState({
+                    testRunning: false,
+                });
+            }*/
         });
     }
 
