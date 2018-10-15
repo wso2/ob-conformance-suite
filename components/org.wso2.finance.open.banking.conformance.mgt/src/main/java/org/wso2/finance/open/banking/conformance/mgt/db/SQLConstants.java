@@ -83,6 +83,9 @@ public class SQLConstants {
     // Delete a Report
     public static final String DELETE_REPORT =  "DELETE FROM Report WHERE reportID = ?";
 
+    // Delete empty reports
+    public static final String DELETE_EMPTY_REPORTS =  "DELETE FROM Report WHERE report IS NULL";
+
     // Delete all reports for a test plan
     public static final String DELETE_REPORTS =  "DELETE FROM Report WHERE testID = ?";
 

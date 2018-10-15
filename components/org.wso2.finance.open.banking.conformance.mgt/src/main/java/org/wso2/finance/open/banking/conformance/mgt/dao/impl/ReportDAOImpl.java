@@ -214,7 +214,10 @@ public class ReportDAOImpl implements ReportDAO {
         PreparedStatement stmt = null;
 
         try {
-            String sql = SQLConstants.RETRIEVE_REPORTS;
+            String sql = SQLConstants.DELETE_EMPTY_REPORTS;
+            stmt = conn.prepareStatement(sql);
+            stmt.executeUpdate();
+            sql = SQLConstants.RETRIEVE_REPORTS;
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, userID);
             stmt.setInt(2, testID);
