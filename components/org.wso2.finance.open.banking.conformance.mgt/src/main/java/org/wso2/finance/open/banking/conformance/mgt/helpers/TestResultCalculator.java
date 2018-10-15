@@ -18,6 +18,7 @@
 
 package org.wso2.finance.open.banking.conformance.mgt.helpers;
 
+import org.apache.log4j.Logger;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 import org.wso2.finance.open.banking.conformance.mgt.models.Result;
 
@@ -25,9 +26,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
+/**
+ * Helper class for calculating test results summary.
+ */
 public class TestResultCalculator {
 
-    public TestResultCalculator(){
+    private static Logger log = Logger.getLogger(TestResultCalculator.class);
+
+    private TestResultCalculator(){
 
     }
 
@@ -37,8 +43,8 @@ public class TestResultCalculator {
         Integer failed = 0;
         Integer total = 0;
         Map<String, List<Result>> results = report.getResult();
-        for (String key : results.keySet()) {
-            List<Result> result = results.get(key);
+        for (Map.Entry<String, List<Result>> entry :results.entrySet()) {
+            List<Result> result = entry.getValue();
             for (Result feature : result) {
                 String status = feature.getFeatureStatus();
                 if (status == "passed") {
@@ -54,6 +60,8 @@ public class TestResultCalculator {
         summaryResults.put("failed", failed);
         summaryResults.put("total", total);
         System.out.println("passed : " + passed + " failed : "+ failed + " total : " + total);
+
+//        log.debug("passed : " + passed + " failed : "+ failed + " total : " + total);
         return summaryResults;
     }
 }
