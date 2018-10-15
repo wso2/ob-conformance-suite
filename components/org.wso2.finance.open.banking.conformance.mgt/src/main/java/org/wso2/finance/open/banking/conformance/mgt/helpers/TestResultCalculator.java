@@ -59,9 +59,8 @@ public class TestResultCalculator {
         summaryResults.put("passed", passed);
         summaryResults.put("failed", failed);
         summaryResults.put("total", total);
-        System.out.println("passed : " + passed + " failed : "+ failed + " total : " + total);
 
-//        log.debug("passed : " + passed + " failed : "+ failed + " total : " + total);
+        log.debug("passed : " + passed + " failed : "+ failed + " total : " + total);
         return summaryResults;
     }
 }
