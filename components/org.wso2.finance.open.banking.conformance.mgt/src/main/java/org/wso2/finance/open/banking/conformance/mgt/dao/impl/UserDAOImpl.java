@@ -22,7 +22,7 @@ public class UserDAOImpl implements UserDAO {
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, userDTO.getUserID());
             stmt.setString(2, userDTO.getUserName());
-            stmt.setString(3, userDTO.getPassword()); // TODO: encrypt password
+            stmt.setString(3, userDTO.getPassword());
             stmt.setString(3, regDate);
             stmt.executeUpdate();
 
@@ -55,7 +55,7 @@ public class UserDAOImpl implements UserDAO {
             sql = SQLConstants.UPDATE_USER;
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, userDTO.getUserName());
-            stmt.setString(2, userDTO.getPassword()); // TODO: encrypt password
+            stmt.setString(2, userDTO.getPassword());
             stmt.setString(3, userDTO.getUserID());
             stmt.executeUpdate();
 
@@ -89,7 +89,7 @@ public class UserDAOImpl implements UserDAO {
             String sql = SQLConstants.GET_USER;
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, userID);
-            stmt.setString(2, password); // TODO: Encrypt password
+            stmt.setString(2, UserDTO.encryptPassword(password));
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
