@@ -45,6 +45,8 @@ public class SQLConstants {
     public static final String CREATE_USER_TABLE = "CREATE TABLE User " +
             "(userID VARCHAR(50) not NULL, " +
             " name VARCHAR(100) not NULL, " +
+            " password VARCHAR(512) not NULL, " +
+            " regDate DATETIME not NULL, " +
             " PRIMARY KEY ( userID ))";
 
 
@@ -84,9 +86,17 @@ public class SQLConstants {
     // Delete all reports for a test plan
     public static final String DELETE_REPORTS =  "DELETE FROM Report WHERE testID = ?";
 
+
     /* User SQL */
     // Add new user
-    public static final String ADD_USER =  "INSERT INTO User (userID, name) VALUES  (?,?)";
+    public static final String ADD_USER =  "INSERT INTO User (userID, name, password, regDate) VALUES  (?,?,?,?))";
+    //INSERT INTO User (userID, name, password) VALUES  ('admin','imesh', HASH('SHA256',STRINGTOUTF8('adminpass'),1))
+
+    // Update user details
+    public static final String UPDATE_USER =  "UPDATE User SET name = ?, password = ? WHERE userID = ?";
+
+    // Get user details
+    public static final String GET_USER =  "SELECT * FROM user WHERE userID = ? AND password = ?";
 
     // Remove user
     public static final String REMOVE_USER =  "DELETE FROM User WHERE userID = ?";
