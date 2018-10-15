@@ -20,10 +20,13 @@ package org.wso2.finance.open.banking.conformance.mgt.models;
 
 import java.util.List;
 
+/**
+ * Model class representing the Result of a Report of a TestPlan.
+ */
 public class Result {
 
     private int line;
-    private List<FeatureElementItem> elements;
+    private List<ScenarioResult> elements;
     private String name;
     private String description;
     private String id;
@@ -31,7 +34,7 @@ public class Result {
     private String uri;
     private List<Tag> tags;
 
-    public Result(int line, List<FeatureElementItem> elements, String name, String description,
+    public Result(int line, List<ScenarioResult> elements, String name, String description,
                    String id, String keyword, String uri, List<Tag> tags) {
 
         this.line = line;
@@ -63,7 +66,7 @@ public class Result {
     /**
      * @return
      */
-    public List<FeatureElementItem> getElements(){
+    public List<ScenarioResult> getElements(){
         return  elements;
     }
 
@@ -111,7 +114,7 @@ public class Result {
      */
     public String getFeatureStatus(){
         String featureStatus = "passed";
-        for (FeatureElementItem element : elements){
+        for (ScenarioResult element : elements){
             if (element.getScenarioStatus().equals("failed")) {
                 featureStatus = "failed";
             }

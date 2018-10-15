@@ -20,7 +20,10 @@ package org.wso2.finance.open.banking.conformance.mgt.models;
 
 import java.util.Map;
 
-public class Step {
+/**
+ * Model class representing the Result of a Step of a TestPlan.
+ */
+public class StepResult {
 
     private Map<String, String> result;
     private int line;
@@ -28,7 +31,7 @@ public class Step {
     private Map<String, String> match;
     private String keyword;
 
-    public Step(Map<String, String> result, int line, String name, Map<String, String> match, String keyword){
+    public StepResult(Map<String, String> result, int line, String name, Map<String, String> match, String keyword){
         this.result = result;
         this.line = line;
         this.name = name;
@@ -85,7 +88,7 @@ public class Step {
 
     @Override
     public String toString() {
-        return "Step [results =" + result + "line =" + line + "name =" + name + "match =" + match + "keyword =" + keyword +"]";
+        return "StepResult [results =" + result + "line =" + line + "name =" + name + "match =" + match + "keyword =" + keyword +"]";
     }
 
 }

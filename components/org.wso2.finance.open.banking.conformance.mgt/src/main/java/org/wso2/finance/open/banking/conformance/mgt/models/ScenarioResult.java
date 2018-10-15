@@ -20,7 +20,10 @@ package org.wso2.finance.open.banking.conformance.mgt.models;
 
 import java.util.List;
 
-public class FeatureElementItem {
+/**
+ * Model class representing the Result of a Scenario of a TestPlan.
+ */
+public class ScenarioResult {
 
     private int line;
     private String name;
@@ -28,11 +31,11 @@ public class FeatureElementItem {
     private String id;
     private String type;
     private String keyword;
-    private List<Step> steps;
+    private List<StepResult> steps;
     private List<Tag> tags;
 
-    public FeatureElementItem(int line, String name, String description, String id, String type,
-                  String keyword, List<Step> steps, List<Tag> tags) {
+    public ScenarioResult(int line, String name, String description, String id, String type,
+                  String keyword, List<StepResult> steps, List<Tag> tags) {
 
         this.line = line;
         this.name = name;
@@ -95,7 +98,7 @@ public class FeatureElementItem {
     /**
      * @return
      */
-    public List<Step> getSteps(){
+    public List<StepResult> getSteps(){
         return steps;
     }
 
@@ -111,7 +114,7 @@ public class FeatureElementItem {
      */
     public String getScenarioStatus(){
         String scenarioStatus = "passed";
-        for (Step step : steps){
+        for (StepResult step : steps){
             if (step.getStatus().equals("failed") ) {
                 scenarioStatus = "failed";
             }
@@ -141,7 +144,7 @@ public class FeatureElementItem {
 
     @Override
     public String toString() {
-        return "FeatureElementItem [line=" + line + ", name=" + name + ", description=" + description + ", id=" + id +
+        return "ScenarioResult [line=" + line + ", name=" + name + ", description=" + description + ", id=" + id +
                ", type =" + type + ", keywords=" + keyword + "steps = " + steps + "tags = " + tags + "]";
     }
 }
