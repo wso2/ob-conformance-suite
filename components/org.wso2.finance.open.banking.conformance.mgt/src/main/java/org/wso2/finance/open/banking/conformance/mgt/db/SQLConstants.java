@@ -24,12 +24,20 @@ package org.wso2.finance.open.banking.conformance.mgt.db;
 
 public class SQLConstants {
     /* Create Tables */
+    public static final String CREATE_USER_TABLE = "CREATE TABLE User " +
+            "(userID VARCHAR(50) not NULL, " +
+            " name VARCHAR(100) not NULL, " +
+            " password VARCHAR(512) not NULL, " +
+            " regDate DATETIME not NULL, " +
+            " PRIMARY KEY ( userID ))";
+
     public static final String CREATE_TESTPLAN_TABLE = "CREATE TABLE TestPlan " +
             "(testID INT not NULL AUTO_INCREMENT, " +
             " userID VARCHAR(50), " +
             " testConfig CLOB, " +
             " creationTime DATETIME, " +
-            " PRIMARY KEY ( testID ))";
+            " PRIMARY KEY ( testID ), " +
+            " foreign key (userID) references user(userID)) ";
 
     public static final String CREATE_REPORT_TABLE = "CREATE TABLE Report " +
             "(reportID INT not NULL AUTO_INCREMENT, " +
@@ -40,14 +48,9 @@ public class SQLConstants {
             " failed INT, " +
             " passRate INT, " +
             " runTime DATETIME, " +
-            " PRIMARY KEY ( reportID ))";
-
-    public static final String CREATE_USER_TABLE = "CREATE TABLE User " +
-            "(userID VARCHAR(50) not NULL, " +
-            " name VARCHAR(100) not NULL, " +
-            " password VARCHAR(512) not NULL, " +
-            " regDate DATETIME not NULL, " +
-            " PRIMARY KEY ( userID ))";
+            " PRIMARY KEY ( reportID )" +
+            " foreign key (userID) references user(userID)," +
+            " foreign key (testID) references TestPlan(testID)) ";
 
 
     /* Test Plan SQL */
@@ -58,7 +61,7 @@ public class SQLConstants {
     public static final String UPDATE_TESTPLAN = "UPDATE TestPlan SET testConfig = ? WHERE testID= ?";
 
     // Retrieve a Test Plan
-    public static final String RETRIEVE_TESTPLAN = "SELECT * FROM TestPlan WHERE userID= ? AND testID= ?";
+    public static final String RETRIEVE_TESTPLAN = "SELECT * FROM TestPlan WHERE testID= ?";
 
     // Retrieve all Test Plans for a given user
     public static final String RETRIEVE_TESTPLANS = "SELECT * FROM TestPlan WHERE userID= ?";
@@ -75,10 +78,10 @@ public class SQLConstants {
     public static final String UPDATE_REPORT = "UPDATE Report SET report = ?, runtime = ? WHERE reportID = ?";
 
     // Retrieve a Report
-    public static final String RETRIEVE_REPORT = "SELECT * FROM Report WHERE userID = ? AND testID= ? AND reportID = ?";
+    public static final String RETRIEVE_REPORT = "SELECT * FROM Report WHERE reportID = ?";
 
     // Retrieve all Reports for a given testPlan
-    public static final String RETRIEVE_REPORTS = "SELECT * FROM Report WHERE userID = ? AND testID = ?";
+    public static final String RETRIEVE_REPORTS = "SELECT * FROM Report WHERE testID = ?";
 
     // Delete a Report
     public static final String DELETE_REPORT =  "DELETE FROM Report WHERE reportID = ?";
@@ -93,7 +96,6 @@ public class SQLConstants {
     /* User SQL */
     // Add new user
     public static final String ADD_USER =  "INSERT INTO User (userID, name, password, regDate) VALUES  (?,?,?,?))";
-    //INSERT INTO User (userID, name, password) VALUES  ('admin','imesh', HASH('SHA256',STRINGTOUTF8('adminpass'),1))
 
     // Update user details
     public static final String UPDATE_USER =  "UPDATE User SET name = ?, password = ? WHERE userID = ?";

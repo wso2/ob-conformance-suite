@@ -11,6 +11,6 @@ public interface ReportDAO {
     public int storeReport(String userID, int testID, Report report);
     public int getNewReportID(String userID, int testID);
     public void updateReport(int reportID, Report report);
-    public Report getReport(String userID, int testID, int reportID);
-    public List<Report> getReports(String userID, int testID);
+    public Report getReport(int reportID);
+    public List<Report> getReports(int testID);
 }

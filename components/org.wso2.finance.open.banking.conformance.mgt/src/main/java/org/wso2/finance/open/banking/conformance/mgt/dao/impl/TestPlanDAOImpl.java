@@ -102,7 +102,7 @@ public class TestPlanDAOImpl implements TestPlanDAO {
      * @return the requested test plan object
      */
     @Override
-    public TestPlan getTestPlan(String userID, int testID) {
+    public TestPlan getTestPlan(int testID) {
         Gson gson = new Gson();
         TestPlan testPlan = new TestPlan();
         Connection conn = DBConnector.getConnection();
@@ -111,8 +111,7 @@ public class TestPlanDAOImpl implements TestPlanDAO {
         try {
             String sql =  SQLConstants.RETRIEVE_TESTPLAN;
             stmt = conn.prepareStatement(sql);
-            stmt.setString(1, userID);
-            stmt.setInt(2, testID);
+            stmt.setInt(1, testID);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
@@ -165,7 +164,7 @@ public class TestPlanDAOImpl implements TestPlanDAO {
                 int testID = rs.getInt("testID");
                 String testPlanJson = rs.getString("testConfig");
                 TestPlan testPlan = gson.fromJson(testPlanJson, TestPlan.class);
-                reports = reportDAO.getReports(userID, testID);
+                reports = reportDAO.getReports(testID);
                 TestPlanDTO testPlanDTO = new TestPlanDTO(testID, testPlan, reports);
                 testPlans.put(testID, testPlanDTO);
             }

@@ -55,12 +55,12 @@ public class ResultsAPI {
 
         TestPlanDAO testPlanDAO = new TestPlanDAOImpl();
         ReportDAO reportDAO = new ReportDAOImpl();
-        Report report = reportDAO.getReport("adminx", testId, reportId); //TODO: Remove hardcoded userID
+        Report report = reportDAO.getReport(reportId);
 
         if(report == null){
             report =  this.runnerManager.getReport(testId, reportId);
         }
-        return new TestResultDTO(testPlanDAO.getTestPlan("adminx", testId), report); //TODO: Remove hardcoded userID
+        return new TestResultDTO(testPlanDAO.getTestPlan(testId), report);
     }
 
 }

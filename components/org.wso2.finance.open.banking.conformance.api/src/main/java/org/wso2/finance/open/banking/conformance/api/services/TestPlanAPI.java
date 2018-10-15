@@ -69,7 +69,7 @@ public class TestPlanAPI {
         Report report = null;
         if (plan.isRunNow()) {
             // PASS REPORT
-            int reportID = reportDAO.getNewReportID("adminx", testID);
+            int reportID = reportDAO.getNewReportID("adminx", testID); //TODO: Remove hardcoded userID
             report = this.runnerManager.start(testID, reportID);
         }
 
@@ -99,7 +99,7 @@ public class TestPlanAPI {
     public Map<Integer, TestPlanDTO> getAllTestPlans() {
         TestPlanDAO testPlanDAO = new TestPlanDAOImpl();
         Map<Integer, TestPlanDTO> results;
-        results = testPlanDAO.getTestPlans("adminx");
+        results = testPlanDAO.getTestPlans("adminx"); //TODO: remove hardcoded userID
         return results;
     }
 
@@ -115,11 +115,10 @@ public class TestPlanAPI {
     @Produces("application/json")
     public Report startTestPlan(@PathParam("uuid") int uuid) {
 
-        //return this.runnerManager.start(uuid, reportID); TODO: get reportID from DB
         TestPlanDAO testPlanDAO = new TestPlanDAOImpl();
         ReportDAO reportDAO = new ReportDAOImpl();
-        int reportID = reportDAO.getNewReportID("adminx", uuid);
-        this.runnerManager.addPlan(testPlanDAO.getTestPlan("adminx", uuid), uuid);
+        int reportID = reportDAO.getNewReportID("adminx", uuid); // TODO: remove hardcoded userID.
+        this.runnerManager.addPlan(testPlanDAO.getTestPlan(uuid), uuid);
         return this.runnerManager.start(uuid, reportID);
     }
 }

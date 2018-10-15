@@ -185,13 +185,11 @@ public class ReportDAOImpl implements ReportDAO {
 
     /**
      *This method will return a report object when the reportID is given.
-     * @param userID : User ID of the current user
-     * @param testID : Test ID of the report
      * @param reportID : ID of the report
      * @return the requested report
      */
     @Override
-    public Report getReport(String userID, int testID, int reportID) {
+    public Report getReport(int reportID) {
         Gson gson = new Gson();
         Report report = null;
         Connection conn = DBConnector.getConnection();
@@ -200,9 +198,7 @@ public class ReportDAOImpl implements ReportDAO {
         try {
             String sql = SQLConstants.RETRIEVE_REPORT;
             stmt = conn.prepareStatement(sql);
-            stmt.setString(1, userID);
-            stmt.setInt(2, testID);
-            stmt.setInt(3, reportID);
+            stmt.setInt(1, reportID);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
@@ -233,12 +229,11 @@ public class ReportDAOImpl implements ReportDAO {
 
     /**
      *This method will return all reports belonging to a particular test.
-     * @param userID : User ID of the current user
      * @param testID : Test ID of the reports
      * @return a List with requested reports
      */
     @Override
-    public List<Report> getReports(String userID, int testID) {
+    public List<Report> getReports(int testID) {
 
         Gson gson = new Gson();
         List<Report> reports = new ArrayList<Report>();
@@ -251,8 +246,7 @@ public class ReportDAOImpl implements ReportDAO {
             stmt.executeUpdate();
             sql = SQLConstants.RETRIEVE_REPORTS;
             stmt = conn.prepareStatement(sql);
-            stmt.setString(1, userID);
-            stmt.setInt(2, testID);
+            stmt.setInt(1, testID);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
