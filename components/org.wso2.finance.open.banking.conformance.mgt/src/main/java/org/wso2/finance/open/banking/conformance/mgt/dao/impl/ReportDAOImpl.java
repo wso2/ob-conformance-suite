@@ -34,6 +34,12 @@ import java.util.List;
  */
 public class ReportDAOImpl implements ReportDAO {
 
+    /**
+     *This method will add the report to the database.
+     * @param userID : User ID of the current user
+     * @param testID : Test ID of the report
+     * @param report : Report object
+     */
     @Override
     public int storeReport(String userID, int testID, Report report) {
         Gson gson = new Gson();
@@ -88,6 +94,13 @@ public class ReportDAOImpl implements ReportDAO {
         return generatedReportID;
     }
 
+    /**
+     *This method will create a row in the report table to store the
+     * report after the test has finished.
+     * @param userID : User ID of the current user
+     * @param testID : Test ID of the report
+     * @return the generated report id (from auto increment column of the report table)
+     */
     @Override
     public int getNewReportID(String userID, int testID) {
         Connection conn = DBConnector.getConnection();
@@ -127,6 +140,12 @@ public class ReportDAOImpl implements ReportDAO {
         return generatedReportID;
     }
 
+    /**
+     *This method will add a report to the row created in the report table
+     *at the start of a test.
+     * @param reportID : ID of the report
+     * @param report : Report object
+     */
     @Override
     public void updateReport(int reportID, Report report) {
         Gson gson = new Gson();
@@ -164,6 +183,13 @@ public class ReportDAOImpl implements ReportDAO {
         }
     }
 
+    /**
+     *This method will return a report object when the reportID is given.
+     * @param userID : User ID of the current user
+     * @param testID : Test ID of the report
+     * @param reportID : ID of the report
+     * @return the requested report
+     */
     @Override
     public Report getReport(String userID, int testID, int reportID) {
         Gson gson = new Gson();
@@ -205,6 +231,12 @@ public class ReportDAOImpl implements ReportDAO {
 
     }
 
+    /**
+     *This method will return all reports belonging to a particular test.
+     * @param userID : User ID of the current user
+     * @param testID : Test ID of the reports
+     * @return a List with requested reports
+     */
     @Override
     public List<Report> getReports(String userID, int testID) {
 

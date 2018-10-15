@@ -5,7 +5,7 @@ import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 import java.util.List;
 
 /**
- * Interface to create a ReportDAO
+ * Interface to create a ReportDAO.
  */
 public interface ReportDAO {
     public int storeReport(String userID, int testID, Report report);

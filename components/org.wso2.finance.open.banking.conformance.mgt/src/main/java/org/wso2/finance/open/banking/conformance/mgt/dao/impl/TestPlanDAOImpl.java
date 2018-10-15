@@ -38,6 +38,12 @@ import java.util.Map;
  */
 public class TestPlanDAOImpl implements TestPlanDAO {
 
+    /**
+     *This method will store the given test-plan in the testPlan table.
+     * @param userID : User ID of the current user
+     * @param testPlan : TestPlan object
+     * @return the generated test-plan id (from auto increment column of the testPlan table)
+     */
     @Override
     public int storeTestPlan(String userID, TestPlan testPlan) {
         Gson gson = new Gson();
@@ -51,7 +57,6 @@ public class TestPlanDAOImpl implements TestPlanDAO {
         PreparedStatement stmt = null;
         String sql;
         try {
-            // Execute query
             sql = SQLConstants.CREATE_TESTPLAN;
             stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, userID);
@@ -71,8 +76,6 @@ public class TestPlanDAOImpl implements TestPlanDAO {
                 stmt.setInt(2, generatedTestID);
                 stmt.executeUpdate();
             }
-
-            // Clean-up
             stmt.close();
             conn.close();
         } catch(SQLException se) {
@@ -93,6 +96,11 @@ public class TestPlanDAOImpl implements TestPlanDAO {
         return generatedTestID;
     }
 
+    /**
+     *This method will return the test plan object when the testID is given.
+     * @param testID : testID of the requested test plan.
+     * @return the requested test plan object
+     */
     @Override
     public TestPlan getTestPlan(String userID, int testID) {
         Gson gson = new Gson();
@@ -131,6 +139,12 @@ public class TestPlanDAOImpl implements TestPlanDAO {
         return testPlan;
     }
 
+    /**
+     *This method will return all the test plans along with their corresponding
+     *reports belonging to a particular user.
+     * @param userID : User ID of the current user.
+     * @return a map containing testPlan IDs and the corresponding testPlanDTOs.
+     */
     @Override
     public Map<Integer, TestPlanDTO> getTestPlans(String userID) {
         Gson gson = new Gson();
