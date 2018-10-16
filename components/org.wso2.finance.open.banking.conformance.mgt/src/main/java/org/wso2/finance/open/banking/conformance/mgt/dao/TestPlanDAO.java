@@ -37,6 +37,14 @@ public interface TestPlanDAO {
     public int storeTestPlan(String userID, TestPlan testPlan);
 
     /**
+     *This method will update the TestPlan when the testID and
+     * testPlan object are given.
+     * @param testID : The testID of the Test Plan
+     * @param testPlan : TestPlan object
+     */
+    public void updateTestPlan(int testID, TestPlan testPlan);
+
+    /**
      *This method will return the test plan object when the testID is given.
      * @param testID : testID of the requested test plan.
      * @return the requested test plan object

@@ -51,6 +51,13 @@
             <artifactId>commons-dbcp2</artifactId>
             <version>${org.apache.commons.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.wso2.carbon.utils</groupId>
+            <artifactId>org.wso2.carbon.database.utils</artifactId>
+            <version>${org.wso2.carbon.utils.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

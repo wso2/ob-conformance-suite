@@ -198,6 +198,7 @@
         <junit.version>4.12</junit.version>
         <com.h2database.version>1.4.196</com.h2database.version>
         <org.apache.commons.version>2.5.0</org.apache.commons.version>
+        <org.wso2.carbon.utils.version>2.0.8</org.wso2.carbon.utils.version>
     </properties>
 
 </project>

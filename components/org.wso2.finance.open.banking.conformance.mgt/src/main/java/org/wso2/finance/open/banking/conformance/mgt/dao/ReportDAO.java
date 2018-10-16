@@ -21,6 +21,7 @@ package org.wso2.finance.open.banking.conformance.mgt.dao;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Interface to create a ReportDAO.
@@ -62,5 +63,13 @@ public interface ReportDAO {
      * @param testID : Test ID of the reports
      * @return a List with requested reports
      */
-    public List<Report> getReports(int testID);
+    public List<Report> getReportsForTest(int testID);
+
+    /**
+     *This method will return all reports for a particular user, mapping
+     * them with testID.
+     * @param userID : ID of the user
+     * @return a Map with TestID and corresponding list of reports.
+     */
+    public Map<Integer, List<Report>> getReportsForUser(String userID);
 }

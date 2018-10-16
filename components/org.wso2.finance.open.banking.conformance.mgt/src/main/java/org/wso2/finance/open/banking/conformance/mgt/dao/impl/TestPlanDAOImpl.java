@@ -19,6 +19,8 @@
 package org.wso2.finance.open.banking.conformance.mgt.dao.impl;
 
 import com.google.gson.Gson;
+import org.wso2.carbon.database.utils.jdbc.JdbcTemplate;
+import org.wso2.carbon.database.utils.jdbc.exceptions.TransactionException;
 import org.wso2.finance.open.banking.conformance.mgt.dao.ReportDAO;
 import org.wso2.finance.open.banking.conformance.mgt.dao.TestPlanDAO;
 import org.wso2.finance.open.banking.conformance.mgt.db.DBConnector;
@@ -27,7 +29,8 @@ import org.wso2.finance.open.banking.conformance.mgt.dto.TestPlanDTO;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 import org.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 
-import java.sql.*;
+import java.util.stream.Collectors;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,61 +46,28 @@ public class TestPlanDAOImpl implements TestPlanDAO {
      */
     @Override
     public int storeTestPlan(String userID, TestPlan testPlan) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         Gson gson = new Gson();
-        Connection conn = DBConnector.getConnection();
         int generatedTestID = -1;
 
         java.util.Date dt = new java.util.Date();
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentTime = sdf.format(dt);
-        String testPlanJson = gson.toJson(testPlan);
-        PreparedStatement stmt = null;
-        PreparedStatement stmt2 = null;
-        ResultSet rs = null;
-        String sql;
+
         try {
-            sql = SQLConstants.CREATE_TESTPLAN;
-            stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, userID);
-            stmt.setString(2, testPlanJson);
-            stmt.setString(3, currentTime);
-            stmt.executeUpdate();
-            rs = stmt.getGeneratedKeys();
-            if(rs.next())
-            {
-                generatedTestID = rs.getInt(1);
-                testPlan.setTestId(generatedTestID);
-                testPlanJson = gson.toJson(testPlan);
-                sql = SQLConstants.UPDATE_TESTPLAN;
-                stmt2 = conn.prepareStatement(sql);
-                stmt2.setString(1, testPlanJson);
-                stmt2.setInt(2, generatedTestID);
-                stmt2.executeUpdate();
-            }
-        } catch(Exception e) {
+            String testPlanJson = gson.toJson(testPlan);
+            generatedTestID =  jdbcTemplate.withTransaction(template ->
+                    template.executeInsert(SQLConstants.CREATE_TESTPLAN, preparedStatement -> {
+                        preparedStatement.setString(1, userID);
+                        preparedStatement.setString(2, testPlanJson);
+                        preparedStatement.setString(3, currentTime);
+                    }, null, true)
+            );
+        } catch (TransactionException e) {
             e.printStackTrace();
-        } finally {
-            try{
-                if(rs!=null) rs.close();;
-            } catch(SQLException se4) {
-                se4.printStackTrace();
-            }
-            try{
-                if(stmt2!=null) stmt2.close();
-            } catch(SQLException se3) {
-                se3.printStackTrace();
-            }
-            try{
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2) {
-                se2.printStackTrace();
-            }
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se){
-                se.printStackTrace();
-            }
         }
+        testPlan.setTestId(generatedTestID);
+        updateTestPlan(generatedTestID, testPlan);
         return generatedTestID;
     }
 
@@ -105,41 +75,41 @@ public class TestPlanDAOImpl implements TestPlanDAO {
      * {@inheritDoc}
      */
     @Override
-    public TestPlan getTestPlan(int testID) {
+    public void updateTestPlan(int testID, TestPlan testPlan){
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         Gson gson = new Gson();
-        TestPlan testPlan = new TestPlan();
-        Connection conn = DBConnector.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
+
         try {
-            String sql =  SQLConstants.RETRIEVE_TESTPLAN;
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, testID);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-                String testPlanJson = rs.getString("testConfig");
-                testPlan = gson.fromJson(testPlanJson, TestPlan.class);
-            }
-        } catch(SQLException se) {
-            se.printStackTrace();
-        } catch(Exception e) {
+            jdbcTemplate.withTransaction(template -> {
+                String testPlanJson = gson.toJson(testPlan);
+                template.executeUpdate(SQLConstants.UPDATE_TESTPLAN, preparedStatement -> {
+                    preparedStatement.setString(1, testPlanJson);
+                    preparedStatement.setInt(2, testID);
+                });
+                return null;
+            });
+        } catch (TransactionException e) {
             e.printStackTrace();
-        } finally {
-            try{
-                if(rs!=null) rs.close();;
-            } catch(SQLException se3) {
-                se3.printStackTrace();
-            }
-            try{
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2) {
-                se2.printStackTrace();
-            }
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se){
-                se.printStackTrace();
-            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public TestPlan getTestPlan(int testID) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
+        TestPlan testPlan = new TestPlan();
+        Gson gson = new Gson();
+
+        try {
+            testPlan = jdbcTemplate.withTransaction(template -> jdbcTemplate.fetchSingleRecord(SQLConstants.RETRIEVE_TESTPLAN,
+                    (resultSet, rowNumber) -> {
+                        String testPlanJson = resultSet.getString("testConfig");
+                        return gson.fromJson(testPlanJson, TestPlan.class);
+                    }, preparedStatement -> preparedStatement.setInt(1, testID)));
+        } catch (TransactionException e) {
+            e.printStackTrace();
         }
         return testPlan;
     }
@@ -149,50 +119,25 @@ public class TestPlanDAOImpl implements TestPlanDAO {
      */
     @Override
     public Map<Integer, TestPlanDTO> getTestPlans(String userID) {
-        Gson gson = new Gson();
-        Map<Integer, TestPlanDTO> testPlans = new HashMap<Integer, TestPlanDTO>();
-        Connection conn = DBConnector.getConnection();
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         ReportDAO reportDAO = new ReportDAOImpl();
-        List<Report> reports;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
+        Map<Integer, List<Report>> testReportMap = reportDAO.getReportsForUser(userID);
+        Gson gson = new Gson();
+
         try {
-            // Execute query
-            String sql =  SQLConstants.RETRIEVE_TESTPLANS;
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, userID);
-            rs = stmt.executeQuery();
-            while (rs.next()) {
-                int testID = rs.getInt("testID");
-                String testPlanJson = rs.getString("testConfig");
-                TestPlan testPlan = gson.fromJson(testPlanJson, TestPlan.class);
-                reports = reportDAO.getReports(testID);
-                TestPlanDTO testPlanDTO = new TestPlanDTO(testID, testPlan, reports);
-                testPlans.put(testID, testPlanDTO);
-            }
-            stmt.close();
-            conn.close();
-        } catch(SQLException se) {
-            se.printStackTrace();
-        } catch(Exception e) {
+            List<TestPlanDTO> testPlanDTOList = jdbcTemplate.withTransaction(template ->
+                    template.executeQuery(SQLConstants.RETRIEVE_TESTPLANS, ((resultSet, rowNumber) -> {
+                        String testPlanJson = resultSet.getString("testConfig");
+                        TestPlan testPlan = gson.fromJson(testPlanJson, TestPlan.class);
+                        return new TestPlanDTO(testPlan.getTestId(), testPlan, testReportMap.getOrDefault(testPlan.getTestId(), new ArrayList<>()));
+                    }), preparedStatement -> {
+                        preparedStatement.setString(1,userID);
+                    })
+            );
+            return testPlanDTOList.stream().collect(Collectors.toMap(TestPlanDTO::getTestId, TestPlanDTO -> TestPlanDTO));
+        } catch (TransactionException e) {
             e.printStackTrace();
-        } finally {
-            try{
-                if(rs!=null) rs.close();;
-            } catch(SQLException se3) {
-                se3.printStackTrace();
-            }
-            try{
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2) {
-                se2.printStackTrace();
-            }
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se){
-                se.printStackTrace();
-            }
         }
-        return testPlans;
+        return new HashMap<>();
     }
 }

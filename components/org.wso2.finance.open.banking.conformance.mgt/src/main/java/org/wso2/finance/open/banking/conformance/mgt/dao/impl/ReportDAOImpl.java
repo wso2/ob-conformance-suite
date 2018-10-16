@@ -19,14 +19,18 @@
 package org.wso2.finance.open.banking.conformance.mgt.dao.impl;
 
 import com.google.gson.Gson;
+import org.wso2.carbon.database.utils.jdbc.JdbcTemplate;
+import org.wso2.carbon.database.utils.jdbc.exceptions.TransactionException;
 import org.wso2.finance.open.banking.conformance.mgt.dao.ReportDAO;
 import org.wso2.finance.open.banking.conformance.mgt.db.DBConnector;
 import org.wso2.finance.open.banking.conformance.mgt.db.SQLConstants;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 
-import java.sql.*;
+import java.sql.Types;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation of the ReportDAO
@@ -39,36 +43,20 @@ public class ReportDAOImpl implements ReportDAO {
      */
     @Override
     public int getNewReportID(String userID, int testID) {
-        Connection conn = DBConnector.getConnection();
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         int generatedReportID = -1;
-        PreparedStatement stmt = null;
-        try {
-            String sql = SQLConstants.CREATE_REPORT;
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, testID);
-            stmt.setString(2, userID);
-            stmt.setNull(3, Types.NULL);
-            stmt.setNull(4, Types.NULL);
-            stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
 
-            if(rs.next())
-            {
-                generatedReportID = rs.getInt(1);
-            }
-        } catch(Exception e) {
+        try {
+            generatedReportID =  jdbcTemplate.withTransaction(template ->
+                    template.executeInsert(SQLConstants.CREATE_REPORT, preparedStatement -> {
+                        preparedStatement.setInt(1, testID);
+                        preparedStatement.setString(2, userID);
+                        preparedStatement.setNull(3, Types.NULL);
+                        preparedStatement.setNull(4, Types.NULL);
+                    }, null, true)
+            );
+        } catch (TransactionException e) {
             e.printStackTrace();
-        } finally {
-            try{
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2) {
-                se2.printStackTrace();
-            }
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se){
-                se.printStackTrace();
-            }
         }
         return generatedReportID;
     }
@@ -78,35 +66,25 @@ public class ReportDAOImpl implements ReportDAO {
      */
     @Override
     public void updateReport(int reportID, Report report) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         Gson gson = new Gson();
-        Connection conn = DBConnector.getConnection();
 
         java.util.Date dt = new java.util.Date();
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentTime = sdf.format(dt);
 
-        String reportJson = gson.toJson(report);
-        PreparedStatement stmt = null;
         try {
-            String sql = SQLConstants.UPDATE_REPORT;
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, reportJson);
-            stmt.setString(2, currentTime);
-            stmt.setInt(3, reportID);
-            stmt.executeUpdate();
-        } catch(Exception e) {
+            String reportJson = gson.toJson(report);
+            jdbcTemplate.withTransaction(template -> {
+                template.executeUpdate(SQLConstants.UPDATE_REPORT, preparedStatement -> {
+                    preparedStatement.setString(1, reportJson);
+                    preparedStatement.setString(2, currentTime);
+                    preparedStatement.setInt(3, reportID);
+                });
+                return null;
+            });
+        } catch (TransactionException e) {
             e.printStackTrace();
-        } finally {
-            try{
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2) {
-                se2.printStackTrace();
-            }
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se){
-                se.printStackTrace();
-            }
         }
     }
 
@@ -115,26 +93,14 @@ public class ReportDAOImpl implements ReportDAO {
      */
     @Override
     public void deleteEmptyReports() {
-        Connection conn = DBConnector.getConnection();
-        PreparedStatement stmt = null;
-
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         try {
-            String sql = SQLConstants.DELETE_EMPTY_REPORTS;
-            stmt = conn.prepareStatement(sql);
-            stmt.executeUpdate();
-        }catch(Exception e) {
+            jdbcTemplate.withTransaction(template -> {
+                template.executeUpdate(SQLConstants.DELETE_EMPTY_REPORTS);
+                return null;
+            });
+        } catch (TransactionException e) {
             e.printStackTrace();
-        } finally {
-            try{
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2) {
-                se2.printStackTrace();
-            }
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se){
-                se.printStackTrace();
-            }
         }
     }
 
@@ -143,84 +109,79 @@ public class ReportDAOImpl implements ReportDAO {
      */
     @Override
     public Report getReport(int reportID) {
-        Gson gson = new Gson();
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         Report report = null;
-        Connection conn = DBConnector.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
+        Gson gson = new Gson();
+
         try {
-            String sql = SQLConstants.RETRIEVE_REPORT;
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, reportID);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-                String reportJson = rs.getString("report");
-                report = gson.fromJson(reportJson, Report.class);
-            }
-        } catch(Exception e) {
+            report = jdbcTemplate.withTransaction(template -> jdbcTemplate.fetchSingleRecord(SQLConstants.RETRIEVE_REPORT,
+                    (resultSet, rowNumber) -> {
+                        String reportJson = resultSet.getString("report");
+                        return gson.fromJson(reportJson, Report.class);
+                    }, preparedStatement -> preparedStatement.setInt(1, reportID)));
+        } catch (TransactionException e) {
             e.printStackTrace();
-        } finally {
-            try{
-                if(rs!=null) rs.close();;
-            } catch(SQLException se3) {
-                se3.printStackTrace();
-            }
-            try{
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2) {
-                se2.printStackTrace();
-            }
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se){
-                se.printStackTrace();
-            }
         }
         return report;
-
-
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<Report> getReports(int testID) {
+    public List<Report> getReportsForTest(int testID) {
         deleteEmptyReports();
         Gson gson = new Gson();
-        List<Report> reports = new ArrayList<Report>();
-        Connection conn = DBConnector.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
+        List<Report> reports = null;
+
         try {
-            String sql = SQLConstants.RETRIEVE_REPORTS;
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, testID);
-            rs = stmt.executeQuery();
-            while (rs.next()) {
-                String reportJson = rs.getString("report");
-                Report report = gson.fromJson(reportJson, Report.class);
-                reports.add(report);
-            }
-        } catch(Exception e) {
+            reports = jdbcTemplate.withTransaction(template ->
+                    template.executeQuery(SQLConstants.RETRIEVE_REPORTS_FOR_TESTPLAN, ((resultSet, rowNumber) -> {
+                        String reportJson = resultSet.getString("report");
+                        return gson.fromJson(reportJson, Report.class); // return report
+                    }), preparedStatement -> preparedStatement.setInt(1, testID))
+            );
+        } catch (TransactionException e) {
             e.printStackTrace();
-        } finally {
-            try{
-                if(rs!=null) rs.close();;
-            } catch(SQLException se3) {
-                se3.printStackTrace();
-            }
-            try{
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2) {
-                se2.printStackTrace();
-            }
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se){
-                se.printStackTrace();
-            }
         }
         return reports;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Map<Integer, List<Report>> getReportsForUser(String userID) {
+        deleteEmptyReports();
+        Gson gson = new Gson();
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
+        Map<Integer, List<Report>> reportMap = new HashMap<>();
+        List<Report> reports;
+
+        try {
+            reports = jdbcTemplate.withTransaction(template ->
+                    template.executeQuery(SQLConstants.RETRIEVE_REPORTS_FOR_USER, ((resultSet, rowNumber) -> {
+                        String reportJson = resultSet.getString("report");
+                        return gson.fromJson(reportJson, Report.class); // return report
+                    }), preparedStatement -> {
+                        preparedStatement.setString(1, userID);
+                    })
+            );
+
+            /* Split the report list to multiple lists according to testID and insert to a map
+               Map<testID, List of reports with testID> */
+            for (Report report : reports) {
+                List<Report> reportList = reportMap.get(report.getTestId());
+                if (reportList == null) {
+                    reportList = new ArrayList<>();
+                    reportMap.put(report.getTestId(), reportList);
+                }
+                reportList.add(report);
+            }
+        } catch (TransactionException e) {
+            e.printStackTrace();
+        }
+        return reportMap;
     }
 }

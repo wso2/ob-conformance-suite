@@ -83,7 +83,10 @@ public class SQLConstants {
     public static final String RETRIEVE_REPORT = "SELECT * FROM Report WHERE reportID = ?";
 
     // Retrieve all Reports for a given testPlan
-    public static final String RETRIEVE_REPORTS = "SELECT * FROM Report WHERE testID = ?";
+    public static final String RETRIEVE_REPORTS_FOR_TESTPLAN = "SELECT * FROM Report WHERE testID = ?";
+
+    // Retrieve all Reports for a given testPlan
+    public static final String RETRIEVE_REPORTS_FOR_USER = "SELECT * FROM Report WHERE userID = ?";
 
     // Delete a Report
     public static final String DELETE_REPORT =  "DELETE FROM Report WHERE reportID = ?";

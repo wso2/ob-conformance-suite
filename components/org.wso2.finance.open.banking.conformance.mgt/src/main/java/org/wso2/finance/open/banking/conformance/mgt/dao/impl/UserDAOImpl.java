@@ -18,12 +18,13 @@
 
 package org.wso2.finance.open.banking.conformance.mgt.dao.impl;
 
+import org.wso2.carbon.database.utils.jdbc.JdbcTemplate;
+import org.wso2.carbon.database.utils.jdbc.exceptions.TransactionException;
 import org.wso2.finance.open.banking.conformance.mgt.dao.UserDAO;
 import org.wso2.finance.open.banking.conformance.mgt.db.DBConnector;
 import org.wso2.finance.open.banking.conformance.mgt.db.SQLConstants;
 import org.wso2.finance.open.banking.conformance.mgt.dto.UserDTO;
-
-import java.sql.*;
+import java.sql.Date;
 
 public class UserDAOImpl implements UserDAO {
 
@@ -32,38 +33,23 @@ public class UserDAOImpl implements UserDAO {
      */
     @Override
     public void addUser(UserDTO userDTO) {
-        Connection conn = DBConnector.getConnection();
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
 
-        java.util.Date dt = userDTO.getRegDate();
+        java.util.Date dt = new java.util.Date();
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String regDate = sdf.format(dt);
-        PreparedStatement stmt = null;
-        String sql;
+        String currentTime = sdf.format(dt);
+
         try {
-            sql = SQLConstants.ADD_USER;
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, userDTO.getUserID());
-            stmt.setString(2, userDTO.getUserName());
-            stmt.setString(3, userDTO.getPassword());
-            stmt.setString(3, regDate);
-            stmt.executeUpdate();
-            stmt.close();
-            conn.close();
-        } catch(SQLException se) {
-            se.printStackTrace();
-        } catch(Exception e) {
+            jdbcTemplate.withTransaction(template ->
+                    template.executeInsert(SQLConstants.ADD_USER, preparedStatement -> {
+                        preparedStatement.setString(1, userDTO.getUserID());
+                        preparedStatement.setString(2, userDTO.getUserName());
+                        preparedStatement.setString(3, userDTO.getPassword());
+                        preparedStatement.setString(3, currentTime);
+                    }, null, false)
+            );
+        } catch (TransactionException e) {
             e.printStackTrace();
-        } finally {
-            try{
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2) {
-                se2.printStackTrace();
-            }
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se){
-                se.printStackTrace();
-            }
         }
     }
 
@@ -72,37 +58,20 @@ public class UserDAOImpl implements UserDAO {
      */
     @Override
     public void updateUser(UserDTO userDTO) {
-        Connection conn = DBConnector.getConnection();
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
 
-        PreparedStatement stmt = null;
-        String sql;
         try {
-            sql = SQLConstants.UPDATE_USER;
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, userDTO.getUserName());
-            stmt.setString(2, userDTO.getPassword());
-            stmt.setString(3, userDTO.getUserID());
-            stmt.executeUpdate();
-
-            stmt.close();
-            conn.close();
-        } catch(SQLException se) {
-            se.printStackTrace();
-        } catch(Exception e) {
+            jdbcTemplate.withTransaction(template -> {
+                template.executeUpdate(SQLConstants.UPDATE_USER, preparedStatement -> {
+                    preparedStatement.setString(1, userDTO.getUserName());
+                    preparedStatement.setString(2, userDTO.getPassword());
+                    preparedStatement.setString(3, userDTO.getUserID());
+                });
+                return null;
+            });
+        } catch (TransactionException e) {
             e.printStackTrace();
-        } finally {
-            try{
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2) {
-                se2.printStackTrace();
-            }
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se){
-                se.printStackTrace();
-            }
         }
-
     }
 
     /**
@@ -110,40 +79,22 @@ public class UserDAOImpl implements UserDAO {
      */
     @Override
     public UserDTO getUser(String userID, String password) {
-        Connection conn = DBConnector.getConnection();
-        PreparedStatement stmt = null;
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         UserDTO userDTO = null;
-        ResultSet rs = null;
+
         try {
-            String sql = SQLConstants.GET_USER;
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, userID);
-            stmt.setString(2, UserDTO.encryptPassword(password));
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-                userDTO = new UserDTO(rs.getString("userID"),
-                        rs.getString("name"),rs.getString("password"), rs.getDate("regDate"));
-            }
-        } catch(SQLException se) {
-            se.printStackTrace();
-        } catch(Exception e) {
+            userDTO = jdbcTemplate.withTransaction(template -> jdbcTemplate.fetchSingleRecord(SQLConstants.GET_USER,
+                    (resultSet, rowNumber) -> {
+                        String name = resultSet.getString("name");
+                        Date regDate = resultSet.getDate("regDate");
+                        return new UserDTO(userID, name, password, regDate);
+                    }, preparedStatement -> {
+                        preparedStatement.setString(1, userID);
+                        preparedStatement.setString(2, UserDTO.encryptPassword(password));
+                    }
+            ));
+        } catch (TransactionException e) {
             e.printStackTrace();
-        } finally {
-            try{
-                if(rs!=null) rs.close();
-            } catch(SQLException se3) {
-                se3.printStackTrace();
-            }
-            try{
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2) {
-                se2.printStackTrace();
-            }
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se){
-                se.printStackTrace();
-            }
         }
         return userDTO;
     }
@@ -153,33 +104,15 @@ public class UserDAOImpl implements UserDAO {
      */
     @Override
     public void deleteUser(String userID) {
-        Connection conn = DBConnector.getConnection();
-
-        PreparedStatement stmt = null;
-        String sql;
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         try {
-            sql = SQLConstants.REMOVE_USER;
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, userID);
-            stmt.executeUpdate();
-
-            stmt.close();
-            conn.close();
-        } catch(SQLException se) {
-            se.printStackTrace();
-        } catch(Exception e) {
+            jdbcTemplate.withTransaction(template -> {
+                template.executeUpdate(SQLConstants.REMOVE_USER, preparedStatement ->
+                        preparedStatement.setString(1, userID));
+                return null;
+            });
+        } catch (TransactionException e) {
             e.printStackTrace();
-        } finally {
-            try{
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2) {
-                se2.printStackTrace();
-            }
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se){
-                se.printStackTrace();
-            }
         }
     }
 }

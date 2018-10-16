@@ -19,7 +19,7 @@
 package org.wso2.finance.open.banking.conformance.mgt.db;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import java.sql.Connection;
+import javax.sql.DataSource;
 
 
 /**
@@ -41,8 +41,7 @@ public class DBConnector {
      *the database from the connection pool.
      * @return Connection - An SQL Connection
      */
-    public static Connection getConnection(){
-        Connection conn = null;
+    public static DataSource getDataSource(){
         if (dataSource == null)
         {
             BasicDataSource ds = new BasicDataSource();
@@ -57,12 +56,6 @@ public class DBConnector {
 
             dataSource = ds;
         }
-        try {
-            conn = dataSource.getConnection();
-        } catch(Exception e) {
-            //Handle errors for Class.forName
-            e.printStackTrace();
-        }
-        return conn;
+        return dataSource;
     }
 }
