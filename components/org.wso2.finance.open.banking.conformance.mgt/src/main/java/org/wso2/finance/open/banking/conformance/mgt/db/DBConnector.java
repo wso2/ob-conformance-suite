@@ -35,6 +35,7 @@ public class DBConnector {
     private static final String USER = "obuser";
     private static final String PASS = "obpass";
 
+    private DBConnector(){}
     /**
      *This method will return an SQL Connection for accessing
      *the database from the connection pool.

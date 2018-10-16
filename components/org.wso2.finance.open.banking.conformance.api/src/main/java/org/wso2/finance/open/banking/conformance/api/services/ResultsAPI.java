@@ -57,6 +57,7 @@ public class ResultsAPI {
         ReportDAO reportDAO = new ReportDAOImpl();
         Report report = reportDAO.getReport(reportId);
 
+        /* In case of a currently running test, get the report from runnerManager */
         if(report == null){
             report =  this.runnerManager.getReport(testId, reportId);
         }

@@ -16,13 +16,15 @@
  * under the License.
  */
 
+package org.wso2.finance.open.banking.conformance.mgt.db;
+
 /**
  * This class will hold all SQL queries needed for the
  * application as constants.
  */
-package org.wso2.finance.open.banking.conformance.mgt.db;
-
 public class SQLConstants {
+
+    private SQLConstants(){}
     /* Create Tables */
     public static final String CREATE_USER_TABLE = "CREATE TABLE User " +
             "(userID VARCHAR(50) not NULL, " +

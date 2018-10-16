@@ -19,6 +19,7 @@
 package org.wso2.finance.open.banking.conformance.mgt.dto;
 
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
@@ -37,7 +38,7 @@ public class UserDTO {
         this.userID = userID;
         this.userName = userName;
         this.password = encryptPassword(password);
-        this.regDate = regDate;
+        this.regDate = new Date(regDate.getTime());
     }
 
     public String getUserID() {
@@ -53,7 +54,7 @@ public class UserDTO {
     }
 
     public Date getRegDate() {
-        return regDate;
+        return new Date(regDate.getTime());
     }
 
     /**
@@ -64,7 +65,7 @@ public class UserDTO {
     public static String encryptPassword(String plainPassword) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
-            byte[] messageDigest = md.digest(plainPassword.getBytes());
+            byte[] messageDigest = md.digest(plainPassword.getBytes(Charset.forName("UTF-8")));
             BigInteger no = new BigInteger(1, messageDigest);
             String hashtext = no.toString(16);
 
@@ -74,7 +75,7 @@ public class UserDTO {
             return hashtext;
         }
         catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 }

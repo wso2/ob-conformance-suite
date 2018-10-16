@@ -28,8 +28,7 @@ import java.sql.*;
 public class UserDAOImpl implements UserDAO {
 
     /**
-     *This method will add a new row to the user table when a new user is registered.
-     * @param userDTO : UserDTO object
+     * {@inheritDoc}
      */
     @Override
     public void addUser(UserDTO userDTO) {
@@ -48,7 +47,6 @@ public class UserDAOImpl implements UserDAO {
             stmt.setString(3, userDTO.getPassword());
             stmt.setString(3, regDate);
             stmt.executeUpdate();
-
             stmt.close();
             conn.close();
         } catch(SQLException se) {
@@ -59,6 +57,7 @@ public class UserDAOImpl implements UserDAO {
             try{
                 if(stmt!=null) stmt.close();
             } catch(SQLException se2) {
+                se2.printStackTrace();
             }
             try {
                 if(conn!=null) conn.close();
@@ -69,8 +68,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     /**
-     *This method will update an existing row in the user table when a UserDTO is given.
-     * @param userDTO : UserDTO object
+     * {@inheritDoc}
      */
     @Override
     public void updateUser(UserDTO userDTO) {
@@ -96,6 +94,7 @@ public class UserDAOImpl implements UserDAO {
             try{
                 if(stmt!=null) stmt.close();
             } catch(SQLException se2) {
+                se2.printStackTrace();
             }
             try {
                 if(conn!=null) conn.close();
@@ -107,39 +106,38 @@ public class UserDAOImpl implements UserDAO {
     }
 
     /**
-     *This method will return a UserDTO object when the username and password
-     * for a particular user is given.
-     * @param userID : ID of the user
-     * @param password : Password of the user
-     * @return UserDTO object for the requested user.
+     * {@inheritDoc}
      */
     @Override
     public UserDTO getUser(String userID, String password) {
         Connection conn = DBConnector.getConnection();
         PreparedStatement stmt = null;
         UserDTO userDTO = null;
-
+        ResultSet rs = null;
         try {
             String sql = SQLConstants.GET_USER;
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, userID);
             stmt.setString(2, UserDTO.encryptPassword(password));
-            ResultSet rs = stmt.executeQuery();
-
+            rs = stmt.executeQuery();
             if (rs.next()) {
                 userDTO = new UserDTO(rs.getString("userID"),
                         rs.getString("name"),rs.getString("password"), rs.getDate("regDate"));
             }
-            stmt.close();
-            conn.close();
         } catch(SQLException se) {
             se.printStackTrace();
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
             try{
+                if(rs!=null) rs.close();
+            } catch(SQLException se3) {
+                se3.printStackTrace();
+            }
+            try{
                 if(stmt!=null) stmt.close();
             } catch(SQLException se2) {
+                se2.printStackTrace();
             }
             try {
                 if(conn!=null) conn.close();
@@ -151,9 +149,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     /**
-     *This method will delete the row in the user table belonging to the
-     * given userID.
-     * @param userID : ID of the user
+     * {@inheritDoc}
      */
     @Override
     public void deleteUser(String userID) {
@@ -177,6 +173,7 @@ public class UserDAOImpl implements UserDAO {
             try{
                 if(stmt!=null) stmt.close();
             } catch(SQLException se2) {
+                se2.printStackTrace();
             }
             try {
                 if(conn!=null) conn.close();

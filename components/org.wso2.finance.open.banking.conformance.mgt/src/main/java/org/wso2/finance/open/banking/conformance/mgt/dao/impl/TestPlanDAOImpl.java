@@ -39,10 +39,7 @@ import java.util.Map;
 public class TestPlanDAOImpl implements TestPlanDAO {
 
     /**
-     *This method will store the given test-plan in the testPlan table.
-     * @param userID : User ID of the current user
-     * @param testPlan : TestPlan object
-     * @return the generated test-plan id (from auto increment column of the testPlan table)
+     * {@inheritDoc}
      */
     @Override
     public int storeTestPlan(String userID, TestPlan testPlan) {
@@ -55,6 +52,8 @@ public class TestPlanDAOImpl implements TestPlanDAO {
         String currentTime = sdf.format(dt);
         String testPlanJson = gson.toJson(testPlan);
         PreparedStatement stmt = null;
+        PreparedStatement stmt2 = null;
+        ResultSet rs = null;
         String sql;
         try {
             sql = SQLConstants.CREATE_TESTPLAN;
@@ -63,29 +62,35 @@ public class TestPlanDAOImpl implements TestPlanDAO {
             stmt.setString(2, testPlanJson);
             stmt.setString(3, currentTime);
             stmt.executeUpdate();
-
-            ResultSet rs = stmt.getGeneratedKeys();
+            rs = stmt.getGeneratedKeys();
             if(rs.next())
             {
                 generatedTestID = rs.getInt(1);
                 testPlan.setTestId(generatedTestID);
                 testPlanJson = gson.toJson(testPlan);
                 sql = SQLConstants.UPDATE_TESTPLAN;
-                stmt = conn.prepareStatement(sql);
-                stmt.setString(1, testPlanJson);
-                stmt.setInt(2, generatedTestID);
-                stmt.executeUpdate();
+                stmt2 = conn.prepareStatement(sql);
+                stmt2.setString(1, testPlanJson);
+                stmt2.setInt(2, generatedTestID);
+                stmt2.executeUpdate();
             }
-            stmt.close();
-            conn.close();
-        } catch(SQLException se) {
-            se.printStackTrace();
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
             try{
+                if(rs!=null) rs.close();;
+            } catch(SQLException se4) {
+                se4.printStackTrace();
+            }
+            try{
+                if(stmt2!=null) stmt2.close();
+            } catch(SQLException se3) {
+                se3.printStackTrace();
+            }
+            try{
                 if(stmt!=null) stmt.close();
             } catch(SQLException se2) {
+                se2.printStackTrace();
             }
             try {
                 if(conn!=null) conn.close();
@@ -97,9 +102,7 @@ public class TestPlanDAOImpl implements TestPlanDAO {
     }
 
     /**
-     *This method will return the test plan object when the testID is given.
-     * @param testID : testID of the requested test plan.
-     * @return the requested test plan object
+     * {@inheritDoc}
      */
     @Override
     public TestPlan getTestPlan(int testID) {
@@ -107,27 +110,30 @@ public class TestPlanDAOImpl implements TestPlanDAO {
         TestPlan testPlan = new TestPlan();
         Connection conn = DBConnector.getConnection();
         PreparedStatement stmt = null;
-
+        ResultSet rs = null;
         try {
             String sql =  SQLConstants.RETRIEVE_TESTPLAN;
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, testID);
-            ResultSet rs = stmt.executeQuery();
-
+            rs = stmt.executeQuery();
             if (rs.next()) {
                 String testPlanJson = rs.getString("testConfig");
                 testPlan = gson.fromJson(testPlanJson, TestPlan.class);
             }
-            stmt.close();
-            conn.close();
         } catch(SQLException se) {
             se.printStackTrace();
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
             try{
+                if(rs!=null) rs.close();;
+            } catch(SQLException se3) {
+                se3.printStackTrace();
+            }
+            try{
                 if(stmt!=null) stmt.close();
             } catch(SQLException se2) {
+                se2.printStackTrace();
             }
             try {
                 if(conn!=null) conn.close();
@@ -139,10 +145,7 @@ public class TestPlanDAOImpl implements TestPlanDAO {
     }
 
     /**
-     *This method will return all the test plans along with their corresponding
-     *reports belonging to a particular user.
-     * @param userID : User ID of the current user.
-     * @return a map containing testPlan IDs and the corresponding testPlanDTOs.
+     * {@inheritDoc}
      */
     @Override
     public Map<Integer, TestPlanDTO> getTestPlans(String userID) {
@@ -152,14 +155,13 @@ public class TestPlanDAOImpl implements TestPlanDAO {
         ReportDAO reportDAO = new ReportDAOImpl();
         List<Report> reports;
         PreparedStatement stmt = null;
-
+        ResultSet rs = null;
         try {
             // Execute query
             String sql =  SQLConstants.RETRIEVE_TESTPLANS;
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, userID);
-            ResultSet rs = stmt.executeQuery();
-
+            rs = stmt.executeQuery();
             while (rs.next()) {
                 int testID = rs.getInt("testID");
                 String testPlanJson = rs.getString("testConfig");
@@ -176,8 +178,14 @@ public class TestPlanDAOImpl implements TestPlanDAO {
             e.printStackTrace();
         } finally {
             try{
+                if(rs!=null) rs.close();;
+            } catch(SQLException se3) {
+                se3.printStackTrace();
+            }
+            try{
                 if(stmt!=null) stmt.close();
             } catch(SQLException se2) {
+                se2.printStackTrace();
             }
             try {
                 if(conn!=null) conn.close();

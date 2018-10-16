@@ -196,6 +196,8 @@
         <org.apache.maven.plugins.version>3.7.0</org.apache.maven.plugins.version>
         <org.wso2.msf4j.version>2.6.3</org.wso2.msf4j.version>
         <junit.version>4.12</junit.version>
+        <com.h2database.version>1.4.196</com.h2database.version>
+        <org.apache.commons.version>2.5.0</org.apache.commons.version>
     </properties>
 
 </project>

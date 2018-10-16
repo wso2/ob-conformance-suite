@@ -35,71 +35,7 @@ import java.util.List;
 public class ReportDAOImpl implements ReportDAO {
 
     /**
-     *This method will add the report to the database.
-     * @param userID : User ID of the current user
-     * @param testID : Test ID of the report
-     * @param report : Report object
-     */
-    @Override
-    public int storeReport(String userID, int testID, Report report) {
-        Gson gson = new Gson();
-        Connection conn = DBConnector.getConnection();
-        int generatedReportID = -1;
-
-        java.util.Date dt = new java.util.Date();
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentTime = sdf.format(dt);
-
-        String reportJson = gson.toJson(report);
-        PreparedStatement stmt = null;
-        try {
-            String sql = SQLConstants.CREATE_REPORT;
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, testID);
-            stmt.setString(2, userID);
-            stmt.setString(3, reportJson);
-            stmt.setString(4, currentTime);
-            stmt.executeUpdate();
-
-            ResultSet rs = stmt.getGeneratedKeys();
-            if(rs.next())
-            {
-                generatedReportID = rs.getInt(1);
-                report.setReportId(generatedReportID);
-                reportJson = gson.toJson(report);
-                sql = SQLConstants.UPDATE_REPORT;
-                stmt = conn.prepareStatement(sql);
-                stmt.setString(1, reportJson);
-                stmt.setString(2, currentTime);
-                stmt.setInt(3, generatedReportID);
-                stmt.executeUpdate();
-            }
-            stmt.close();
-            conn.close();
-        } catch(SQLException se) {
-            se.printStackTrace();
-        } catch(Exception e) {
-            e.printStackTrace();
-        } finally {
-            try{
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2) {
-            }
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se){
-                se.printStackTrace();
-            }
-        }
-        return generatedReportID;
-    }
-
-    /**
-     *This method will create a row in the report table to store the
-     * report after the test has finished.
-     * @param userID : User ID of the current user
-     * @param testID : Test ID of the report
-     * @return the generated report id (from auto increment column of the report table)
+     * {@inheritDoc}
      */
     @Override
     public int getNewReportID(String userID, int testID) {
@@ -114,22 +50,19 @@ public class ReportDAOImpl implements ReportDAO {
             stmt.setNull(3, Types.NULL);
             stmt.setNull(4, Types.NULL);
             stmt.executeUpdate();
-
             ResultSet rs = stmt.getGeneratedKeys();
+
             if(rs.next())
             {
                 generatedReportID = rs.getInt(1);
             }
-            stmt.close();
-            conn.close();
-        } catch(SQLException se) {
-            se.printStackTrace();
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
             try{
                 if(stmt!=null) stmt.close();
             } catch(SQLException se2) {
+                se2.printStackTrace();
             }
             try {
                 if(conn!=null) conn.close();
@@ -141,10 +74,7 @@ public class ReportDAOImpl implements ReportDAO {
     }
 
     /**
-     *This method will add a report to the row created in the report table
-     *at the start of a test.
-     * @param reportID : ID of the report
-     * @param report : Report object
+     * {@inheritDoc}
      */
     @Override
     public void updateReport(int reportID, Report report) {
@@ -164,16 +94,13 @@ public class ReportDAOImpl implements ReportDAO {
             stmt.setString(2, currentTime);
             stmt.setInt(3, reportID);
             stmt.executeUpdate();
-            stmt.close();
-            conn.close();
-        } catch(SQLException se) {
-            se.printStackTrace();
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
             try{
                 if(stmt!=null) stmt.close();
             } catch(SQLException se2) {
+                se2.printStackTrace();
             }
             try {
                 if(conn!=null) conn.close();
@@ -184,9 +111,35 @@ public class ReportDAOImpl implements ReportDAO {
     }
 
     /**
-     *This method will return a report object when the reportID is given.
-     * @param reportID : ID of the report
-     * @return the requested report
+     * {@inheritDoc}
+     */
+    @Override
+    public void deleteEmptyReports() {
+        Connection conn = DBConnector.getConnection();
+        PreparedStatement stmt = null;
+
+        try {
+            String sql = SQLConstants.DELETE_EMPTY_REPORTS;
+            stmt = conn.prepareStatement(sql);
+            stmt.executeUpdate();
+        }catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                if(stmt!=null) stmt.close();
+            } catch(SQLException se2) {
+                se2.printStackTrace();
+            }
+            try {
+                if(conn!=null) conn.close();
+            } catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public Report getReport(int reportID) {
@@ -194,27 +147,28 @@ public class ReportDAOImpl implements ReportDAO {
         Report report = null;
         Connection conn = DBConnector.getConnection();
         PreparedStatement stmt = null;
-
+        ResultSet rs = null;
         try {
             String sql = SQLConstants.RETRIEVE_REPORT;
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, reportID);
-            ResultSet rs = stmt.executeQuery();
-
+            rs = stmt.executeQuery();
             if (rs.next()) {
                 String reportJson = rs.getString("report");
                 report = gson.fromJson(reportJson, Report.class);
             }
-            stmt.close();
-            conn.close();
-        } catch(SQLException se) {
-            se.printStackTrace();
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
             try{
+                if(rs!=null) rs.close();;
+            } catch(SQLException se3) {
+                se3.printStackTrace();
+            }
+            try{
                 if(stmt!=null) stmt.close();
             } catch(SQLException se2) {
+                se2.printStackTrace();
             }
             try {
                 if(conn!=null) conn.close();
@@ -228,43 +182,38 @@ public class ReportDAOImpl implements ReportDAO {
     }
 
     /**
-     *This method will return all reports belonging to a particular test.
-     * @param testID : Test ID of the reports
-     * @return a List with requested reports
+     * {@inheritDoc}
      */
     @Override
     public List<Report> getReports(int testID) {
-
+        deleteEmptyReports();
         Gson gson = new Gson();
         List<Report> reports = new ArrayList<Report>();
         Connection conn = DBConnector.getConnection();
         PreparedStatement stmt = null;
-
+        ResultSet rs = null;
         try {
-            String sql = SQLConstants.DELETE_EMPTY_REPORTS;
-            stmt = conn.prepareStatement(sql);
-            stmt.executeUpdate();
-            sql = SQLConstants.RETRIEVE_REPORTS;
+            String sql = SQLConstants.RETRIEVE_REPORTS;
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, testID);
-            ResultSet rs = stmt.executeQuery();
-
+            rs = stmt.executeQuery();
             while (rs.next()) {
-                int reportID = rs.getInt("reportID");
                 String reportJson = rs.getString("report");
                 Report report = gson.fromJson(reportJson, Report.class);
                 reports.add(report);
             }
-            stmt.close();
-            conn.close();
-        } catch(SQLException se) {
-            se.printStackTrace();
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
             try{
+                if(rs!=null) rs.close();;
+            } catch(SQLException se3) {
+                se3.printStackTrace();
+            }
+            try{
                 if(stmt!=null) stmt.close();
             } catch(SQLException se2) {
+                se2.printStackTrace();
             }
             try {
                 if(conn!=null) conn.close();

@@ -43,13 +43,13 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.196</version>
+            <version>${com.h2database.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-dbcp2</artifactId>
-            <version>2.5.0</version>
+            <version>${org.apache.commons.version}</version>
         </dependency>
     </dependencies>
 
