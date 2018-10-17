@@ -25,17 +25,14 @@ import org.wso2.finance.open.banking.conformance.mgt.dao.impl.ReportDAOImpl;
 import org.wso2.finance.open.banking.conformance.mgt.exceptions.ConformanceMgtException;
 import org.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
+import org.wso2.finance.open.banking.conformance.mgt.models.Result;
 import org.wso2.finance.open.banking.conformance.mgt.testconfig.Feature;
 import org.wso2.finance.open.banking.conformance.mgt.testconfig.Specification;
 import org.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 import org.wso2.finance.open.banking.conformance.test.core.context.Context;
 import org.wso2.finance.open.banking.conformance.test.core.testrunners.FeatureRunner;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -48,11 +45,10 @@ public class TestPlanRunnerInstance extends Thread {
 
     private TestPlan testPlan;
     private volatile Integer reportId;
-    private volatile Map<String, List<JsonObject>> formattedResult = new HashMap();
+    private BlockingQueue<TestPlanFeatureResult> resultsQueue;
+    private volatile Map<String, List<Result>> formattedResult = new HashMap();
     private volatile Report.RunnerState status;
     private Context context;
-
-    private BlockingQueue<TestPlanFeatureResult> resultsQueue;
 
     /**
      * @param testPlan Configured TestPlan received from front end
@@ -73,7 +69,7 @@ public class TestPlanRunnerInstance extends Thread {
      * @param result test results json
      * @param specification corresponding specification
      */
-    private void queueResult(JsonObject result, Specification specification) {
+    private void queueResult(Result result, Specification specification) {
 
         TestPlanFeatureResult testPlanFeatureResult =
                 new TestPlanFeatureResult(result, specification.getName(), this.status);
@@ -110,7 +106,7 @@ public class TestPlanRunnerInstance extends Thread {
 
         log.debug("Run Spec : " + specification.getName());
 
-        List<JsonObject> featureResults = new ArrayList();
+        List<Result> featureResults = new ArrayList();
         formattedResult.put(specification.getName(), featureResults);
 
         Context.getInstance().setSpecContext(specification.getName(), specification.getVersion());
@@ -118,7 +114,7 @@ public class TestPlanRunnerInstance extends Thread {
 
         for (Feature feature : specification.getFeatures()) {
             FeatureRunner featureRunner = new FeatureRunner(feature);
-            JsonObject featureResult = featureRunner.runFeature();
+            Result featureResult = featureRunner.runFeature();
             featureResults.add(featureResult);
             this.queueResult(featureResult, specification);
         }

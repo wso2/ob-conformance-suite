@@ -23,6 +23,7 @@ import org.wso2.carbon.database.utils.jdbc.JdbcTemplate;
 import org.apache.log4j.Logger;
 import javax.sql.DataSource;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 /**
@@ -40,10 +41,9 @@ public class DBConnector {
      *the database from the connection pool.
      * @return Connection - An SQL Connection
      */
-    public static DataSource getDataSource() {
+    public static synchronized DataSource getDataSource() {
             if (dataSource == null) {
-                try{
-                    FileInputStream fileInputStream = new FileInputStream("db.properties");
+                try(FileInputStream fileInputStream = new FileInputStream("db.properties")){
                     Properties props = new Properties ();
                     props.load (fileInputStream);
 
@@ -57,7 +57,7 @@ public class DBConnector {
                     ds.setMaxIdle(10);
                     ds.setMaxOpenPreparedStatements(100);
                     dataSource = ds;
-            }catch (Exception e){
+            }catch (IOException e){
                     log.error("Error reading database properties from 'db.properties' file",e);
                 }
         }
@@ -66,7 +66,7 @@ public class DBConnector {
     }
 
     /**
-     *This method will execute queries that creates
+     *This method will execute queries that create
      * the tables needed for the application if they are
      * not available.
      */

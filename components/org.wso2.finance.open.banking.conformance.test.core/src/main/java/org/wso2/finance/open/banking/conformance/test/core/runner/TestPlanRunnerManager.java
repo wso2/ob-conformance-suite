@@ -18,6 +18,7 @@
 
 package org.wso2.finance.open.banking.conformance.test.core.runner;
 
+import org.wso2.finance.open.banking.conformance.mgt.helpers.TestResultCalculator;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 import org.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 
@@ -63,8 +64,7 @@ public class TestPlanRunnerManager {
      * @param uuid
      * @return
      */
-    public Report.RunnerState getStatus(String uuid) {
-
+    public Report.RunnerState getStatus(int uuid) {
         return this.runnerInstanceMap.get(uuid).getStatus();
     }
 
@@ -95,7 +95,7 @@ public class TestPlanRunnerManager {
      * @param uuid
      * @return
      */
-    public TestPlan getTestPlan(String uuid) {
+    public TestPlan getTestPlan(int uuid) {
 
         return this.runnerInstanceMap.get(uuid).getTestPlan();
     }
@@ -133,7 +133,9 @@ public class TestPlanRunnerManager {
      * @return
      */
     public Report getReport(int uuid, Integer reportId) {
-
-        return this.runnerInstanceMap.get(uuid).buildReport(reportId);
+        // Will be removed when Database integration finishes
+        Report report = this.runnerInstanceMap.get(uuid).buildReport(reportId);
+        TestResultCalculator.getSummaryResults(report);
+        return report;
     }
 }
