@@ -48,7 +48,6 @@ public class SQLConstants {
             " report CLOB, " +
             " passed INT, " +
             " failed INT, " +
-            " passRate INT, " +
             " runTime DATETIME, " +
             " PRIMARY KEY ( reportID )," +
             " foreign key (userID) references user(userID)," +
@@ -74,10 +73,10 @@ public class SQLConstants {
 
     /* Report SQL */
     // Create a Report
-    public static final String CREATE_REPORT =  "INSERT INTO Report (testID, userID, report, runtime) VALUES  (?,?,?,?)";
+    public static final String CREATE_REPORT =  "INSERT INTO Report (testID, userID) VALUES  (?,?)";
 
     // Update Report
-    public static final String UPDATE_REPORT = "UPDATE Report SET report = ?, runtime = ? WHERE reportID = ?";
+    public static final String UPDATE_REPORT = "UPDATE Report SET report = ?, passed = ?, failed = ?, runtime = ? WHERE reportID = ?";
 
     // Retrieve a Report
     public static final String RETRIEVE_REPORT = "SELECT * FROM Report WHERE reportID = ?";

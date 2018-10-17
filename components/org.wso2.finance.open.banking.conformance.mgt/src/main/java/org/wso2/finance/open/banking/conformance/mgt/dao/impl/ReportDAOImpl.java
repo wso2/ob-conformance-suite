@@ -25,6 +25,7 @@ import org.wso2.finance.open.banking.conformance.mgt.dao.ReportDAO;
 import org.wso2.finance.open.banking.conformance.mgt.db.DBConnector;
 import org.wso2.finance.open.banking.conformance.mgt.db.SQLConstants;
 import org.wso2.finance.open.banking.conformance.mgt.exceptions.ConformanceMgtException;
+import org.wso2.finance.open.banking.conformance.mgt.helpers.TestResultCalculator;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 
 import java.sql.Types;
@@ -53,8 +54,6 @@ public class ReportDAOImpl implements ReportDAO {
                     template.executeInsert(SQLConstants.CREATE_REPORT, preparedStatement -> {
                         preparedStatement.setInt(1, testID);
                         preparedStatement.setString(2, userID);
-                        preparedStatement.setNull(3, Types.NULL);
-                        preparedStatement.setNull(4, Types.NULL);
                     }, null, true)
             );
         } catch (TransactionException e) {
@@ -76,11 +75,14 @@ public class ReportDAOImpl implements ReportDAO {
 
         try {
             String reportJson = gson.toJson(report);
+            Map<String, Integer> resultSummary = TestResultCalculator.getSummaryResults(report);
             jdbcTemplate.withTransaction(template -> {
                 template.executeUpdate(SQLConstants.UPDATE_REPORT, preparedStatement -> {
                     preparedStatement.setString(1, reportJson);
-                    preparedStatement.setString(2, currentTime);
-                    preparedStatement.setInt(3, reportID);
+                    preparedStatement.setInt(2, resultSummary.get("passed"));
+                    preparedStatement.setInt(3, resultSummary.get("failed"));
+                    preparedStatement.setString(4, currentTime);
+                    preparedStatement.setInt(5, reportID);
                 });
                 return null;
             });
