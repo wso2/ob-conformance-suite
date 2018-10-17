@@ -19,8 +19,11 @@
 package org.wso2.finance.open.banking.conformance.mgt.db;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.wso2.carbon.database.utils.jdbc.JdbcTemplate;
+import org.apache.log4j.Logger;
 import javax.sql.DataSource;
-
+import java.io.FileInputStream;
+import java.util.Properties;
 
 /**
  * This class is responsible for handling all initial database
@@ -28,12 +31,8 @@ import javax.sql.DataSource;
  */
 public class DBConnector {
     private static BasicDataSource dataSource;
-    private static final String DB_URL = "jdbc:h2:~/obsuit-reports";
-    private static final String JDBC_DRIVER = "org.h2.Driver";
+    private static Logger log = Logger.getLogger(DBConnector.class);
 
-    //  Database credentials
-    private static final String USER = "obuser";
-    private static final String PASS = "obpass";
 
     private DBConnector(){}
     /**
@@ -41,21 +40,55 @@ public class DBConnector {
      *the database from the connection pool.
      * @return Connection - An SQL Connection
      */
-    public static DataSource getDataSource(){
-        if (dataSource == null)
-        {
-            BasicDataSource ds = new BasicDataSource();
-            ds.setUrl(DB_URL);
-            ds.setUsername(USER);
-            ds.setPassword(PASS);
-            ds.setDriverClassName(JDBC_DRIVER);
+    public static DataSource getDataSource() {
+            if (dataSource == null) {
+                try{
+                    FileInputStream fileInputStream = new FileInputStream("db.properties");
+                    Properties props = new Properties ();
+                    props.load (fileInputStream);
 
-            ds.setMinIdle(5);
-            ds.setMaxIdle(10);
-            ds.setMaxOpenPreparedStatements(100);
+                    BasicDataSource ds = new BasicDataSource();
+                    ds.setDriverClassName((String) props.get ("dName"));
+                    ds.setUrl((String) props.get ("URL"));
+                    ds.setUsername((String) props.get ("uName"));
+                    ds.setPassword((String) props.get ("password"));
 
-            dataSource = ds;
+                    ds.setMinIdle(5);
+                    ds.setMaxIdle(10);
+                    ds.setMaxOpenPreparedStatements(100);
+                    dataSource = ds;
+            }catch (Exception e){
+                    log.error("Error reading database properties from 'db.properties' file",e);
+                }
         }
+
         return dataSource;
+    }
+
+    /**
+     *This method will execute queries that creates
+     * the tables needed for the application if they are
+     * not available.
+     */
+    public static void createTablesIfNotExist(){
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSource());
+        try {
+            jdbcTemplate.withTransaction(template -> {
+                template.executeUpdate(SQLConstants.CREATE_USER_TABLE);
+                template.executeUpdate(SQLConstants.CREATE_TESTPLAN_TABLE);
+                template.executeUpdate(SQLConstants.CREATE_REPORT_TABLE);
+                template.executeUpdate(
+                        "MERGE INTO User KEY (userID) VALUES (" +
+                                "'adminx', 'Administrator', 'sha512', " +
+                                "'2018-10-17 14:50:26')"
+                ); //TODO : Remove after implementing user registration functionality
+
+                return null;
+                });
+
+
+        } catch (Exception e) {
+            log.error("Error creating tables",e);
+        }
     }
 }

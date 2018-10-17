@@ -29,12 +29,14 @@ public interface UserDAO {
     /**
      *This method will add a new row to the user table when a new user is registered.
      * @param userDTO : UserDTO object
+     * @throws ConformanceMgtException
      */
     public void addUser(UserDTO userDTO) throws ConformanceMgtException;
 
     /**
      *This method will update an existing row in the user table when a UserDTO is given.
      * @param userDTO : UserDTO object
+     * @throws ConformanceMgtException
      */
     public void updateUser(UserDTO userDTO) throws ConformanceMgtException;
 
@@ -44,6 +46,7 @@ public interface UserDAO {
      * @param userID : ID of the user
      * @param password : Password of the user
      * @return UserDTO object for the requested user.
+     * @throws ConformanceMgtException
      */
     public UserDTO getUser(String userID, String password) throws ConformanceMgtException;
 
@@ -51,6 +54,7 @@ public interface UserDAO {
      *This method will delete the row in the user table belonging to the
      * given userID.
      * @param userID : ID of the user
+     * @throws ConformanceMgtException
      */
     public void deleteUser(String userID) throws ConformanceMgtException;
 }

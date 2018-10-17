@@ -47,7 +47,7 @@ public class UserDAOImpl implements UserDAO {
                         preparedStatement.setString(1, userDTO.getUserID());
                         preparedStatement.setString(2, userDTO.getUserName());
                         preparedStatement.setString(3, userDTO.getPassword());
-                        preparedStatement.setString(3, currentTime);
+                        preparedStatement.setString(4, currentTime);
                     }, null, false)
             );
         } catch (TransactionException e) {

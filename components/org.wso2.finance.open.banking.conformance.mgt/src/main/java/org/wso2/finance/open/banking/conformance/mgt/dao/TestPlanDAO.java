@@ -34,6 +34,7 @@ public interface TestPlanDAO {
      * @param userID : User ID of the current user
      * @param testPlan : TestPlan object
      * @return the generated test-plan id (from auto increment column of the testPlan table)
+     * @throws ConformanceMgtException
      */
     public int storeTestPlan(String userID, TestPlan testPlan) throws ConformanceMgtException;
 
@@ -42,6 +43,7 @@ public interface TestPlanDAO {
      * testPlan object are given.
      * @param testID : The testID of the Test Plan
      * @param testPlan : TestPlan object
+     * @throws ConformanceMgtException
      */
     public void updateTestPlan(int testID, TestPlan testPlan) throws ConformanceMgtException;
 
@@ -49,6 +51,7 @@ public interface TestPlanDAO {
      *This method will return the test plan object when the testID is given.
      * @param testID : testID of the requested test plan.
      * @return the requested test plan object
+     * @throws ConformanceMgtException
      */
     public TestPlan getTestPlan(int testID) throws ConformanceMgtException;
 
@@ -57,6 +60,7 @@ public interface TestPlanDAO {
      *reports belonging to a particular user.
      * @param userID : User ID of the current user.
      * @return a map containing testPlan IDs and the corresponding testPlanDTOs.
+     * @throws ConformanceMgtException
      */
     public Map<Integer, TestPlanDTO> getTestPlans(String userID) throws ConformanceMgtException;
 }

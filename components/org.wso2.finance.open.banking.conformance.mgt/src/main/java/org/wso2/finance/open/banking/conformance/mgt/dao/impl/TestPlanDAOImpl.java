@@ -32,7 +32,6 @@ import org.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 
 import java.util.stream.Collectors;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

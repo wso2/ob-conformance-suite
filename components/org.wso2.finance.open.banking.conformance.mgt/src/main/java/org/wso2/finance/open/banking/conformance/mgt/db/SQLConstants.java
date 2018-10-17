@@ -26,14 +26,14 @@ public class SQLConstants {
 
     private SQLConstants(){}
     /* Create Tables */
-    public static final String CREATE_USER_TABLE = "CREATE TABLE User " +
+    public static final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS User " +
             "(userID VARCHAR(50) not NULL, " +
             " name VARCHAR(100) not NULL, " +
             " password VARCHAR(512) not NULL, " +
-            " regDate DATETIME not NULL, " +
+            " regDate DATETIME, " +
             " PRIMARY KEY ( userID ))";
 
-    public static final String CREATE_TESTPLAN_TABLE = "CREATE TABLE TestPlan " +
+    public static final String CREATE_TESTPLAN_TABLE = "CREATE TABLE IF NOT EXISTS TestPlan " +
             "(testID INT not NULL AUTO_INCREMENT, " +
             " userID VARCHAR(50), " +
             " testConfig CLOB, " +
@@ -41,7 +41,7 @@ public class SQLConstants {
             " PRIMARY KEY ( testID ), " +
             " foreign key (userID) references user(userID)) ";
 
-    public static final String CREATE_REPORT_TABLE = "CREATE TABLE Report " +
+    public static final String CREATE_REPORT_TABLE = "CREATE TABLE  IF NOT EXISTS Report " +
             "(reportID INT not NULL AUTO_INCREMENT, " +
             " testID VARCHAR(100) not NULL, " +
             " userID VARCHAR(50), " +
@@ -50,7 +50,7 @@ public class SQLConstants {
             " failed INT, " +
             " passRate INT, " +
             " runTime DATETIME, " +
-            " PRIMARY KEY ( reportID )" +
+            " PRIMARY KEY ( reportID )," +
             " foreign key (userID) references user(userID)," +
             " foreign key (testID) references TestPlan(testID)) ";
 
@@ -100,7 +100,7 @@ public class SQLConstants {
 
     /* User SQL */
     // Add new user
-    public static final String ADD_USER =  "INSERT INTO User (userID, name, password, regDate) VALUES  (?,?,?,?))";
+    public static final String ADD_USER =  "INSERT INTO User (userID, name, password, regDate) VALUES  (?,?,?,?)";
 
     // Update user details
     public static final String UPDATE_USER =  "UPDATE User SET name = ?, password = ? WHERE userID = ?";

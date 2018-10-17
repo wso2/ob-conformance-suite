@@ -35,6 +35,7 @@ public interface ReportDAO {
      * @param userID : User ID of the current user
      * @param testID : Test ID of the report
      * @return the generated report id (from auto increment column of the report table)
+     * @throws ConformanceMgtException
      */
     public int getNewReportID(String userID, int testID) throws ConformanceMgtException;
 
@@ -43,6 +44,7 @@ public interface ReportDAO {
      *at the start of a test.
      * @param reportID : ID of the report
      * @param report : Report object
+     * @throws ConformanceMgtException
      */
     public void updateReport(int reportID, Report report) throws ConformanceMgtException;
 
@@ -56,6 +58,7 @@ public interface ReportDAO {
      *This method will return a report object when the reportID is given.
      * @param reportID : ID of the report
      * @return the requested report
+     * @throws ConformanceMgtException
      */
     public Report getReport(int reportID) throws ConformanceMgtException;
 
@@ -63,6 +66,7 @@ public interface ReportDAO {
      *This method will return all reports belonging to a particular test.
      * @param testID : Test ID of the reports
      * @return a List with requested reports
+     * @throws ConformanceMgtException
      */
     public List<Report> getReportsForTest(int testID) throws ConformanceMgtException;
 
@@ -71,6 +75,7 @@ public interface ReportDAO {
      * them with testID.
      * @param userID : ID of the user
      * @return a Map with TestID and corresponding list of reports.
+     * @throws ConformanceMgtException
      */
     public Map<Integer, List<Report>> getReportsForUser(String userID) throws ConformanceMgtException;
 }
