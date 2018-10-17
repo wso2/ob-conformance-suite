@@ -42,12 +42,13 @@ import java.util.Map;
  */
 public class TestPlanDAOImpl implements TestPlanDAO {
 
+    JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
+
     /**
      * {@inheritDoc}
      */
     @Override
     public int storeTestPlan(String userID, TestPlan testPlan) throws ConformanceMgtException {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         Gson gson = new Gson();
         int generatedTestID = -1;
 
@@ -77,7 +78,6 @@ public class TestPlanDAOImpl implements TestPlanDAO {
      */
     @Override
     public void updateTestPlan(int testID, TestPlan testPlan) throws ConformanceMgtException{
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         Gson gson = new Gson();
 
         try {
@@ -99,7 +99,6 @@ public class TestPlanDAOImpl implements TestPlanDAO {
      */
     @Override
     public TestPlan getTestPlan(int testID) throws ConformanceMgtException{
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         TestPlan testPlan;
         Gson gson = new Gson();
 
@@ -120,7 +119,6 @@ public class TestPlanDAOImpl implements TestPlanDAO {
      */
     @Override
     public Map<Integer, TestPlanDTO> getTestPlans(String userID) throws ConformanceMgtException{
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         ReportDAO reportDAO = new ReportDAOImpl();
         Map<Integer, List<Report>> testReportMap = reportDAO.getReportsForUser(userID);
         Gson gson = new Gson();

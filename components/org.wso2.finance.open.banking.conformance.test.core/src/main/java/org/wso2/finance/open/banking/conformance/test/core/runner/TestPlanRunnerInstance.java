@@ -22,6 +22,7 @@ import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
 import org.wso2.finance.open.banking.conformance.mgt.dao.ReportDAO;
 import org.wso2.finance.open.banking.conformance.mgt.dao.impl.ReportDAOImpl;
+import org.wso2.finance.open.banking.conformance.mgt.exceptions.ConformanceMgtException;
 import org.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 import org.wso2.finance.open.banking.conformance.mgt.testconfig.Feature;
@@ -151,8 +152,11 @@ public class TestPlanRunnerInstance extends Thread {
         queueStopMessege();
 
         // Add report to DB
-        reportDAO.updateReport(this.reportId, this.buildReport(this.reportId));
-
+        try {
+            reportDAO.updateReport(this.reportId, this.buildReport(this.reportId));
+        } catch (ConformanceMgtException e){
+            log.error(e.getMessage(),e);
+        }
         this.interrupt();
     }
 

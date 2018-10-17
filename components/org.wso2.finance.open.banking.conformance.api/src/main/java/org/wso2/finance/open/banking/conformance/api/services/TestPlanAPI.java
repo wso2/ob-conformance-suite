@@ -18,6 +18,7 @@
 
 package org.wso2.finance.open.banking.conformance.api.services;
 
+import org.apache.log4j.Logger;
 import org.wso2.finance.open.banking.conformance.api.ApplicationDataHolder;
 import org.wso2.finance.open.banking.conformance.mgt.dao.ReportDAO;
 import org.wso2.finance.open.banking.conformance.mgt.dao.TestPlanDAO;
@@ -26,6 +27,7 @@ import org.wso2.finance.open.banking.conformance.mgt.dao.impl.TestPlanDAOImpl;
 import org.wso2.finance.open.banking.conformance.mgt.dto.TestPlanDTO;
 import org.wso2.finance.open.banking.conformance.api.dto.TestPlanRequestDTO;
 import org.wso2.finance.open.banking.conformance.api.dto.TestPlanResponseDTO;
+import org.wso2.finance.open.banking.conformance.mgt.exceptions.ConformanceMgtException;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 import org.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerManager;
 
@@ -46,7 +48,7 @@ import javax.ws.rs.core.Response;
  */
 @Path("/testplan")
 public class TestPlanAPI {
-
+    private static Logger log = Logger.getLogger(TestPlanAPI.class);
     private TestPlanRunnerManager runnerManager = ApplicationDataHolder.getInstance().getRunnerManager();
 
     /**
@@ -60,20 +62,23 @@ public class TestPlanAPI {
     @Consumes("application/json")
     @Produces("application/json")
     public TestPlanResponseDTO addTestPlan(TestPlanRequestDTO plan) {
-        // SAVE TO DB
-        //  String testId = this.runnerManager.addPlan(plan.getTestPlan());
         TestPlanDAO testPlanDAO = new TestPlanDAOImpl();
         ReportDAO reportDAO = new ReportDAOImpl();
-        int testID = testPlanDAO.storeTestPlan("adminx", plan.getTestPlan()); //TODO: Remove hardcoded userID
-        this.runnerManager.addPlan(plan.getTestPlan(), testID);
-        Report report = null;
-        if (plan.isRunNow()) {
-            // PASS REPORT
-            int reportID = reportDAO.getNewReportID("adminx", testID); //TODO: Remove hardcoded userID
-            report = this.runnerManager.start(testID, reportID);
-        }
+        TestPlanResponseDTO testPlanResponseDTO = null;
 
-        return new TestPlanResponseDTO(String.valueOf(testID), report);
+        try {
+            int testID = testPlanDAO.storeTestPlan("adminx", plan.getTestPlan()); //TODO: Remove hardcoded userID
+            this.runnerManager.addPlan(plan.getTestPlan(), testID);
+            Report report = null;
+            if (plan.isRunNow()) {
+                int reportID = reportDAO.getNewReportID("adminx", testID); //TODO: Remove hardcoded userID
+                report = this.runnerManager.start(testID, reportID);
+            }
+            testPlanResponseDTO = new TestPlanResponseDTO(String.valueOf(testID), report);
+        } catch (ConformanceMgtException e){
+            log.error(e.getMessage(),e);
+        }
+        return testPlanResponseDTO;
     }
 
     /**
@@ -84,7 +89,6 @@ public class TestPlanAPI {
     @OPTIONS
     @Path("/")
     public Response getOptionsRunTestPlan() {
-
         return Response.status(Response.Status.OK).header("Access-Control-Allow-Methods", "POST,OPTIONS").build();
     }
 
@@ -98,9 +102,13 @@ public class TestPlanAPI {
     @Produces("application/json")
     public Map<Integer, TestPlanDTO> getAllTestPlans() {
         TestPlanDAO testPlanDAO = new TestPlanDAOImpl();
-        Map<Integer, TestPlanDTO> results;
-        results = testPlanDAO.getTestPlans("adminx"); //TODO: remove hardcoded userID
-        return results;
+        Map<Integer, TestPlanDTO> testPlanDTOMap = new HashMap<>();
+        try{
+            testPlanDTOMap = testPlanDAO.getTestPlans("adminx"); //TODO: remove hardcoded userID
+        } catch (ConformanceMgtException e){
+            log.error(e.getMessage(),e);
+        }
+        return testPlanDTOMap;
     }
 
 
@@ -117,8 +125,14 @@ public class TestPlanAPI {
 
         TestPlanDAO testPlanDAO = new TestPlanDAOImpl();
         ReportDAO reportDAO = new ReportDAOImpl();
-        int reportID = reportDAO.getNewReportID("adminx", uuid); // TODO: remove hardcoded userID.
-        this.runnerManager.addPlan(testPlanDAO.getTestPlan(uuid), uuid);
-        return this.runnerManager.start(uuid, reportID);
+
+        try {
+            int reportID = reportDAO.getNewReportID("adminx", uuid); // TODO: remove hardcoded userID.
+            this.runnerManager.addPlan(testPlanDAO.getTestPlan(uuid), uuid);
+            return this.runnerManager.start(uuid, reportID);
+        } catch (ConformanceMgtException e){
+            log.error(e.getMessage(),e);
+        }
+        return null;
     }
 }

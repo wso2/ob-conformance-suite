@@ -18,12 +18,14 @@
 
 package org.wso2.finance.open.banking.conformance.api.services;
 
+import org.apache.log4j.Logger;
 import org.wso2.finance.open.banking.conformance.api.ApplicationDataHolder;
 import org.wso2.finance.open.banking.conformance.mgt.dao.ReportDAO;
 import org.wso2.finance.open.banking.conformance.mgt.dao.TestPlanDAO;
 import org.wso2.finance.open.banking.conformance.mgt.dao.impl.ReportDAOImpl;
 import org.wso2.finance.open.banking.conformance.mgt.dao.impl.TestPlanDAOImpl;
 import org.wso2.finance.open.banking.conformance.mgt.dto.TestResultDTO;
+import org.wso2.finance.open.banking.conformance.mgt.exceptions.ConformanceMgtException;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 import org.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerManager;
 
@@ -37,7 +39,7 @@ import javax.ws.rs.Produces;
  */
 @Path("/results")
 public class ResultsAPI {
-
+    private static Logger log = Logger.getLogger(ResultsAPI.class);
     TestPlanRunnerManager runnerManager = ApplicationDataHolder.getInstance().getRunnerManager();
 
     /**
@@ -55,13 +57,19 @@ public class ResultsAPI {
 
         TestPlanDAO testPlanDAO = new TestPlanDAOImpl();
         ReportDAO reportDAO = new ReportDAOImpl();
-        Report report = reportDAO.getReport(reportId);
+        TestResultDTO testResultDTO = null;
 
-        /* In case of a currently running test, get the report from runnerManager */
-        if(report == null){
-            report =  this.runnerManager.getReport(testId, reportId);
+        try {
+            Report report = reportDAO.getReport(reportId);
+            /* In case of a currently running test, get the report from runnerManager */
+            if (report == null) {
+                report = this.runnerManager.getReport(testId, reportId);
+            }
+            testResultDTO =  new TestResultDTO(testPlanDAO.getTestPlan(testId), report);
+        } catch (ConformanceMgtException e){
+            log.error(e.getMessage(),e);
         }
-        return new TestResultDTO(testPlanDAO.getTestPlan(testId), report);
+        return testResultDTO;
     }
 
 }

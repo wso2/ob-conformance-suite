@@ -39,12 +39,13 @@ import java.util.Map;
  */
 public class ReportDAOImpl implements ReportDAO {
 
+    JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
+
     /**
      * {@inheritDoc}
      */
     @Override
     public int getNewReportID(String userID, int testID) throws ConformanceMgtException {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         int generatedReportID = -1;
 
         try {
@@ -67,7 +68,6 @@ public class ReportDAOImpl implements ReportDAO {
      */
     @Override
     public void updateReport(int reportID, Report report) throws ConformanceMgtException {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         Gson gson = new Gson();
 
         java.util.Date dt = new java.util.Date();
@@ -94,7 +94,6 @@ public class ReportDAOImpl implements ReportDAO {
      */
     @Override
     public void deleteEmptyReports() throws ConformanceMgtException {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         try {
             jdbcTemplate.withTransaction(template -> {
                 template.executeUpdate(SQLConstants.DELETE_EMPTY_REPORTS);
@@ -110,7 +109,6 @@ public class ReportDAOImpl implements ReportDAO {
      */
     @Override
     public Report getReport(int reportID) throws ConformanceMgtException {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         Report report = null;
         Gson gson = new Gson();
 
@@ -137,7 +135,6 @@ public class ReportDAOImpl implements ReportDAO {
             throw e;
         }
         Gson gson = new Gson();
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         List<Report> reports = null;
 
         try {

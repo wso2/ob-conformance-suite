@@ -30,13 +30,13 @@ import java.sql.Date;
 
 public class UserDAOImpl implements UserDAO {
 
+    JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void addUser(UserDTO userDTO) throws ConformanceMgtException {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
-
         java.util.Date dt = new java.util.Date();
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentTime = sdf.format(dt);
@@ -60,8 +60,6 @@ public class UserDAOImpl implements UserDAO {
      */
     @Override
     public void updateUser(UserDTO userDTO) throws ConformanceMgtException {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
-
         try {
             jdbcTemplate.withTransaction(template -> {
                 template.executeUpdate(SQLConstants.UPDATE_USER, preparedStatement -> {
@@ -81,7 +79,6 @@ public class UserDAOImpl implements UserDAO {
      */
     @Override
     public UserDTO getUser(String userID, String password) throws ConformanceMgtException {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         UserDTO userDTO = null;
 
         try {
@@ -106,7 +103,6 @@ public class UserDAOImpl implements UserDAO {
      */
     @Override
     public void deleteUser(String userID) throws ConformanceMgtException {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         try {
             jdbcTemplate.withTransaction(template -> {
                 template.executeUpdate(SQLConstants.REMOVE_USER, preparedStatement ->
