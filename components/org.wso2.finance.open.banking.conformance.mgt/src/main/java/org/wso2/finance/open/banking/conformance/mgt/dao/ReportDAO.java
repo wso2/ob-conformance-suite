@@ -18,6 +18,7 @@
 
 package org.wso2.finance.open.banking.conformance.mgt.dao;
 
+import org.wso2.finance.open.banking.conformance.mgt.exceptions.ConformanceMgtException;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public interface ReportDAO {
      * @param testID : Test ID of the report
      * @return the generated report id (from auto increment column of the report table)
      */
-    public int getNewReportID(String userID, int testID);
+    public int getNewReportID(String userID, int testID) throws ConformanceMgtException;
 
     /**
      *This method will add a report to the row created in the report table
@@ -43,27 +44,27 @@ public interface ReportDAO {
      * @param reportID : ID of the report
      * @param report : Report object
      */
-    public void updateReport(int reportID, Report report);
+    public void updateReport(int reportID, Report report) throws ConformanceMgtException;
 
     /**
      *This method will remove any rows in the report table
      * with  a null report field.
      */
-    public void deleteEmptyReports();
+    public void deleteEmptyReports() throws ConformanceMgtException;
 
     /**
      *This method will return a report object when the reportID is given.
      * @param reportID : ID of the report
      * @return the requested report
      */
-    public Report getReport(int reportID);
+    public Report getReport(int reportID) throws ConformanceMgtException;
 
     /**
      *This method will return all reports belonging to a particular test.
      * @param testID : Test ID of the reports
      * @return a List with requested reports
      */
-    public List<Report> getReportsForTest(int testID);
+    public List<Report> getReportsForTest(int testID) throws ConformanceMgtException;
 
     /**
      *This method will return all reports for a particular user, mapping
@@ -71,5 +72,5 @@ public interface ReportDAO {
      * @param userID : ID of the user
      * @return a Map with TestID and corresponding list of reports.
      */
-    public Map<Integer, List<Report>> getReportsForUser(String userID);
+    public Map<Integer, List<Report>> getReportsForUser(String userID) throws ConformanceMgtException;
 }

@@ -24,6 +24,7 @@ import org.wso2.carbon.database.utils.jdbc.exceptions.TransactionException;
 import org.wso2.finance.open.banking.conformance.mgt.dao.ReportDAO;
 import org.wso2.finance.open.banking.conformance.mgt.db.DBConnector;
 import org.wso2.finance.open.banking.conformance.mgt.db.SQLConstants;
+import org.wso2.finance.open.banking.conformance.mgt.exceptions.ConformanceMgtException;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 
 import java.sql.Types;
@@ -42,7 +43,7 @@ public class ReportDAOImpl implements ReportDAO {
      * {@inheritDoc}
      */
     @Override
-    public int getNewReportID(String userID, int testID) {
+    public int getNewReportID(String userID, int testID) throws ConformanceMgtException {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         int generatedReportID = -1;
 
@@ -56,7 +57,7 @@ public class ReportDAOImpl implements ReportDAO {
                     }, null, true)
             );
         } catch (TransactionException e) {
-            e.printStackTrace();
+            throw new ConformanceMgtException("Error getting auto increment report ID from Report table for the test ID '"+testID+"'", e);
         }
         return generatedReportID;
     }
@@ -65,7 +66,7 @@ public class ReportDAOImpl implements ReportDAO {
      * {@inheritDoc}
      */
     @Override
-    public void updateReport(int reportID, Report report) {
+    public void updateReport(int reportID, Report report) throws ConformanceMgtException {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         Gson gson = new Gson();
 
@@ -84,7 +85,7 @@ public class ReportDAOImpl implements ReportDAO {
                 return null;
             });
         } catch (TransactionException e) {
-            e.printStackTrace();
+            throw new ConformanceMgtException("Error updating report with report ID '"+reportID+"'", e);
         }
     }
 
@@ -92,7 +93,7 @@ public class ReportDAOImpl implements ReportDAO {
      * {@inheritDoc}
      */
     @Override
-    public void deleteEmptyReports() {
+    public void deleteEmptyReports() throws ConformanceMgtException {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         try {
             jdbcTemplate.withTransaction(template -> {
@@ -100,7 +101,7 @@ public class ReportDAOImpl implements ReportDAO {
                 return null;
             });
         } catch (TransactionException e) {
-            e.printStackTrace();
+            throw new ConformanceMgtException("Error deleting records with a NULL report field from the report table", e);
         }
     }
 
@@ -108,7 +109,7 @@ public class ReportDAOImpl implements ReportDAO {
      * {@inheritDoc}
      */
     @Override
-    public Report getReport(int reportID) {
+    public Report getReport(int reportID) throws ConformanceMgtException {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         Report report = null;
         Gson gson = new Gson();
@@ -120,7 +121,7 @@ public class ReportDAOImpl implements ReportDAO {
                         return gson.fromJson(reportJson, Report.class);
                     }, preparedStatement -> preparedStatement.setInt(1, reportID)));
         } catch (TransactionException e) {
-            e.printStackTrace();
+            throw new ConformanceMgtException("Error retrieving report with report ID '"+reportID+"'", e);
         }
         return report;
     }
@@ -129,8 +130,12 @@ public class ReportDAOImpl implements ReportDAO {
      * {@inheritDoc}
      */
     @Override
-    public List<Report> getReportsForTest(int testID) {
-        deleteEmptyReports();
+    public List<Report> getReportsForTest(int testID) throws ConformanceMgtException {
+        try{
+            deleteEmptyReports();
+        } catch (ConformanceMgtException e){
+            throw e;
+        }
         Gson gson = new Gson();
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         List<Report> reports = null;
@@ -143,7 +148,7 @@ public class ReportDAOImpl implements ReportDAO {
                     }), preparedStatement -> preparedStatement.setInt(1, testID))
             );
         } catch (TransactionException e) {
-            e.printStackTrace();
+            throw new ConformanceMgtException("Error retrieving reports for the test ID '"+testID+"'", e);
         }
         return reports;
     }
@@ -152,8 +157,12 @@ public class ReportDAOImpl implements ReportDAO {
      * {@inheritDoc}
      */
     @Override
-    public Map<Integer, List<Report>> getReportsForUser(String userID) {
-        deleteEmptyReports();
+    public Map<Integer, List<Report>> getReportsForUser(String userID) throws ConformanceMgtException {
+        try{
+            deleteEmptyReports();
+        } catch (ConformanceMgtException e){
+            throw e;
+        }
         Gson gson = new Gson();
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         Map<Integer, List<Report>> reportMap = new HashMap<>();
@@ -180,7 +189,7 @@ public class ReportDAOImpl implements ReportDAO {
                 reportList.add(report);
             }
         } catch (TransactionException e) {
-            e.printStackTrace();
+            throw new ConformanceMgtException("Error retrieving reports for the user with ID '"+userID+"'", e);
         }
         return reportMap;
     }

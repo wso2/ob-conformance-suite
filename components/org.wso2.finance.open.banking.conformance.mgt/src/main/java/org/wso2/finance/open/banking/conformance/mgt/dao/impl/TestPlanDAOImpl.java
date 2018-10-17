@@ -26,6 +26,7 @@ import org.wso2.finance.open.banking.conformance.mgt.dao.TestPlanDAO;
 import org.wso2.finance.open.banking.conformance.mgt.db.DBConnector;
 import org.wso2.finance.open.banking.conformance.mgt.db.SQLConstants;
 import org.wso2.finance.open.banking.conformance.mgt.dto.TestPlanDTO;
+import org.wso2.finance.open.banking.conformance.mgt.exceptions.ConformanceMgtException;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 import org.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 
@@ -45,7 +46,7 @@ public class TestPlanDAOImpl implements TestPlanDAO {
      * {@inheritDoc}
      */
     @Override
-    public int storeTestPlan(String userID, TestPlan testPlan) {
+    public int storeTestPlan(String userID, TestPlan testPlan) throws ConformanceMgtException {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         Gson gson = new Gson();
         int generatedTestID = -1;
@@ -64,7 +65,7 @@ public class TestPlanDAOImpl implements TestPlanDAO {
                     }, null, true)
             );
         } catch (TransactionException e) {
-            e.printStackTrace();
+            throw new ConformanceMgtException("Error inserting test plan '"+testPlan.getName()+"' to the TestPlan table", e);
         }
         testPlan.setTestId(generatedTestID);
         updateTestPlan(generatedTestID, testPlan);
@@ -75,7 +76,7 @@ public class TestPlanDAOImpl implements TestPlanDAO {
      * {@inheritDoc}
      */
     @Override
-    public void updateTestPlan(int testID, TestPlan testPlan){
+    public void updateTestPlan(int testID, TestPlan testPlan) throws ConformanceMgtException{
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         Gson gson = new Gson();
 
@@ -89,7 +90,7 @@ public class TestPlanDAOImpl implements TestPlanDAO {
                 return null;
             });
         } catch (TransactionException e) {
-            e.printStackTrace();
+            throw new ConformanceMgtException("Error updating test plan '"+testPlan.getName()+"' with ID '"+testID+"' to the TestPlan table", e);
         }
     }
 
@@ -97,9 +98,9 @@ public class TestPlanDAOImpl implements TestPlanDAO {
      * {@inheritDoc}
      */
     @Override
-    public TestPlan getTestPlan(int testID) {
+    public TestPlan getTestPlan(int testID) throws ConformanceMgtException{
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
-        TestPlan testPlan = new TestPlan();
+        TestPlan testPlan;
         Gson gson = new Gson();
 
         try {
@@ -109,7 +110,7 @@ public class TestPlanDAOImpl implements TestPlanDAO {
                         return gson.fromJson(testPlanJson, TestPlan.class);
                     }, preparedStatement -> preparedStatement.setInt(1, testID)));
         } catch (TransactionException e) {
-            e.printStackTrace();
+            throw new ConformanceMgtException("Error retrieving test plan with ID '"+testID+"' from the TestPlan table", e);
         }
         return testPlan;
     }
@@ -118,7 +119,7 @@ public class TestPlanDAOImpl implements TestPlanDAO {
      * {@inheritDoc}
      */
     @Override
-    public Map<Integer, TestPlanDTO> getTestPlans(String userID) {
+    public Map<Integer, TestPlanDTO> getTestPlans(String userID) throws ConformanceMgtException{
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         ReportDAO reportDAO = new ReportDAOImpl();
         Map<Integer, List<Report>> testReportMap = reportDAO.getReportsForUser(userID);
@@ -136,8 +137,7 @@ public class TestPlanDAOImpl implements TestPlanDAO {
             );
             return testPlanDTOList.stream().collect(Collectors.toMap(TestPlanDTO::getTestId, TestPlanDTO -> TestPlanDTO));
         } catch (TransactionException e) {
-            e.printStackTrace();
+            throw new ConformanceMgtException("Error retrieving test plans for the user '"+userID, e);
         }
-        return new HashMap<>();
     }
 }

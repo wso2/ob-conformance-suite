@@ -19,6 +19,7 @@
 package org.wso2.finance.open.banking.conformance.mgt.dao;
 
 import org.wso2.finance.open.banking.conformance.mgt.dto.TestPlanDTO;
+import org.wso2.finance.open.banking.conformance.mgt.exceptions.ConformanceMgtException;
 import org.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 
 import java.util.Map;
@@ -34,7 +35,7 @@ public interface TestPlanDAO {
      * @param testPlan : TestPlan object
      * @return the generated test-plan id (from auto increment column of the testPlan table)
      */
-    public int storeTestPlan(String userID, TestPlan testPlan);
+    public int storeTestPlan(String userID, TestPlan testPlan) throws ConformanceMgtException;
 
     /**
      *This method will update the TestPlan when the testID and
@@ -42,14 +43,14 @@ public interface TestPlanDAO {
      * @param testID : The testID of the Test Plan
      * @param testPlan : TestPlan object
      */
-    public void updateTestPlan(int testID, TestPlan testPlan);
+    public void updateTestPlan(int testID, TestPlan testPlan) throws ConformanceMgtException;
 
     /**
      *This method will return the test plan object when the testID is given.
      * @param testID : testID of the requested test plan.
      * @return the requested test plan object
      */
-    public TestPlan getTestPlan(int testID);
+    public TestPlan getTestPlan(int testID) throws ConformanceMgtException;
 
     /**
      *This method will return all the test plans along with their corresponding
@@ -57,5 +58,5 @@ public interface TestPlanDAO {
      * @param userID : User ID of the current user.
      * @return a map containing testPlan IDs and the corresponding testPlanDTOs.
      */
-    public Map<Integer, TestPlanDTO> getTestPlans(String userID);
+    public Map<Integer, TestPlanDTO> getTestPlans(String userID) throws ConformanceMgtException;
 }

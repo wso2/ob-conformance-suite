@@ -24,6 +24,8 @@ import org.wso2.finance.open.banking.conformance.mgt.dao.UserDAO;
 import org.wso2.finance.open.banking.conformance.mgt.db.DBConnector;
 import org.wso2.finance.open.banking.conformance.mgt.db.SQLConstants;
 import org.wso2.finance.open.banking.conformance.mgt.dto.UserDTO;
+import org.wso2.finance.open.banking.conformance.mgt.exceptions.ConformanceMgtException;
+
 import java.sql.Date;
 
 public class UserDAOImpl implements UserDAO {
@@ -32,7 +34,7 @@ public class UserDAOImpl implements UserDAO {
      * {@inheritDoc}
      */
     @Override
-    public void addUser(UserDTO userDTO) {
+    public void addUser(UserDTO userDTO) throws ConformanceMgtException {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
 
         java.util.Date dt = new java.util.Date();
@@ -49,7 +51,7 @@ public class UserDAOImpl implements UserDAO {
                     }, null, false)
             );
         } catch (TransactionException e) {
-            e.printStackTrace();
+            throw new ConformanceMgtException("Error adding user '"+userDTO.getUserID()+"' to the User table", e);
         }
     }
 
@@ -57,7 +59,7 @@ public class UserDAOImpl implements UserDAO {
      * {@inheritDoc}
      */
     @Override
-    public void updateUser(UserDTO userDTO) {
+    public void updateUser(UserDTO userDTO) throws ConformanceMgtException {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
 
         try {
@@ -70,7 +72,7 @@ public class UserDAOImpl implements UserDAO {
                 return null;
             });
         } catch (TransactionException e) {
-            e.printStackTrace();
+            throw new ConformanceMgtException("Error updating user details of the user '"+userDTO.getUserID()+"'", e);
         }
     }
 
@@ -78,7 +80,7 @@ public class UserDAOImpl implements UserDAO {
      * {@inheritDoc}
      */
     @Override
-    public UserDTO getUser(String userID, String password) {
+    public UserDTO getUser(String userID, String password) throws ConformanceMgtException {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         UserDTO userDTO = null;
 
@@ -94,7 +96,7 @@ public class UserDAOImpl implements UserDAO {
                     }
             ));
         } catch (TransactionException e) {
-            e.printStackTrace();
+            throw new ConformanceMgtException("Error retrieving user datails of the user '"+userID+"'", e);
         }
         return userDTO;
     }
@@ -103,7 +105,7 @@ public class UserDAOImpl implements UserDAO {
      * {@inheritDoc}
      */
     @Override
-    public void deleteUser(String userID) {
+    public void deleteUser(String userID) throws ConformanceMgtException {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnector.getDataSource());
         try {
             jdbcTemplate.withTransaction(template -> {
@@ -112,7 +114,7 @@ public class UserDAOImpl implements UserDAO {
                 return null;
             });
         } catch (TransactionException e) {
-            e.printStackTrace();
+            throw new ConformanceMgtException("Error deleting user '"+userID+"'", e);
         }
     }
 }
