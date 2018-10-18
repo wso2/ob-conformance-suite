@@ -60,7 +60,7 @@ public class TestResultCalculator {
         summaryResults.put("failed", failed);
         summaryResults.put("total", total);
 
-        log.debug("passed : " + passed + " failed : "+ failed + " total : " + total);
+        log.debug("Test ID: "+report.getTestId()+"| Report ID: "+report.getReportId()+"---> Passed: " + passed + " Failed: "+ failed + " Total: " + total);
         return summaryResults;
     }
 }
