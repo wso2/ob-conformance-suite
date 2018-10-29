@@ -100,3 +100,13 @@ export const updateReport = report => ({
     type: 'UPDATE_REPORT',
     report,
 });
+
+export const setUser = (username, authcode) => ({
+    type: 'SET_USER',
+    username,
+    authcode,
+});
+
+export const clearUser = () => ({
+    type: 'CLEAR_USER',
+});

@@ -51,7 +51,7 @@
                 <label>Callback URL</label>
                 <attributeType>TextLabel</attributeType>
                 <helpText>Set this as your callback url</helpText>
-                <defaultValue>http://localhost:9090/testplan/callback</defaultValue>
+                <defaultValue>http://localhost:9090/runner/callback</defaultValue>
             </Attribute>
         </AttributeGroup>
     </attributeGroups>
