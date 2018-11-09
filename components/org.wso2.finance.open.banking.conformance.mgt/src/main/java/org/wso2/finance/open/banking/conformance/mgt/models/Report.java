@@ -18,8 +18,6 @@
 
 package org.wso2.finance.open.banking.conformance.mgt.models;
 
-import com.google.gson.JsonObject;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +29,7 @@ public class Report {
 
     private String testId;
     private Integer reportId;
-    private Map<String, List<JsonObject>> result;
+    private Map<String, List<Result>> result;
     private RunnerState state;
     private Date executed;
 
@@ -42,7 +40,7 @@ public class Report {
         RUNNING, DONE, NOT_STARTED, WAITING
     }
 
-    public Report(String testId, Integer reportId, Map<String, List<JsonObject>> result, RunnerState state,
+    public Report(String testId, Integer reportId, Map<String, List<Result>> result, RunnerState state,
                   Date executed) {
 
         this.testId = testId;
@@ -72,12 +70,12 @@ public class Report {
         this.reportId = reportId;
     }
 
-    public Map<String, List<JsonObject>> getResult() {
+    public Map<String, List<Result>> getResult() {
 
         return result;
     }
 
-    public void setResult(Map<String, List<JsonObject>> result) {
+    public void setResult(Map<String, List<Result>> result) {
 
         this.result = result;
     }
@@ -100,5 +98,11 @@ public class Report {
     public void setExecuted(Date executed) {
 
         this.executed = new Date(executed.getTime());
+    }
+
+    @Override
+    public String toString() {
+        return "Result [testId=" + testId + ", reportId=" + reportId + "result = " + result + ", state=" + state
+                + ", executed=" + executed + "]";
     }
 }

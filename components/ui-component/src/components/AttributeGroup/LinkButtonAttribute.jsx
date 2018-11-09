@@ -41,7 +41,7 @@ const LinkButtonAttribute = ({ attribute }) => (
 );
 
 LinkButtonAttribute.propTypes = {
-    attribute: PropTypes.shape.isRequired,
+    attribute: PropTypes.shape().isRequired,
 };
 
 export default LinkButtonAttribute;

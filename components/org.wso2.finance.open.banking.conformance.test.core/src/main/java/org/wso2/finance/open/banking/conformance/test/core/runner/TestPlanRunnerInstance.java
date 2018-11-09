@@ -22,6 +22,7 @@ import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
 import org.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
+import org.wso2.finance.open.banking.conformance.mgt.models.Result;
 import org.wso2.finance.open.banking.conformance.mgt.testconfig.Feature;
 import org.wso2.finance.open.banking.conformance.mgt.testconfig.Specification;
 import org.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
@@ -45,7 +46,7 @@ public class TestPlanRunnerInstance extends Thread {
     private TestPlan testPlan;
     private volatile Integer reportId;
     private BlockingQueue<TestPlanFeatureResult> resultsQueue;
-    private volatile Map<String, List<JsonObject>> formattedResult = new HashMap();
+    private volatile Map<String, List<Result>> formattedResult = new HashMap();
     private volatile Report.RunnerState status;
     private RunnerManagerCallback runnerManagerCallback;
     private Context context;
@@ -73,7 +74,7 @@ public class TestPlanRunnerInstance extends Thread {
      * @param result test results json
      * @param specification corresponding specification
      */
-    private void queueResult(JsonObject result, Specification specification) {
+    private void queueResult(Result result, Specification specification) {
 
         TestPlanFeatureResult testPlanFeatureResult = new TestPlanFeatureResult();
         testPlanFeatureResult.setFeatureResult(result);
@@ -114,7 +115,7 @@ public class TestPlanRunnerInstance extends Thread {
 
         log.debug("Run Spec : " + specification.getName());
 
-        List<JsonObject> featureResults = new ArrayList();
+        List<Result> featureResults = new ArrayList();
         formattedResult.put(specification.getName(), featureResults);
 
         Context.getInstance().setSpecContext(specification.getName(), specification.getVersion());
@@ -122,7 +123,7 @@ public class TestPlanRunnerInstance extends Thread {
 
         for (Feature feature : specification.getFeatures()) {
             FeatureRunner featureRunner = new FeatureRunner(feature);
-            JsonObject featureResult = featureRunner.runFeature();
+            Result featureResult = featureRunner.runFeature();
             featureResults.add(featureResult);
             this.queueResult(featureResult, specification);
             this.runnerManagerCallback.onUpdateResult(this.buildReport());

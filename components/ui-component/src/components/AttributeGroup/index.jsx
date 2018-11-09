@@ -40,6 +40,9 @@ class AttributeGroup extends React.Component {
      */
     constructor(props) {
         super(props);
+        this.state = {
+            scope : '',
+        }
         this.updateChange = this.updateChange.bind(this);
         this.getValue = this.getValue.bind(this);
     }

@@ -21,18 +21,19 @@ package org.wso2.finance.open.banking.conformance.test.core.runner;
 import com.google.gson.JsonObject;
 import org.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
+import org.wso2.finance.open.banking.conformance.mgt.models.Result;
 
 /**
  * Class that holds results of a feature.
  */
 public class TestPlanFeatureResult {
 
-    private JsonObject featureResult;
+    private Result featureResult;
     private AttributeGroup attributeGroup;
     private String specName;
     private Report.RunnerState runnerState;
 
-    public void setFeatureResult(JsonObject featureResult) {
+    public void setFeatureResult(Result featureResult) {
 
         this.featureResult = featureResult;
     }
@@ -52,7 +53,7 @@ public class TestPlanFeatureResult {
         this.runnerState = runnerState;
     }
 
-    public JsonObject getFeatureResult() {
+    public Result getFeatureResult() {
 
         return featureResult;
     }
