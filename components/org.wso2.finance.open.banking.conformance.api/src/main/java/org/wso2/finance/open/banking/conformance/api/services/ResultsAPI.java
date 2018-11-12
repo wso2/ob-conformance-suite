@@ -18,8 +18,15 @@
 
 package org.wso2.finance.open.banking.conformance.api.services;
 
+import org.apache.log4j.Logger;
 import org.wso2.finance.open.banking.conformance.api.ApplicationDataHolder;
-import org.wso2.finance.open.banking.conformance.api.dto.TestResultDTO;
+import org.wso2.finance.open.banking.conformance.mgt.dao.ReportDAO;
+import org.wso2.finance.open.banking.conformance.mgt.dao.TestPlanDAO;
+import org.wso2.finance.open.banking.conformance.mgt.dao.impl.ReportDAOImpl;
+import org.wso2.finance.open.banking.conformance.mgt.dao.impl.TestPlanDAOImpl;
+import org.wso2.finance.open.banking.conformance.mgt.dto.TestResultDTO;
+import org.wso2.finance.open.banking.conformance.mgt.exceptions.ConformanceMgtException;
+import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 import org.wso2.finance.open.banking.conformance.test.core.runner.TestPlanRunnerManager;
 
 import javax.ws.rs.GET;
@@ -32,7 +39,7 @@ import javax.ws.rs.Produces;
  */
 @Path("/results")
 public class ResultsAPI {
-
+    private static Logger log = Logger.getLogger(ResultsAPI.class);
     TestPlanRunnerManager runnerManager = ApplicationDataHolder.getInstance().getRunnerManager();
 
     /**
@@ -45,13 +52,24 @@ public class ResultsAPI {
     @GET
     @Path("/{testId}/{reportId}")
     @Produces("application/json")
-    public TestResultDTO getCompleteResult(@PathParam("testId") String testId,
-                                           @PathParam("reportId") Integer reportId) {
+    public TestResultDTO getCompleteResult(@PathParam("testId") int testId,
+                                           @PathParam("reportId") int reportId) {
 
-        return new TestResultDTO(
-                this.runnerManager.getTestPlan(testId),
-                this.runnerManager.getReport(testId, reportId)
-        );
+        TestPlanDAO testPlanDAO = new TestPlanDAOImpl();
+        ReportDAO reportDAO = new ReportDAOImpl();
+        TestResultDTO testResultDTO = null;
+
+        try {
+            Report report = reportDAO.getReport(reportId);
+            /* In case of a currently running test, get the report from runnerManager */
+            if (report == null) {
+                report = this.runnerManager.getReport(testId, reportId);
+            }
+            testResultDTO =  new TestResultDTO(testPlanDAO.getTestPlan(testId), report);
+        } catch (ConformanceMgtException e){
+            log.error(e.getMessage(),e);
+        }
+        return testResultDTO;
     }
 
 }

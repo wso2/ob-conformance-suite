@@ -20,6 +20,9 @@ package org.wso2.finance.open.banking.conformance.test.core.runner;
 
 import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
+import org.wso2.finance.open.banking.conformance.mgt.dao.ReportDAO;
+import org.wso2.finance.open.banking.conformance.mgt.dao.impl.ReportDAOImpl;
+import org.wso2.finance.open.banking.conformance.mgt.exceptions.ConformanceMgtException;
 import org.wso2.finance.open.banking.conformance.mgt.models.AttributeGroup;
 import org.wso2.finance.open.banking.conformance.mgt.models.Report;
 import org.wso2.finance.open.banking.conformance.mgt.models.Result;
@@ -29,11 +32,8 @@ import org.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 import org.wso2.finance.open.banking.conformance.test.core.context.Context;
 import org.wso2.finance.open.banking.conformance.test.core.testrunners.FeatureRunner;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -48,22 +48,17 @@ public class TestPlanRunnerInstance extends Thread {
     private BlockingQueue<TestPlanFeatureResult> resultsQueue;
     private volatile Map<String, List<Result>> formattedResult = new HashMap();
     private volatile Report.RunnerState status;
-    private RunnerManagerCallback runnerManagerCallback;
     private Context context;
 
     /**
      * @param testPlan Configured TestPlan received from front end
-     * @param resultQueue queue used to publish the results realtime
-     * @param managerCallbacks Interface used to publish updates to the test runner manager
      */
-    public TestPlanRunnerInstance(TestPlan testPlan, BlockingQueue<TestPlanFeatureResult> resultQueue,
-                                  RunnerManagerCallback managerCallbacks) {
+    public TestPlanRunnerInstance(TestPlan testPlan) {
 
         super();
         this.testPlan = testPlan;
-        this.resultsQueue = resultQueue;
-        this.status = Report.RunnerState.NOT_STARTED;
-        this.runnerManagerCallback = managerCallbacks;
+        this.status = Report.RunnerState.RUNNING;
+        this.resultsQueue = new ArrayBlockingQueue(50);
         //Initialize Specs in Data Structure
         for (Specification spec : this.testPlan.getSpecifications()) {
             this.formattedResult.put(spec.getName(), new ArrayList<>());
@@ -76,10 +71,8 @@ public class TestPlanRunnerInstance extends Thread {
      */
     private void queueResult(Result result, Specification specification) {
 
-        TestPlanFeatureResult testPlanFeatureResult = new TestPlanFeatureResult();
-        testPlanFeatureResult.setFeatureResult(result);
-        testPlanFeatureResult.setSpecName(specification.getName());
-        testPlanFeatureResult.setRunnerState(this.status);
+        TestPlanFeatureResult testPlanFeatureResult =
+                new TestPlanFeatureResult(result, specification.getName(), this.status);
         this.resultsQueue.add(testPlanFeatureResult);
 
         log.debug("Queue test results of the Spec : " + specification.getName());
@@ -91,8 +84,7 @@ public class TestPlanRunnerInstance extends Thread {
      */
     private void queueStopMessege() {
 
-        TestPlanFeatureResult testPlanFeatureResult = new TestPlanFeatureResult();
-        testPlanFeatureResult.setRunnerState(this.status);
+        TestPlanFeatureResult testPlanFeatureResult = new TestPlanFeatureResult(this.status);
         this.resultsQueue.add(testPlanFeatureResult);
         log.debug("Add last test result of TestPlan: " + testPlan.getName() + " to the queue");
     }
@@ -100,11 +92,10 @@ public class TestPlanRunnerInstance extends Thread {
     /**
      * @param attributeGroup
      */
-    public void queueBrowserInteractionAttributes(AttributeGroup attributeGroup) {
+    public void queueBrowserInteractionAttributes(Specification specification, AttributeGroup attributeGroup) {
 
-        TestPlanFeatureResult featureResult = new TestPlanFeatureResult();
-        featureResult.setAttributeGroup(attributeGroup);
-        featureResult.setRunnerState(this.status);
+        TestPlanFeatureResult featureResult
+                = new TestPlanFeatureResult(attributeGroup, specification.getName(), this.status);
         this.resultsQueue.add(featureResult);
     }
 
@@ -126,7 +117,6 @@ public class TestPlanRunnerInstance extends Thread {
             Result featureResult = featureRunner.runFeature();
             featureResults.add(featureResult);
             this.queueResult(featureResult, specification);
-            this.runnerManagerCallback.onUpdateResult(this.buildReport());
         }
 
         Context.getInstance().clearSpecContext();
@@ -135,9 +125,10 @@ public class TestPlanRunnerInstance extends Thread {
     /**
      * @return Report with test results
      */
-    public Report buildReport() {
+    public Report buildReport(int reportId) {
 
-        return new Report(testPlan.getTestId(), reportId, formattedResult, status, new Date());
+        this.reportId = reportId;
+        return new Report(testPlan.getTestId(), reportId, formattedResult, status, new Date()); // TODO: Get reportID from DB
     }
 
     /**
@@ -145,6 +136,7 @@ public class TestPlanRunnerInstance extends Thread {
      */
     public void run() {
 
+        ReportDAO reportDAO = new ReportDAOImpl();
         context = Context.getInstance();
         context.init(testPlan);
         this.status = Report.RunnerState.RUNNING;
@@ -152,9 +144,15 @@ public class TestPlanRunnerInstance extends Thread {
             this.processSpec(specification);
         }
         this.status = Report.RunnerState.DONE;
-        this.testPlan.setLastRun(new Date());
-        this.runnerManagerCallback.onUpdateResult(this.buildReport());
+        this.testPlan.setLastRun(new Date()); //TODO: Update date in DB
         queueStopMessege();
+
+        // Add report to DB
+        try {
+            reportDAO.updateReport(this.reportId, this.buildReport(this.reportId));
+        } catch (ConformanceMgtException e){
+            log.error(e.getMessage(),e);
+        }
         this.interrupt();
     }
 
@@ -191,19 +189,8 @@ public class TestPlanRunnerInstance extends Thread {
         context.setAttributesToTempMap(key, value);
     }
 
-    /**
-     * @return
-     */
-    public Integer getReportId() {
+    public BlockingQueue<TestPlanFeatureResult> getResultsQueue() {
 
-        return reportId;
-    }
-
-    /**
-     * @param reportId
-     */
-    public void setReportId(Integer reportId) {
-
-        this.reportId = reportId;
+        return resultsQueue;
     }
 }

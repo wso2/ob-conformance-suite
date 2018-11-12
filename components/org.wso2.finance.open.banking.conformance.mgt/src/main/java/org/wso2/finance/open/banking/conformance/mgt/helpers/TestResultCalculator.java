@@ -47,7 +47,7 @@ public class TestResultCalculator {
             List<Result> result = entry.getValue();
             for (Result feature : result) {
                 String status = feature.getFeatureStatus();
-                if (status == "passed") {
+                if (status.equals("passed")) {
                     passed = passed +1;
                 } else {
                     failed = failed + 1;
@@ -60,7 +60,7 @@ public class TestResultCalculator {
         summaryResults.put("failed", failed);
         summaryResults.put("total", total);
 
-        log.debug("passed : " + passed + " failed : "+ failed + " total : " + total);
+        log.debug("Test ID: "+report.getTestId()+"| Report ID: "+report.getReportId()+"---> Passed: " + passed + " Failed: "+ failed + " Total: " + total);
         return summaryResults;
     }
 }

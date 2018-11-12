@@ -30,7 +30,7 @@ import java.util.Map;
 public class TestPlan {
 
     private Map<String, Specification> specifications;
-    private String testId;
+    private int testId;
     private String name;
 
     private Date lastRun = new Date();
@@ -64,12 +64,12 @@ public class TestPlan {
         this.lastRun =  new Date(lastRun.getTime());
     }
 
-    public String getTestId() {
+    public int getTestId() {
 
         return testId;
     }
 
-    public void setTestId(String testId) {
+    public void setTestId(int testId) {
 
         this.testId = testId;
     }

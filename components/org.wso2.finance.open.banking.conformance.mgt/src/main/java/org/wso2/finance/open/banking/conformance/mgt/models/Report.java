@@ -27,8 +27,8 @@ import java.util.Map;
  */
 public class Report {
 
-    private String testId;
-    private Integer reportId;
+    private int testId;
+    private int reportId;
     private Map<String, List<Result>> result;
     private RunnerState state;
     private Date executed;
@@ -37,11 +37,10 @@ public class Report {
      * Enum representing the state of the Report.
      */
     public enum RunnerState {
-        RUNNING, DONE, NOT_STARTED, WAITING
+        RUNNING, DONE, WAITING
     }
 
-    public Report(String testId, Integer reportId, Map<String, List<Result>> result, RunnerState state,
-                  Date executed) {
+    public Report(int testId, int reportId, Map<String, List<Result>> result, RunnerState state, Date executed) {
 
         this.testId = testId;
         this.reportId = reportId;
@@ -50,22 +49,22 @@ public class Report {
         this.executed = new Date(executed.getTime());
     }
 
-    public String getTestId() {
+    public int getTestId() {
 
         return testId;
     }
 
-    public void setTestId(String testId) {
+    public void setTestId(int testId) {
 
         this.testId = testId;
     }
 
-    public Integer getReportId() {
+    public int getReportId() {
 
         return reportId;
     }
 
-    public void setReportId(Integer reportId) {
+    public void setReportId(int reportId) {
 
         this.reportId = reportId;
     }

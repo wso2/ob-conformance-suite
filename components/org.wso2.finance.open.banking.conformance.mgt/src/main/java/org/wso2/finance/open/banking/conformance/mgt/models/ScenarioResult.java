@@ -122,7 +122,7 @@ public class ScenarioResult {
         return scenarioStatus;
     }
 
-    public class Tag{
+    public static class Tag{
         private String name;
 
         public Tag(String name){

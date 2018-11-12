@@ -19,6 +19,7 @@
 
 package org.wso2.finance.open.banking.conformance.test.core.context;
 
+import org.wso2.finance.open.banking.conformance.mgt.testconfig.Specification;
 import org.wso2.finance.open.banking.conformance.mgt.testconfig.TestPlan;
 import org.wso2.finance.open.banking.conformance.test.core.constants.Constants;
 
@@ -174,6 +175,14 @@ public class Context {
     public String getCurrentSpecAttribute(String attribGroupName, String attribName) {
 
         return getSpecAttribute(currentSpec, attribGroupName, attribName);
+    }
+
+    /**
+     * @return
+     */
+    public Specification getCurrentSpec() {
+
+        return testPlan.getSpecification(currentSpec);
     }
 
     /**

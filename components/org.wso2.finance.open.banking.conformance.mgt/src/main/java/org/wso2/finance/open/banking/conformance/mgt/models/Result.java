@@ -122,7 +122,7 @@ public class Result {
         return featureStatus;
     }
 
-    public class Tag{
+    public static class Tag{
         private String name;
 
         public Tag(String name){

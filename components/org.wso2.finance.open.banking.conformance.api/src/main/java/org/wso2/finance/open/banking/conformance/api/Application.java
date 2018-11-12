@@ -26,6 +26,7 @@ import org.wso2.finance.open.banking.conformance.api.services.ResultsAPI;
 import org.wso2.finance.open.banking.conformance.api.services.RunnerManagerAPI;
 import org.wso2.finance.open.banking.conformance.api.services.SpecificationAPI;
 import org.wso2.finance.open.banking.conformance.api.services.TestPlanAPI;
+import org.wso2.finance.open.banking.conformance.mgt.db.DBConnector;
 import org.wso2.finance.open.banking.conformance.mgt.helpers.XmlHelper;
 import org.wso2.finance.open.banking.conformance.mgt.models.Specification;
 import org.wso2.msf4j.MicroservicesRunner;
@@ -72,6 +73,7 @@ public class Application {
     public static void main(String[] args) {
 
         loadResources();
+        DBConnector.createTablesIfNotExist();
         new MicroservicesRunner()
                 .deploy(new SpecificationAPI())
                 .deploy(new TestPlanAPI())
