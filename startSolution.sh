@@ -7,7 +7,7 @@ cp components/ui-component/dist/bundle.js components/ui-component/public/dist/bu
 
 echo "Starting Conformance Suite"
 echo "visit http://localhost:8082/ to use suite [CORS Should be disabled]"
-nohup java -jar components/org.wso2.finance.open.banking.conformance.api/target/org.wso2.finance.open.banking.conformance.api-1.0.0-SNAPSHOT-jar-with-dependencies.jar >/dev/null 2>&1 &
+nohup java -jar components/org.wso2.finance.open.banking.conformance.api/target/com.wso2.finance.open.banking.conformance.api-1.0.0-SNAPSHOT-jar-with-dependencies.jar >/dev/null 2>&1 &
 pushd components/ui-component/public; nohup python -m SimpleHTTPServer 8082 >/dev/null 2>&1 &
 
 echo "Ctrl+C to stop Conformance Suite"
