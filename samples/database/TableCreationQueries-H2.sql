@@ -1,6 +1,6 @@
--------------------Create Table Queries------------------------
+CREATE DATABASE obsuit-reports;
 
-DB_URL = "jdbc:h2:~/obsuit-reports";
+USE obsuite;
 
 CREATE TABLE User (userID VARCHAR(50) not NULL, name VARCHAR(100) not NULL, password VARCHAR(512) not NULL, regDate DATETIME not NULL, PRIMARY KEY ( userID ));
 

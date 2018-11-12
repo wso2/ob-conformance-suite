@@ -48,9 +48,9 @@ public class DBConnector {
                     props.load (fileInputStream);
 
                     BasicDataSource ds = new BasicDataSource();
-                    ds.setDriverClassName((String) props.get ("dName"));
+                    ds.setDriverClassName((String) props.get ("driverClassName"));
                     ds.setUrl((String) props.get ("URL"));
-                    ds.setUsername((String) props.get ("uName"));
+                    ds.setUsername((String) props.get ("userName"));
                     ds.setPassword((String) props.get ("password"));
 
                     ds.setMinIdle(5);
